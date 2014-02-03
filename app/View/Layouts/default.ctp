@@ -23,13 +23,19 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
+		<?php //echo $cakeDescription ?>
+		<?php echo __('7maru'); ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		// echo $this->Html->css('cake.generic');
+		echo $this->Html->css('bootstrap');
+		echo $this->Html->css('bootstrap-theme');
+
+		echo $this->Html->script('jquery');
+
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
