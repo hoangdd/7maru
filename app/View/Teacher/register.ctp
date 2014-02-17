@@ -1,0 +1,3 @@
+<?php 
+// sign up (teacher)
+?>
