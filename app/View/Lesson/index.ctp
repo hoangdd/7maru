@@ -106,7 +106,7 @@
 			<div class='tag_list'>
 			<?php 
 				foreach ($lesson['tags'] as $tags):
-					echo '<span>'.$tags.'</span>';					
+					echo '<span class="btn">'.$tags.'</span>';					
 				endforeach;
 			?>
 			</div>			
