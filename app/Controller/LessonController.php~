@@ -5,6 +5,7 @@ class LessonController extends AppController {
 		 App::uses('Utilities', 'Lib');
 		 $util = new Utilities();
 		 $this->set('util',$util);
+		 debug($util);
 	}
 
 	function NewLesson(){
