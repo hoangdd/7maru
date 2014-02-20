@@ -7,9 +7,9 @@
 	
 	//================
 	// sample variable for lesson data		
+    echo $this->Html->css('common');
 	$lesson = array(
-		'description' => 'Cuon nay hay vl',
-		'author'	=> 'Bloodfire',
+		'description' => 'The lesson will support you about women. The more detail, it supplies a list of very interested video which will show you everything about women\'beauty, the most naturally excited beauty.',		
 		'authorId' => '34wsdf',
 		'title' => 'Victoria Secret',
 		'image' => 'Victoria.jpeg',
@@ -23,6 +23,11 @@
 		'tests' => array(
 		)
 	);
+    $teacher = array(
+            'image' => 'profile.jpg',
+            'name' => 'agaraki yui',            
+            'id' => 'afdf'
+        );
 	$recomendLesson = array(
 		array(
 			'name' => 'manh tren',
@@ -44,8 +49,9 @@
 	<div class='row'>
     	<div class='col-md-3 text-center'>
     	<!-- Left col: Image and ranhking-->
-    		<?php 
-    			echo $this->Html->image($lesson['image']); 
+    		<?php                 
+    			echo $this->Html->image($lesson['image'],array('class' => 'img-rounded')); 
+                echo '<h1>'.$lesson['title'].'</h1>';
     			echo '<p></p>';
     			//_____________________
     			//ranking by stars
@@ -86,27 +92,37 @@
     		
     	</div>
     	<div class='col-md-6'>
-    	<!-- Lesson detail-->
-    	<?php 
-    		echo '<h1>'.$lesson['title'].'</h1>';
-    		echo '<h2>'.$lesson['author'].'</h2>';	    		    			
-    		echo '<p class="text-right">';
-    		echo $this->Html->link(
-    			$lesson['author'].' profile',
-    			array(
-    				'controller' => 'teacher',
-    				'action' => 'profile',$lesson['authorId']
-    			)
-    		);
-    	?>
-			<div class='description'>
-				<p>Lesson description: </p>    		
-				<p><?php echo $this->Text->autoParagraph($lesson['description'])  ?></p>
+    	<!-- Lesson detail-->    
+
+        <!-- author info -->
+        <div class='row'>                     
+            <div class="col-md-2 text-center">
+        	<?php     		            
+        		echo $this->Html->image("profile.jpg", array(
+                    'alt' => 'profile',
+                    'class' => 'img-rounded mini_profile',                
+                    'url' => array('controller' => 'teacher', 'action' => 'profile', $teacher['id'])
+                ));
+                echo '<p class="text-center">';
+                echo $this->Html->link($teacher['name'],array(
+                    'controller' => 'teacher',
+                    'action' => 'profile', $teacher['id']
+                ));
+                echo '</p>';                
+    	   ?>
+            </div>
+        </div>
+        <!-- end author info-->
+
+        <!-- Lesson content detail info -->
+			<div class='description clearfix'>
+				<p class='text-muted'><strong>Lesson description: </strong></p>    		
+				<p><?php echo $lesson['description'] ?></p>
 			</div>
 			<div class='tag_list'>
 			<?php 
 				foreach ($lesson['tags'] as $tags):
-					echo '<span class="btn">'.$tags.'</span>';					
+					echo '<span>'.$tags.'</span>';					
 				endforeach;
 			?>
 			</div>			
@@ -116,7 +132,7 @@
  
  <!-- recommendation ( waitting for slide list) -->
     <div class='row'>
-    	<h2 class='text-left'> Relative lesson </h2>
+    	<div class='col-md-2 text-center'><h3> Relative lesson </h3></div>
     	<?php
     	/*
     		foreach ($recommendLesson as $recommned):    			

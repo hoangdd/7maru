@@ -1,0 +1,18 @@
+/** 
+*	common.css for entire site
+* 	created by Hoang Dac
+*/
+.tag_list span{
+	background: url(../img/tag_red.png);
+	margin: 10px;
+	padding-left: 30px;
+	background-repeat: no-repeat;
+	padding-bottom: 5px;
+	font-weight: bold;
+	font-size: larger;
+}
+
+img.mini_profile{
+	width:70px;
+	height:100px;
+}
