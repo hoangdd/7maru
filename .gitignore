@@ -19,3 +19,6 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+.buildpath
+.project
+.settings/
