@@ -33,6 +33,7 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		// echo $this->Html->css('cake.generic');
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->css('bootstrap-theme');
+		echo $this->Html->css('docs');
 
 		echo $this->Html->script('jquery');
 
@@ -47,11 +48,23 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		<div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, 'http://github.com/hoangdd/7maru'); ?></h1>
 		</div>
+
+		<div>
+			
+		</div>
+
 		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
+			<div class="row highlight">
+				<div class="col-md-2">
+				</div>
+				<div class="col-md-8 highlight" style="background-color:white">
+					<?php echo $this->Session->flash(); ?>
+					<?php echo $this->fetch('content'); ?>
+				</div>
+				<div class="col-md-2">
+				</div>
+			</div>
+			
 		</div>
 		<div id="footer">
 		Debug::Info
