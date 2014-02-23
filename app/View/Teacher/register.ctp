@@ -175,10 +175,8 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="file" class="form-control">
-                            <p class="help-block">Upload your photo to display.</p>
-                        </div>
+                        <input type="file" class="form-control">
+                        <p class="help-block">Upload your photo to display.</p>
                     </div>
                 </td>
             </tr>
