@@ -17,4 +17,7 @@ class LessonController extends AppController {
 	function Destroy(){
 		
 	}
+	function View(){
+		
+	}
 }
