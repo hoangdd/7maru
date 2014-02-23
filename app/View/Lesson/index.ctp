@@ -47,7 +47,7 @@
 
 <!-- lesson information -->
 	<div class='row'>
-    	<div class='col-md-3 text-center'>
+    	<div class='col-md-4 text-center'>
     	<!-- Left col: Image and ranhking-->
     		<?php                 
     			echo $this->Html->image($lesson['image'],array('class' => 'img-rounded')); 
@@ -91,19 +91,19 @@
     		?>
     		
     	</div>
-    	<div class='col-md-6'>
+    	<div class='col-md-8'>
     	<!-- Lesson detail-->    
 
         <!-- author info -->
         <div class='row'>                     
-            <div class="col-md-2 text-center">
+            <div class="col-md-3">
         	<?php     		            
         		echo $this->Html->image("profile.jpg", array(
                     'alt' => 'profile',
                     'class' => 'img-rounded mini_profile',                
                     'url' => array('controller' => 'teacher', 'action' => 'profile', $teacher['id'])
                 ));
-                echo '<p class="text-center">';
+                echo '<p>';
                 echo $this->Html->link($teacher['name'],array(
                     'controller' => 'teacher',
                     'action' => 'profile', $teacher['id']
