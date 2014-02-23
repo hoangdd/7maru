@@ -36,6 +36,7 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->css('docs');
 
 		echo $this->Html->script('jquery');
+		echo $this->Html->script('bootstrap');
 
 
 		echo $this->fetch('meta');
@@ -46,13 +47,8 @@ $cakeDescription = __d('cake_dev', '7Maru');
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://github.com/hoangdd/7maru'); ?></h1>
+			<?php echo $this->element('menu');?>
 		</div>
-
-		<div>
-			
-		</div>
-
 		<div id="content">
 			<div class="row highlight">
 				<div class="col-md-2">
@@ -67,17 +63,6 @@ $cakeDescription = __d('cake_dev', '7Maru');
 			
 		</div>
 		<div id="footer">
-		Debug::Info
-		<br>
-		---------------------------------------------
-		<br>
-		<?php 
-			echo "Controller: ".$this->name;
-			echo "<br>";
-			echo "Action: ".$this->action;
-		?>
-		<br>
-		---------------------------------------------
 		</div>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>
