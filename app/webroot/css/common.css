@@ -87,3 +87,6 @@ img.mini_profile{
 .lession-container{
     height: 50px;
 }
+.lesson-box {
+    padding-left: 15px;   
+}

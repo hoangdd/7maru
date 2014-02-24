@@ -87,11 +87,100 @@
 </div>
 <!--/* Result Box */-->
 <!--// Sensei-->
-<div class="list-group">
-    <div class="Result-Search-Box-Container sensei-tag-container list-group-item active">
-        lala
+<div class="lesson-list list-group" style="margin-top: 20px">
+        <div class="media list-group-item">
+            <div class="pull-left col-xs-3">
+                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
+                    <a href="">
+                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
+                    </a>
+                </div>
+                <div class="star center-block" style="padding: 5px">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                </div>
+            </div>
+            <div class="media-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                    </div>
+                    <div class="panel-body">
+                        Description
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                </button>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
+                </button>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
+                </button>
+            </div>
+        </div>
+        
+        <div class="media list-group-item">
+            <div class="pull-left col-xs-3">
+                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
+                    <a href="">
+                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
+                    </a>
+                </div>
+                <div class="star center-block" style="padding: 5px">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                </div>
+            </div>
+            <div class="media-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                    </div>
+                    <div class="panel-body">
+                        Description
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                </button>
+            </div>
+        </div>
+        <div class="media list-group-item">
+            <div class="pull-left col-xs-3">
+                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
+                    <a href="">
+                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
+                    </a>
+                </div>
+                <div class="star center-block" style="padding: 5px">
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                    <span class="glyphicon glyphicon-star"></span>
+                </div>
+            </div>
+            <div class="media-body">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                    </div>
+                    <div class="panel-body">
+                        Description
+                    </div>
+                </div>
+                <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                </button>
+            </div>
+        </div>
+        
     </div>
-    <div class="Result-Search-Box-Container sensei-tag-container list-group-item ">
-        lala
-    </div>
-</div>
