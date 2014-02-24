@@ -20,19 +20,22 @@ img.mini_profile{
 /**
 * HoangNM
 */
+    .small_photo{
+        width:210px;
+        height:280px;
+    }
     .medium_photo{
-        width:300px;
-	   height:400px;
+        width:240px;
+        height:320px;
     }
     #register-table tr td {
         border-top :0px;
     }
     .form-horizontal .form-group {
-       margin-left: 0px!important;
+        margin-left: 0px!important;
     }
     .align-right{
         margin-right: 0px!important;
-        text-align: center;
     }
     .center-block {
         display: block;
@@ -43,7 +46,10 @@ img.mini_profile{
         color: #000000;
     }
     textarea {
-    resize: none;
+        resize: none;
+    }
+    h1{
+        color: #DD0000;
     }
     td{
         padding: 5px!important;

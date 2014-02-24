@@ -5,6 +5,10 @@ class AdminController extends AppController {
 
 	}
     function CreateAdmin(){
+        
+    }
+    function Notification(){
+        
     }
 	//...
 }
