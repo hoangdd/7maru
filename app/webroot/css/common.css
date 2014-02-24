@@ -52,7 +52,7 @@ img.mini_profile{
 /**
  * Search
  */
-#mainSearchBox {
+.mainSearchBox {
 /*    margin: 15px;*/
     padding: 10px;
     background-color: green;
@@ -65,4 +65,25 @@ img.mini_profile{
     width: 100%;
     padding: 15px;
     border-radius: 5px;
+}
+.search-nav{
+    background-color:green;   
+}
+.action-icon{
+    height: 100px;
+    margin: auto;
+    padding: 20px;
+    background-color:#8FBC8F;
+    text-align: center;
+    border: 5px;
+    border-bottom-color:white;
+}
+.action-icon span{
+    font-size: 40px;
+}
+.action-icon:hover{
+    background-color:violet;   
+}
+.lession-container{
+    height: 50px;
 }

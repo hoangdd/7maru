@@ -1,6 +1,6 @@
 <div id="searchBoxContainer" class="container">
     <form role="form" method="get" action="/7maru/search" id="searchForm" class="form-horizontal">
-        <div id="mainSearchBox" class="row">
+        <div class="row mainSearchBox">
             <div class="col-xs-9">
                 <input class="form-control input-lg" placeholder="Enter Query" type="text" name="string" >
             </div>
