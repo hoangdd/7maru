@@ -67,10 +67,7 @@
      echo '<p></p>';
      echo '<p class="text_center"> Created Date: <strong>'.$lesson['created_date'].'</strong> </p>';
      echo '<p>'.$lesson['stars'].' ranker / '.$lesson['reader'].' reader'.'</p>';
-     ?> 
-
-
-     <?php
+  
     			// [buy] button
      if ($lesson['buy_status']){
       echo $this->Form->create('Buy',array(

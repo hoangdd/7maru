@@ -34,7 +34,8 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->css('bootstrap-theme');
 		echo $this->Html->css('docs');
-
+        echo $this->Html->css('common');
+        
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
 
