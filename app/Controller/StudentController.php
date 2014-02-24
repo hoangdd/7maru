@@ -32,5 +32,12 @@ class StudentController extends AppController {
     
     function Test(){
         
+        
     }
+    
+    function DoTest() {
+		
+	}
+	
+	function ViewTestResult(){}
 }
