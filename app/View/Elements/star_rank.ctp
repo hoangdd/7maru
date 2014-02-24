@@ -61,11 +61,11 @@ div#star-container{
 }
 div#blur-star-div{
 	width:100% ;	
-	background-image: url(./img/<?php echo $blurStarImage ?>); 
+	background-image: url(<?php echo $this->webroot.'img/'.$blurStarImage ?>); 
 }
 div#bright-star-div{
 	width: <?php echo $brightStarWidth."%;" ?>;
-	background-image: url(./img/<?php echo $brightStarImage ?>); 
+	background-image: url(<?php echo $this->webroot.'img/'.$brightStarImage ?>); 
 }
 
 </style>
