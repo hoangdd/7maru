@@ -69,7 +69,7 @@
 			?> 
 			
 			
-			<?
+			<?php
     			// [buy] button
     			if ($lesson['buy_status']){
     				echo $this->Form->create('Buy',array(

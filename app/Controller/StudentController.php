@@ -29,4 +29,8 @@ class StudentController extends AppController {
 	function BuyLesson(){
 		
 	}
+    
+    function Test(){
+        
+    }
 }
