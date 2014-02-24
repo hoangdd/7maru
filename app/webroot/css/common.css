@@ -48,3 +48,21 @@ img.mini_profile{
     td{
         padding: 5px!important;
     }
+
+/**
+ * Search
+ */
+#mainSearchBox {
+/*    margin: 15px;*/
+    padding: 10px;
+    background-color: green;
+    margin:auto;
+    padding:auto;
+}
+#searchBoxContainer{
+    background-color:#d9edf7;
+    display:inline-block;
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+}
