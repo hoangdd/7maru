@@ -1,5 +1,5 @@
-<div class="container">
-	<div class="mainContentBlock section sectionMain insideSidebar">
+<div class="form_changePassword">
+	<div class="">
 		<form method="post" class="xenForm AutoValidator ContactDetailsForm" action="account/security-save" data-optinout="OptIn">
 			<table>
 				<tr class="cttrUnit">
@@ -23,7 +23,7 @@
 
 				<tr class="cttrUnit submitUnit">
 					<td></td>
-					<td><input type="submit" name="save" value="Save" accesskey="s" class="button primary"></td>
+					<td><button type="submit" name="save" accesskey="l" class="button btn-default">Save</button></td>
 				</tr>
 			</table>
 		</form>
