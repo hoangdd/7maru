@@ -34,51 +34,69 @@ img.mini_profile{
     margin-bottom:2px;
     background-color: #fcf8e3;  
     margin-bottom: 5px;
-}   
+}
+.char-div{
+    border: 1px solid rgba(86,61,124,.2);
+}
+p.title{
+    background-color:rgba(77, 124, 207, 0.59);
+    border-top-left-radius: 5px;
+    /*//border-bottom-left-radius: 3px;*/
+    border-left : 10px solid rgba(165, 58, 63, 0.59);
+    padding: 5px;
+    font-size:larger;
+    font-weight: bold;
+    color: white;
+}
+.from-to-date{
+    line-height: 2;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
 /**
 * HoangNM
 */
-    .small_photo{
-        width:210px;
-        height:280px;
-    }
-    .medium_photo{
-        width:240px;
-        height:320px;
-    }
-    #register-table tr td {
-        border-top :0px;
-    }
-    .form-horizontal .form-group {
-        margin-left: 0px!important;
-    }
-    .align-right{
-        margin-right: 0px!important;
-    }
-    .center-block {
-        display: block;
-        text-align: center;
-    }
-    .changecolor input,.changecolor select,.changecolor textarea{
-        background-color: #E8E8E8;
-        color: #000000;
-    }
-    textarea {
-        resize: none;
-    }
-    h1{
-        color: #DD0000;
-    }
-    td{
-        padding: 5px!important;
-    }
+.small_photo{
+    width:210px;
+    height:280px;
+}
+.medium_photo{
+    width:240px;
+    height:320px;
+}
+#register-table tr td {
+    border-top :0px;
+}
+.form-horizontal .form-group {
+    margin-left: 0px!important;
+}
+.align-right{
+    margin-right: 0px!important;
+}
+.center-block {
+    display: block;
+    text-align: center;
+}
+.changecolor input,.changecolor select,.changecolor textarea{
+    background-color: #E8E8E8;
+    color: #000000;
+}
+textarea {
+    resize: none;
+}
+h1{
+    color: #DD0000;
+}
+td{
+    padding: 5px!important;
+}
 
 /**
  * Search
  */
-.mainSearchBox {
-/*    margin: 15px;*/
+ .mainSearchBox {
+    /*    margin: 15px;*/
     padding: 10px;
     background-color: green;
     margin:auto;

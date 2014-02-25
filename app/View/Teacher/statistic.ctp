@@ -30,8 +30,8 @@ $purchaseNums = array(1,2,3,4,1,2,3);
 
       // Set a callback to run when the Google Visualization API is loaded.
       google.setOnLoadCallback(drawViewChart);
-      google.setOnLoadCallback(drawVoteChart);
-      google.setOnLoadCallback(drawPurchaseChart);
+      // google.setOnLoadCallback(drawVoteChart);
+      // google.setOnLoadCallback(drawPurchaseChart);
 
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
@@ -55,9 +55,9 @@ $purchaseNums = array(1,2,3,4,1,2,3);
       	data = google.visualization.arrayToDataTable(dataArray);
 
       	options = {
-      		title: 'Number of views through this '+<?php  echo '\''.$sttBy.'\'' ?>,
-                  width: 400,
-                  height: 240,
+      		title: 'Number of views through this '+<?php  echo '\''.$sttBy.'\'' ?>,             
+                  width: '100%',
+                  height:200,
       		hAxis: {title: <?php echo '\''.$year.'\'' ?> + ' year'},
       		vAxis: {title: 'Views'},                  
       		legend: 'none',
@@ -97,61 +97,72 @@ $purchaseNums = array(1,2,3,4,1,2,3);
 
       //======show datepicker
       $(document).ready(function(){
-            $("#dp3").datepicker();
+            $("#dp1").datepicker({
+                  format:"dd-mm-yyyy"                  
+            });
+            $("#dp2").datepicker({
+                  format:"dd-mm-yyyy"
+            });
+            $("#dp3").datepicker({
+                  format: "dd-mm-yyyy"
+            });
       })
       </script>
       <!-- main interface -->
       <!-- Option to the statistics follow by : week,month,year -->      
       <div class="row">
             <!-- information -->
-            <div class='col-md-2'><p class='tittle'>Information figure</p></div>
-            <div class='col-md-10'>                  
-                  <div class='row'>
-                        <div class='col-md-3'>
-                              <input class="form-control" id = 'dp3' size="16" type="text" value="12-02-2012" readonly="" />     
-                        </div>
-                  </div>                                                                 
-                  <p class='stt-figure'>The number of views: <?php echo $viewNumADay; ?> </p>
-                  <p class='stt-figure'>The number of votes: <?php echo $voteNumADay; ?> </p>
-                  <p class='stt-figure'>The number of purchases: <?php echo $purchaseNumADay; ?> </p>                                          
-            </div>
+           <p class='title'>Information figure</p>
 
+      </div>
+      <div class="row">
+            <div class='col-md-10'>                    
+                  <div class='col-md-3'>
+                        <p>Choose date</p>                        
+                        <input class="form-control" id = 'dp1' type="text" readonly="" />                             
+                  </div>              
+                  <div class ='col-md-7 col-md-offset-2'>                                                   
+                        <p class='stt-figure'>The number of views: <?php echo $viewNumADay; ?> / The total of views </p>
+                        <p class='stt-figure'>The number of votes: <?php echo $voteNumADay; ?> / The total of views </p>
+                        <p class='stt-figure'>The number of purchases: <?php echo $purchaseNumADay; ?> / The total of views </p>
+                        <p class='stt-figure'>The number of posts: <?php echo $purchaseNumADay; ?> / The total of views </p>
+                  </div>
+            </div>
+            <div>
+
+            </div>
       </div>
       <!-- statistic by time -->
       <div class="row">
-            <p class='tittle'>General statistic</p>
+            <p class='title'>Statistic by time</p>
       </div>
       <div class="row">
-            <div class='col-md-8 col-md-offset-4'>
+            <div class='col-md-8 col-md-offset-3 from-to-date'>
                   <div class='col-md-6'>                                    
-                        <span>From</span>
-                        <div class='date-picker'> 
-                              <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                                    <input class="col-md-2" size="16" type="text" value="12-02-2012" readonly="">
-                                    <span class="add-on"><i class="icon-calendar"></i></span>
-                              </div>
-                        </div> 
+                        <div class="col-md-2">From</div>
+                        <div class="col-md-9 date">
+                              <input class="form-control" id="dp2" readonly=""/>
+                        </div>                      
                   </div> 
                   <div class='col-md-6'>
-                        <span>To</span>
-                        <div class='date-picker'> 
-                              <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                                    <input class="col-md-2" size="16" type="text" value="12-02-2012" readonly="">
-                                    <span class="add-on"><i class="icon-calendar"></i></span>
-                              </div>                  
-                        </div>      
+                        <div class="col-md-2 text-right">To</div>
+                        <div class="col-md-9 date">
+                              <input class="form-control" id="dp3" readonly=""/>
+                        </div>
+                        
                   </div>
             </div>
       </div>      
+      <p></p>
       <div class='row'>
-            <div class='col-md-4'>
+            <div class='col-md-2'>
                   <ul class="nav nav-tabs  nav-stacked">
                         <li class="active" disable='disable'><a href="#">Views</a></li>
                         <li><a href="#" disable='disable'>Votes</a></li>
                         <li><a href="#" disable='disable'>Purchases</a></li>
                   </ul>
             </div>
-            <div class='col-md-8' id='chart_div'></div>
+            <div class='col-md-10 char-div' id='chart_div'></div>
       </div>
       <div class="row">
             <!-- general statistic -->
