@@ -10,50 +10,93 @@
 	padding-bottom: 5px;
 	font-weight: bold;
 	font-size: larger;
+    color: rgb(59, 59, 170);
+}
+img.thumbnail{
+    max-width:250px;
+    max-height:350px;
+}
+
+div.left-col{
+    border-right: 1px solid rgba(86,61,124,.2);
+}
+div.recommend-wrapper{
+    border-top: 1px solid rgba(86,61,124,.2);
 }
 
 img.mini_profile{
-	width:70px;
-	height:100px;
+	max-width:100px;
+	max-height:150px;
+}
+.description p.content{
+    border: 1px solid rgba(86,61,124,.2);
+    padding: 10px 5px 10px 10px ;
+    margin-bottom:2px;
+    background-color: #fcf8e3;  
+    margin-bottom: 5px;
+}
+.char-div{
+    border: 1px solid rgba(86,61,124,.2);
+}
+p.title{
+    background-color:rgba(77, 124, 207, 0.59);
+    border-top-left-radius: 5px;
+    /*//border-bottom-left-radius: 3px;*/
+    border-left : 10px solid rgba(165, 58, 63, 0.59);
+    padding: 5px;
+    font-size:larger;
+    font-weight: bold;
+    color: white;
+}
+.from-to-date{
+    line-height: 2;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /**
 * HoangNM
 */
-    .medium_photo{
-        width:300px;
-	   height:400px;
-    }
-    #register-table tr td {
-        border-top :0px;
-    }
-    .form-horizontal .form-group {
-       margin-left: 0px!important;
-    }
-    .align-right{
-        margin-right: 0px!important;
-        text-align: center;
-    }
-    .center-block {
-        display: block;
-        text-align: center;
-    }
-    .changecolor input,.changecolor select,.changecolor textarea{
-        background-color: #E8E8E8;
-        color: #000000;
-    }
-    textarea {
+.small_photo{
+    width:210px;
+    height:280px;
+}
+.medium_photo{
+    width:240px;
+    height:320px;
+}
+#register-table tr td {
+    border-top :0px;
+}
+.form-horizontal .form-group {
+    margin-left: 0px!important;
+}
+.align-right{
+    margin-right: 0px!important;
+}
+.center-block {
+    display: block;
+    text-align: center;
+}
+.changecolor input,.changecolor select,.changecolor textarea{
+    background-color: #E8E8E8;
+    color: #000000;
+}
+textarea {
     resize: none;
-    }
-    td{
-        padding: 5px!important;
-    }
+}
+h1{
+    color: #DD0000;
+}
+td{
+    padding: 5px!important;
+}
 
 /**
  * Search
  */
-.mainSearchBox {
-/*    margin: 15px;*/
+ .mainSearchBox {
+    /*    margin: 15px;*/
     padding: 10px;
     background-color: green;
     margin:auto;
