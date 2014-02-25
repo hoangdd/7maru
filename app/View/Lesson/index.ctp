@@ -80,13 +80,13 @@
        'label' => 'Buy',
        'div' => array(
          'class' => 'col-md-6 col-sm-offset-3 text-center',
+         'style' => 'margin-bottom:10px'
          ),
        'class' => 'btn btn-lg btn-warning btn-block'
-       );		
+       );	
+       echo $this->Form->submit('Buy',$options);	              
     }
-
-    ?>
-
+    ?>    
   </div>
   <div class='col-md-8'>
    <!-- Lesson detail-->    
