@@ -1,8 +1,8 @@
 <?php 
 /**
-*	statistic.ctp
-*	@author Hoang Dac
-*	Teacher's statistic view
+*     statistic.ctp
+*     @author Hoang Dac
+*     Teacher's statistic view
 */
 //====================
 //particular lib
@@ -21,80 +21,37 @@ $purchaseNumADay = 1;
 $viewNums = array(1,2,3,4,10,20,30);
 $voteNums = array(1,2,3,4,1,2,3);
 $purchaseNums = array(1,2,3,4,1,2,3);
+$beginDate = '21/2/2013';
 //====================
 ?>
 <!-- script to draw chart -->
 <script type="text/javascript">
-	  // Load the Visualization API and the piechart package.
-	  google.load('visualization', '1', {'packages':['corechart']});
+        // Load the Visualization API and the piechart package.
+        google.load('visualization', '1', {'packages':['corechart']});
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawViewChart);
+      // Set a callback to run when the Google Visualization API is loaded.    
       // google.setOnLoadCallback(drawVoteChart);
       // google.setOnLoadCallback(drawPurchaseChart);
 
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
-
-      var days = <?php echo json_encode($days); ?>;
-      var viewNums = <?php echo json_encode($viewNums); ?>;
-      var voteNums = <?php echo json_encode($voteNums); ?>;
-      var purchaseNums = <?php echo json_encode($purchaseNums); ?>;
-      var i; 
-      var dayNums = days.length;	
-      var dataArray = new Array;
-      dataArray[0] = ['day','number'];
-      for (i=1; i<dayNums; i++){
-      	dataArray[i] = new Array;
-      	dataArray[i][0] = days[i];		
-      	dataArray[i][1] = viewNums[i];
+      var unit = 'views';
+      var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
+      options = {
+                           title: 'Number of '+unit,             
+                           width: '100%',
+                           height:'100%',
+                           hAxis: {title: 'day'},
+                           vAxis: {title: unit},                  
+                           legend: 'none',
+                     };   
+      google.setOnLoadCallback(function(){drawChart(dataArray,options)});
+      function drawChart(dataArray,options) {               
+            data = google.visualization.arrayToDataTable(dataArray);
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
       }
-      var data,options;
-      function drawViewChart() {				
-      	data = google.visualization.arrayToDataTable(dataArray);
-
-      	options = {
-      		title: 'Number of views through this '+<?php  echo '\''.$sttBy.'\'' ?>,             
-                  width: '100%',
-                  height:200,
-      		hAxis: {title: <?php echo '\''.$year.'\'' ?> + ' year'},
-      		vAxis: {title: 'Views'},                  
-      		legend: 'none',
-      	};
-      	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      	chart.draw(data, options);
-      }
-      for (i=1; i<dayNums; i++){			
-      	dataArray[i][1] = voteNums[i];
-      }
-      function drawVoteChart() {				
-      	data = google.visualization.arrayToDataTable(dataArray);
-
-      	options = {
-      		title: 'Number of vote through this '+<?php  echo '\''.$sttBy.'\'' ?>,
-      		hAxis: {title: <?php echo '\''.$year.'\'' ?> + ' year'},
-      		vAxis: {title: 'Vote'},
-      		legend: 'none',
-      	};
-      	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      	chart.draw(data, options);
-      }
-      for (i=1; i<dayNums; i++){			
-      	dataArray[i][1] = purchaseNums[i];
-      }
-      function drawPurchaseChart() {				
-      	data = google.visualization.arrayToDataTable(dataArray);
-      	options = {
-      		title: 'Number of purchase through this '+<?php  echo '\''.$sttBy.'\'' ?>,
-      		hAxis: {title: <?php echo '\''.$year.'\'' ?> + ' year'},
-      		vAxis: {title: 'Purchase'},
-      		legend: 'none',
-      	};
-      	var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-      	chart.draw(data, options);
-      }
-
       //======show datepicker
       $(document).ready(function(){
             $("#dp1").datepicker({
@@ -112,20 +69,56 @@ $purchaseNums = array(1,2,3,4,1,2,3);
       <!-- Option to the statistics follow by : week,month,year -->      
       <div class="row">
             <!-- information -->
-           <p class='title'>Information figure</p>
+            <p class='title'>Information figure</p>
 
       </div>
       <div class="row">
-            <div class='col-md-10'>                    
-                  <div class='col-md-3'>
-                        <p>Choose date</p>                        
-                        <input class="form-control" id = 'dp1' type="text" readonly="" />                             
-                  </div>              
-                  <div class ='col-md-7 col-md-offset-2'>                                                   
-                        <p class='stt-figure'>The number of views: <?php echo $viewNumADay; ?> / The total of views </p>
-                        <p class='stt-figure'>The number of votes: <?php echo $voteNumADay; ?> / The total of views </p>
-                        <p class='stt-figure'>The number of purchases: <?php echo $purchaseNumADay; ?> / The total of views </p>
-                        <p class='stt-figure'>The number of posts: <?php echo $purchaseNumADay; ?> / The total of views </p>
+            <div class='col-md-12'>                    
+                  <div class='col-md-6' style='border-right:1px solid #cccccc'>
+                        <p>Today: 
+                              <script>today = new Date()
+                              var dd = today.getDate();
+                              var mm = today.getMonth()+1; //January is 0!
+
+                              var yyyy = today.getFullYear();
+                              if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+                              document.write(today);
+                              </script>
+                        </p>     
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge">14</span>
+                                The number of views
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">14</span>
+                                The number of votes
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">14</span>
+                                The number of purchases
+                              </li>                              
+                        </ul>                   
+                  </div>
+                  <div class='col-md-6'>
+                        <p>From the begin: <?php echo $beginDate; ?></p>
+                         <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge">124</span>
+                                The total of views
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">124</span>
+                                The total of votes
+                              </li>
+                              <li class="list-group-item">
+                                <span class="badge">124</span>
+                                The total of purchases
+                              </li>                              
+                        </ul>       
+                  </div>
+                  <div class='col-md-4'>
+
                   </div>
             </div>
             <div>
@@ -156,15 +149,40 @@ $purchaseNums = array(1,2,3,4,1,2,3);
       <p></p>
       <div class='row'>
             <div class='col-md-2'>
-                  <ul class="nav nav-tabs  nav-stacked">
-                        <li class="active" disable='disable'><a href="#">Views</a></li>
-                        <li><a href="#" disable='disable'>Votes</a></li>
-                        <li><a href="#" disable='disable'>Purchases</a></li>
+                  <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#" id="views">Views</a></li>
+                        <li><a href="#" id="votes">Votes</a></li>
+                        <li><a href="#" id="purchases">Purchases</a></li>
                   </ul>
             </div>
-            <div class='col-md-10 char-div' id='chart_div'></div>
+            <div class='col-md-10 char-div' id='chart_div'>
+                  <!--  chart will be showed here-->
+            </div>
       </div>
       <div class="row">
             <!-- general statistic -->
 
       </div>
+
+      <script type="text/javascript">
+      $(document).ready(function(){       
+            $("ul.nav li a").click(function(){
+                  $("ul.nav li.active").removeClass('active');
+                  $(this).parent("li").addClass('active');                        
+                  var unit = $(this).attr('id');
+                        //do change chart here  
+                        //dataArray will be get by ajax
+                        var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
+                        options = {
+                           title: 'Number of '+unit,             
+                           width: '100%',
+                           height:'100%',
+                           hAxis: {title: 'day'},
+                           vAxis: {title: unit},                  
+                           legend: 'none',
+                     };   
+                     drawChart(dataArray,options);                               
+                     return false;
+               })                  
+      })
+      </script>  
