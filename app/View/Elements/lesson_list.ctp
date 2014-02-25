@@ -1,7 +1,7 @@
 <?php
 	$list = array(
 		array(
-			'description' => 'Social prophecy? Black comedy? Study of freewill? A Clockwork Orange is all of these. It is also a dazzling experiment in language, as Burghiss creates a new language - \'meow\', the cat slang of a not-too-distant future.',		
+			'description' => 'Social prophecy? Blackthe cat slang of a not-too-distant future.',		
 			'authorId' => '34wsdf',
 			'author' => array(
 				'username' => 'victorhugo',
@@ -84,29 +84,9 @@
 <ul id="bk-list" class="bk-list clearfix">
 	<?php
 		foreach ($list as $lesson) {
-	?>
-			<li class='lesson-book'>
-				<div class="bk-book book bk-bookdefault">
-					<div class="bk-front" style="background-image: url(<?php echo $lesson['image'];?>);	">
-					</div>
-				</div>
-				<div class="bk-info">
-					<button>Buy</button>
-					<button>View page</button>
-					<h3>
-						<span>
-							<?php echo $lesson['author']['firstname'].' '.$lesson['author']['lastname']?>
-						</span>
-						<span>
-							<?php echo $lesson['title']; ?>
-						</span>
-					</h3>
-					<p>
-						<?php echo $lesson['description'];?>
-					</p>
-				</div>
-			</li>
-	<?php
+			echo $this->element('lesson', array(
+				'lesson' => $lesson,
+				));
 		}
 	?>
 </ul>
