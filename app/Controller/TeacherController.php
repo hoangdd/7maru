@@ -25,7 +25,14 @@ class TeacherController extends AppController {
 
 	}
 	function ChangePassword(){
-
+	}
+	
+	function CreateLesson() {
+		
+	}
+	
+	function  EditLession() {
+	
 	}
 
 }
