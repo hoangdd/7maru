@@ -20,5 +20,13 @@ class AdminController extends AppController {
     	
     }
 
+    function statistic(){
+
+    }
+
+    function account(){
+
+    }    
+    
 	//...
 }
