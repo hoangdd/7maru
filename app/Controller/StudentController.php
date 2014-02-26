@@ -29,21 +29,19 @@ class StudentController extends AppController {
 	function BuyLesson(){
 		
 	}
-<<<<<<< Updated upstream
-    
     function Test(){
-        
-        
+    	
     }
     
     function DoTest() {
 		
 	}
 	
-	function ViewTestResult(){}
-=======
+	function ViewTestResult(){
+
+	}
+
 	function ChangePassword(){
 		
 	}
->>>>>>> Stashed changes
 }
