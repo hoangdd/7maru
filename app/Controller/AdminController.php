@@ -19,6 +19,8 @@ class AdminController extends AppController {
     function changePassword(){
     	
     }
+    function ipManage(){
 
+    }
 	//...
 }
