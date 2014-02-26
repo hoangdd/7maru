@@ -22,5 +22,8 @@ class AdminController extends AppController {
     function ipManage(){
 
     }
+    function userManage(){
+        
+    }
 	//...
 }
