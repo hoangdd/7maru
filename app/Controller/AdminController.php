@@ -25,5 +25,8 @@ class AdminController extends AppController {
     function userManage(){
         
     }
+    function blockUser(){
+        
+    }
 	//...
 }

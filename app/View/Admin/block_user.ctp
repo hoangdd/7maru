@@ -1,6 +1,6 @@
 <!-- header -->
 <h3 style="text-align:center">
-	USER MANAGE
+	VIOLATION REPORT
 </h3>
 <!-- table -->
 <div class="">
@@ -9,38 +9,25 @@
 		<thead>
 			<tr>
 
-				<th class='text-center' style="width:5%">
+				<th class='text-center' style="width:10%">
 					No.
 				</th>
 
-				<th class='' style="width:30%">
+				<th class='' style="width:25%">
 					Name
 				</th>
 
-				<th class='text-center' style="width:10%">
+				<th class='text-center' style="width:20%">
 					Username
 				</th>
-
-				<th class='text-center' style="width:5%">
-					Type
+				<th class='text-center' style="width:15%">
+					Comment
 				</th>
-				<th class='text-center' style="width:10%">
-					Date of birth
+				<th class='text-center' style="width:15%">
+					Block
 				</th>
-				<th class='text-center' style="width:10%">
-					Created Account Time
-				</th>
-				<th class='text-center' style="width:5%">
-					Edit
-				</th>
-				<th class='text-center' style="width:5%">
+				<th class='text-center' style="width:15%">
 					Destroy
-				</th>
-				<th class='text-center' style="width:10%">
-					Reset password
-				</th>
-				<th class='text-center' style="width:10%">
-					Verify code
 				</th>
 			</tr>
 		</thead>
@@ -58,29 +45,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' checked>
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -96,29 +68,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' >
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -134,29 +91,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' checked>
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -172,29 +114,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' >
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -210,29 +137,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' checked>
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -248,29 +160,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' checked>
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -286,29 +183,14 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' checked>
 				</td>
 				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
+					<a href='#'>Destroy</a>
 				</td>
 			</tr>
 			<tr>
@@ -324,31 +206,62 @@
 				</td>
 
 				<td class='text-center'>
-					T
+					<input type='checkbox' >
 				</td>
 				<td class='text-center'>
-					25/09/91
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					27/3/2013 00:00
+					<a href='#'>Destroy</a>
+				</td>
+			</tr>
+			<tr>
+				<td class='text-center'>
+					1
+				</td>
+				<td class=''>
+					Do Duc Hoang
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
+					hoangdd
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Reset</a>
+					<input type='checkbox' >
+				</td>
+				<td class='text-center'>
+					<a href='#'>Block</a>
 				</td>
 
 				<td class='text-center'>
-					<a href="#">Reset</a>
+					<a href='#'>Destroy</a>
 				</td>
-			</tr>			
+			</tr>
+			<tr>
+				<td class='text-center'>
+					1
+				</td>
+				<td class=''>
+					Do Duc Hoang
+				</td>
+
+				<td class='text-center'>
+					hoangdd
+				</td>
+
+				<td class='text-center'>
+					<input type='checkbox' checked>
+				</td>
+				<td class='text-center'>
+					<a href='#'>Block</a>
+				</td>
+
+				<td class='text-center'>
+					<a href='#'>Destroy</a>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </div>
