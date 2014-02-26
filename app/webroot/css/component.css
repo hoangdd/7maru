@@ -1,0 +1,427 @@
+/*Creative link-----------------------------------------------------------*/
+*,
+*:after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+	font-family: 'Raleway', sans-serif;
+}
+
+nav a {
+	position: relative;
+	display: inline-block;
+	margin: 15px 25px;
+	outline: none;
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 400;
+	text-shadow: 0 0 1px rgba(255,255,255,0.3);
+	font-size: 1.35em;
+}
+
+nav a:hover,
+nav a:focus {
+	outline: none;
+}
+
+/* Effect 1: Brackets */
+.cl-effect-1 a::before,
+.cl-effect-1 a::after {
+	display: inline-block;
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+	-moz-transition: -moz-transform 0.3s, opacity 0.2s;
+	transition: transform 0.3s, opacity 0.2s;
+}
+
+.cl-effect-1 a::before {
+	margin-right: 10px;
+	content: '[';
+	-webkit-transform: translateX(20px);
+	-moz-transform: translateX(20px);
+	transform: translateX(20px);
+}
+
+.cl-effect-1 a::after {
+	margin-left: 10px;
+	content: ']';
+	-webkit-transform: translateX(-20px);
+	-moz-transform: translateX(-20px);
+	transform: translateX(-20px);
+}
+
+.cl-effect-1 a:hover::before,
+.cl-effect-1 a:hover::after,
+.cl-effect-1 a:focus::before,
+.cl-effect-1 a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateX(0px);
+	-moz-transform: translateX(0px);
+	transform: translateX(0px);
+}
+
+/* Effect 2: 3D rolling links, idea from http://hakim.se/thoughts/rolling-links */
+.cl-effect-2 a {
+	line-height: 44px;
+	-webkit-perspective: 1000px;
+	-moz-perspective: 1000px;
+	perspective: 1000px;
+}
+
+.cl-effect-2 a span {
+	position: relative;
+	display: inline-block;
+	padding: 0 14px;
+	background: #2195de;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+	transition: transform 0.3s;
+	-webkit-transform-origin: 50% 0;
+	-moz-transform-origin: 50% 0;
+	transform-origin: 50% 0;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.csstransforms3d .cl-effect-2 a span::before {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #0965a0;
+	content: attr(data-hover);
+	-webkit-transition: background 0.3s;
+	-moz-transition: background 0.3s;
+	transition: background 0.3s;
+	-webkit-transform: rotateX(-90deg);
+	-moz-transform: rotateX(-90deg);
+	transform: rotateX(-90deg);
+	-webkit-transform-origin: 50% 0;
+	-moz-transform-origin: 50% 0;
+	transform-origin: 50% 0;
+}
+
+.cl-effect-2 a:hover span,
+.cl-effect-2 a:focus span {
+	-webkit-transform: rotateX(90deg) translateY(-22px);
+	-moz-transform: rotateX(90deg) translateY(-22px);
+	transform: rotateX(90deg) translateY(-22px);
+}
+
+.csstransforms3d .cl-effect-2 a:hover span::before,
+.csstransforms3d .cl-effect-2 a:focus span::before {
+	background: #28a2ee;	
+}
+
+/* Effect 3: bottom line slides/fades in */
+.cl-effect-3 a {
+	padding: 8px 0;
+}
+
+.cl-effect-3 a::after {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	background: rgba(0,0,0,0.1);
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	-moz-transition: opacity 0.3s, -moz-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+	-webkit-transform: translateY(10px);
+	-moz-transform: translateY(10px);
+	transform: translateY(10px);
+}
+
+.cl-effect-3 a:hover::after,
+.cl-effect-3 a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	transform: translateY(0px);
+}
+
+/* Effect 4: bottom border enlarge */
+.cl-effect-4 a {
+	padding: 0 0 10px;
+}
+
+.cl-effect-4 a::after {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: #fff;
+	content: '';
+	opacity: 0;
+	-webkit-transition: height 0.3s, opacity 0.3s, -webkit-transform 0.3s;
+	-moz-transition: height 0.3s, opacity 0.3s, -moz-transform 0.3s;
+	transition: height 0.3s, opacity 0.3s, transform 0.3s;
+	-webkit-transform: translateY(-10px);
+	-moz-transform: translateY(-10px);
+	transform: translateY(-10px);
+}
+
+.cl-effect-4 a:hover::after,
+.cl-effect-4 a:focus::after {
+	height: 5px;
+	opacity: 1;
+	-webkit-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	transform: translateY(0px);
+}
+
+/* Effect 5: same word slide in */
+.cl-effect-5 a {
+	overflow: hidden;
+	padding: 0 4px;
+	height: 1em;
+}
+
+.cl-effect-5 a span {
+	position: relative;
+	display: inline-block;
+	-webkit-transition: -webkit-transform 0.3s;
+	-moz-transition: -moz-transform 0.3s;
+	transition: transform 0.3s;
+}
+
+.cl-effect-5 a span::before {
+	position: absolute;
+	top: 100%;
+	content: attr(data-hover);
+	font-weight: 700;
+	-webkit-transform: translate3d(0,0,0);
+	-moz-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+.cl-effect-5 a:hover span,
+.cl-effect-5 a:focus span {
+	-webkit-transform: translateY(-100%);
+	-moz-transform: translateY(-100%);
+	transform: translateY(-100%);
+}
+
+/* Effect 5: same word slide in and border bottom */
+/*-----------------------------------------------------------*/
+
+
+
+
+/*Book block--------------------------------------------------*/
+.bk-list {
+	list-style: none;
+	position: relative;
+}
+
+.lesson-book {
+	position: relative;
+	width: 200px;
+	float: left;
+	z-index: 1;
+	margin: 0px 50px 40px 0;
+	-webkit-perspective: 1800px;
+	-moz-perspective: 1800px;
+	perspective: 1800px;
+}
+
+.lesson-book:last-child {
+	margin-right: 0;
+}
+
+.bk-info {
+	position: relative;
+	margin-top: 315px;
+	height: auto;
+    max-height: 200px;
+    overflow: hidden;
+
+}
+
+.bk-info h3 {
+	padding: 15px 0 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid rgba(0,0,0,0.3);
+	font-size: 20px;
+}
+
+.bk-info h3 span:first-child {
+	font-size: 10px;
+	font-weight: 400;
+	text-transform: uppercase;
+	padding-bottom: 5px;
+	display: block;
+	color: #777;
+}
+
+.bk-info p {
+	text-align: justify;
+	word-wrap: break-word;
+	line-height: 20px;
+	color: #444;
+	min-height: 100px;
+	font-size: 14px;
+}
+
+.bk-info button {
+	background: #FC756F;
+	border: none;
+	color: #fff;
+	display: inline-block;
+	padding: 3px 15px;
+	font-weight: 700;
+	font-size: 14px;
+	text-transform: uppercase;
+	cursor: pointer;
+	margin-right: 4px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
+}
+
+.bk-info button.bk-active,
+.bk-info button:active {
+	box-shadow: 
+		0 1px 0 rgba(255, 255, 255, 0.8), 
+		inset 0 -1px 1px rgba(0,0,0,0.2);
+}
+
+.no-touch .bk-info button:hover,
+.bk-info button.bk-active {
+	background: #d0544e;
+}
+
+.lesson-book .bk-book {
+	position: absolute;
+	width: 100%;
+	height: 300px;
+}
+
+.lesson-book .bk-book > div,
+.lesson-book .bk-front > div {
+	display: block;
+	position: absolute;
+}
+
+.lesson-book .bk-front,
+.lesson-book .bk-front > div {
+	width: 200px;
+	height: 300px;
+}
+
+/* Main colors and content */
+
+.lesson-book .bk-page,
+.lesson-book .bk-top,{
+	background-color: #fff;
+}
+
+.lesson-book .bk-front > div {
+	border-radius: 0 3px 3px 0;
+	box-shadow: 
+		inset 4px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-book .bk-front:after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	left: -1px;
+	width: 1px;
+}
+
+.bk-content-current {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+
+.bk-page nav {
+	display: block;
+	text-align: center;
+	margin-top: 20px;
+	position: relative;
+	z-index: 100;
+	cursor: pointer;
+}
+
+.bk-page nav span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	color: #aaa;
+	background: #f0f0f0;
+	border-radius: 50%;
+}
+
+/* Individual style & artwork */
+
+.book .bk-front > div,
+.book .bk-front:after {
+	background-color: #ff924a;
+}
+
+.book .bk-cover {
+
+	background-repeat: no-repeat;
+	background-position: 10px 40px;
+}
+
+.book .bk-cover h2 {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	padding: 30px;
+	background: rgba(255,255,255,0.2);
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.book .bk-cover h2 span:first-child,
+.book .bk-left h2 span:first-child {
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 13px;
+}
+
+.book .bk-cover h2 span:first-child {
+	display: block;
+}
+
+.book .bk-cover h2 span:last-child,
+.book .bk-left h2 span:last-child {
+	font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
+} 
+
+.book .bk-content p {
+	font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+.book .bk-left h2 {
+	color: #fff;
+	font-size: 15px;
+	line-height: 40px;
+	padding-right: 10px;
+	text-align: right;
+}
+
+.book .bk-back p {
+	color: #fff;
+	font-size: 13px;
+	padding: 40px;
+	text-align: center;
+	font-weight: 700;
+}
+/*-----------------------------------------------------------*/

@@ -1,0 +1,63 @@
+@import url(/7maru/css/font.css);
+@font-face {
+	font-family: 'codropsicons';
+	src:url('../fonts/codropsicons/codropsicons.eot');
+	src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/codropsicons/codropsicons.woff') format('woff'),
+		url('../fonts/codropsicons/codropsicons.ttf') format('truetype'),
+		url('../fonts/codropsicons/codropsicons.svg#codropsicons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+.page{
+	width: 100%;
+	height: 88vh;
+	display: block;
+	border-bottom: 1px solid #888;
+}
+.sns-connect{
+	position: absolute;
+	left: 70%;
+	top: 0%;
+	margin: 30px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+}
+.sns-connect .sns-connect-image{
+	height: 50px;
+	width: 50px;
+	margin: 10px;
+}
+.menu{
+	opacity: 0.8;
+	background-color: white
+}
+#intro-menu{
+	width: 100%;
+	z-index: 1;
+}
+.page-nav{
+	width: 0px;
+	margin-top:80px;
+	color: white;
+	font-weight: bold;
+	font-size: 20px;
+	position: fixed;
+	top:0px;
+}
+#carousel-example-generic{
+	height: 100vh;
+	overflow: hidden;
+}
+#carousel-example-generic .carousel-indicators{
+	position: absolute;
+	top: 80%;
+	margin-bottom: 20px;
+}
+
+
+
+
+
+

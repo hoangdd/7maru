@@ -2,7 +2,7 @@
 echo $this->Html->css('common');
 ?>
 
-<h1 class="center-block">Teacher Register</h1>
+<h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
     <form class="form-horizontal" role="form">
@@ -195,7 +195,7 @@ echo $this->Html->css('common');
             </tr>
             
         </table>
-        <div class="align-right">
+        <div class="text-center">
             <button type="button" class="btn btn-primary" type="submit">Register</button>
             <button type="button" class="btn btn-primary">Cancel</button>
         </div>         
