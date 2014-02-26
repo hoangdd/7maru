@@ -1,50 +1,22 @@
-<div class="menu_login_container rfloat">
+<div class="col-md-5">
+<form role="form">
 	<h1>Login</h1>
-	<form id="login_form" action="" method="post" onsubmit="">
-		<input type="hidden" name="lsd" value="" autocomplete="off">
-		<table cellspacing="0">
-			<tbody>
-				<tr>
-					<td class="html0magic">
-						<label for="username">Username</label>
-					</td>
-					<td>
-						<input type="text" class="inputtext" placeholder="Username" name="username" id="username" value="" tabindex="1">
-					</td>
-					
-				</tr>
-				<tr>
-					<td class="html0magic">
-						<label for="pass">Password</label>
-					</td>
-					<td>
-						<input type="password" class="inputtext" placeholder="Password"name="pass" id="pass" tabindex="2">
-					</td>
-
-				</tr>
-				<tr>
-					<td class="login_form_label_field">
-						<div>
-							<div class="uiInputLabel clearfix uiInputLabelLegacy">
-								<input id="persist_box" type="checkbox" name="persistent" value="1" checked="1" class="uiInputLabelInput uiInputLabelCheckbox">
-								<label for="persist_box" class="uiInputLabelLabel">Keep me logged in</label>
-							</div>
-							<input type="hidden" name="default_persistent" value="1">
-						</div>
-					</td>
-
-				</tr>
-				<tr>
-					<td class="login_form_label_field">
-						<a rel="nofollow" href="">Forgot your password?</a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<button type="submit" class="btn btn-default">Login</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
+  <div class="form-group">
+    <label for="inputUsername">Username</label>
+    <input type="Username" class="form-control" id="inputUsername1" placeholder="Username">
+  </div>
+  <div class="form-group">
+    <label for="inputPassword">Password</label>
+    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+  </div>
+  <div class="login_form_label_field">
+	<a rel="nofollow" href="">Forgot your password?</a>
+	</div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Remember me?
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
 </div>
