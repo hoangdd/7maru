@@ -1,5 +1,5 @@
 /*Users table -> storage user infomation*/
-create table users(
+create table 7maru_users(
 	user_id char(20) not null,
 	-- foreign_id char(20) not null,/*Foreign key to 2 tables :(*/
 	username char(30) not null,
@@ -18,7 +18,7 @@ create table users(
 
 
 /*Login table -> login, access token, ip address filter*/
-create table login(
+create table 7maru_login(
 	user_id char(20) not null,
 	access_token char(30),
 	ip_address	varchar(30),
@@ -29,7 +29,7 @@ create table login(
 );
 
 /*Students table -> storage student infomation*/
-create table students(
+create table 7maru_students(
 	student_id char(20) not null,
 	credit_account varchar(30),
 	level varchar(20),
@@ -39,7 +39,7 @@ create table students(
 );
 
 /*teachers table -> storage teacher infomation*/
-create table teachers(
+create table 7maru_teachers(
 	teacher_id char(20) not null,
 	bank_account varchar(30),
 	office varchar(50),
@@ -51,7 +51,7 @@ create table teachers(
 
 
 /*Block student table -> teacher can block student*/
-create table block_students(
+create table 7maru_block_students(
 	id integer not null unique auto_increment,
 	teacher_id char(20) not null,
 	student_id char(20) not null,
@@ -64,7 +64,7 @@ create table block_students(
 );
 
 /*Coma table -> storage coma data*/
-create table comas(
+create table 7maru_comas(
 	coma_id integer not null unique auto_increment,
 	author varchar(20),
 	name varchar(30),
@@ -78,7 +78,7 @@ create table comas(
 
 
 /*References table -> storage references data*/
-create table coma_references(
+create table 7maru_coma_references(
 	reference_id integer not null unique auto_increment,
 	coma_id integer not null,
 	name varchar(50),
@@ -91,7 +91,7 @@ create table coma_references(
 );
 
 /*Categories table -> */
-create table categories(
+create table 7maru_categories(
 	category_id integer not null unique auto_increment,
 	name varchar(30),
 	description text,
@@ -101,7 +101,7 @@ create table categories(
 );
 
 /*Coma_categories table -> allow a coma can be in many categories*/
-create table coma_categories(
+create table 7maru_coma_categories(
 	id integer not null unique auto_increment,
 	coma_id integer,
 	category_id integer,
@@ -113,7 +113,7 @@ create table coma_categories(
 );
 
 /*Comments table -> comment feature*/
-create table comments(
+create table 7maru_comments(
 	comment_id integer not null unique auto_increment,
 	user_id char(20),
 	coma_id char(20),
@@ -126,7 +126,7 @@ create table comments(
 );
 
 /*coma transaction: coma */
-create table coma_transactions(
+create table 7maru_coma_transactions(
 	transaction_id integer not null unique auto_increment,
 	coma_id integer, 
 	student_id char(20),
@@ -138,7 +138,7 @@ create table coma_transactions(
 );
 
 /*rate_comas table -> student rate coma feature*/
-create table rate_comas(
+create table 7maru_rate_comas(
 	rate_id integer not null unique auto_increment,
 	coma_id integer, 
 	student_id char(20), 
@@ -151,7 +151,7 @@ create table rate_comas(
 );
 
 /*Report comas table -> student report coma feature*/
-create table report_comas(
+create table 7maru_report_comas(
 	report_id integer not null unique auto_increment,
 	coma_id integer, 
 	student_id char(20),
@@ -164,7 +164,7 @@ create table report_comas(
 );
 
 /*Notifications table -> User's notifications*/
-create table notifications(
+create table 7maru_notifications(
 	notification_id integer,
 	user_id char(20),
 	notification_type integer, /*alert , notice , adverties*/
@@ -176,7 +176,7 @@ create table notifications(
 );
 
 /*Logs table -> system log*/
-create table logs(
+create table 7maru_logs(
 	log_id integer,
 	actor char(20), 
 	action text,
