@@ -1,5 +1,5 @@
 <div class="menu_login_container rfloat">
-	<h1>Login</h1>
+	<h1>Administrator Login</h1>
 	<form id="login_form" action="" method="post" onsubmit="">
 		<input type="hidden" name="lsd" value="" autocomplete="off">
 		<table cellspacing="0">
