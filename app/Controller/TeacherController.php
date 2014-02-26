@@ -4,7 +4,7 @@ class TeacherController extends AppController {
 	function index(){
 		// home
 	}
-
+  
 	function Register(){
 
 	}
@@ -23,6 +23,16 @@ class TeacherController extends AppController {
 
 	function Statistic(){
 
+	}
+	function ChangePassword(){
+	}
+	
+	function CreateLesson() {
+		
+	}
+	
+	function  EditLession() {
+	
 	}
 
 }

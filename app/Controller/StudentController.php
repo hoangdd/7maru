@@ -29,15 +29,19 @@ class StudentController extends AppController {
 	function BuyLesson(){
 		
 	}
-    
     function Test(){
-        
-        
+    	
     }
     
     function DoTest() {
 		
 	}
 	
-	function ViewTestResult(){}
+	function ViewTestResult(){
+
+	}
+
+	function ChangePassword(){
+		
+	}
 }

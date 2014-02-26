@@ -4,11 +4,21 @@ class AdminController extends AppController {
 	function index(){
 
 	}
+    
     function CreateAdmin(){
         
     }
     function Notification(){
         
     }
+    
+    function login(){
+
+    }
+
+    function changePassword(){
+    	
+    }
+
 	//...
 }

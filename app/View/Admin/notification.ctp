@@ -1,6 +1,34 @@
+<style>
+.multiselect {
+    height:15em;
+    border:solid 1px #c0c0c0;
+    overflow:auto;
+}
+ 
+.multiselect label {
+    display:block;
+}
+ 
+.multiselect-on {
+    color:#ffffff;
+    background-color:#000099;
+}
+</style>
+
 <?php
     echo $this->Html->css('common');
-    
+    $user = array(
+        'name'  =>  array('Nguyen Van A','Nguyen Van B','Nguyen Van C',
+                         'Nguyen Van D','Nguyen Van E','Nguyen Van F',
+                         'Nguyen Van G','Nguyen Van H','Nguyen Van I',
+                         'Nguyen Van J','Nguyen Van K','Nguyen Van L',
+                         'Nguyen Van M','Nguyen Van N','Nguyen Van O',
+                         'Nguyen Van P','Nguyen Van Q','Nguyen Van R',),
+    );
+    $message = array('Your lesson has many violation from student.',
+                     'Your comments were violation.',
+                     'You copied lesson of other.',
+                     'Your lesson didn`t have any documents.',);
 ?>
 
 <!-- Notification of Admin -->
@@ -22,6 +50,10 @@
                 
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
+                        <!--<?php
+                            echo $this->Form->button('Post', array('type' => 'submit'));
+                            echo $this->Form->button('Cancel', array('type'=>'reset')); 
+                        ?>-->
                         <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-envelope"></span> Post
                         </button>
@@ -47,22 +79,19 @@
             <div class="panel-body">
                     <label>Input:</label>
                     <div class="text-center">
-                        <select class="form-control">
-                            <option>Your lesson has many violation from student.</option>
-                            <option>Your comments were violation.</option>
-                            <option>You copied lesson of other.</option>
-                            <option>Your lesson didn't have any documents.</option>
-                        </select>
+                        <?php
+                            echo $this->Form->input('Message : ',array('type'=>'select','options'=>$message)); 
+                        ?>
                     </div>
                 </form>
                 <p></p>
-                <select multiple class="form-control">
-                  <option>Nguyen Van A</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+                <div class="multiselect">
+                    <?php
+                        foreach ($user['name'] as $name):
+                           echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
+                        endforeach;
+                    ?>
+                </div>
                 <p></p>
                 <form class="form-horizontal" role="form">
                     <div class="form-group">

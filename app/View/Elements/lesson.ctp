@@ -1,8 +1,4 @@
-<?php
-	echo $this->Html->css('component');
-	echo $this->Html->css('lesson');
-?>
-<ul id="bk-list" class="bk-list clearfix">
+
 	<li class='lesson-book'>
 		<div class="bk-book book bk-bookdefault">
 			<div class="bk-front" style="background-image: url(<?php echo $lesson['image'];?>);	">
@@ -23,5 +19,5 @@
 				<?php echo $lesson['description'];?>
 			</p>
 		</div>
+				<?php echo '...'; ?>
 	</li>
-</ul>

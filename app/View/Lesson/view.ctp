@@ -9,9 +9,9 @@
     $lesson = array(
         'title' =>  'Tokyo Hot',
         'image' =>  'tokyo hot.jpg',
-        'stars' =>  4,
-        'reader'=>  4,
-        'ranker'=>  3,
+        'stars' => 2.5,
+        'reader' => 4,
+        'ranker' => 3,
         'created_date' => '2013/12/1',
     );
     $teacher = array(
@@ -29,20 +29,22 @@
     <div class='col-md-3 text-center'>
         <!-- Left col: Image and ranhking and vote stars-->
         <?php
-                //Show title
-                echo '<h1 class="text-center">'.$lesson['title'].'</h1>';
     			echo $this->Html->image($lesson['image'],array('class' => 'img-rounded small_photo')); 
     			echo '<p></p>';
+                //Show title
+                echo '<h1 class="text-center">'.$lesson['title'].'</h1>';
+                echo '<p></p>';
     			//_____________________
-    			//ranking by stars
-    			for ($i=1; $i<=$lesson['stars']; $i++){
-    				echo $this->Html->image($starsImage);
-    			}
-    			for ($i; $i <= $__MAX_RANK; $i++){
-    				echo $this->Html->image($starsBlurImage);    				
-    			}
+    			//ranking by stars                   
+                $options = array();
+                $options['stars'] =   $lesson['stars'];      
+                $options['width'] = 30;
+                $options['height'] = 30;
+                echo $this->element('star_rank',array(
+                'options' => $options,                
+                ));
                 //Show author
-                echo '<p>';
+                echo '<p></p>';
                 echo $this->Html->image("profile.jpg", array(
                     'alt' => 'profile',
                     'class' => 'img-rounded mini_profile',                
@@ -68,9 +70,18 @@
         ?>
     </div>
     <div class='col-md-9'>
-        <!-- content of lesson -->
-        <div>
-            <textarea class="form-control" rows="40">Content of Lesson</textarea>
+        <div class="panel panel-info">
+            <!--panel header-->
+            <div class="panel-heading">
+                <h3 class="panel-title">Content of Lesson</h3>
+            </div>
+            <!--panel body-->
+            <div class="panel-body">
+                <!-- content of lesson -->
+                <div>
+                    <textarea class="form-control" rows="40"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>

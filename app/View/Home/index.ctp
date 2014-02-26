@@ -13,10 +13,10 @@
 		'gp' => 'http://plus.google.com'
 		);
 	$tags = array(
-		'hot' => '#',
-		'recent' => '#',
-		'best buy' => '#',
-		'etc' => '#'
+		'hot' => '#hot',
+		'recent' => '#recent',
+		'best buy' => '#bb',
+		'etc' => '#etc'
 		);
 	$cover = array(
 		'resource/intro.jpg',
@@ -92,7 +92,7 @@
 		?>
 	</div>
 
-<div class="nav col-md-1 page-nav">
+<div class="nav page-nav">
 	<nav class="cl-effect-5">
 		<?php
 			foreach ($tags as $key => $value) {
@@ -112,13 +112,12 @@
 // Page 2
 ?>	
 
-<div class="page">
+<div id='hot' class="page">
 	<div style="margin:auto;width:60%">
 		<?php
 			echo $this->element('lesson_list');
 		?>
 	</div>
-
 </div>
 
 <?php
@@ -126,4 +125,40 @@
 ?>	
 
 <div class="page">
+	<div id='recent' class="page">
+		<div style="margin:auto;width:60%">
+			<?php
+				echo $this->element('lesson_list');
+			?>
+		</div>
+	</div>
+</div>
+
+
+<?php
+// Page 4
+?>	
+
+<div class="page">
+	<div id='bb' class="page">
+		<div style="margin:auto;width:60%">
+			<?php
+				echo $this->element('lesson_list');
+			?>
+		</div>
+	</div>
+</div>
+
+<?php
+// Page 5
+?>	
+
+<div class="page">
+	<div id='etc' class="page">
+		<div style="margin:auto;width:60%">
+			<?php
+				echo $this->element('lesson_list');
+			?>
+		</div>
+	</div>
 </div>
