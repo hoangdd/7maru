@@ -20,6 +20,7 @@ class AdminController extends AppController {
     	
     }
     function ipManage(){
+    }
 
     function statistic(){
 
@@ -27,9 +28,7 @@ class AdminController extends AppController {
 
     function account(){
 
-    }    
-    
-    }
+    }        
     function userManage(){
         
     }
