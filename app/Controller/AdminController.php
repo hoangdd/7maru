@@ -19,6 +19,7 @@ class AdminController extends AppController {
     function changePassword(){
     	
     }
+    function ipManage(){
 
     function statistic(){
 
@@ -28,5 +29,12 @@ class AdminController extends AppController {
 
     }    
     
+    }
+    function userManage(){
+        
+    }
+    function blockUser(){
+        
+    }
 	//...
 }
