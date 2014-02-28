@@ -5,7 +5,7 @@ echo $this->Html->css('common');
 <h1 class="text-center">Student Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form class="form-horizontal" role="form">
+    <form action='register' class="form-horizontal" role="form" method='post'>
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -15,7 +15,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control changecolor" placeholder="Enter Username">
+                        <input type="text" class="form-control changecolor" name='username' placeholder="Enter Username">
                     </div>
                 </td>
             </tr>
@@ -182,6 +182,7 @@ echo $this->Html->css('common');
             </tr>
         </table>
         <div class="text-center">
+            <input type='submit'>
             <button type="button" class="btn btn-primary" type="submit">Register</button>
             <button type="button" class="btn btn-primary">Cancel</button>
         </div>         
