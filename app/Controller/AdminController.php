@@ -19,6 +19,21 @@ class AdminController extends AppController {
     function changePassword(){
     	
     }
+    function ipManage(){
+    }
 
+    function statistic(){
+
+    }
+
+    function account(){
+
+    }        
+    function userManage(){
+        
+    }
+    function blockUser(){
+        
+    }
 	//...
 }
