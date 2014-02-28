@@ -5,7 +5,7 @@ echo $this->Html->css('common');
 <h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" action="register" method="POST">
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -15,7 +15,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control changecolor" placeholder="Enter Username">
+                        <input type="text"  name='username' class="form-control changecolor" placeholder="Enter Username">
                     </div>
                 </td>
             </tr>
@@ -28,7 +28,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="password" class="form-control changecolor" placeholder="Enter Password">
+                        <input type="password" name='password' class="form-control changecolor" placeholder="Enter Password">
                     </div>
                 </td>
             </tr>
@@ -54,7 +54,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="Enter your name">
+                        <input type="text" name='name' class="form-control" placeholder="Enter your name">
                     </div>
                 </td>
             </tr>
@@ -67,7 +67,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="date" class="form-control" placeholder="Enter your birthday">
+                        <input type="date" name='dob' class="form-control" placeholder="Enter your birthday">
                     </div>
                 </td>
             </tr>
@@ -80,7 +80,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="Enter your address">
+                        <input type="text" name='address' class="form-control" placeholder="Enter your address">
                     </div>
                 </td>
             </tr>
@@ -118,7 +118,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="Enter telephone number">
+                        <input type="text" name='tel' class="form-control" placeholder="Enter telephone number">
                     </div>
                 </td>
             </tr>
@@ -131,7 +131,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="Enter bank account">
+                        <input type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
                     </div>
                 </td>
             </tr>
@@ -162,7 +162,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="Answer this question">
+                        <input type="text"  class="form-control" placeholder="Answer this question">
                     </div>
                 </td>
             </tr>
@@ -199,5 +199,6 @@ echo $this->Html->css('common');
             <button type="button" class="btn btn-primary" type="submit">Register</button>
             <button type="button" class="btn btn-primary">Cancel</button>
         </div>         
+        <input type="submit">
     </form>
 </div>
