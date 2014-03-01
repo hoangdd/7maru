@@ -1,6 +1,6 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User');
+    public $uses = array('User','Teacher');
 
 	function index(){
 		// home
@@ -12,6 +12,7 @@ class TeacherController extends AppController {
         $user_re_ex='/^[A-Za-z]+\.[A-Za-z]+[0-9]{0,2}$/';
         //$pass_re_ex='/^.*(?=.{7,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).*$/';
         $pass_re_ex = '/^\w+$/';
+        $email_re_ex ='[a-z0-9\\._]*[a-z0-9_]@[a-z0-9][a-z0-9\\-\\.]*[a-z0-9]\\.[a-z]{2,6}$' ;
 		//If has data
 		if($this->request->is('post')){
 			$data = $this->request->data;
@@ -107,31 +108,74 @@ class TeacherController extends AppController {
             }
             
             /*
-                Check Name
+                Check FirstName and LastName
                 0:  null
                 1:  empty
                 2:  too long
             */
-            if(!isset($data['name'])){
-                $error['username'][0] ='Your name is equal null.';
+            if(!isset($data['firstname'])){
+                $error['firstname'][0] ='First name is equal null.';
 			}
             
-			if(empty($data['name'])){
-                $error['name'][1] ='Your name is empty.';
+			if(empty($data['firstname'])){
+                $error['firstname'][1] ='First name is empty.';
 			}	
             else{
 
-                if(strlen($data['name']) > 30){
-                    $error['name'][2] ='Your name is too long.';
+                if(strlen($data['firstname']) > 30){
+                    $error['firstname'][2] ='First name is too long.';
                 }
             }
+            //==================================
+            if(!isset($data['lastname'])){
+                $error['lastname'][0] ='Last name is equal null.';
+			}
             
+			if(empty($data['lastname'])){
+                $error['lastname'][1] ='Last name is empty.';
+			}	
+            else{
+
+                if(strlen($data['lastname']) > 30){
+                    $error['lastname'][2] ='Last name is too long.';
+                }
+            }
             //=================================
 			//xong check
 			// tien hanh luu du lieu vao Model
-			// $this->Teacher->create($data);
-			// $this->Teacher->save();
-       
+            $data['id'] =$data['username'].''.$data['password'];
+            echo $data['id'];
+            //save data of teacher
+            /*
+            *   Bank_acount, office, description
+            */
+            $data_teacher = array(
+                'teacher_id'    =>  $data['id']."teacher",
+                'bank_account' =>   $data['bank_account'],
+                'office'    =>      $data['office'],
+                'description'   =>  $data['description'],
+            );
+			$this->Teacher->create($data_teacher);
+			$this->Teacher->save();
+            
+            //save data of user
+            /*
+            *   username,firstname,lastname,date_of_birth,address,password,
+            *   user_type,mail,phone_number
+            */
+            $data_user = array(
+                'user_id'   =>  $data['id'],
+                'username'  =>  $data['username'],
+                'password'  =>  $data['password'],
+                'firstname'  => $data['firstname'],
+                'lastname'  =>  $data['lastname'],
+                'address'  =>   $data['address'],
+                'mail'  =>      $data['mail'],
+                'phone_number'  =>  $data['phone_number'],
+                'date_of_birth'  =>  $data['date_of_birth'],
+            );
+            $this->User->create($data_user);
+            $this->User->save();
 		}
         $this->set('error', $error);
 	}
