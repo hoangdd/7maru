@@ -29,7 +29,6 @@ class StudentController extends AppController {
 	function BuyLesson(){
 		
 	}
-<<<<<<< Updated upstream
     
     function Test(){
         
@@ -41,9 +40,9 @@ class StudentController extends AppController {
 	}
 	
 	function ViewTestResult(){}
-=======
+
 	function ChangePassword(){
 		
 	}
->>>>>>> Stashed changes
+
 }

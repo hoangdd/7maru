@@ -30,6 +30,31 @@
 			  <li><a href="#">次のテスト</a></li>
 			  
 			</ul>
+	<h1>You can't select this text by accident!</h1>
+	<button>
+	<?php echo $this->Html->image('cake.icon.png', array('id' => 'draggingDisabled')); ?>
+	</button>
+	<script type = "text/javascript">
+		window.onload = init;
+ 
+		function init() {
+		  disableDraggingFor(document.getElementById("draggingDisabled"));
+		}
+		 
+		function disableDraggingFor(element) {
+		  // this works for FireFox and WebKit in future according to http://help.dottoro.com/lhqsqbtn.php
+		  element.draggable = false;
+		  // this works for older web layout engines
+		  element.onmousedown = function(event) {
+		                event.preventDefault();
+		                return false;
+		              };
+}
+	</script>
 	
+	<object data="/home/khaclinh/Download/DS_kqxetDATN20132.pdf" type="application/pdf">
+                <embed src=" /home/khaclinh/Download/DS_kqxetDATN20132.pdf" type="application/pdf">&nbsp; </embed>
+                    alt :<a href="/home/khaclinh/Download/DS_kqxetDATN20132.pdf">
+                </object>
 	</body>
 </html>
