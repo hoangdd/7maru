@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 04, 2014 at 12:10 AM
+-- Generation Time: Mar 04, 2014 at 06:43 AM
 -- Server version: 5.5.35-0ubuntu0.12.04.2
 -- PHP Version: 5.3.10-1ubuntu3.9
 
@@ -19,6 +19,38 @@ SET time_zone = "+00:00";
 --
 -- Database: `7maru`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `7maru_admins`
+--
+
+CREATE TABLE IF NOT EXISTS `7maru_admins` (
+  `admin_id` char(20) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `7maru_admins`
+--
+
+INSERT INTO `7maru_admins` (`admin_id`, `username`, `password`) VALUES
+('''1''', 'dac', '123'),
+('''2''', 'hoang', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `7maru_admin_ips`
+--
+
+CREATE TABLE IF NOT EXISTS `7maru_admin_ips` (
+  `ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(30) NOT NULL,
+  PRIMARY KEY (`ip_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -280,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `7maru_rate_comas` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`rate_id`),
   UNIQUE KEY `rate_id` (`rate_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `7maru_rate_comas`
@@ -385,6 +417,20 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `7maru_users`
+--
+
+INSERT INTO `7maru_users` (`user_id`, `username`, `firstname`, `lastname`, `date_of_birth`, `address`, `password`, `user_type`, `mail`, `phone_number`, `created`, `modified`, `foreign_id`, `verifycode_question`, `verifycode_answer`) VALUES
+('1', 'dac', 'dac', 'hoang', NULL, NULL, 'a16601fdae893294d613fb12e252cb2b0bb3b560', 1, NULL, NULL, '2014-03-04 00:47:04', '2014-03-04 00:47:04', '', '', ''),
+('2', 'hoang', 'dac', 'hoang', NULL, NULL, 'b7e894fb9a364e9fc2db421ac49e0574cfda7191', 1, NULL, NULL, '2014-03-04 00:49:33', '2014-03-04 00:49:33', '', '', ''),
+('3', 'viet', 'viet', 'to', NULL, NULL, 'ab4c7c73b3b6bd6f93dd0082b1b173c82858ff42', 1, NULL, NULL, '2014-03-04 00:50:30', '2014-03-04 00:50:30', '', '', ''),
+('4', 'dat', 'dat', 'to', NULL, NULL, '6088898e80dd32fed07b5af3bb074dd6466100c4', 1, NULL, NULL, '2014-03-04 00:50:46', '2014-03-04 00:50:46', '', '', ''),
+('5', 'tam', 'dat', 'to', NULL, NULL, 'e9d37c14eea93599d205b90006f06f7887a100ba', 2, NULL, NULL, '2014-03-04 00:51:40', '2014-03-04 00:51:40', '', '', ''),
+('6', 'vy', 'TuongVy', 'to', NULL, NULL, '23493fb02d4a0c6a7fb3ca894b75bd324073db45', 2, NULL, NULL, '2014-03-04 00:52:33', '2014-03-04 00:52:33', '', '', ''),
+('7', 'giang', 'Giang', 'Vu', NULL, NULL, '18347141b162c4624e517bc383a49ff7768f7111', 2, NULL, NULL, '2014-03-04 00:53:05', '2014-03-04 00:53:05', '', '', ''),
+('8', 'dung', 'Dung', 'Phuong', NULL, NULL, 'fb0f59d24acf54dabdd9810ed5461824645fe29c', 2, NULL, NULL, '2014-03-04 00:53:36', '2014-03-04 00:53:36', '', '', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
