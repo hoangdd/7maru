@@ -1,6 +1,12 @@
 <?php
 class AdminController extends AppController {
     public $uses = 'User';
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow(array('index'));
+        $this->Auth->allow(array('Notification'));
+        $this->Auth->allow(array('CreateAdmin'));
+    }
 	function index(){
 
 	}
