@@ -8,7 +8,7 @@
     echo $this->Html->css('common');
     $lesson = array(
         'title' =>  'Tokyo Hot',
-        'image' =>  'tokyo hot.jpg',
+        'image' =>  'tokyo_hot.jpg',
         'stars' => 2.5,
         'reader' => 4,
         'ranker' => 3,

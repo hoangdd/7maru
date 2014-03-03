@@ -1,5 +1,5 @@
 <?php
 
 class Student extends AppModel {
-var $name='User';
+    public $primaryKey = 'student_id';
 }
