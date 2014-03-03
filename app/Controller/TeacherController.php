@@ -244,8 +244,33 @@ class TeacherController extends AppController {
 	}
 
 	function Statistic(){
+        // $this->loadModel(array('Student','Coma','Transaction','RateComa')); 
+        // //get id
+        // $id = $this->Auth->user('id');            
+        // $options = array();    
+        // //get data for today
+        // $date = data('dd/mm/yyyy',time());
+        // //get number of rates   
 
+        // //get number of purchase
+
+        
+        // $dataOfDay = array();
+        
+        //get begin day
+        //get data for all day        
 	}
+    function StatisticOption($begin = null, $end = null){
+        $this->layout = null;
+        if ($begin === null){            
+            
+        }
+        if ($end === null){
+            
+        }
+        //get data
+
+    }
 	function ChangePassword(){
 	}
 	
