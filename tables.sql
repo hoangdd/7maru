@@ -1,7 +1,7 @@
 /*Users table -> storage user infomation*/
 create table 7maru_users(
 	user_id char(20) not null,
-	-- foreign_id char(20) not null,/*Foreign key to 2 tables :(*/
+	foreign_id char(20) not null,/*Foreign key to 2 tables :(*/
 	username char(30) not null,
 	firstname varchar(30),
 	lastname varchar(30),
@@ -11,6 +11,10 @@ create table 7maru_users(
 	user_type integer, /*student -> 1, teacher ->2*/
 	mail varchar(30),
 	phone_number varchar(15), 
+	verifycode varchar(30),
+	verify_question int, 
+	image_profile varchar(50),
+	fill_character varchar(20),
 	primary key (user_id),
 	created datetime, 
 	modified datetime
