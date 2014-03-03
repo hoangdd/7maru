@@ -31,11 +31,15 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	
-
          public $components = array(
         'Session',
+         'DebugKit.Toolbar',
         'Auth' => array(
+            'loginAction' => array(
+                'controller' => 'login',
+                'action' => 'index',
+                'plugin' => null
+             ),
             'loginRedirect' => array(
                 'controller' => 'home',
                 'action' => 'index'
@@ -44,11 +48,25 @@ class AppController extends Controller {
                 'controller' => 'login',
                 'action' => 'index',
                 'home'
-            )
-        )
+            ),
+            'passwordHasher' => array(
+                    'className' => 'Simple',
+                    'hashType' => 'sha1'
+                ),
+            'authenticate' => array(
+                    'Digest' => array(
+                        'userModel' => 'User',
+                    'fields' => array(
+                        'username' => 'username',
+                        'password' => 'password'
+                    )
+                        )
+                )           
+        ),
+
     );
 
     public function beforeFilter() {
-       // $this->Auth->allow('index', 'view');
+       $this->Auth->allow('*');
     }
 }

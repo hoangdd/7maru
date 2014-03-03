@@ -7,6 +7,8 @@
 	<table class="table table-striped table-bordered">
 
 		<thead>
+
+
 			<tr>
 
 				<th class='text-center' style="width:5%">
@@ -45,255 +47,31 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
+			<?php 
+				$i=1;
+				foreach($data as $user):
+			?>
+			<tr>				
 				<td class='text-center'>
-					1
+					<?php echo $i++; ?>
 				</td>
-				<td class=''>
-					Do Duc Hoang
+				<td class='text-center'>
+					<?php echo $user['User']['lastname'].$user['User']['firstname'] ?>
 				</td>
 
 				<td class='text-center'>
-					hoangdd
+					<?php echo $user['User']['username'] ?>
 				</td>
 
 				<td class='text-center'>
-					T
+					<?php echo $user['User']['user_type'] ?>
 				</td>
 				<td class='text-center'>
-					25/09/91
+					<?php echo $user['User']['date_of_birth'] ?>
 				</td>
 
 				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
+					<?php echo $user['User']['created'] ?>
 				</td>
 
 				<td class='text-center'>
@@ -311,44 +89,9 @@
 					<a href="#"></a>
 				</td>
 			</tr>
-			<tr>
-				<td class='text-center'>
-					1
-				</td>
-				<td class=''>
-					Do Duc Hoang
-				</td>
-
-				<td class='text-center'>
-					hoangdd
-				</td>
-
-				<td class='text-center'>
-					T
-				</td>
-				<td class='text-center'>
-					25/09/91
-				</td>
-
-				<td class='text-center'>
-					27/3/2013 00:00
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-			</tr>			
+			<?php
+				endforeach;
+			?>
 		</tbody>
 	</table>
 </div>

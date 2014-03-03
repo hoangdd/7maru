@@ -16,14 +16,20 @@ class User extends AppModel {
         )
     );
     
-    public function beforeSave($options = array()) {
-    if (isset($this->data[$this->alias]['password'])) {
-        $passwordHasher = new SimplePasswordHasher();
-        $password =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
-        $this->data[$this->alias]['password'] = $passwordHasher->hash(
-          $password
-        );
+function hashPasswords($data, $enforce=false) {
+   if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
+              if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
+                  $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
+                    $this->data[$this->alias]['password'] = Security::hash($stringToHash,'sha1');
+                }
+            }
+
+        return $data;
     }
+
+
+    public function beforeSave($options = array()) {    
+    $this->data = $this->hashPasswords($this->data,true);
     return true;
 }
 }

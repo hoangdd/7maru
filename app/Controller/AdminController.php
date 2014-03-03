@@ -1,12 +1,7 @@
 <?php
 class AdminController extends AppController {
-    public $uses = 'User';
-    public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow(array('index'));
-        $this->Auth->allow(array('Notification'));
-        $this->Auth->allow(array('CreateAdmin'));
-    }
+    public $uses = array('User');
+    public $components = array('Paginator','RequestHandler');
 	function index(){
 
 	}
@@ -36,7 +31,18 @@ class AdminController extends AppController {
 
     }        
     function userManage(){
-        
+         $paginate = array(
+        'limit' => 10,
+        'fields' => array('User.firstname','User.lastname','User.username','User.date_of_birth','User.user_type','User.created')
+             
+    ); 
+        $this->Paginator->settings = $paginate;
+        // $this->Paginator->options(array(
+        //     'update' => '#content',
+        //     'evalScripts' => true
+        //     ));
+         $data = $this->Paginator->paginate('User');
+        $this->set('data', $data);
     }
     function blockUser(){
         
