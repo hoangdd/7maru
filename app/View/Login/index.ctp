@@ -1,13 +1,13 @@
 <div class="col-md-5">
-<form role="form">
+<form  role="form" method="post" id="UserLoginForm">
 	<h1>Login</h1>
   <div class="form-group">
     <label for="inputUsername">Username</label>
-    <input type="Username" class="form-control" id="inputUsername1" placeholder="Username">
+    <input name="data[User][username]" type="Username" class="form-control" id="inputUsername1" placeholder="Username">
   </div>
   <div class="form-group">
     <label for="inputPassword">Password</label>
-    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    <input name="data[User][password]" type="password" class="form-control" id="inputPassword" placeholder="Password">
   </div>
   <div class="login_form_label_field">
 	<a rel="nofollow" href="">Forgot your password?</a>
