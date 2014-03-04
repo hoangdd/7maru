@@ -2,7 +2,7 @@
 echo $this->Html->css('common');
 //debug($error);
 ?>
-
+<div class="col-md-12 highlight" style="background-image: url(/7maru/img/51e356f4_2c9625be_1_2_resize.jpg);background-repeat: no-repeat;background-position: top center;">
 <h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
@@ -27,7 +27,7 @@ echo $this->Html->css('common');
                                 endforeach;
                             }
                         ?>
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -49,7 +49,7 @@ echo $this->Html->css('common');
                                 endforeach;
                             }
                         ?>
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -71,7 +71,7 @@ echo $this->Html->css('common');
                                 endforeach;
                             }
                         ?>
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -85,7 +85,7 @@ echo $this->Html->css('common');
                 <td>
                     <div class="col-md-12">
                         <input type="email" name='mail' class="form-control" placeholder="Enter your mail">
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -107,7 +107,7 @@ echo $this->Html->css('common');
                                 endforeach;
                             }
                         ?>
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -129,7 +129,7 @@ echo $this->Html->css('common');
                                 endforeach;
                             }
                         ?>
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -207,7 +207,7 @@ echo $this->Html->css('common');
                 <td>
                     <div class="col-md-12">
                         <input type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
-                        <span class="glyphicon glyphicon-asterisk span_star"></span>
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -224,7 +224,7 @@ echo $this->Html->css('common');
                           <option>What subject do you like?</option>
                           <option>What activity do you like?</option>
                           <option>What do you do freetime?</option>
-                          <option>How often learn homework?</option>
+                          <option>How often do learn homework?</option>
                         </select>
                     </div>
                 </td>
@@ -290,4 +290,5 @@ echo $this->Html->css('common');
         </div>         
         <input type="submit">
     </form>
+</div>
 </div>

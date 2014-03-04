@@ -1,5 +1,8 @@
 <?php
 
 class Student extends AppModel {
-var $name='User';
+<<<<<<< Updated upstream
+    public $primaryKey = 'student_id';
+=======
+>>>>>>> Stashed changes
 }

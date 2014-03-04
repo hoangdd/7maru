@@ -5,7 +5,7 @@ echo $this->Html->css('common');
 <h1 class="center-block">Create another admin</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" action="register" method="POST">
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -36,7 +36,7 @@ echo $this->Html->css('common');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">RetypePassword:</label>
+                        <label class="pull-left control-label">Retype Password:</label>
                     </div>
                 </td>
                 <td>
@@ -46,7 +46,8 @@ echo $this->Html->css('common');
                 </td>
             </tr>
         </table>
-        <div class="align-right">
+        <div class="text-center">
+            <input type="submit">
             <button type="button" class="btn btn-primary" type="submit">Register</button>
             <button type="button" class="btn btn-primary">Cancel</button>
         </div>         

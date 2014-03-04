@@ -195,8 +195,8 @@ class TeacherController extends AppController {
             */
             $data_teacher = array(
                 'teacher_id'    =>  $data['id']."teacher",
-                'bank_account' =>   $data['bank_account'],
-                'office'    =>      $data['office'],
+                'bank_account'  =>  $data['bank_account'],
+                'office'        =>  $data['office'],
                 'description'   =>  $data['description'],
             );
             if($check_teacher==true){
@@ -208,15 +208,17 @@ class TeacherController extends AppController {
             /*
             *   username,firstname,lastname,date_of_birth,address,password,
             *   user_type,mail,phone_number
-            */
+            */            
             $data_user = array(
                 'user_id'   =>  $data['id'],
+                'foreign'   =>  $data[''],
                 'username'  =>  $data['username'],
                 'password'  =>  $data['password'],
                 'firstname'  => $data['firstname'],
                 'lastname'  =>  $data['lastname'],
                 'address'  =>   $data['address'],
-                'mail'  =>      $data['mail'],
+                'image_profile' => $data['image_profile'],
+                'mail'  =>  $data['mail'],
                 'phone_number'  =>  $data['phone_number'],
                 'date_of_birth'  =>  $data['date_of_birth'],
                 'user_type' =>  1,
@@ -242,8 +244,33 @@ class TeacherController extends AppController {
 	}
 
 	function Statistic(){
+        // $this->loadModel(array('Student','Coma','Transaction','RateComa')); 
+        // //get id
+        // $id = $this->Auth->user('id');            
+        // $options = array();    
+        // //get data for today
+        // $date = data('dd/mm/yyyy',time());
+        // //get number of rates   
 
+        // //get number of purchase
+
+        
+        // $dataOfDay = array();
+        
+        //get begin day
+        //get data for all day        
 	}
+    function StatisticOption($begin = null, $end = null){
+        $this->layout = null;
+        if ($begin === null){            
+            
+        }
+        if ($end === null){
+            
+        }
+        //get data
+
+    }
 	function ChangePassword(){
 	}
 	

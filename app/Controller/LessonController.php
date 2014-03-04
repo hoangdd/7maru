@@ -32,6 +32,8 @@ class LessonController extends AppController {
 		
 	}
 	function View(){
-		
+	}
+	
+	function Comment(){
 	}
 }
