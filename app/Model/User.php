@@ -20,7 +20,7 @@ class User extends AppModel {
                   if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
                       $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
                       $hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
-                        $this->data[$this->alias]['password'] = $hasher->hash($stringToHash);
+                      $this->data[$this->alias]['password'] = $hasher->hash($stringToHash);
                     }
                 }
 
