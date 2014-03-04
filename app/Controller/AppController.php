@@ -33,40 +33,26 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
          public $components = array(
         'Session',
-         'DebugKit.Toolbar',
+        'DebugKit.Toolbar',
         'Auth' => array(
-            'loginAction' => array(
-                'controller' => 'login',
-                'action' => 'index',
-                'plugin' => null
-             ),
-            'loginRedirect' => array(
-                'controller' => 'home',
-                'action' => 'index'
-            ),
-            'logoutRedirect' => array(
-                'controller' => 'login',
-                'action' => 'index',
-                'home'
-            ),
-            'passwordHasher' => array(
-                    'className' => 'Simple',
-                    'hashType' => 'sha1'
-                ),
             'authenticate' => array(
-                    'Digest' => array(
-                        'userModel' => 'User',
+                'Form' => array(
                     'fields' => array(
                         'username' => 'username',
-                        'password' => 'password'
+                        'password' =>'password',
                     )
-                        )
-                )           
+                )
+            ),
+            'loginAction' => array(
+                'controller' => 'Login',
+                'action' => 'index',
+            ),
+            'loginRedirect' =>array(
+                'controller' => 'Home',
+                'action' => 'index'
+            ),
+            'authError' => 'You don\'t have permission to view this page',
         ),
 
     );
-
-    public function beforeFilter() {
-       $this->Auth->allow('*');
-    }
 }
