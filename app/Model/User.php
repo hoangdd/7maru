@@ -16,7 +16,7 @@ class User extends AppModel {
         )
     );
     
-    function hashPasswords($data, $enforce=false) {
+    function hashPassword($data, $enforce=false) {
         if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
                   if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
                       $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
@@ -30,10 +30,9 @@ class User extends AppModel {
 
     public function beforeSave($options = array()) {    
 
-        //generate user id
         
         //hash password
-        $this->data = $this->hashPasswords($this->data,true);
+        $this->data = $this->hashPassword($this->data,true);
 
         return true;
     }

@@ -40,6 +40,10 @@ class AppController extends Controller {
                     'fields' => array(
                         'username' => 'username',
                         'password' =>'password',
+                    ),
+                    'passwordHasher' => array(
+                        'className' => 'Simple',
+                        'hashType' => 'sha1'
                     )
                 )
             ),

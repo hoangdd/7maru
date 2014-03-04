@@ -11,6 +11,8 @@ class LoginController extends AppController {
 
     function index() {
         if($this->request->is('post')){
+            $data = $this->request->data['User'];
+            $this->request->data['User']['password'] = $data['username'].$data['password'];
             if($this->Auth->login()){
                 // Login success
                 $this->Session->setFlash(__("Login success"));
@@ -31,7 +33,7 @@ class LoginController extends AppController {
        if ($this->request->is('post')) {
 
             $data = $this->request->data;
-            $current = $this->User->hashPasswords($data['current-pw']);
+            $current = $this->User->hashPassword($data['current-pw']);
             $new = $data['new-pw'];
             $confirm = $data['confirm-pw'];
             
