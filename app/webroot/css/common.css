@@ -89,7 +89,12 @@ h1{
     color: #DD0000;
 }
 td{
-    padding: 5px!important;
+    padding: 10px!important;
+}
+span.span_star{
+    position: absolute;
+    width:5px; height:5px;
+    right:0; top:0;
 }
 
 /**

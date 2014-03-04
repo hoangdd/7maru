@@ -92,7 +92,7 @@
             <div class="pull-left col-xs-3">
                 <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
                     <a href="">
-                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
+                        <img src="/7maru/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
                     </a>
                 </div>
                 <div class="star center-block" style="padding: 5px">

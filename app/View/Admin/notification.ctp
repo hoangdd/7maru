@@ -77,12 +77,13 @@
             </div>
             <!--panel body-->
             <div class="panel-body">
-                    <label>Input:</label>
                     <div class="text-center">
                         <?php
                             echo $this->Form->input('Message : ',array('type'=>'select','options'=>$message)); 
                         ?>
                     </div>
+                    <label>Input:</label>
+                    <textarea class="form-control" rows="2"></textarea>
                 </form>
                 <p></p>
                 <div class="multiselect">

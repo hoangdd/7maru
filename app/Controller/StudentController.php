@@ -6,7 +6,9 @@ class StudentController extends AppController {
 	}
 
 	function Register(){
-
+        if($this->request->isPost()){
+            $this->log($this->request->data);
+        }
 	}
 
 

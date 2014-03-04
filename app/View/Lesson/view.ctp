@@ -1,3 +1,10 @@
+<script>
+     $(document).ready(function() {
+        $('#Gdocviewer').gdocsViewer({width: 600, height: 750});
+//        $('#embedURL').gdocsViewer();
+    });   
+</script>
+
 <?php
 /**
 *   view.ctp
@@ -8,7 +15,7 @@
     echo $this->Html->css('common');
     $lesson = array(
         'title' =>  'Tokyo Hot',
-        'image' =>  'tokyo hot.jpg',
+//        'image' =>  'tokyo hot.jpg',
         'stars' => 2.5,
         'reader' => 4,
         'ranker' => 3,
@@ -79,7 +86,8 @@
             <div class="panel-body">
                 <!-- content of lesson -->
                 <div>
-                    <textarea class="form-control" rows="40"></textarea>
+<!--                    <textarea class="form-control" rows="40"></textarea>-->
+                    <a href="/7maru/files/Schedule.xlsx" id="Gdocviewer"> Document view </a>
                 </div>
             </div>
         </div>
