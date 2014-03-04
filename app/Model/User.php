@@ -15,12 +15,12 @@ class User extends AppModel {
             'message' => 'A password is required'
         )
     );
-    
     function hashPassword($data, $enforce=false) {
         if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
                   if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
                       $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
-                        $this->data[$this->alias]['password'] = Security::hash($stringToHash,'sha1');
+                      $hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
+                        $this->data[$this->alias]['password'] = $hasher->hash($stringToHash);
                     }
                 }
 
