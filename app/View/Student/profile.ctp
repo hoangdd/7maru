@@ -39,36 +39,27 @@
 </div>
 <div class="col-md-9">
 	<dl style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px; background:#99FF33;width:600px;border-radius:25px;" class="dl-horizontal">
-    <?php
-    $user=array('username'=>'PhiLP',
-    'realname'=>'Luu Diec Phi',
-    'date_of_birth'=>'25/8/1987',
-    'address'=>'Hoang Mai, Hai Ba Trung, Ha Noi',
-    'phone_number'=>'01685914218',
-    'created'=>'23/2/2014',
-    'bank_account'=>'ADGDGDGD3232DGDG'
-      )
-    ?>
+
       <dt>User name:</dt>
-      <dd><?php echo $user['username'];?></dd>
+      <dd><?php echo $data['username'];?></dd>
       <br>
       <dt>Real name:</dt>
-      <dd><?php echo $user['realname'];?></dd>
+      <dd><?php echo $data['realname'];?></dd>
       <br>
       <dt>Birthday:</dt>
-      <dd><?php echo $user['date_of_birth'];?></dd>
+      <dd><?php echo $data['date_of_birth'];?></dd>
       <br>
       <dt>Living:</dt>
-      <dd><?php echo $user['address'];?></dd>
+      <dd><?php echo $data['address'];?></dd>
       <br>
       <dt>Telephone number:</dt>
-      <dd><?php echo $user['phone_number'];?></dd>
+      <dd><?php echo $data['phone_number'];?></dd>
       <br>
       <dt>Regitration Date:<dt>
-      <dd><?php echo $user['created'];?></dd>
+      <dd><?php echo $data['created'];?></dd>
       <br>
       <dt>Bank Account:</dt>
-      <dd><?php echo $user['bank_account'];?></dd>
+      <dd><?php echo $data['bank_account'];?></dd>
       <br>
       </dl>
       
