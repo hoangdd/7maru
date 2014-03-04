@@ -61,7 +61,6 @@ class LoginController extends AppController {
 
     function index() {
         if($this->request->is('post')){
-            echo 'vao dat';
             if($this->Auth->login()){
                 // Login success
                 $this->Session->setFlash(__("Login success"));
