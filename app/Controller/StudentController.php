@@ -1,6 +1,11 @@
 <?php
 class StudentController extends AppController {
+
     public $uses = array('User','Student');
+
+	public $uses = array('Student', 'User');
+    
+
 	function index(){
 
 	}
@@ -226,9 +231,16 @@ class StudentController extends AppController {
         $this->set('error', $error);
 	}
 
-
 	function Profile(){
-
+		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
+        // $data=$this->User->query($sql);
+        $data = $this->User->find('first', array(
+        	'conditions' => array(
+        		'User.user_id' => $pid,
+        		)
+        	));
+        $this->set("data",$data);
+        
 	}
 
 	function EditProfile(){
