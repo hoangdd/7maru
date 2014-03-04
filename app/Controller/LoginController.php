@@ -8,56 +8,6 @@ class LoginController extends AppController {
         parent::beforeFilter();
         $this->Auth->allow('index');
     }
-    function changePassword() {
-        //var_dump($Articles);
-        // debug($this->request->data);
-        $data = array();
-        $_sessionUsername = $this->Session->read('username');
-        if ($_sessionUsername) {
-            if ($this->request->is('post')) {
-                //   debug($this->request->data);
-                //$this->User->set($this->request->data);
-                if (isset($_POST['ok'])) {
-                    $currentPassword = $_POST['currentPassword'];
-                    $newPassword = $_POST['newPassword'];
-                    //debug($newPassword);die;
-                    $data['res'] = $this->User->find('first', array(
-                        'conditions' => array(
-                            'User.username' => $_sessionUsername,
-                        ),
-                    ));
-
-                    if ($currentPassword === $data['res']['User']['password']) {
-                        if ($_POST['newPassword'] === $_POST['confirmPassword']) {
-
-//                            $user_id = '123';
-                            $updatePassword = $this->User->updateAll(
-                                    array('User.password' => "'" . $newPassword . "'"), array('User.username' => $_sessionUsername)
-                            );
-                            echo 'x';
-                            die;
-                            if ($updatePassword) {
-                                debug($updatePassword);
-                                $data['errorCurrentPassword'][0] = 'The user has been saved';
-                                //$this->redirect('../Home/index');
-                            } else {
-                                $data['errorCurrentPassword'][1] = 'The user could not be saved. Please, try again.';
-                            }
-                        } else {
-                            $data['errorCurrentPassword'][2] = 'Password do not match';
-                        }
-                    } else {
-                        $data['errorCurrentPassword'][3] = 'Current password invalid';
-                    }
-                }
-            } else {
-                // didn't validate logic
-                $data['errors'] = $this->User->validationErrors;
-            }
-        } else {
-            $this->redirect('/login/index');
-        }
-    }
 
     function index() {
         if($this->request->is('post')){
@@ -76,6 +26,57 @@ class LoginController extends AppController {
             }
         }
     }
+
+    function changePassword() {      
+       if ($this->request->is('post')) {
+
+            $data = $this->request->data;
+            $current = $this->User->hashPasswords($data['current-pw']);
+            $new = $data['new-pw'];
+            $confirm = $data['confirm-pw'];
+            
+            $error[] = $this->User->validationErrors;
+            
+
+            if( $new!=$confirm ) {
+                $error[] = 'Password do not match';
+                return;
+            }
+
+            $user = $this->User->find('first', array(
+                'conditions' => array(
+                    'User.username' => $this->Auth->User('username'),
+                ),
+            ));
+
+            if ( $current === $user['User']['password'] ) {
+                    $updatePassword = $this->User->updateAll(
+                        array(
+                            'User.password' => "'" . $new . "'"
+                            ), 
+                        array(
+                            'User.user_id' => $this->Auth->User('user_id')
+                            )
+                    );
+                    if ($updatePassword) {
+                        $this->Session->setFlash('The user has been saved');
+                        $this->redirect(array(
+                            'controller' => 'Home',
+                            'action' => 'index',
+                            ));
+                    } else {
+                        $error[] = 'The user could not be saved. Please, try again.';
+                    }
+            } else {
+                $error[] = 'Current password invalid';
+            }
+            // didn't validate logic
+            $this->set('error', $error);
+        }
+            
+    }
+
+    
 
     //---------- Logout 
     function logout() {

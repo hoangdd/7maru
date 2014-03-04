@@ -25,11 +25,16 @@ class User extends AppModel {
                 }
 
             return $data;
-        }
+    }
 
 
-        public function beforeSave($options = array()) {    
+    public function beforeSave($options = array()) {    
+
+        //generate user id
+        
+        //hash password
         $this->data = $this->hashPasswords($this->data,true);
+
         return true;
     }
 }
