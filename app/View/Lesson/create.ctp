@@ -4,7 +4,7 @@
     <form class="form-horizontal" method="post" action="#">
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Category</label>
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
 <!--
                 <select class="form-control" id="lesson_type" name="category">
                   <?php  
