@@ -75,7 +75,7 @@
                         ?>
                     </div>
                     <label>Input:</label>
-                    <textarea class="form-control" rows="2"></textarea>
+                    <textarea class="form-control" rows="2" id="privateTextarea"></textarea>
                 </form>
                 <p></p>
                 <div class="multiselect">
@@ -101,7 +101,7 @@
                         <span class="glyphicon glyphicon-envelope"></span> Post
                         </button>
                     
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" class="btn btn-warning" onClick="resetTextarea();">
                         <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
@@ -118,4 +118,8 @@
             $(".check_box input").prop('checked',status);
         })
     })
+    function resetTextarea(){
+        document.getElementById('privateTextarea').value = "";
+        $(".check_box input").prop('checked',false);
+    };
 </script>
