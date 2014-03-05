@@ -39,13 +39,9 @@ class AdminController extends AppController {
         $this->Auth->userModel = 'Admin';
         $this->Auth->allow('login','logout');
     }
-<<<<<<< Updated upstream
-=======
 	function index(){
 
 	}
->>>>>>> Stashed changes
-    
     function CreateAdmin(){
         $error = array();
         $user_re_ex = '/^[A-Za-z]\w+$/';
@@ -184,12 +180,7 @@ class AdminController extends AppController {
     function login(){
         if($this->request->is('post')){
             $data = $this->request->data['Admin'];
-<<<<<<< Updated upstream
-            $this->request->data['Admin']['password'] = $data['Admin']['username'].$data['Admin']['password'];
-=======
             $this->request->data['Admin']['password'] = (string)($data['username'].$data['password']);
-
->>>>>>> Stashed changes
             if($this->Auth->login()){
                 // Login success
                 $this->Session->setFlash(__("Login success"));
