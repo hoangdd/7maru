@@ -37,6 +37,7 @@ class AppController extends Controller {
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
+                    'userModel' => 'User',
                     'fields' => array(
                         'username' => 'username',
                         'password' =>'password',
