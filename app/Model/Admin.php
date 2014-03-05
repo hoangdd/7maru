@@ -1,5 +1,7 @@
 <?php
 class Admin extends AppModel {
+
+  public $useTable = false;
   public $primarykey = 'admin_id';
   public $validate = array(
       'username' => array(

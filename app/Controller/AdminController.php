@@ -30,6 +30,9 @@ class AdminController extends AppController {
         'RequestHandler'
         );
 //    public $components = array('Paginator','RequestHandler');
+	function index(){
+    }
+    
     public function beforeFilter(){
         parent::beforeFilter();
         $this->Auth->userModel = 'Admin';
@@ -37,9 +40,6 @@ class AdminController extends AppController {
         $this->Auth->allow('CreateAdmin');
         $this->Auth->allow('Notification');
     }
-	function index(){
-
-	}
     function CreateAdmin(){
         $error = array();
         $user_re_ex = '/^[A-Za-z]\w+$/';
@@ -222,7 +222,7 @@ class AdminController extends AppController {
         'limit' => 10,
         'fields' => array('User.firstname','User.lastname','User.username','User.date_of_birth','User.user_type','User.created')
              
-    ); 
+        ); 
         $this->Paginator->settings = $paginate;
         // $this->Paginator->options(array(
         //     'update' => '#content',
@@ -233,6 +233,35 @@ class AdminController extends AppController {
     }
     function blockUser(){
         
+    }
+    function ip_manage() {
+//     	$data = $this->
+    	$totalIp = array('1','2','3','4','5','6','7');
+    	$i = 1;$arrayItem;$arrayFinal;
+    	foreach ($totalIp as $item) {
+    		if($i%3 == 1) $arrayItem = array($item);
+    		else $arrayItem = array_merge($arrayItem,array($item));
+    		if($i%3 == 0) {
+    			if($i/3 <= 1) {
+    				
+    				$arrayFinal = array('1' => $arrayItem);
+    			}
+    			else {
+    				
+    				$ij = $i/3;
+    				$arrayFinal += array($ij => $arrayItem);
+    			}
+    		}
+    		$i++;
+    		
+    	}
+    	
+    	if($i%3 != 0){
+    		$ij = $i/3 + 1;
+    		if($i/3 == 0) $arrayFinal = array($ij => $arrayItem);
+    		else $arrayFinal += array($ij => $arrayItem);
+    	}
+    	$this->set("array_list",$arrayFinal);
     }
 	//...
 }

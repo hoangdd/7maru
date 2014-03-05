@@ -72,3 +72,14 @@ a:visited {
 	font-weight: bold;
 	color:#FF0000 ;
 }
+
+#txt {
+border:2px solid red;
+font-family:verdana;
+font-size:16pt;
+font-weight:bold;
+background: #FECFC7;
+width:70px;
+text-align:center;
+color:#000000;
+}

@@ -32,174 +32,30 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td class='no-col'>
-					1
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
+			<?php 
+			$array_item = $array_list['2'];
+			$i = 1;
+			foreach($array_item as $value){
+			echo"<tr>
+				<td class='no-col'>".
+					$i.
+				"</td>
+				<td class='ip-col'>"
+					.$value.
+				"</td>
 
 				<td class='del-ip-col'>
-					<a href="#">Delete</a>
+					<a href=#>Delete</a>
 				</td>
 
 				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
+					<a href=#>Edit</a>
 				</td>
 			</tr>
-			<tr>
-				<td class='no-col'>
-					2
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					3
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					4
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					5
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					6
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					7
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					8
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					9
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					10
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
+			";
+			$i++;
+			}
+			?>
 			<tr>
 				<td class='no-col'>
 					<button type="button" class="btn btn-default">
@@ -228,11 +84,12 @@
 <div class='text-center'>
 	<ul class="pagination">
 	  <li><a href="#">&laquo;</a></li>
-	  <li><a href="#">1</a></li>
-	  <li><a href="#">2</a></li>
-	  <li><a href="#">3</a></li>
-	  <li><a href="#">4</a></li>
-	  <li><a href="#">5</a></li>
+	  <?php 
+	  $i = count($array_list);
+	  for($ij = 1; $ij <= $i; $ij++){
+		  echo "<li><a href=#>".$ij."</a></li>";
+		}
+	?>
 	  <li><a href="#">&raquo;</a></li>
 	</ul>
 
