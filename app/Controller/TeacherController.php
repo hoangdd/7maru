@@ -186,6 +186,18 @@ class TeacherController extends AppController {
 			}
             //=================================
             
+            //check phone number
+            
+			if(!empty($data['phone_number'])){
+                if(strlen($data['phone_number']) < 10){
+                    $error['phone_number'][0] ='Phone number is too short.';
+                }
+
+                if(strlen($data['phone_number']) > 15){
+                    $error['phone_number'][1] ='Phone number is too long.';
+                }
+            }
+            //====================================
 			//xong check
 			// tien hanh luu du lieu vao Model
             $data['id'] =$data['username'].''.$data['password'];
@@ -217,7 +229,7 @@ class TeacherController extends AppController {
                 'firstname'  => $data['firstname'],
                 'lastname'  =>  $data['lastname'],
                 'address'  =>   $data['address'],
-                'image_profile' => $data['image_profile'],
+                //'image_profile' => $data['image_profile'],
                 'mail'  =>  $data['mail'],
                 'phone_number'  =>  $data['phone_number'],
                 'date_of_birth'  =>  $data['date_of_birth'],

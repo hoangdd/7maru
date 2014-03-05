@@ -17,14 +17,6 @@
 
 <?php
     echo $this->Html->css('common');
-    $user = array(
-        'name'  =>  array('Nguyen Van A','Nguyen Van B','Nguyen Van C',
-                         'Nguyen Van D','Nguyen Van E','Nguyen Van F',
-                         'Nguyen Van G','Nguyen Van H','Nguyen Van I',
-                         'Nguyen Van J','Nguyen Van K','Nguyen Van L',
-                         'Nguyen Van M','Nguyen Van N','Nguyen Van O',
-                         'Nguyen Van P','Nguyen Van Q','Nguyen Van R',),
-    );
     $message = array('Your lesson has many violation from student.',
                      'Your comments were violation.',
                      'You copied lesson of other.',
@@ -87,11 +79,20 @@
                 </form>
                 <p></p>
                 <div class="multiselect">
-                    <?php
-                        foreach ($user['name'] as $name):
-                           echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
-                        endforeach;
-                    ?>
+                    <table class="table table-bordered table-hover">
+                        <th class="danger"><labe>Name</labe></th>
+                        <th class="danger"><labe>Username</labe></th>
+                        <th class="danger"><labe><input type="checkbox"/>Check</labe></th>
+                        <?php
+                            /*foreach ($user['name'] as $name):
+                               echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
+                            endforeach;*/
+                            foreach ($data as $d):
+                                echo '<tr><td>'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td>'.$d['User']['username'].'</td><td>
+                                <input type="checkbox" name="option[]"/></td></tr>';
+                            endforeach;
+                        ?>
+                    </table>
                 </div>
                 <p></p>
                 <form class="form-horizontal" role="form">
@@ -109,3 +110,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        
+    })
+</script>

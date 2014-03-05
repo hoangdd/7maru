@@ -17,11 +17,12 @@ class Admin extends AppModel {
 
         //generate admin id
 		$data = $this->data;
-		$idString = $data['username'].'admin';
-        $this->data['id'] = hash('crc32', $idString);
-		// $data['id'] = 
+		$idString = $data['Admin']['username'].'admin';
+        $this->data['Admin']['admin_id'] = hash('crc32', $idString);
+         
         //hash password
-        $this->data = $this->hashPassword($this->data,true);
+        $this->hashPassword($this->data['Admin'],true);
         return true;
     }
+    public $primaryKey = 'admin_id';
 }

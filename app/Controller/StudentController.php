@@ -1,10 +1,7 @@
 <?php
 class StudentController extends AppController {
 
-    public $uses = array('User','Student');
-
-	public $uses = array('Student', 'User');
-    
+    public $uses = array('User','Student');    
 
 	function index(){
 
@@ -189,6 +186,19 @@ class StudentController extends AppController {
 			}
             //=================================
             
+            //check phone number
+            
+			if(!empty($data['phone_number'])){
+                if(strlen($data['phone_number']) < 10){
+                    $error['phone_number'][0] ='Phone number is too short.';
+                }
+
+                if(strlen($data['phone_number']) > 15){
+                    $error['phone_number'][1] ='Phone number is too long.';
+                }
+            }
+            //====================================
+            
 			//xong check
 			// tien hanh luu du lieu vao Model
             $data['id'] =$data['username'].''.$data['password'];
@@ -213,15 +223,17 @@ class StudentController extends AppController {
             */
             $data_user = array(
                 'user_id'   =>  $data['id'],
+                'foreign'   =>  $data[''],
                 'username'  =>  $data['username'],
                 'password'  =>  $data['password'],
                 'firstname'  => $data['firstname'],
                 'lastname'  =>  $data['lastname'],
                 'address'  =>   $data['address'],
-                'mail'  =>      $data['mail'],
+                //'image_profile' => $data['image_profile'],
+                'mail'  =>  $data['mail'],
                 'phone_number'  =>  $data['phone_number'],
                 'date_of_birth'  =>  $data['date_of_birth'],
-                'user_type' =>  1,
+                'user_type' =>  2,
             );
             if($check_user==true){
                 $this->User->create($data_user);

@@ -190,9 +190,16 @@ echo $this->Html->css('common');
                         <label class="pull-left control-label">Telephone number:</label>
                     </div>
                 </td>
-                <td>
-                    <div class="col-md-12">
+               <td>
+                    <div class="col-md-12 <?php if(isset($error['phone_number'])) echo "has-error has-feedback"?>">
                         <input type="number" name='phone_number' class="form-control" placeholder="Enter telephone number">
+                        <?php
+                             if(isset($error['phone_number'])&& is_array($error['phone_number'])){
+                                foreach($error['phone_number'] as $phone_number):
+                                    echo $phone_number;
+                                endforeach;
+                            }
+                        ?>
                     </div>
                 </td>
             </tr>
