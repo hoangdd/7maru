@@ -22,3 +22,4 @@ Thumbs.db
 .buildpath
 .project
 .settings/
+/nbproject/private/
