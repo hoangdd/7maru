@@ -29,7 +29,6 @@ class User extends AppModel {
 
 
     public function beforeSave($options = array()) {    
-
         
         //hash password
         $this->data = $this->hashPassword($this->data,true);

@@ -29,6 +29,28 @@ App::uses('Model', 'Model');
  *
  * @package       app.Model
  */
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class AppModel extends Model {
+
 	public $tablePrefix = '7maru_';
+
+	//hash password with #sha1 -> return string[40]
+	protected static function _hashPassword($inputString = null){
+		if( !empty($inputString)){
+			$hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
+			return $hasher->hash((string)$inputString);
+		}else{
+			return false;
+		}
+	}
+
+	//generate id -> return string[8]
+	protected function _generateId($inputString = null){
+		if( !empty($inputString)){
+			return  hash('crc32', (string)$inputString);
+		}else{
+			return false;
+		}
+	}
+
 }

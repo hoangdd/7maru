@@ -1,5 +1,6 @@
 <?php
 class AdminController extends AppController {
+    public $uses = array('User', 'Admin');
     public $components = array(
         'Auth' => array(
             'authenticate' => array(
@@ -38,6 +39,12 @@ class AdminController extends AppController {
         $this->Auth->userModel = 'Admin';
         $this->Auth->allow('login','logout');
     }
+<<<<<<< Updated upstream
+=======
+	function index(){
+
+	}
+>>>>>>> Stashed changes
     
     function CreateAdmin(){
         $error = array();
@@ -177,7 +184,12 @@ class AdminController extends AppController {
     function login(){
         if($this->request->is('post')){
             $data = $this->request->data['Admin'];
+<<<<<<< Updated upstream
             $this->request->data['Admin']['password'] = $data['Admin']['username'].$data['Admin']['password'];
+=======
+            $this->request->data['Admin']['password'] = (string)($data['username'].$data['password']);
+
+>>>>>>> Stashed changes
             if($this->Auth->login()){
                 // Login success
                 $this->Session->setFlash(__("Login success"));

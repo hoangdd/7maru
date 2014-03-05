@@ -12,15 +12,9 @@ class LoginController extends AppController {
     }
 
     function index() {
-
-//        $stringToHash = 'hoangdd'.'123';
-//        $hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
-//        debug($hasher->hash($stringToHash));die;
-        //debug(Security::hash('123', $this->_config['hashType'], true));die;
-
         if ($this->request->is('post')) {
             $data = $this->request->data['User'];
-            $this->request->data['User']['password'] = $data['username'] . $data['password'];
+            $this->request->data['User']['password'] = (string)($data['username'] . $data['password']);
             if ($this->Auth->login()) {
                 // Login success
                 $this->Session->setFlash(__("Login success"));
@@ -113,7 +107,6 @@ class LoginController extends AppController {
         }
     }
 
-    //---------- Logout 
     function logout() {
         $this->Auth->logout();
         $this->redirect(array(
