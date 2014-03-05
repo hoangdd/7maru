@@ -29,8 +29,6 @@ class AdminController extends AppController {
         'Paginator',
         'RequestHandler'
         );
-    public $uses = array('Admin','User');
-//    public $components = array('Paginator','RequestHandler');
 	function index(){
     }
     
@@ -39,9 +37,6 @@ class AdminController extends AppController {
         $this->Auth->userModel = 'Admin';
         $this->Auth->allow('login','logout');
     }
-	function index(){
-
-	}
     function CreateAdmin(){
         $error = array();
         $user_re_ex = '/^[A-Za-z]\w+$/';
@@ -224,7 +219,7 @@ class AdminController extends AppController {
         'limit' => 10,
         'fields' => array('User.firstname','User.lastname','User.username','User.date_of_birth','User.user_type','User.created')
              
-    ); 
+        ); 
         $this->Paginator->settings = $paginate;
         // $this->Paginator->options(array(
         //     'update' => '#content',
