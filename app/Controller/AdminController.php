@@ -29,15 +29,13 @@ class AdminController extends AppController {
         'Paginator',
         'RequestHandler'
         );
-    public $uses = array('Admin','User');
 //    public $components = array('Paginator','RequestHandler');
-	function index(){
-    }
-    
     public function beforeFilter(){
         parent::beforeFilter();
         $this->Auth->userModel = 'Admin';
         $this->Auth->allow('login','logout');
+        $this->Auth->allow('CreateAdmin');
+        $this->Auth->allow('Notification');
     }
 	function index(){
 
@@ -178,14 +176,14 @@ class AdminController extends AppController {
     }
     
     function login(){
+        
         if($this->request->is('post')){
             $data = $this->request->data['Admin'];
             $this->request->data['Admin']['password'] = (string)($data['username'].$data['password']);
+            //debug($this->Admin->hashPassword($data));die;
             if($this->Auth->login()){
                 // Login success
                 $this->Session->setFlash(__("Login success"));
-
-                return $this->redirect($this->Auth->redirect());
             }else{
                 //Login fail
                 $this->Session->setFlash(

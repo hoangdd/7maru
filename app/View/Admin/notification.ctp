@@ -88,7 +88,7 @@
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
-                                echo '<tr><td>'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td>'.$d['User']['username'].'</td><td>
+                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td><td class="check_box">
                                 <input type="checkbox" name="option[]"/></td></tr>';
                             endforeach;
                         ?>
@@ -113,6 +113,9 @@
 
 <script>
     $(document).ready(function(){
-        
+        $("th input").click(function(){
+            var status = $(this).prop('checked');            
+            $(".check_box input").prop('checked',status);
+        })
     })
 </script>
