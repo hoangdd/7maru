@@ -199,45 +199,53 @@ class TeacherController extends AppController {
             }
             //====================================
 			//xong check
+            
 			// tien hanh luu du lieu vao Model
-            $data['id'] =$data['username'].''.$data['password'];
+            
+            //teacher
+            
+           
             //save data of teacher
             /*
             *   Bank_acount, office, description
             */
-            $data_teacher = array(
-                'teacher_id'    =>  $data['id']."teacher",
-                'bank_account'  =>  $data['bank_account'],
-                'office'        =>  $data['office'],
-                'description'   =>  $data['description'],
-            );
-            if($check_teacher==true){
+           
+            if($check_teacher==true && $check_user==true){
+                $data_teacher = array(
+                    'username'      =>  $data['username'], //truyen username vao
+                    'bank_account'  =>  $data['bank_account'],
+                    'office'        =>  $data['office'],
+                    'description'   =>  $data['description'],
+                );
                 $this->Teacher->create($data_teacher);
-                $this->Teacher->save();
-            }
+                
+                //luu va tra lai ket qua
+                $result = $this->Teacher->save();
             
-            //save data of user
-            /*
-            *   username,firstname,lastname,date_of_birth,address,password,
-            *   user_type,mail,phone_number
-            */            
-            $data_user = array(
-                'user_id'   =>  $data['id'],
-                'foreign'   =>  $data[''],
-                'username'  =>  $data['username'],
-                'password'  =>  $data['password'],
-                'firstname'  => $data['firstname'],
-                'lastname'  =>  $data['lastname'],
-                'address'  =>   $data['address'],
-                //'image_profile' => $data['image_profile'],
-                'mail'  =>  $data['mail'],
-                'phone_number'  =>  $data['phone_number'],
-                'date_of_birth'  =>  $data['date_of_birth'],
-                'user_type' =>  1,
-            );
-            if($check_user==true){
-                $this->User->create($data_user);
-                $this->User->save();
+                //save data of user
+                /*
+                *   username,firstname,lastname,date_of_birth,address,password,
+                *   user_type,mail,phone_number
+                */            
+                //id tu sinh
+                if(isset($result['Teacher']['teacher_id'])){
+                    $data_user = array(
+                        'foreign_id'=>  $result['Teacher']['teacher_id'],
+                        'username'  =>  $data['username'],
+                        'password'  =>  $data['password'],
+                        'firstname'  => $data['firstname'],
+                        'lastname'  =>  $data['lastname'],
+                        'address'  =>   $data['address'],
+                        //'image_profile' => $data['image_profile'],
+                        'mail'  =>  $data['mail'],
+                        'phone_number'  =>  $data['phone_number'],
+                        'date_of_birth'  =>  $data['date_of_birth'],
+                        'user_type' =>  1,
+                    );
+
+                    $this->User->create($data_user);
+                    $this->User->save();
+                }
             }
 		}
         $this->set('error', $error);
@@ -287,7 +295,21 @@ class TeacherController extends AppController {
 	}
 	
 	function CreateLesson() {
-		
+        //vao day test thu, do~ phai dien
+		    $data_teacher = array(
+                'username'      =>  'hoangdd', //truyen username vao
+                'bank_account'  =>  'HSNSM',
+                'office'        =>  'bkhn',
+                'description'   =>  'xxx',
+            );
+           
+                $this->Teacher->create($data_teacher);
+                
+                //luu va tra lai ket qua
+                $result = $this->Teacher->save();
+                debug($result);
+        die;
+           
 	}
 	
 	function  EditLession() {
