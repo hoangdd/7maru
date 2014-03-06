@@ -1,6 +1,7 @@
 <?php
 class AdminController extends AppController {
-    public $uses = array('User', 'Admin');
+    public $uses = array('User', 'Admin');   
+    public $helpers = array('Js');
     public $components = array(
         'Auth' => array(
             'authenticate' => array(
@@ -217,19 +218,18 @@ class AdminController extends AppController {
 
     }        
     function userManage(){
+          $this->autorender = false;
+        //$this->layout = 'ajax';        
          $paginate = array(
-        'limit' => 10,
+        'limit' => 5,
         'fields' => array('User.firstname','User.lastname','User.username','User.date_of_birth','User.user_type','User.created')
              
-        ); 
-        $this->Paginator->settings = $paginate;
-        // $this->Paginator->options(array(
-        //     'update' => '#content',
-        //     'evalScripts' => true
-        //     ));
-         $data = $this->Paginator->paginate('User');
+    ); 
+        $this->Paginator->settings = $paginate;        
+        $data = $this->Paginator->paginate('User');
         $this->set('data', $data);
     }
+    
     function blockUser(){
         
     }
@@ -261,6 +261,6 @@ class AdminController extends AppController {
     		else $arrayFinal += array($ij => $arrayItem);
     	}
     	$this->set("array_list",$arrayFinal);
-    }
+    }    
 	//...
 }
