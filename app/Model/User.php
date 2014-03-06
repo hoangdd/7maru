@@ -30,6 +30,10 @@ class User extends AppModel {
 
     public function beforeSave($options = array()) {    
         
+        //user id
+        $idString = $data['username'].'user';
+        $data['user_id'] = $this->_generateId($idString);
+
         //hash password
         $this->data = $this->hashPassword($this->data,true);
 
