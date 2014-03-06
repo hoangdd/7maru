@@ -1,7 +1,7 @@
 <h1>Create new Lesson</h1>
 
 <div class="form-wrapper">
-    <form class="form-horizontal" method="post" action="#">
+    <form class="form-horizontal" method="post" action="create" enctype="multipart/form-data">
 <!--        Category check box-->
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Category</label>
@@ -61,6 +61,7 @@
             <label class="control-label col-sm-4" for="lesson_type">Lesson Image</label>
             <div class="col-sm-8">
                 <input type="file" name="image">
+//                <?php //echo $this->Form->file('image'); ?>
                 <img src="/7maru/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
             </div>
         </div>

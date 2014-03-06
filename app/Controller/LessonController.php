@@ -1,7 +1,9 @@
 <?php
+    define('FILE_DIR', WEBROOT_DIR.DS.'files'.DS.'data');
 class LessonController extends AppController {
+
     var $components =  array('Session');
-    var $uses = array('Category');
+    var $uses = array('Category','Lesson','ComaCategory');
     
 	function index(){
 		 App::uses('Utilities', 'Lib');
@@ -10,18 +12,21 @@ class LessonController extends AppController {
 	}
 
 	function Create(){
+        
         //  $this->loadModel('Category');
         $categories =  $this->Category->find('all');
 //        debug($categories);
         $this->set('categories',$categories);
         
         if($this->request->is('post')){
+//            debug($_FILES);
+//            die;
             $data = $this->request->data;
             debug($data);
             $error = array(); //error that return to client;
             // check if copyright check box had checked yet?
             if(!isset($data['copyright'])){
-                $this->Session->setFlash('Please Check copyright checkbox!!!');
+//                $this->Session->setFlash('Please Check copyright checkbox!!!');
                 $error['copyright'] = 'Please confirm your copyright';               
             }
             
@@ -31,14 +36,46 @@ class LessonController extends AppController {
             }
             
             //check if Lesson Description is empty
-            if($data['desc']==''){
+            if(ctype_space($data['desc'])){
                 $error['desc'] = 'Lesson Description do not suppose to be empty';
+            }
+            if($data['image']){
+                //Check if image format is supported
+                if(preg_match('/\.(jpg|png|gif|tif)$/',$data['image'])){
+                    
+                } else {
+                    $error['image'] = 'Unsupported Image Format';
+                }
             }
             
             if(count($error)){
                 $this->set('error',$error);
                 debug($error);
                 $this->set('data',$data);
+            }else{
+                // Save Lesson Information
+                $saveData = array(
+                    'Lesson'=> array(
+                        'name'=> $data['name'],
+                        'description'=> $data['desc'],
+                        'author' => $this->Auth->user('user_id')
+                    )
+                );
+                debug($saveData);
+                $this->Lesson->create();
+                $lesson = $this->Lesson->save($saveData);
+                // save Lesson Category
+                if($lesson && isset($data['category'])){
+                    $this->ComaCategory->saveComaCategory($lesson['Lesson']['id'],$data['category']);
+                }
+                
+                // Save Lesson image and files
+                debug($_FILES);
+                $filename = WEBROOT_DIR.'/img/lessoncover/'.$_FILES['image']['name']; 
+                debug($filename);
+                if (move_uploaded_file($_FILES['image']['tmp_name'],$filename)){
+                    $this->Session->setFlash('Upload OK');
+                }
             }
         }
 	}
