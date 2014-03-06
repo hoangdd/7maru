@@ -29,7 +29,6 @@ class AdminController extends AppController {
         'Paginator',
         'RequestHandler'
         );
-//    public $components = array('Paginator','RequestHandler');
 	function index(){
     }
     
