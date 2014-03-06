@@ -33,39 +33,75 @@
 		</thead>
 		<tbody>
 			<?php 
-			$array_item = $array_list['2'];
-			$i = 1;
-			foreach($array_item as $value){
+			//$array_item = $array_list['2'];
+			echo $this->Form->create('AdminIp',
+		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ip_manage')
+		  			)
+		  			);
+		  		 
+			
+			$i = ($this->Paginator->current($model = null)-1)*3+1;
+			//foreach($array_item as $value){
+			foreach($data as $numb => $value) {
 			echo"<tr>
-				<td class='no-col'>".
-					$i.
-				"</td>
+				<td class='no-col'>";
+			echo $this->Form->input('AdminIp.IpId', array(
+					    	'type' => 'text',
+					    	'class' => 'form-control',
+					    	'value' => $i,
+					    	'label' => false,
+					    	'readonly' => 'readonly'
+							));
+			echo "</td>
 				<td class='ip-col'>"
-					.$value.
+					.$data[$numb]['AdminIp']['ip'].
 				"</td>
 
-				<td class='del-ip-col'>
-					<a href=#>Delete</a>
-				</td>
+				<td class='del-ip-col'>";
+			echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
+			echo "</td>
 
-				<td class='edit-ip-col'>
-					<a href=#>Edit</a>
+				<td class='edit-ip-col'>";
+			echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
+			echo "
 				</td>
 			</tr>
 			";
 			$i++;
 			}
 			?>
+			
 			<tr>
-				<td class='no-col'>
-					<button type="button" class="btn btn-default">
-					  <span class="glyphicon glyphicon-plus"></span>Add
-					</button>
+			<td class='del-ip-col'>
+					
 				</td>
 				<td class='ip-col'>
-					<input type="text" class="form-control" placeholder="Add new IP address">
+					<?php 
+						echo $this->Form->input('AdminIp.Ipinput', array(
+					    	'type' => 'text',
+					    	'class' => 'form-control',
+					    	'placeholder' => 'IP address',
+					    	'label' => false
+							));
+							?> 
+					
 
 				</td>
+				<td class='no-col'>
+					
+					<?php
+						//$options = array(
+						  //  'label' => 'サブメット',
+						    //'class' => 'btn btn-default',
+						//);
+							//echo $this->Form->end($options);
+							?>
+					<?php echo $this->Form->submit('サブメット', 
+						array('name' => 'add','class' => 'btn btn-default')); ?>
+					  
+					</button>
+				</td>
+				
 
 				<td class='del-ip-col'>
 					
@@ -75,7 +111,7 @@
 					
 				</td>
 			</tr>
-
+		<?php echo $this->Form->end(); ?>
 		</tbody>
 	</table>
 </div>
@@ -83,14 +119,24 @@
 <!-- paginate -->
 <div class='text-center'>
 	<ul class="pagination">
-	  <li><a href="#">&laquo;</a></li>
-	  <?php 
-	  $i = count($array_list);
-	  for($ij = 1; $ij <= $i; $ij++){
-		  echo "<li><a href=#>".$ij."</a></li>";
-		}
-	?>
-	  <li><a href="#">&raquo;</a></li>
+	  <li>
+	  	<?php
+    echo $this->Paginator->counter(array(
+    'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+    ));
+    ?>  
+	  </li>
+	  <li>
+	  	<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
+	  </li>
+	  <li>
+	  	<?php echo $this->Paginator->numbers();?>
+	  </li>
+	  <li>
+	  	<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
+	  </li>
+	  
 	</ul>
 
 </div>
+

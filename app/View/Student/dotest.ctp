@@ -68,7 +68,7 @@ if(!isset($_SESSION["start_time"	])){$_SESSION["start_time"] = mktime(date(G),da
 					echo $this->Form->input('Student.timer', array(
 				    	'type' => 'text',
 				    	'id' => 'txt',
-				    	'disable' => 'disable'
+				    	'readonly' => 'readonly'
 						));
 				?> 
 				
@@ -115,7 +115,6 @@ function calculate_time()
 				
 			</style>
 		</table></table>
-		</form>
   </div>
 </div>
 

@@ -6,6 +6,12 @@ class StudentController extends AppController {
 
 	function index(){
 	}
+	
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->userModel = 'Student';
+		$this->Auth->allow('dotest');
+	}
 
 	function Register(){
         $error = array();

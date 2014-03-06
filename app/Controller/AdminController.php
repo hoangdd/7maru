@@ -1,6 +1,6 @@
 <?php
 class AdminController extends AppController {
-    public $uses = array('User', 'Admin');
+    public $uses = array('User', 'Admin','AdminIp');
     public $components = array(
         'Auth' => array(
             'authenticate' => array(
@@ -35,7 +35,7 @@ class AdminController extends AppController {
     public function beforeFilter(){
         parent::beforeFilter();
         $this->Auth->userModel = 'Admin';
-        $this->Auth->allow('login','logout');
+        $this->Auth->allow('login','logout','ip_manage');
     }
     function CreateAdmin(){
         $error = array();
@@ -232,33 +232,73 @@ class AdminController extends AppController {
         
     }
     function ip_manage() {
+//     	$data = $this->AdminIp->find('all');
+//     	debug($data);
 //     	$data = $this->
-    	$totalIp = array('1','2','3','4','5','6','7');
-    	$i = 1;$arrayItem;$arrayFinal;
-    	foreach ($totalIp as $item) {
-    		if($i%3 == 1) $arrayItem = array($item);
-    		else $arrayItem = array_merge($arrayItem,array($item));
-    		if($i%3 == 0) {
-    			if($i/3 <= 1) {
-    				
-    				$arrayFinal = array('1' => $arrayItem);
-    			}
-    			else {
-    				
-    				$ij = $i/3;
-    				$arrayFinal += array($ij => $arrayItem);
-    			}
-    		}
-    		$i++;
+    	if($this->request->is("post")) {
     		
+    		if (isset($this->request->data['add'])) {
+    			// yes button was clicked
+	    		$retrieveData = $this->request->data['AdminIp'];
+	    		$ipRetrieved = $retrieveData['Ipinput'];
+	    		$specificallyThisOne = $this->AdminIp->find('first', array(
+	    				'conditions' => array('AdminIp.ip' => $ipRetrieved)
+	    		));
+				if(count($specificallyThisOne) == 0){
+					$this->AdminIp->set('ip',$ipRetrieved);
+					$this->AdminIp->save();	
+				}    
+    		} else if (isset($this->request->data['edit'])) {
+    			// no button was clicked
+    			echo "edit";
+    		} else if(isset($this->request->data['delete'])){
+    			$deleteRequest = $this->request->data['AdminIp']['IpId'];
+    			echo $deleteRequest;
+    			$del = $this->AdminIp->find('first',array(
+    				'conditions' => array('AdminIp.ip_id' => 1)
+    			));
+    			echo $del;
+//     			$this->AdminIp->delete(intval($del['AdminIp.id']));
+    		}		
     	}
+		$pagination = array(
+			'limit' => 3,
+				'fields' => array('AdminIp.ip')
+		);
+		$this->Paginator->settings = $pagination;
+		$data = $this->Paginator->paginate('AdminIp');
+// 		debug($data);
+// 		print_r($data);
+		$this->set('data',$data);
+		$temp = $this->request->query;
+// 		print_r($temp);
+		
+//     	$totalIp = array('1','2','3','4','5','6','7');
+//     	$i = 1;$arrayItem;$arrayFinal;
+//     	foreach ($totalIp as $item) {
+//     		if($i%3 == 1) $arrayItem = array($item);
+//     		else $arrayItem = array_merge($arrayItem,array($item));
+//     		if($i%3 == 0) {
+//     			if($i/3 <= 1) {
+    				
+//     				$arrayFinal = array('1' => $arrayItem);
+//     			}
+//     			else {
+    				
+//     				$ij = $i/3;
+//     				$arrayFinal += array($ij => $arrayItem);
+//     			}
+//     		}
+//     		$i++;
+    		
+//     	}
     	
-    	if($i%3 != 0){
-    		$ij = $i/3 + 1;
-    		if($i/3 == 0) $arrayFinal = array($ij => $arrayItem);
-    		else $arrayFinal += array($ij => $arrayItem);
-    	}
-    	$this->set("array_list",$arrayFinal);
+//     	if($i%3 != 0){
+//     		$ij = $i/3 + 1;
+//     		if($i/3 == 0) $arrayFinal = array($ij => $arrayItem);
+//     		else $arrayFinal += array($ij => $arrayItem);
+//     	}
+//     	$this->set("array_list",$arrayFinal);
     }
 	//...
 }
