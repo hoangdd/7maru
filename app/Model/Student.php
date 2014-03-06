@@ -10,9 +10,9 @@ class Student extends AppModel {
         )
     );
 
-    public function beforeSave(){
+    public function beforeSave($options = array()){
     	$data = $this->data['Student'];
-   		//generate admin id
+   
         //username required
 		$idString = $data['username'].'student';
     	$data['student_id'] = $this->_generateId($idString);
