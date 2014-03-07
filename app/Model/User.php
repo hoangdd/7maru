@@ -1,5 +1,8 @@
 <?php
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 class User extends AppModel {
     
     public $primarykey = 'user_id';
@@ -17,12 +20,12 @@ class User extends AppModel {
     );
     function hashPassword($data, $enforce=false) {
         if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
-                  if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
-                      $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
-                      $hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
-                      $this->data[$this->alias]['password'] = $hasher->hash($stringToHash);
-                    }
-                }
+          if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
+              $stringToHash =   $this->data[$this->alias]['username'].$this->data[$this->alias]['password'];
+              $hasher = new SimplePasswordHasher(array('hashType' =>'sha1'));
+              $this->data[$this->alias]['password'] = $hasher->hash($stringToHash);
+            }
+        }
 
             return $data;
     }
@@ -34,6 +37,11 @@ class User extends AppModel {
         //user id
         $idString = $data['username'].'user';
         $data['user_id'] = $this->_generateId($idString);
+
+        //save image profile
+        $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
+        move_uploaded_file($data['profile_picture']['tmp_name'], IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext);
+        $data['profile_picture'] = $data['user_id'].'.'.$ext;
 
         //hash password
         $passString = $data['username'].$data['password'];

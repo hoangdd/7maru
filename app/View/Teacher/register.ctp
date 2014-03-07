@@ -6,7 +6,7 @@ echo $this->Html->css('common');
 <h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form id='register-form' class="form-horizontal" role="form" action="register" method="POST">
+    <form id='register-form' class="form-horizontal" role="form" action="register" method="POST" enctype="multipart/form-data">
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -258,7 +258,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="file" class="form-control">
+                        <input type="file" class="form-control" name='profile_picture'>
                         <p class="help-block">Upload your photo to display.</p>
                     </div>
                 </td>
