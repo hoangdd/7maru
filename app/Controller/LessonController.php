@@ -71,7 +71,11 @@ class LessonController extends AppController {
                 
                 // Save Lesson image and files
                 debug($_FILES);
-                $filename = WEBROOT_DIR.'/img/lessoncover/'.$_FILES['image']['name']; 
+                $filename = $_SERVER['DOCUMENT_ROOT'].$this->webroot.'app/webroot/img/lessoncover/'.$_FILES['image']['name']; 
+                // $filename = $this->assetUrl('image.jpg', array(
+                //     'fullBase'   => true,
+                //     'pathPrefix' => IMAGES_URL
+                // ));
                 debug($filename);
                 if (move_uploaded_file($_FILES['image']['tmp_name'],$filename)){
                     $this->Session->setFlash('Upload OK');
