@@ -1,5 +1,6 @@
 <?php
 echo $this->Html->css('common');
+echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
 //debug($error);
 ?>
 <div class="col-md-12 highlight" style="background-image: url(/7maru/img/51e356f4_2c9625be_1_2_resize.jpg);background-repeat: no-repeat;background-position: top center;">
@@ -16,7 +17,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['username'])) echo "has-error has-feedback"?>">
-                        <input type="text"  name='username' 
+                        <input id="username" type="text"  name='username' 
                                class="form-control changecolor" 
                                placeholder="Enter Username">
                         <?php
@@ -40,7 +41,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['password'])) echo "has-error has-feedback"?>">
-                        <input type="password" name='password' class="form-control changecolor" placeholder="Enter Password">
+                        <input id="password" type="password" name='password' class="form-control changecolor" placeholder="Enter Password">
                         <?php
                              if(isset($error['password'])&& is_array($error['password'])){
                                 foreach($error['password'] as $password):
@@ -62,7 +63,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['retypepassword'])) echo "has-error has-feedback"?>">
-                        <input type="password" name='retypepassword' class="form-control" placeholder="Retype Password">
+                        <input id="retypepass" type="password" name='retypepassword' class="form-control" placeholder="Retype Password">
                         <?php
                              if(isset($error['retypepassword'])&& is_array($error['retypepassword'])){
                                 foreach($error['retypepassword'] as $retypepassword):
@@ -83,8 +84,16 @@ echo $this->Html->css('common');
                     </div>
                 </td>
                 <td>
-                    <div class="col-md-12">
-                        <input type="email" name='mail' class="form-control" placeholder="Enter your mail">
+                    <div class="col-md-12 <?php if(isset($error['mail'])) echo "has-error has-feedback"?>">
+                        <input id="email" type="email" name='mail' class="form-control" placeholder="Enter your mail">
+                        <?php
+                             if(isset($error['mail'])&& is_array($error['mail'])){
+                                foreach($error['mail'] as $mail):
+                                    echo $mail;
+                                    echo '<br/>';
+                                endforeach;
+                            }
+                        ?>
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -98,7 +107,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['firstname'])) echo "has-error has-feedback"?>">
-                        <input type="text" name='firstname' class="form-control" placeholder="Enter first name">
+                        <input id="firstname" type="text" name='firstname' class="form-control" placeholder="Enter first name">
                         <?php
                              if(isset($error['firstname'])&& is_array($error['firstname'])){
                                 foreach($error['firstname'] as $firstname):
@@ -120,7 +129,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['lastname'])) echo "has-error has-feedback"?>">
-                        <input type="text" name='lastname' class="form-control" placeholder="Enter last name">
+                        <input id="lastname" type="text" name='lastname' class="form-control" placeholder="Enter last name">
                         <?php
                              if(isset($error['lastname'])&& is_array($error['lastname'])){
                                 foreach($error['lastname'] as $lastname):
@@ -163,21 +172,21 @@ echo $this->Html->css('common');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Sex:</label>
+                        <label class="pull-left control-label">Gender:</label>
                     </div>
                 </td>
                 <td>
                     <div class="col-md-12">
                         <div class="radio">
                             <label>
-                                <input name="sex_select" type="radio" value="1">
+                                <input name="gender_select" type="radio" value="1">
                                 Male
                             </label>
                         </div>
 
                         <div class="radio">
                             <label>
-                                <input name="sex_select" type="radio" value="2">
+                                <input name="gender_select" type="radio" value="2">
                                 Female
                             </label>
                         </div>
@@ -213,7 +222,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
+                        <input id="bank_account" type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -227,7 +236,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <select class="form-control">
+                        <select name="verifycode_question" class="form-control">
                           <option>What subject do you like?</option>
                           <option>What activity do you like?</option>
                           <option>What do you do freetime?</option>
@@ -245,7 +254,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text"  class="form-control" placeholder="Answer this question">
+                        <input name="verifycode_answer" type="text"  class="form-control" placeholder="Answer this question">
                     </div>
                 </td>
             </tr>
@@ -260,6 +269,9 @@ echo $this->Html->css('common');
                     <div class="col-md-12">
                         <input type="file" class="form-control" name='profile_picture'>
                         <p class="help-block">Upload your photo to display.</p>
+                        <span><?php
+                            if(isset( $error['profile_picture'][0])) echo  $error['profile_picture'][0];
+                            ?></span>
                     </div>
                 </td>
             </tr>
@@ -299,3 +311,103 @@ echo $this->Html->css('common');
     </form>
 </div>
 </div>
+<script>
+    var retypepass_flag = false;
+    $(document).ready(function(){
+        
+    $("#register-form").validate();
+    // method check username follow form    
+    jQuery.validator.addMethod("checkusername", function(value,element) {
+    return /^[A-Za-z]\w+$/.test(value);
+    });
+    // method check password follow form
+    jQuery.validator.addMethod("checkpass", function(value,element) {
+    return /^\w+$/.test(value);
+    });
+    //rules of username
+    $( "#username" ).rules( "add", {
+        required: true,
+        minlength: 6,
+        maxlength: 30,
+        checkusername: true,
+        messages: {
+            required: "Required input",
+            minlength: jQuery.format("Please, at least {0} characters are necessary"),
+            maxlength: jQuery.format("Please enter no more than {0} characters"),
+            checkusername: jQuery.format("Please enter follow format: aaAA123"),
+        }
+    });
+    
+    //rules of password
+    $( "#password" ).rules( "add", {
+        required: true,
+        minlength: 8,
+        maxlength: 30,
+        checkpass: true,
+        messages: {
+            required: "Required input",
+            minlength: jQuery.format("Please, at least {0} characters are necessary"),
+            maxlength: jQuery.format("Please enter no more than {0} characters"),
+            checkusername: jQuery.format("Please enter follow format: 123abc456"),
+        }
+    });
+        
+    $("#retypepass").rules("add", {
+        required: true,
+        messages: {
+            required: "Required input",
+        }
+    });
+        
+ /*  $("#password").focusout(function(){
+        $("#retypepass").focusout();
+    });*/
+        
+    $("#retypepass").focusout(function(){
+        if($(this).val()!=$("#password").val()){
+            if(!retypepass_flag){
+                retypepass_flag = true;
+                $("#retypepass").after('<label class="error">Password and RetypePassword are not equal.</label>');
+            }
+        }else{
+            if(retypepass_flag){
+                $("#retypepass").next().remove();
+                retypepass_flag = false;
+            }
+        }
+    });
+    
+    $("#email").rules("add", {
+        required: true,
+        messages: {
+            required: "Required input",
+        }
+    });
+        
+    $( "#firstname" ).rules( "add", {
+        required: true,
+        maxlength: 30,
+        messages: {
+            required: "Required input",
+            maxlength: jQuery.format("Please enter no more than {0} characters"),
+        }
+    });
+        
+    $( "#lastname" ).rules( "add", {
+        required: true,
+        maxlength: 30,
+        messages: {
+            required: "Required input",
+            maxlength: jQuery.format("Please enter no more than {0} characters"),
+        }
+    });
+        
+    $("#bank_account").rules("add", {
+        required: true,
+        messages: {
+            required: "Required input",
+        }
+    });
+   });
+        
+</script>

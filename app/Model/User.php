@@ -42,7 +42,13 @@ class User extends AppModel {
         $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
         move_uploaded_file($data['profile_picture']['tmp_name'], IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext);
         $data['profile_picture'] = $data['user_id'].'.'.$ext;
-
+        
+        //hash verifycode
+        $verifycode_question = $data['username'].$data['verifycode_question'].FILL_CHARACTER;
+        $verifycode_answer = $data['username'].$data['verifycode_answer'].FILL_CHARACTER;
+        $data['verifycode_question'] = $this->_hashPassword($verifycode_question);
+        $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
+        
         //hash password
         $passString = $data['username'].$data['password'];
         $data['password'] = $this->_hashPassword($passString);
