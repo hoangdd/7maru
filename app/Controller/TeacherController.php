@@ -17,6 +17,7 @@ class TeacherController extends AppController {
 		//If has data
 		if($this->request->is('post')){
 			$data = $this->request->data;
+            
            /*
                Check username:
                 0:  null
@@ -27,7 +28,6 @@ class TeacherController extends AppController {
                 5:  is used
             */
             $check_user= true;
-            
 			if(!isset($data['username'])){
                 $error['username'][0] ='Username is equal null.';
                 $check_user = false;
@@ -53,7 +53,7 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
 
-                $res = $this->User->find('all',array(
+                $res = $this->User->find('first',array(
                     'conditions'=>array(
                         'User.username' => $data['username']
                     )));
@@ -171,7 +171,18 @@ class TeacherController extends AppController {
 			if(empty($data['mail'])){
                 $error['mail'][1] ='Email is empty.';
                 $check_user = false;
-			}
+			}else{
+                $res = $this->User->find('all',array(
+                    'conditions'=>array(
+                        'User.mail' => $data['mail']
+                    )));
+                if(empty($res)){
+                    //chua ton tai
+                }else{
+                    $error['mail'][2] ='Email is exist.';
+                    $check_user = false;
+                }
+            }
             //=================================
             
             $check_teacher = true;
@@ -191,20 +202,27 @@ class TeacherController extends AppController {
 			if(!empty($data['phone_number'])){
                 if(strlen($data['phone_number']) < 10){
                     $error['phone_number'][0] ='Phone number is too short.';
+                    $check_teacher = false;
                 }
 
                 if(strlen($data['phone_number']) > 15){
                     $error['phone_number'][1] ='Phone number is too long.';
+                    $check_teacher = false;
                 }
             }
             //====================================
-			//xong check
-            
-			// tien hanh luu du lieu vao Model
-            
-            //teacher
-            
-           
+            //check profile picture;
+            if( !empty($_FILES['profile_picture'])){
+                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $profile_pic = $_FILES['profile_picture'];
+                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+                if( !in_array($ext, $img_exts) ){
+                  $error['profile_picture'][0] ='Unsupported image file.';  
+                  $check_user = false;
+                }
+            }
+
+            //====================================
             //save data of teacher
             /*
             *   Bank_acount, office, description
@@ -221,13 +239,15 @@ class TeacherController extends AppController {
                 
                 //luu va tra lai ket qua
                 $result = $this->Teacher->save();
-            
+
+                
                 //save data of user
                 /*
                 *   username,firstname,lastname,date_of_birth,address,password,
                 *   user_type,mail,phone_number
                 */            
                 //id tu sinh
+
                 if(isset($result['Teacher']['teacher_id'])){
                     $data_user = array(
                         'foreign_id'=>  $result['Teacher']['teacher_id'],
@@ -236,11 +256,13 @@ class TeacherController extends AppController {
                         'firstname'  => $data['firstname'],
                         'lastname'  =>  $data['lastname'],
                         'address'  =>   $data['address'],
-                        //'image_profile' => $data['image_profile'],
+                        'verifycode_question' => $data['verifycode_question'],
+                        'verifycode_answer' => $data['verifycode_answer'],
                         'mail'  =>  $data['mail'],
                         'phone_number'  =>  $data['phone_number'],
                         'date_of_birth'  =>  $data['date_of_birth'],
                         'user_type' =>  1,
+                        'profile_picture' => $profile_pic,
                     );
 
                     $this->User->create($data_user);
@@ -295,21 +317,7 @@ class TeacherController extends AppController {
 	}
 	
 	function CreateLesson() {
-        //vao day test thu, do~ phai dien
-		    $data_teacher = array(
-                'username'      =>  'hoangdd', //truyen username vao
-                'bank_account'  =>  'HSNSM',
-                'office'        =>  'bkhn',
-                'description'   =>  'xxx',
-            );
-           
-                $this->Teacher->create($data_teacher);
-                
-                //luu va tra lai ket qua
-                $result = $this->Teacher->save();
-                debug($result);
-        die;
-           
+
 	}
 	
 	function  EditLession() {

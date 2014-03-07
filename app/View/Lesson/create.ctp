@@ -1,5 +1,9 @@
 <h1>Create new Lesson</h1>
-
+<form action="create" method="post" enctype="multipart/form-data">
+    <label for="file">Filename:</label>
+    <input type="file" name="file" id="file"><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
 <div class="form-wrapper">
     <form class="form-horizontal" method="post" action="create" enctype="multipart/form-data">
 <!--        Category check box-->
@@ -47,7 +51,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Document</label>
             <div class="col-sm-8">
-                <input type="file" name="document">
+                <input type="file" name="document" id='document'>
             </div>
         </div>
 <!--Test File-->

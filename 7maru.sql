@@ -409,6 +409,7 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
   `user_type` int(11) DEFAULT NULL,
   `mail` varchar(30) DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
+  `profile_picture` varchar(20) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `foreign_id` char(20) NOT NULL,

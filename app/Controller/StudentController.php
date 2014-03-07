@@ -191,14 +191,25 @@ class StudentController extends AppController {
 			if(!empty($data['phone_number'])){
                 if(strlen($data['phone_number']) < 10){
                     $error['phone_number'][0] ='Phone number is too short.';
+                    $check_student = false;
                 }
 
                 if(strlen($data['phone_number']) > 15){
                     $error['phone_number'][1] ='Phone number is too long.';
+                    $check_student = false;
                 }
             }
             //====================================
-            
+            //check profile picture;
+            if( !empty($_FILES['profile_picture'])){
+                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $profile_pic = $_FILES['profile_picture'];
+                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+                if( !in_array($ext, $img_exts) ){
+                  $error['profile_picture'][0] ='Unsupported image file.';  
+                    $check_student = false;
+                }
+            }
 			//xong check
 			// tien hanh luu du lieu vao Model
             $data['id'] =$data['username'].''.$data['password'];
@@ -229,7 +240,7 @@ class StudentController extends AppController {
                 'firstname'  => $data['firstname'],
                 'lastname'  =>  $data['lastname'],
                 'address'  =>   $data['address'],
-                //'image_profile' => $data['image_profile'],
+                'profile_picture' => $profile_pic,
                 'mail'  =>  $data['mail'],
                 'phone_number'  =>  $data['phone_number'],
                 'date_of_birth'  =>  $data['date_of_birth'],
