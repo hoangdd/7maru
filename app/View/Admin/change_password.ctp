@@ -1,32 +1,30 @@
-<div class="form_changePassword">
-	<h1>Change Password</h1>
-	<div class="">
-		<form method="post" class="xenForm AutoValidator ContactDetailsForm" action="account/security-save" data-optinout="OptIn">
-			<table>
-				<tr class="cttrUnit">
-					<td><label for="cttr_password_original">Current Password</label></td>
-					<td>
-						<input type="password" name="old_password" value="" dir="ltd" class="textCttr" id="cttr_password_original" autofocus="autofocus" placeholder="Current Password">
-					</td>
-				</tr>
+<div class="col-md-4 users form">
+    <form id="changePassword" type="form" method="post">
+        <h1>Admin Change Password</h1>
 
+        <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" name='current-pw' class="form-control">
+            <?php if (!empty($error["current"])) { ?>
+                <span class="text-danger "><?php echo $error["current"]; ?></span>
+            <?php } else echo '</br>'; ?>
 
-				<tr class="cttrUnit">
-					<td><label for="cttr_password">New Password</label></td>
-					<td><input type="password" name="password" value="" dir="ltd" class="textCttr" id="cttr_password" placeholder="New Password"></td>
-				</tr>
-
-				<tr class="cttrUnit">
-					<td><label for="cttr_password_confirm">Confirm Password</label></td>
-					<td><input type="password" name="password_confirm" value="" class="textCttr" dir="ltd" id="cttr_password_confirm" placeholder="Confirm Password"></td>
-				</tr>
-
-
-				<tr class="cttrUnit submitUnit">
-					<td></td>
-					<td><button type="submit" name="save" accesskey="l" class="button btn-default">Save</button></td>
-				</tr>
-			</table>
-		</form>
-	</div>
+        </div>
+        <span><?php echo $this->Session->read("password"); ?></span>
+        <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" name='new-pw' class="form-control">
+            <?php if (!empty($error["new"])) { ?>
+                <span class="text-danger "><?php echo $error["new"]; ?></span>
+            <?php } else echo '</br>'; ?>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name='confirm-pw' class="form-control">
+            <?php if (!empty($error["confirm"])) { ?>
+                <span class="text-danger "><?php echo $error["confirm"]; ?></span>
+            <?php } else echo '</br>'; ?>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 </div>
