@@ -1,7 +1,8 @@
 <?php
 
-class ComaCategory extends AppModel {
-    public function saveComaCategory($lesson_id, $categories){
+class LessonCategory extends AppModel {
+    public $useTable = 'coma_categories';
+    public function saveLessonCategory($lesson_id, $categories){
         $dataArr = array();
         foreach($categories as $category){
             $saveData = array(

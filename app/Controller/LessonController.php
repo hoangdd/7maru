@@ -3,7 +3,7 @@
 class LessonController extends AppController {
 
     var $components =  array('Session');
-    var $uses = array('Category','Lesson','ComaCategory');
+    var $uses = array('Category','Lesson','LessonCategory');
     
 	function index(){
 		 App::uses('Utilities', 'Lib');
@@ -17,7 +17,14 @@ class LessonController extends AppController {
         $categories =  $this->Category->find('all');
 //        debug($categories);
         $this->set('categories',$categories);
-        
+        $filename = WEBROOT_DIR.DS.'img'.DS.'lessoncover'.DS.$_FILES['document']['name']; 
+        debug($filename);
+        // if (move_uploaded_file($_FILES['document']['tmp_name'],WEBROOT_DIR.DS.'img'.DS.'lessoncover'.DS.$_FILES['document']['name'])){
+        //     $this->Session->setFlash('Upload OK');
+        // }
+        if(!empty($_FILES)){
+            move_uploaded_file($_FILES["file"]["tmp_name"] ,WEBROOT_DIR.DS.'files'.DS.'data'.DS.$_FILES["file"]["name"]);
+        }
         if($this->request->is('post')){
 //            debug($_FILES);
 //            die;
@@ -66,7 +73,7 @@ class LessonController extends AppController {
                 $lesson = $this->Lesson->save($saveData);
                 // save Lesson Category
                 if($lesson && isset($data['category'])){
-                    $this->ComaCategory->saveComaCategory($lesson['Lesson']['id'],$data['category']);
+                    $this->LessonCategory->saveLessonCategory($lesson['Lesson']['id'],$data['category']);
                 }
                 
                 // Save Lesson image and files
