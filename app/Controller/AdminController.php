@@ -289,4 +289,18 @@ class AdminController extends AppController {
 	function delip() {
 		$ip = $this->params ['url'] ['ip'];
 	}
+	function send(){
+		// lay du lieu gui len
+		$data = $this->request->data['ids'];
+
+		// chuyen sau thanh mang
+		$id_array = explode(',', $data);
+
+		if( !empty($data)){
+			echo 'ok';
+		}else{
+			echo 'error';
+		}
+		die;
+	}
 }

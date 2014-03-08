@@ -88,24 +88,22 @@
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
-                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td><td class="check_box">
-                                <input type="checkbox" name="option[]"/></td></tr>';
+                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td>';
+                                echo '<td class="check_box"><input class="send-checkbox" type="checkbox" name="'.$d['User']['user_id'].'"/></td></tr>';
                             endforeach;
                         ?>
                     </table>
                 </div>
                 <p></p>
-                <form class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <button type="button" class="btn btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span> Post
-                        </button>
-                    
-                        <button type="button" class="btn btn-warning" onClick="resetTextarea();">
-                        <span class="glyphicon glyphicon-refresh"></span> Reset
-                        </button>
-                    </div>
-                </form>
+                <div class="form-group">
+                    <button type="button" id='post-button' class="btn btn-success">
+                    <span class="glyphicon glyphicon-envelope"></span> Post
+                    </button>
+                
+                    <button type="button" class="btn btn-warning" onClick="resetTextarea();">
+                    <span class="glyphicon glyphicon-refresh"></span> Reset
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -113,6 +111,25 @@
 
 <script>
     $(document).ready(function(){
+        $('#post-button').click(function(){
+            var ids = new Array();
+            $(".send-checkbox").each(function(){
+                //danh sach tat ca the co' class = send-checkbox
+                if($(this).prop('checked')==true){
+                    // them vao mang ids tat ca nhung user_id ma co' check
+                    ids.push($(this).prop('name'));
+                }
+            })
+            $.ajax({
+                'url':'send',//noi muon gui du lieu den
+                'type':'post', //method
+                'data' : 'ids='+ids.toString(),
+                complete : function(res){
+                    // du lieu tra ve tu controller
+                    alert(res.responseText);
+                }
+            })
+        });
         $("th input").click(function(){
             var status = $(this).prop('checked');            
             $(".check_box input").prop('checked',status);
