@@ -58,11 +58,14 @@
 				"</td>
 
 				<td class='del-ip-col'>";
-			echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
+			//echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
+			echo "<a href=".$this->here."?mod=delete&ip=".$data[$numb]['AdminIp']['ip'].">Delete</a>";
+			
 			echo "</td>
 
 				<td class='edit-ip-col'>";
-			echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
+			//echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
+			echo "<a href=".$this->here."?mod=edit&ip=".$data[$numb]['AdminIp']['ip'].">Edit</a>";
 			echo "
 				</td>
 			</tr>
@@ -81,7 +84,8 @@
 					    	'type' => 'text',
 					    	'class' => 'form-control',
 					    	'placeholder' => 'IP address',
-					    	'label' => false
+					    	'label' => false,
+					    	'value' => $enter
 							));
 							?> 
 					
@@ -104,6 +108,15 @@
 				
 
 				<td class='del-ip-col'>
+					<?php 
+						if($modFlag == 1) {
+							echo $this->Form->input('AdminIp.Hidden', array(
+					    	'type' => 'hidden',
+					    	'value' => $enter
+							));
+							}
+							?>
+						
 					
 				</td>
 

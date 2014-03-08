@@ -75,7 +75,7 @@
                         ?>
                     </div>
                     <label>Input:</label>
-                    <textarea class="form-control" rows="2"></textarea>
+                    <textarea class="form-control" rows="2" id="privateTextarea"></textarea>
                 </form>
                 <p></p>
                 <div class="multiselect">
@@ -88,7 +88,7 @@
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
-                                echo '<tr><td>'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td>'.$d['User']['username'].'</td><td>
+                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td><td class="check_box">
                                 <input type="checkbox" name="option[]"/></td></tr>';
                             endforeach;
                         ?>
@@ -101,7 +101,7 @@
                         <span class="glyphicon glyphicon-envelope"></span> Post
                         </button>
                     
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" class="btn btn-warning" onClick="resetTextarea();">
                         <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
@@ -113,6 +113,13 @@
 
 <script>
     $(document).ready(function(){
-        
+        $("th input").click(function(){
+            var status = $(this).prop('checked');            
+            $(".check_box input").prop('checked',status);
+        })
     })
+    function resetTextarea(){
+        document.getElementById('privateTextarea').value = "";
+        $(".check_box input").prop('checked',false);
+    };
 </script>
