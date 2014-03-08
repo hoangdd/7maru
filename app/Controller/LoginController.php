@@ -63,6 +63,18 @@ class LoginController extends AppController {
                     $error['confirm'] = 'Password do not match';
                     $this->set('error', $error);
                     return;
+                }else{
+                    if (strlen($new) < 8) {
+                        $error['new'] = 'Password is too short.';
+                        $this->set('error', $error);
+                        return;
+                    }
+
+                    if (strlen($new) > 30) {
+                        $error['new'] = 'Password is too long.';
+                        $this->set('error', $error);
+                        return;
+                    }
                 }
             } else {
                 $error['new'] = 'Password format is wrong';

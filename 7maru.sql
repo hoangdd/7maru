@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `7maru_admins` (
   `admin_id` char(20) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `7maru_admins` (
 
 INSERT INTO `7maru_admins` (`admin_id`, `username`, `password`) VALUES
 ('''1''', 'dac', '123'),
-('''2''', 'hoang', '123');
+('''2''', 'admin', 'a4af7832a6e969eafb671bc80d016c259aeafc0c');
 
 -- --------------------------------------------------------
 
@@ -409,6 +409,7 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
   `user_type` int(11) DEFAULT NULL,
   `mail` varchar(30) DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
+  `profile_picture` varchar(20) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `foreign_id` char(20) NOT NULL,
@@ -424,6 +425,7 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
 
 INSERT INTO `7maru_users` (`user_id`, `username`, `firstname`, `lastname`, `date_of_birth`, `address`, `password`, `user_type`, `mail`, `phone_number`, `created`, `modified`, `foreign_id`, `verifycode_question`, `verifycode_answer`) VALUES
 ('1', 'dac', 'dac', 'hoang', NULL, NULL, 'a16601fdae893294d613fb12e252cb2b0bb3b560', 1, NULL, NULL, '2014-03-04 00:47:04', '2014-03-04 00:47:04', '', '', ''),
+('xxx', 'hoangdd', 'xxx', 'xxx', NULL, NULL, '999cea5004499a5d0e2cf026a9321b29e3363907', 1, NULL, NULL, '2014-03-04 00:47:04', '2014-03-04 00:47:04', '', '', ''),
 ('2', 'hoang', 'dac', 'hoang', NULL, NULL, 'b7e894fb9a364e9fc2db421ac49e0574cfda7191', 1, NULL, NULL, '2014-03-04 00:49:33', '2014-03-04 00:49:33', '', '', ''),
 ('3', 'viet', 'viet', 'to', NULL, NULL, 'ab4c7c73b3b6bd6f93dd0082b1b173c82858ff42', 1, NULL, NULL, '2014-03-04 00:50:30', '2014-03-04 00:50:30', '', '', ''),
 ('4', 'dat', 'dat', 'to', NULL, NULL, '6088898e80dd32fed07b5af3bb074dd6466100c4', 1, NULL, NULL, '2014-03-04 00:50:46', '2014-03-04 00:50:46', '', '', ''),

@@ -181,6 +181,7 @@ class StudentController extends AppController {
 					$error ['phone_number'] [1] = 'Phone number is too long.';
 				}
 			}
+
 			// ====================================
 			
 			// xong check
@@ -224,7 +225,76 @@ class StudentController extends AppController {
 			}
 		}
 		$this->set ( 'error', $error );
-	}
+
+            //=================================
+            
+            //check phone number
+            
+			if(!empty($data['phone_number'])){
+                if(strlen($data['phone_number']) < 10){
+                    $error['phone_number'][0] ='Phone number is too short.';
+                    $check_student = false;
+                }
+
+                if(strlen($data['phone_number']) > 15){
+                    $error['phone_number'][1] ='Phone number is too long.';
+                    $check_student = false;
+                }
+            }
+            //====================================
+            //check profile picture;
+            if( !empty($_FILES['profile_picture'])){
+                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $profile_pic = $_FILES['profile_picture'];
+                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+                if( !in_array($ext, $img_exts) ){
+                  $error['profile_picture'][0] ='Unsupported image file.';  
+                    $check_student = false;
+                }
+            }
+			//xong check
+			// tien hanh luu du lieu vao Model
+            $data['id'] =$data['username'].''.$data['password'];
+            //save data of student
+            /*
+            *   Bank_acount, office, description
+            */
+            $data_student = array(
+                'student_id'    =>  $data['id']."sudent",
+                'credit_account' =>   $data['credit_account'],
+                'level'    =>      $data['level'],
+            );
+            if($check_student==true){
+                $this->Student->create($data_student);
+                $this->Student->save();
+            }
+            
+            //save data of user
+            /*
+            *   username,firstname,lastname,date_of_birth,address,password,
+            *   user_type,mail,phone_number
+            */
+            $data_user = array(
+                'user_id'   =>  $data['id'],
+                'foreign'   =>  $data[''],
+                'username'  =>  $data['username'],
+                'password'  =>  $data['password'],
+                'firstname'  => $data['firstname'],
+                'lastname'  =>  $data['lastname'],
+                'address'  =>   $data['address'],
+                'profile_picture' => $profile_pic,
+                'mail'  =>  $data['mail'],
+                'phone_number'  =>  $data['phone_number'],
+                'date_of_birth'  =>  $data['date_of_birth'],
+                'user_type' =>  2,
+            );
+            if($check_user==true){
+                $this->User->create($data_user);
+                $this->User->save();
+            }
+            $this->set('error', $error);
+        }
+        
 	function Profile() {
 		// $sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
 		// $data=$this->User->query($sql);
