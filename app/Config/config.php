@@ -24,8 +24,6 @@ student => buylesson, dotest, editprofile, index, profile, register, statistic, 
 teacher => creatlesson, editprofile, index, lesson, lessonmanage, profile, register, statistic
 user => comment, index
 */
-
-
 Configure::write('userRoles', array(
 	// admin
 	'R1' => array(
@@ -47,6 +45,7 @@ Configure::write('userRoles', array(
 		'reference' => '*',
 		'search' => '*',
 		'user' => '*',
+		'teacher' => '*',
 		'student' => array('index', 'profile')
 		),
 
