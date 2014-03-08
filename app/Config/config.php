@@ -68,8 +68,8 @@ Configure::write('userRoles', array(
 		'home' => '*',
 		'login' => array('index'),
 		'search' => '*',
-		'student' => array('profile'),
-		'teacher' => array('profile'),
+		'student' => array('profile', 'register'),
+		'teacher' => array('profile', 'register'),
 	),
 ));
 /*========================End config user roles ====================*/
