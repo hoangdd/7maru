@@ -1,11 +1,17 @@
 <?php
 class StudentController extends AppController {
+
 	public $testList;
 	public $uses = array (
 			'User',
 			'Student' 
 	);
 	function index() {
+
+    public $uses = array('User','Student');
+    
+	function index(){
+
 	}
 	public function beforeFilter() {
 		parent::beforeFilter ();
@@ -293,6 +299,47 @@ class StudentController extends AppController {
                 $this->User->save();
             }
             $this->set('error', $error);
+        }
+        $this->set('error', $error);
+	}
+
+	function Profile(){
+		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
+        // $data=$this->User->query($sql);
+
+        if($this->Auth->loggedIn()){
+        	$pid=$this->Auth->User('user_id');
+        	$data = $this->User->find('first', array(
+        	'conditions' => array(
+        		'User.user_id' => $pid,
+        		)
+        	));
+        $this->set("data",$data);
+        if($data['User']['user_type']==1){
+        	$a=$data['User']['foreign_id'];
+            $data1=$this->Student->find('first',array(
+            	'conditions' => array(
+            		'Student.student_id' => $a,
+            		)
+            	));
+            $this->set("data1",$data1);
+            $this->loadModel("ComaTransaction");
+            $data2=$this->ComaTransaction->find('all',array(
+                'conditions' => array(
+                    'ComaTransaction.student_id' => $a,
+                    )
+                ));
+            $this->loadModel("Coma");
+            for($i=0;$i<count($data2);$i++){
+                $temp=$data2[$i]['ComaTransaction']['coma_id'];
+                $arr[]=$data3=$this->Coma->find('first',array(
+                    'conditions' => array(
+                        'Coma.coma_id' => $temp,
+                        )
+                    ));
+            }
+            $this->set("arr",$arr);
+        }
         }
         
 	function Profile() {

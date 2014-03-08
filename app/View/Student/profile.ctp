@@ -41,41 +41,37 @@
 	<dl style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px; background:#99FF33;width:600px;border-radius:25px;" class="dl-horizontal">
 
       <dt>User name:</dt>
-      <dd><?php echo $data['username'];?></dd>
+      <dd><?php echo $data['User']['username'];?></dd>
       <br>
       <dt>Real name:</dt>
-      <dd><?php echo $data['realname'];?></dd>
+      <dd><?php echo $data['User']['firstname'].$data['User']['lastname'];?></dd>
       <br>
       <dt>Birthday:</dt>
-      <dd><?php echo $data['date_of_birth'];?></dd>
+      <dd><?php echo $data['User']['date_of_birth'];?></dd>
       <br>
       <dt>Living:</dt>
-      <dd><?php echo $data['address'];?></dd>
+      <dd><?php echo $data['User']['address'];?></dd>
       <br>
       <dt>Telephone number:</dt>
-      <dd><?php echo $data['phone_number'];?></dd>
+      <dd><?php echo $data['User']['phone_number'];?></dd>
       <br>
       <dt>Regitration Date:<dt>
-      <dd><?php echo $data['created'];?></dd>
+      <dd><?php echo $data['User']['created'];?></dd>
       <br>
       <dt>Bank Account:</dt>
-      <dd><?php echo $data['bank_account'];?></dd>
+      <dd><?php echo $data1['Student']['credit_account'];?></dd>
       <br>
       </dl>
       
-      <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFCCCC;width:600px;border-radius:25px;">
+      <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
             <table class="table">
                  <tr><td>STT</td><td>Lesson</td><td>Subject</td><td>Status</td></tr>
-                 <tr><td>1 </td>
-                  <td>
-                    <?php echo $this->Html->link('Geometry',array(
-                      'controller'=>'Lesson', 
-                      'action'=>'index', 
-                       ));?>
-                  </td>
-                  <td>Math</td><td>bought</td></tr>
-                 <tr><td>2</td><td>Grammar</td><td>English</td><td>bought</td></tr>
-                 <tr><td>3</td><td>Mechanical</td><td>Physical</td><td>bought</td></tr>
+                 <?php
+                 for($i=0;$i<count($arr);$i++){
+                    $b=$i+1;
+                    echo "<tr><td>".$b."</td><td>".$arr[$i]['Coma']['name']."</td><td>".$arr[$i]['Coma']['title']."</td><td>bought</td></tr>";
+                 }
+                 ?>
             </table>
       </div>
       <br>

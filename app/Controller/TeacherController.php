@@ -287,10 +287,42 @@ class TeacherController extends AppController {
 	}
 
 	function Profile(){
-
+         if($this->Auth->loggedIn()){
+            $pid=$this->Auth->User('user_id');
+            $data = $this->User->find('first', array(
+            'conditions' => array(
+                'User.user_id' => $pid,
+                )
+            ));
+            $this->set("data",$data);
+            if($data['User']['user_type']==2){
+                $a=$data['User']['foreign_id'];
+                $data1=$this->Teacher->find('first',array(
+                    'conditions' => array(
+                        'Teacher.teacher_id' => $a,
+                        )
+                    ));
+                $this->set("data1",$data1);
+                $this->loadModel("Coma");
+                $data2=$this->Coma->find('all',array(
+                    'conditions' => array(
+                        'Coma.author' => $pid,
+                        )
+                    ));
+                $this->set("data2",$data2);
+            }
+         }
 	}
 
 	function EditProfile(){
+        if($this->Auth->loggedIn()){     
+            if($this->request->is('post')){
+                $pid=$this->Auth->User('user_id');
+                $this->User->id=$pid;
+                $this->User->read();
+                $this->User->save($this->request->data);
+            }
+        }
 
 	}
 	

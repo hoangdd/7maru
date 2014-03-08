@@ -4,8 +4,8 @@ App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
 
 class User extends AppModel {
-    
-    public $primarykey = 'user_id';
+
+    public $primaryKey = 'user_id';
     public $validate = array(
         'username' => array(
             'required' => true,
