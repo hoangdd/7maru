@@ -1,9 +1,9 @@
 <?php
 echo $this->Html->css('common');
 echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
-//debug($error);
 ?>
-<div class="col-md-12 highlight" style="background-image: url(/7maru/img/51e356f4_2c9625be_1_2_resize.jpg);background-repeat: no-repeat;background-position: top center;">
+
+<div class="col-md-12 highlight" style="background-image: url(/7maru/img/brown.png);background-repeat: repeat;background-position: top center;">
 <h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
@@ -237,10 +237,11 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 <td>
                     <div class="col-md-12">
                         <select name="verifycode_question" class="form-control">
-                          <option>What subject do you like?</option>
-                          <option>What activity do you like?</option>
-                          <option>What do you do freetime?</option>
-                          <option>How often do learn homework?</option>
+                            <option>What subject do you like?</option>
+                            <option>What activity do you like?</option>
+                            <option>What do you do in freetime?</option>
+                            <option>How often do read book?</option>
+                            <option>What song do you like?</option>
                         </select>
                     </div>
                 </td>
@@ -254,7 +255,8 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input name="verifycode_answer" type="text"  class="form-control" placeholder="Answer this question">
+                        <input id="verifycode_answer" name="verifycode_answer" type="text"  class="form-control" placeholder="Answer this question">
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
@@ -269,9 +271,11 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                     <div class="col-md-12">
                         <input type="file" class="form-control" name='profile_picture'>
                         <p class="help-block">Upload your photo to display.</p>
-                        <span><?php
+                        <span>
+                            <?php
                             if(isset( $error['profile_picture'][0])) echo  $error['profile_picture'][0];
-                            ?></span>
+                            ?>
+                        </span>
                     </div>
                 </td>
             </tr>
@@ -334,7 +338,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             required: "Required input",
             minlength: jQuery.format("Please, at least {0} characters are necessary"),
             maxlength: jQuery.format("Please enter no more than {0} characters"),
-            checkusername: jQuery.format("Please enter follow format: aaAA123"),
+            checkusername: jQuery.format("Please enter follow format: aaAA123 or abc_123"),
         }
     });
     
@@ -352,31 +356,20 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         }
     });
         
+    jQuery.validator.addMethod("checkretypepass", function(value,element){
+        if(value!=$("#password").val())
+            return false;
+        else return true;
+    },jQuery.format("Password and RetypePassword are not equal."));
+        
     $("#retypepass").rules("add", {
         required: true,
+        checkretypepass: true,
         messages: {
             required: "Required input",
         }
     });
-        
- /*  $("#password").focusout(function(){
-        $("#retypepass").focusout();
-    });*/
-        
-    $("#retypepass").focusout(function(){
-        if($(this).val()!=$("#password").val()){
-            if(!retypepass_flag){
-                retypepass_flag = true;
-                $("#retypepass").after('<label class="error">Password and RetypePassword are not equal.</label>');
-            }
-        }else{
-            if(retypepass_flag){
-                $("#retypepass").next().remove();
-                retypepass_flag = false;
-            }
-        }
-    });
-    
+                    
     $("#email").rules("add", {
         required: true,
         messages: {
@@ -406,6 +399,15 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         required: true,
         messages: {
             required: "Required input",
+        }
+    });
+    
+     $("#verifycode_answer").rules("add", {
+        required: true,
+        maxlength: 50,
+        messages: {
+            required: "Required input",
+            maxlength: jQuery.format("Please enter no more than {0} characters"),
         }
     });
    });
