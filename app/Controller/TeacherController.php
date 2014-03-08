@@ -1,6 +1,6 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User','Teacher');
+    public $uses = array('User','Teacher', 'Lesson');
 
 	function index(){
 		// home
@@ -295,7 +295,6 @@ class TeacherController extends AppController {
 	}
 	
 	function LessonManage(){
-
 	}
 
 	function Statistic(){

@@ -60,7 +60,9 @@
       <?php
           echo $this->Form->create(null, array(
           'controller' => 'search',
-          'action' => 'index',
+          'url' => array(
+              'action' => 'index',
+            ),
           'class' => 'navbar-form navbar-right',
           ));
 
