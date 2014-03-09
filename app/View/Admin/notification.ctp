@@ -36,11 +36,10 @@
             
             <!--panel body-->
             <div class="panel-body">
-                <label>Input:</label>
-                <textarea class="form-control" rows="10" id="publicTextarea"></textarea>
-                <p></p>
-                
-                <form class="form-horizontal" role="form">
+                <form action='notification' class="form-horizontal" role="form" method="POST">
+                    <label>Input:</label>
+                    <textarea class="form-control" rows="10" id="publicTextarea" name="publicTextarea"></textarea>
+                    <p></p>
                     <div class="form-group">
                         <button name="publicpost" type="submit" class="btn btn-success">
                         <span class="glyphicon glyphicon-envelope"></span> Post
@@ -49,10 +48,10 @@
                         <button type="button" class="btn btn-warning" onClick="resetTextareaPublic();">
                         <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
+                        
                     </div>
                 </form>
             </div>
-            
         </div>
     </div>
     
@@ -96,33 +95,17 @@
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
-<<<<<<< Updated upstream
-                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td>';
-                                echo '<td class="check_box"><input class="send-checkbox" type="checkbox" name="'.$d['User']['user_id'].'"/></td></tr>';
-=======
-                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td                       
-                                class="username">'.$d['User']['username'].'</td><td class="check_box">
-                                <input type="checkbox" name="option[]"/></td></tr>';
->>>>>>> Stashed changes
+                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td           
+                                class="username">'.$d['User']['username'].'</td>';
+                                echo '<td class="check_box"><input class="send-checkbox" type="checkbox" name="'.$d['User']['user_id'].'"/></td>
+                                </tr>';
                             endforeach;
                         ?>
                     </table>
                 </div>
                 <p></p>
-<<<<<<< Updated upstream
-                <div class="form-group">
-                    <button type="button" id='post-button' class="btn btn-success">
-                    <span class="glyphicon glyphicon-envelope"></span> Post
-                    </button>
-                
-                    <button type="button" class="btn btn-warning" onClick="resetTextarea();">
-                    <span class="glyphicon glyphicon-refresh"></span> Reset
-                    </button>
-                </div>
-=======
-                <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <button name="privatepost" type="submit" class="btn btn-success">
+                        <button id='post-button' name="privatepost" type="submit" class="btn btn-success">
                         <span class="glyphicon glyphicon-envelope"></span> Post
                         </button>
                     
@@ -130,8 +113,6 @@
                         <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
-                </form>
->>>>>>> Stashed changes
             </div>
         </div>
     </div>
@@ -147,17 +128,20 @@
                     // them vao mang ids tat ca nhung user_id ma co' check
                     ids.push($(this).prop('name'));
                 }
-            })
+            });
+            var privatepost = $("#privateTextarea").val();
+            //var data = {ids:ids,privatepost:privatepost};
             $.ajax({
-                'url':'send',//noi muon gui du lieu den
+                'url':'check_notification',//noi muon gui du lieu den
                 'type':'post', //method
-                'data' : 'ids='+ids.toString(),
+                'data':{ids:ids,privatepost:privatepost},
                 complete : function(res){
                     // du lieu tra ve tu controller
                     alert(res.responseText);
                 }
             })
         });
+        
         $("th input").click(function(){
             var status = $(this).prop('checked');            
             $(".check_box input").prop('checked',status);

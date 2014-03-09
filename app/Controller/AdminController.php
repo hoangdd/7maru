@@ -3,7 +3,8 @@ class AdminController extends AppController {
 	public $uses = array (
 		'User',
 		'Admin',
-		'AdminIp' 
+		'AdminIp',
+        'Notification'
 		);
 	public $components = array (
 		'Auth' => array(
@@ -43,8 +44,8 @@ class AdminController extends AppController {
 		$this->Auth->allow ( 'login', 'logout' );
 		$this->Auth->allow ( 'CreateAdmin' );
 		$this->Auth->allow ( 'Notification' );
-		$this->Auth->allow();
 	}
+    
 	function CreateAdmin() {
 		$error = array ();
 		$user_re_ex = '/^[A-Za-z]\w+$/';
@@ -158,15 +159,17 @@ class AdminController extends AppController {
 		}
 		$this->set ( 'error', $error );
 	}
+    
 	function Notification() {
         //load list user
-		$list_user = $this->User->find ( 'all' );
+		$list_user = $this->User->find ( 'all',array('order'=>array(
+            'User.username' => 'asc')
+        ) );
 		$this->set ( "data", $list_user );
         
-        //check submit
+        //luu csdl post public
         if($this->request->is('post')){
             $data = $this->request->data;
-            
             $data_public = array(
                 'user_id'   =>  'all',
                 'content'    =>  $data['publicpost'],
@@ -176,14 +179,17 @@ class AdminController extends AppController {
                 'user_id'       =>  '',
                 'privatepost'   =>  $data['privatepost'],
             );
+                $data_public = array(
+                    'user_id'   =>  'all',
+                    'content'    =>  $data['publicTextarea'],
+                );
             if(isset($data_public)){
-                $this->Admin->create($data_teacher);
-                $result = $this->Teacher->save();
-            }else if(isset($data_private)){
-                
+                $this->Notification->create($data_public);
+                $this->Notification->save();
             }
         }
 	}
+    
 	function login() {
         //check loggedIn();
 		if($this->Auth->loggedIn()){
@@ -360,22 +366,30 @@ class AdminController extends AppController {
 		$this->set ( 'data', $data );
 		$temp = $this->request->query;
 	}
+    
 	function delip() {
 		$ip = $this->params ['url'] ['ip'];
 	}
-	function send(){
-		// lay du lieu gui len
-		$data = $this->request->data['ids'];
+    
+	function check_notification(){
+        $this->loadModel('Notification');
+        if($this->request->is('post')){
+            // lay du lieu gui len
+            $id_array = $this->request->data['ids'];
 
-		// chuyen sau thanh mang
-		$id_array = explode(',', $data);
-
-		if( !empty($data)){
-			echo 'ok';
-		}else{
-			echo 'error';
-		}
-		die;
+            // chuyen sau thanh mang
+            $data = $this->request->data;
+            $data_private = array();
+            foreach($id_array as $user_id):                
+                $record = array('Notification'=>array( 'user_id' => $user_id,'content' => $data['privatepost'] ));
+                $data_private[] = $record;
+            endforeach;
+            if(isset($data_private)){
+               // $this->Notification->create($data_private);                
+                if ($this->Notification->saveMany($data_private)) echo "Send complete!";
+            }
+        }
+        die;
 	}
 
 	function formatToWriteAccountFile($data){
