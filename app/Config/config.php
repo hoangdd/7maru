@@ -11,9 +11,67 @@ define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avata');
 define('LESSON_COVER_DIR', WWW_ROOT.'img'.DS.'data'.DS.'cover');
 
 /*========================Config user roles ====================*/
-Configure::write('userRoles', array(
 
-	));
+/*
+admin => account, blockuser, changepassword, createadmin, index, ipmanage, login ,notification, statistic, usermanage
+file => img, swf, video, audio
+home => index
+lesson => comment, create, edit, index, view
+login => index, changepassword
+reference => edit, index, new, view
+search => index
+student => buylesson, dotest, editprofile, index, profile, register, statistic, test, viewresult
+teacher => creatlesson, editprofile, index, lesson, lessonmanage, profile, register, statistic
+user => comment, index
+*/
+Configure::write('userRoles', array(
+	// admin
+	'R1' => array(
+		'admin' => '*',
+		'home' => '*',
+		'file' => '*',
+		'lesson' => array('index', 'comment','view'),
+		'search' => '*',
+		'student' => array('index', 'profile', 'statistic'),
+		'teacher' => array('index', 'profile', 'statistic'),
+		'user' => array('index')
+	),
+	// teacher
+	'R2' => array(
+		'file' => '*',
+		'home' => '*',
+		'lesson' => '*',
+		'login' => '*',
+		'reference' => '*',
+		'search' => '*',
+		'user' => '*',
+		'teacher' => '*',
+		'student' => array('index', 'profile')
+		),
+
+	// student
+	'R3' => array(
+		'file' => '*',
+		'home' => '*',
+		'lesson' => array('comment', 'index', 'view'),
+		'login' => '*',
+		'reference' => array('index', 'view'), 
+		'search' => '*',
+		'student' => '*',
+		'teacher' => array('index', 'profile'),
+		'user' => '*'
+		),
+
+	//guest
+	'R4' => array(
+		'home' => '*',
+		'login' => array('index'),
+		'admin' => array('login'),
+		'search' => '*',
+		'student' => array('profile', 'register'),
+		'teacher' => array('profile', 'register'),
+	),
+));
 /*========================End config user roles ====================*/
 
 /*========================Config file ====================*/

@@ -1,5 +1,6 @@
 <?php
 
+
 class Student extends AppModel {
     public $primaryKey = 'student_id';
     public $validate = array(
@@ -23,3 +24,4 @@ class Student extends AppModel {
     	return true;
     }
 }
+?>

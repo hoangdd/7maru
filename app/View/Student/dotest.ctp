@@ -38,7 +38,7 @@ if(!isset($_SESSION["start_time"	])){$_SESSION["start_time"] = mktime(date(G),da
   	<h3> Answer </h3>
   	
   	<?php echo $this->Form->create('Student',
-  		array( 'url' => array('controller' => 'student', 'action' => 'viewtestresult')
+  		array( 'url' => array('controller' => 'student', 'action' => 'dotest')
   			)
   			);
   		 ?>
@@ -68,7 +68,7 @@ if(!isset($_SESSION["start_time"	])){$_SESSION["start_time"] = mktime(date(G),da
 					echo $this->Form->input('Student.timer', array(
 				    	'type' => 'text',
 				    	'id' => 'txt',
-				    	'disable' => 'disable'
+				    	'readonly' => 'readonly'
 						));
 				?> 
 				
@@ -93,7 +93,7 @@ function calculate_time()
   {
    clearInterval(ct);
    document.getElementById("txt").value = "0:00";
-   document.getElementById("submitButton").disabled = true; 
+   
    alert("The time is up.");
    }
   }
@@ -115,7 +115,6 @@ function calculate_time()
 				
 			</style>
 		</table></table>
-		</form>
   </div>
 </div>
 

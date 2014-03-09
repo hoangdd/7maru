@@ -1,31 +1,35 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User','Teacher');
+    public $uses = array('User','Teacher', 'Lesson');
+
+    public function beforeFilter(){
+        parent::beforeFilter();
+        $this->Auth->allow();//Allow all
+    }
 
 	function index(){
 		// home
 	}
   
 	function Register(){
-
         $error = array();
         //$user_re_ex='/^[A-Za-z]+\_[A-Za-z]+[0-9]$/'; 
         $user_re_ex = '/^[A-Za-z]\w+$/';
         //$pass_re_ex='/^.*(?=.{7,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).*$/';
         $pass_re_ex = '/^\w+$/';
         $email_re_ex ='[a-z0-9\\._]*[a-z0-9_]@[a-z0-9][a-z0-9\\-\\.]*[a-z0-9]\\.[a-z]{2,6}$';
-		//If has data
+		//データがある場合
 		if($this->request->is('post')){
 			$data = $this->request->data;
             
            /*
-               Check username:
+               ユーザ名前をチェック:
                 0:  null
                 1:  empty
                 2:  not match form
-                3:  min short
-                4:  max long
-                5:  is used
+                3:  too short
+                4:  too long
+                5:  was used
             */
             $check_user= true;
 			if(!isset($data['username'])){
@@ -58,8 +62,7 @@ class TeacherController extends AppController {
                         'User.username' => $data['username']
                     )));
                 if(empty($res)){
-                    //chua ton tai
-                    //$error['username'] ='Username chua ton tai!';
+                    //存在しない
                 }else{
                     $error['username'][5] ='Username is exist.';
                     $check_user = false;
@@ -68,14 +71,13 @@ class TeacherController extends AppController {
             //=================================
             
             /*
-               Check password:
+               パースワードをチェック:
                 0:  null
                 1:  empty
                 2:  not match form
-                3:  min short
-                4:  max long
+                3:  too short
+                4:  too long
             */
-            $check_user_password = true;
             if(!isset($data['password'])){
                 $error['password'][0] ='Password is equal null.';
                 $check_user = false;
@@ -103,7 +105,7 @@ class TeacherController extends AppController {
             }
             
             /*
-                Check RetypePassword
+                もう一度パースワードを確認する:
                 0:  null
                 1:  empty
                 2:  not match with password
@@ -125,7 +127,7 @@ class TeacherController extends AppController {
             }
             
             /*
-                Check FirstName and LastName
+                FirstName と LastNameをチェック：
                 0:  null
                 1:  empty
                 2:  too long
@@ -163,7 +165,26 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
             }
-            //check email
+            
+            //verifycode_answerをチェック：
+            if(!isset($data['verifycode_answer'])){
+                $error['verifycode_answer'][0] ='Answer of verifycode is equal null.';
+                $check_user = false;
+			}
+            
+			if(empty($data['verifycode_answer'])){
+                $error['lastname'][1] ='Answer of verifycode is empty.';
+                $check_user = false;
+			}	
+            else{
+
+                if(strlen($data['verifycode_answer']) > 50){
+                    $error['verifycode_answer'][2] ='Answer of verifycode is too long.';
+                    $check_user = false;
+                }
+            }
+            
+            //Eメールをチェック
            if(!isset($data['mail'])){
                 $error['mail'][0] ='Email is equal null.';
                 $check_user = false;
@@ -177,9 +198,9 @@ class TeacherController extends AppController {
                         'User.mail' => $data['mail']
                     )));
                 if(empty($res)){
-                    //chua ton tai
+                    //存在しない
                 }else{
-                    $error['mail'][2] ='Email is exist.';
+                    $error['mail'][2] ='Email was exist.';
                     $check_user = false;
                 }
             }
@@ -197,57 +218,52 @@ class TeacherController extends AppController {
 			}
             //=================================
             
-            //check phone number
-            
+            //携帯電話の番号をチェック：
 			if(!empty($data['phone_number'])){
                 if(strlen($data['phone_number']) < 10){
                     $error['phone_number'][0] ='Phone number is too short.';
-                    $check_teacher = false;
                 }
 
                 if(strlen($data['phone_number']) > 15){
                     $error['phone_number'][1] ='Phone number is too long.';
-                    $check_teacher = false;
                 }
             }
             //====================================
-            //check profile picture;
+            
+            //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
                 $img_exts = Configure::read('srcFile')['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
                 if( !in_array($ext, $img_exts) ){
-                  $error['profile_picture'][0] ='Unsupported image file.';  
-                  $check_user = false;
+                  $error['profile_picture'][0] ='Unsupported image file';  
                 }
             }
-
             //====================================
-            //save data of teacher
+            
+            
+            //先生のデーだをセーブ
             /*
             *   Bank_acount, office, description
             */
-           
             if($check_teacher==true && $check_user==true){
                 $data_teacher = array(
-                    'username'      =>  $data['username'], //truyen username vao
+                    'username'      =>  $data['username'], //ユーザ名を送る
                     'bank_account'  =>  $data['bank_account'],
                     'office'        =>  $data['office'],
                     'description'   =>  $data['description'],
                 );
                 $this->Teacher->create($data_teacher);
                 
-                //luu va tra lai ket qua
+                //セーブしたり、結果を出した
                 $result = $this->Teacher->save();
-
                 
-                //save data of user
+                //ユーザのデータをセーブする
                 /*
                 *   username,firstname,lastname,date_of_birth,address,password,
-                *   user_type,mail,phone_number
+                *   user_type,mail,phone_number,profile_picture
                 */            
-                //id tu sinh
-
+                //自動にteacher_idを作られる
                 if(isset($result['Teacher']['teacher_id'])){
                     $data_user = array(
                         'foreign_id'=>  $result['Teacher']['teacher_id'],
@@ -274,15 +290,46 @@ class TeacherController extends AppController {
 	}
 
 	function Profile(){
-
+       if($this->Auth->loggedIn()){
+        $pid=$this->Auth->User('user_id');
+        $data = $this->User->find('first', array(
+            'conditions' => array(
+                'User.user_id' => $pid,
+                )
+            ));
+        $this->set("data",$data);
+        if($data['User']['user_type']==2){
+            $a=$data['User']['foreign_id'];
+            $data1=$this->Teacher->find('first',array(
+                'conditions' => array(
+                    'Teacher.teacher_id' => $a,
+                    )
+                ));
+            $this->set("data1",$data1);
+            $this->loadModel("Coma");
+            $data2=$this->Coma->find('all',array(
+                'conditions' => array(
+                    'Coma.author' => $pid,
+                    )
+                ));
+            $this->set("data2",$data2);
+        }
+	    }
 	}
 
 	function EditProfile(){
+        if($this->Auth->loggedIn()){     
+            if($this->request->is('post')){
+                $pid=$this->Auth->User('user_id');
+                $this->User->id=$pid;
+                $this->User->read();
+                $this->User->save($this->request->data);
+            }
+        }
 
 	}
 	
 	function LessonManage(){
-
 	}
 
 	function Statistic(){
@@ -323,5 +370,13 @@ class TeacherController extends AppController {
 	function  EditLession() {
 	
 	}
+    function getDataStatistic(){
+        if ($this->request->is('post')){
+            $data = $this->request->data;
+            $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
+            $this->set('request',$request);
+        }
+    }
 
 }
+

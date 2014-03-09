@@ -8,22 +8,37 @@ class LoginController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('index', 'logout');
     }
 
     function index() {
+
+
+        //check loggedIn();
+        if($this->Auth->loggedIn()){
+            $this->redirect(array(
+                'controller' => 'home',
+                'action' => 'index',
+                ));
+        }
+
         if ($this->request->is('post')) {
             $data = $this->request->data['User'];
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password']);
             if ($this->Auth->login()) {
                 // Login success
+                $userType = $this->Auth->user('user_type');
+                if( $userType==1 || $userType=='1'){    
+                    $this->Session->write('Auth.User.role', 'R2');
+                }else if( $userType==2 || $userType=='2'){ 
+                    $this->Session->write('Auth.User.role', 'R3');
+                }
                 $this->Session->setFlash(__("Login success"));
                 $this->redirect($this->Auth->redirectUrl());
             } else {
-                //Login fail
+            //Login fail
                 $this->Session->setFlash(
-                        __('Username or password is incorrect'), 'default', array(), 'auth'
-                );
+                    __('Username or password is incorrect'), 'default', array(), 'auth'
+                    );
             }
         }
     }
@@ -86,8 +101,8 @@ class LoginController extends AppController {
             $user = $this->User->find('first', array(
                 'conditions' => array(
                     'User.user_id' => $this->Auth->User('user_id'),
-                ),
-            ));
+                    ),
+                ));
 
             /* Check current password to password in database
              * If valid then update new Password
@@ -96,18 +111,18 @@ class LoginController extends AppController {
             if ($this->Auth->password($this->Auth->user('username') . $current) === $user['User']['password']) {
                 $hashNewPassword = $this->Auth->password($this->Auth->user('username') . $new);
                 $updatePassword = $this->User->updateAll(
-                        array(
-                    'User.password' => "'" . $hashNewPassword . "'"
+                    array(
+                        'User.password' => "'" . $hashNewPassword . "'"
                         ), array(
-                    'User.user_id' => $this->Auth->User('user_id')
+                        'User.user_id' => $this->Auth->User('user_id')
                         )
-                );
+                        );
                 if ($updatePassword) {
                     $this->Session->setFlash('The user has been saved');
                     $this->redirect(array(
                         'controller' => 'Home',
                         'action' => 'index',
-                    ));
+                        ));
                 } else {
                     $this->Session->setFlash('The user could not be saved. Please, try again.');
                 }
@@ -124,7 +139,7 @@ class LoginController extends AppController {
         $this->redirect(array(
             'controller' => 'Home',
             'action' => 'index'
-        ));
+            ));
     }
 
 }
