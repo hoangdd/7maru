@@ -174,15 +174,6 @@ class AdminController extends AppController {
                 'user_id'   =>  'all',
                 'content'    =>  $data['publicpost'],
             );
-            
-            $data_private   = array(
-                'user_id'       =>  '',
-                'privatepost'   =>  $data['privatepost'],
-            );
-                $data_public = array(
-                    'user_id'   =>  'all',
-                    'content'    =>  $data['publicTextarea'],
-                );
             if(isset($data_public)){
                 $this->Notification->create($data_public);
                 $this->Notification->save();
