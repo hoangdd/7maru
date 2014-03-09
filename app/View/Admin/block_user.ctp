@@ -1,6 +1,8 @@
 <!-- header -->
 <h3 style="text-align:center">
-	VIOLATION REPORT
+	<?php
+		echo __('VIOLATION REPORT');
+	?>
 </h3>
 <!-- table -->
 <div class="">
@@ -10,24 +12,36 @@
 			<tr>
 
 				<th class='text-center' style="width:10%">
-					No.
+					<?php
+						echo __('No.');
+					?>
 				</th>
 
 				<th class='' style="width:25%">
-					Name
+					<?php
+						echo __('Name');
+					?>
 				</th>
 
 				<th class='text-center' style="width:20%">
-					Username
+					<?php
+						echo __('Username');
+					?>
 				</th>
 				<th class='text-center' style="width:15%">
-					Comment
+					<?php
+						echo __('Comment');
+					?>
 				</th>
 				<th class='text-center' style="width:15%">
-					Block
+					<?php
+						echo __('Block');
+					?>
 				</th>
 				<th class='text-center' style="width:15%">
-					Destroy
+					<?php
+						echo __('Destroy');
+					?>
 				</th>
 			</tr>
 		</thead>
