@@ -48,6 +48,16 @@ class LessonController extends AppController {
                 } else if($_FILES['test']['size'] > 5242880){
                     $error['test'] = 'Test File Too Big';
                 }
+
+                //テストファイルの構造は正しいかどうかをチェックする。
+                $fileReader = fopen($_FILES['test']['tmp_name'],'r');
+                if($fileReader){
+                    while (($line = fgets($fileReader)) !== false) {
+
+                    }
+                } else {
+                    $error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+                }
             }
             // for($i = 0, $len = $);
             if($_FILES['document']['name'][0]){
@@ -157,8 +167,11 @@ class LessonController extends AppController {
 	function Destroy(){
 		
 	}
-	function View(){
-	}
+	function View($id){
+	   $lesson = $this->Lesson->findByComaId ($id);
+       debug($lesson);
+       $this->set('coma',$lesson);
+    }
 	
 	function Comment(){
 	}
