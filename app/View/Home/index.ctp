@@ -113,7 +113,7 @@
 ?>	
 
 <div id='hot' class="page">
-	<div style="margin:auto;width:60%">
+	<div style="margin:auto;width:70%">
 		<?php
 			echo $this->element('lesson_list');
 		?>
@@ -126,7 +126,7 @@
 
 <div class="page">
 	<div id='recent' class="page">
-		<div style="margin:auto;width:60%">
+		<div style="margin:auto;width:70%">
 			<?php
 				echo $this->element('lesson_list');
 			?>
@@ -141,7 +141,7 @@
 
 <div class="page">
 	<div id='bb' class="page">
-		<div style="margin:auto;width:60%">
+		<div style="margin:auto;width:70%">
 			<?php
 				echo $this->element('lesson_list');
 			?>
@@ -155,7 +155,7 @@
 
 <div class="page">
 	<div id='etc' class="page">
-		<div style="margin:auto;width:60%">
+		<div style="margin:auto;width:70%">
 			<?php
 				echo $this->element('lesson_list');
 			?>

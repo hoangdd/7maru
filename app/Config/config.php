@@ -66,6 +66,7 @@ Configure::write('userRoles', array(
 	'R4' => array(
 		'home' => '*',
 		'login' => array('index'),
+		'admin' => array('login'),
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register'),

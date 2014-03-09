@@ -70,16 +70,19 @@ class AppController extends Controller {
     private function __permission($user_role = null, $current_controller = null){
         $role = isset($user_role) ? $user_role : $this->Auth->user('role');
 
-        if( !is_array($current_controller))
+        if( !is_array($current_controller)){
             $current_controller = array();
+        }
         $controller = array_merge($current_controller, array(
-                'controller' => $this->name,
-                'action' => $this->action,
-            ));
+            'controller' => $this->name,
+            'action' => $this->action,
+        ));
 
         //string to lowwer
         $controller['controller'] = strtolower($controller['controller']);
         $controller['action'] = strtolower($controller['action']);
+
+        
 
         if( empty($role)) $role = 'R4'; //guest
 

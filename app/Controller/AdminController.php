@@ -1,38 +1,38 @@
 <?php
 class AdminController extends AppController {
 	public $uses = array (
-     'User',
-     'Admin',
-     'AdminIp' 
-     );
+		'User',
+		'Admin',
+		'AdminIp' 
+		);
 	public $components = array (
-     'Auth' => array(
-        'authenticate' => array(
-            'Form' => array(
-                'userModel' => 'Admin',
-                'fields' => array(
-                    'username' => 'username',
-                    'password' => 'password',
-                    ),
-                'passwordHasher' => array(
-                    'className' => 'Simple',
-                    'hashType' => 'sha1'
-                    )
-                )
-            ),
-        'loginAction' => array(
-            'controller' => 'Admin',
-            'action' => 'login',
-            ),
-        'loginRedirect' => array(
-            'controller' => 'Admin',
-            'action' => 'index'
-            ),
-        'authError' => 'You don\'t have permission to view this page',
-        ),
-     'Paginator',
-     'RequestHandler' 
-     );
+		'Auth' => array(
+			'authenticate' => array(
+				'Form' => array(
+					'userModel' => 'Admin',
+					'fields' => array(
+						'username' => 'username',
+						'password' => 'password',
+						),
+					'passwordHasher' => array(
+						'className' => 'Simple',
+						'hashType' => 'sha1'
+						)
+					)
+				),
+			'loginAction' => array(
+				'controller' => 'Admin',
+				'action' => 'login',
+				),
+			'loginRedirect' => array(
+				'controller' => 'Admin',
+				'action' => 'index'
+				),
+			'authError' => 'You don\'t have permission to view this page',
+			),
+		'Paginator',
+		'RequestHandler' 
+		);
 	// public $components = array('Paginator','RequestHandler');
 	function index() {
 	}
@@ -81,10 +81,10 @@ class AdminController extends AppController {
 				}
 				
 				$res = $this->Admin->find ( 'all', array (
-                  'conditions' => array (
-                    'Admin.username' => $data ['Admin'] ['username'] 
-                    ) 
-                  ) );
+					'conditions' => array (
+						'Admin.username' => $data ['Admin'] ['username'] 
+						) 
+					) );
 				if (empty ( $res )) {
 					// chua ton tai
 					// $error['username'] ='Username chua ton tai!';
@@ -147,9 +147,9 @@ class AdminController extends AppController {
 			 * username,password
 			 */
 			$data_admin = array (
-               'username' => $data ['Admin'] ['username'],
-               'password' => $data ['Admin'] ['password'] 
-               );
+				'username' => $data ['Admin'] ['username'],
+				'password' => $data ['Admin'] ['password'] 
+				);
 			if ($check_admin == true) {
 				$this->Admin->create ( $data_admin );
 				$this->Admin->save ();
@@ -185,19 +185,19 @@ class AdminController extends AppController {
 	}
 	function login() {
         //check loggedIn();
-        if($this->Auth->loggedIn()){
-            $this->redirect(array(
-                'controller' => 'home',
-                'action' => 'index',
-                ));
-        }
+		if($this->Auth->loggedIn()){
+			$this->redirect(array(
+				'controller' => 'home',
+				'action' => 'index',
+				));
+		}
 		if ($this->request->is ( 'post' )) {
 			$data = $this->request->data ['Admin'];
 			$this->request->data ['Admin'] ['password'] = ( string ) ($data ['username'] . $data ['password']);
 			// debug($this->Admin->hashPassword($data));die;
 			if ($this->Auth->login ()) {
 				// Login success
-                $this->Session->write('Auth.User.role', 'R1');
+				$this->Session->write('Auth.User.role', 'R1');
 				$this->Session->setFlash ( __ ( "Login success" ) );
 			} else {
 				// Login fail
@@ -208,9 +208,9 @@ class AdminController extends AppController {
 	function logout() {
 		$this->Auth->logout ();
 		$this->redirect ( array (
-            'controller' => 'Home',
-            'action' => 'index' 
-            ) );
+			'controller' => 'Home',
+			'action' => 'index' 
+			) );
 	}
 	function changePassword() {
 	}
@@ -222,16 +222,16 @@ class AdminController extends AppController {
 	}
 	function userManage() {
 		$paginate = array (
-            'limit' => 10,
-            'fields' => array (
-              'User.firstname',
-              'User.lastname',
-              'User.username',
-              'User.date_of_birth',
-              'User.user_type',
-              'User.created' 
-              ) 
-            );
+			'limit' => 10,
+			'fields' => array (
+				'User.firstname',
+				'User.lastname',
+				'User.username',
+				'User.date_of_birth',
+				'User.user_type',
+				'User.created' 
+				) 
+			);
 		$this->Paginator->settings = $paginate;
 		// $this->Paginator->options(array(
 		// 'update' => '#content',
@@ -251,10 +251,10 @@ class AdminController extends AppController {
 			if (strcmp ( $getParam ['mod'], "delete" ) == 0) {
 				$id = $getParam ['ip'];
 				$del = $this->AdminIp->find ( 'first', array (
-                  'conditions' => array (
-                    'AdminIp.ip' => $id 
-                    ) 
-                  ) );
+					'conditions' => array (
+						'AdminIp.ip' => $id 
+						) 
+					) );
 				$this->AdminIp->delete ( intval ( $del ['AdminIp'] ['ip_id'] ) );
 			}
 			if (strcmp ( $getParam ['mod'], "edit" ) == 0) {
@@ -272,10 +272,10 @@ class AdminController extends AppController {
 				if (isset ( $this->request->data ['AdminIp'] ['Hidden'] )) {
 					$pre = $this->request->data ['AdminIp'] ['Hidden'];
 					$specificallyThisOne = $this->AdminIp->find ( 'first', array (
-                     'conditions' => array (
-                       'AdminIp.ip' => $pre 
-                       ) 
-                     ) );
+						'conditions' => array (
+							'AdminIp.ip' => $pre 
+							) 
+						) );
 					if ((strcmp ( strval($pre), $ipRetrieved ) != 0) && (count ( $specificallyThisOne ) != 0)) {
 						echo $specificallyThisOne ['AdminIp'] ['ip_id'];
 						$this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
@@ -283,10 +283,10 @@ class AdminController extends AppController {
 					}
 				} else {
 					$specificallyThisOne = $this->AdminIp->find ( 'first', array (
-                     'conditions' => array (
-                       'AdminIp.ip' => $ipRetrieved 
-                       ) 
-                     ) );
+						'conditions' => array (
+							'AdminIp.ip' => $ipRetrieved 
+							) 
+						) );
 					
 					if (count ( $specificallyThisOne ) == 0) {
 						$this->AdminIp->set ( 'ip', $ipRetrieved );
@@ -298,11 +298,11 @@ class AdminController extends AppController {
 		$this->set ( 'enter', $enter );
 		$this->set ( 'modFlag', $modFlag );
 		$pagination = array (
-            'limit' => 3,
-            'fields' => array (
-              'AdminIp.ip' 
-              ) 
-            );
+			'limit' => 3,
+			'fields' => array (
+				'AdminIp.ip' 
+				) 
+			);
 		$this->Paginator->settings = $pagination;
 		$data = $this->Paginator->paginate ( 'AdminIp' );
 		$this->set ( 'data', $data );

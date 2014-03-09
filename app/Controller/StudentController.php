@@ -6,16 +6,15 @@ class StudentController extends AppController {
 			'User',
 			'Student' 
 	);
-    
-	function index(){
 
-	}
 	public function beforeFilter() {
 		parent::beforeFilter ();
-		$this->Auth->userModel = 'Student';
-		$this->Auth->allow ( 'dotest', 'viewtestresult' );
+		$this->Auth->allow();//Allow all
 	}
-    
+	
+	function index(){
+	}
+
 	function Register() {
 		$error = array ();
 		// $user_re_ex='/^[A-Za-z]+\_[A-Za-z]+[0-9]$/';
@@ -288,8 +287,8 @@ class StudentController extends AppController {
 	}
 
 	function Profile(){
-		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
-        // $data=$this->User->query($sql);
+		$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
+			// $data=$this->User->query($sql);
 
         if($this->Auth->loggedIn()){
         	$pid=$this->Auth->User('user_id');
@@ -327,163 +326,169 @@ class StudentController extends AppController {
         }
 		$this->set ( 'error', $error );
     }
-        
+
 	function EditProfile() {
 	}
+
 	function Destroy() {
 	}
+
 	function Statistic() {
 	}
+
 	function BuyLesson() {
 	}
+
 	function Test() {
 	}
+
 	function DoTest() {
-		$nFileName = "testfile.tsv"; // Hidden due to security reasons.
-		$nRow = 1;
-		
-		$nFile = fopen ( $nFileName, "r" );
-		
-		$finalTest;
-		
-		if ($nFile !== FALSE) {
-			$temp = 0;
-			$temp_temp = 0;
-			$arrayLen = 0;
-			$indexItem = "Question";
-			$questionNumber = 1;
-			$questionContent;
-			$optNumber = 1;
-			$optionIndex = "Option";
+			$nFileName = "testfile.tsv"; // Hidden due to security reasons.
+			$nRow = 1;
 			
-			$result;
+			$nFile = fopen ( $nFileName, "r" );
 			
 			$finalTest;
-			$arrayOption;
-			while ( ! feof ( $nFile ) ) {
-				$nLineData = fgets ( $nFile );
-				$temp_temp ++;
-				if ($temp_temp > 4) {
-					
-					// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
-					$flagQuestion = 0; // doc cau hoi
-					                   // $nLineData = mb_convert_encoding($nLineData, "UTF-8");
-					$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
-					
-					$nParsed = explode ( "\t", $nLineData, - 1 );
-					if (count ( $nParsed ) == 3) {
-						if (strcmp ( $nParsed [0], " " ) != 0) {
-							if (strcmp ( $nParsed [1], "QS" ) == 0) {
-								$indexItem = "Question " . $questionNumber;
-								$questionContent = $nParsed [2];
-							} else {
-								
-								if (strcmp ( $nParsed [1], "KS" ) == 0) {
-									// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
-									// print_r($resultStrTemp);
-									$resultStr = substr ( $nParsed [2], 2, - 1 );
-									$result = intval ( $resultStr );
-									// $result = $nParsed[2];
-									// echo $result;
-									
-									$arrTemp = array (
-											"content" => $questionContent 
-									);
-									$arrTemp += $arrayOption;
-									$arrTemp += array (
-											"mark" => $result 
-									);
-									
-									$arrResult = array (
-											$indexItem => $arrTemp 
-									);
-									if ($temp == 0) {
-										$finalTest = $arrResult;
-										$temp ++;
-									} else
-										$finalTest += $arrResult;
-									
-									$questionNumber ++;
-									$indexItem = "Question";
-									$optNumber = 1;
-									$optionIndex = "Option";
+			
+			if ($nFile !== FALSE) {
+				$temp = 0;
+				$temp_temp = 0;
+				$arrayLen = 0;
+				$indexItem = "Question";
+				$questionNumber = 1;
+				$questionContent;
+				$optNumber = 1;
+				$optionIndex = "Option";
+				
+				$result;
+				
+				$finalTest;
+				$arrayOption;
+				while ( ! feof ( $nFile ) ) {
+					$nLineData = fgets ( $nFile );
+					$temp_temp ++;
+					if ($temp_temp > 4) {
+						
+						// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
+						$flagQuestion = 0; // doc cau hoi
+										   // $nLineData = mb_convert_encoding($nLineData, "UTF-8");
+						$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
+						
+						$nParsed = explode ( "\t", $nLineData, - 1 );
+						if (count ( $nParsed ) == 3) {
+							if (strcmp ( $nParsed [0], " " ) != 0) {
+								if (strcmp ( $nParsed [1], "QS" ) == 0) {
+									$indexItem = "Question " . $questionNumber;
+									$questionContent = $nParsed [2];
 								} else {
 									
-									$optionIndex = "Option" . $optNumber;
-									if ($optNumber == 1) {
-										$arrayOption = array (
-												$optionIndex => $nParsed [2] 
-										);
+									if (strcmp ( $nParsed [1], "KS" ) == 0) {
+										// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
+										// print_r($resultStrTemp);
+										$resultStr = substr ( $nParsed [2], 2, - 1 );
+										$result = intval ( $resultStr );
+										// $result = $nParsed[2];
+										// echo $result;
+										
+										$arrTemp = array (
+											"content" => $questionContent 
+											);
+										$arrTemp += $arrayOption;
+										$arrTemp += array (
+											"mark" => $result 
+											);
+										
+										$arrResult = array (
+											$indexItem => $arrTemp 
+											);
+										if ($temp == 0) {
+											$finalTest = $arrResult;
+											$temp ++;
+										} else
+										$finalTest += $arrResult;
+										
+										$questionNumber ++;
+										$indexItem = "Question";
+										$optNumber = 1;
+										$optionIndex = "Option";
 									} else {
-										$arrayOption += array (
+										
+										$optionIndex = "Option" . $optNumber;
+										if ($optNumber == 1) {
+											$arrayOption = array (
 												$optionIndex => $nParsed [2] 
-										);
+												);
+										} else {
+											$arrayOption += array (
+												$optionIndex => $nParsed [2] 
+												);
+										}
+										$optNumber ++;
 									}
-									$optNumber ++;
 								}
+								// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
+								// echo "$nParsed[2] <br>";
 							}
-							// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
-							// echo "$nParsed[2] <br>";
 						}
+						
+						// echo "Parsed Line - " & $nParsed[0] & "<br>"; //Debug, Outputs Junk (eg Line 4 = @P)
+						// echo "<br> Parsed Line - $nParsed[0] <br>"; //Debug, Outputs Proper (eg Line 4 = #START)
 					}
-					
-					// echo "Parsed Line - " & $nParsed[0] & "<br>"; //Debug, Outputs Junk (eg Line 4 = @P)
-					// echo "<br> Parsed Line - $nParsed[0] <br>"; //Debug, Outputs Proper (eg Line 4 = #START)
 				}
+				
+				// print_r($finalTest);
+				$this->set ( "test_list", $finalTest );
+				$this->testList = $finalTest;
+				fclose ( $nFile );
+				// return $finalTest;
 			}
+			// return null;
 			
-			// print_r($finalTest);
-			$this->set ( "test_list", $finalTest );
-			$this->testList = $finalTest;
-			fclose ( $nFile );
-			// return $finalTest;
-		}
-		// return null;
-		
-		if (! $this->request->is ( "post" )) {
-		} else {
-			
-			$data = $this->request->data ['Student'];
-			print_r ( $data );
-			// $this->testList = $this->DoTest();
-			// if($this->testList != null)
-			// //print_r($this->testList);
-			$temp = 0;
-			foreach ( $data as $q => $m ) {
-				if (strcmp ( $q, "timer" ) != 0) {
-					$str = "Option" . $finalTest [$q] ['mark'];
-					if (strcmp ( $str, $m ) == 0)
-						$temp ++;
+			if (! $this->request->is ( "post" )) {
+			} else {
+				
+				$data = $this->request->data ['Student'];
+				print_r ( $data );
+				// $this->testList = $this->DoTest();
+				// if($this->testList != null)
+				// //print_r($this->testList);
+				$temp = 0;
+				foreach ( $data as $q => $m ) {
+					if (strcmp ( $q, "timer" ) != 0) {
+						$str = "Option" . $finalTest [$q] ['mark'];
+						if (strcmp ( $str, $m ) == 0)
+							$temp ++;
+					}
+					else $timeTemp = $m;
 				}
-				else $timeTemp = $m;
-			}
-// 			echo $temp;
-			$reTemp = count($data) - 1;
-			$timeTemp = 
-// 			$this->ViewTestResult($temp, 5);
-// 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
-			$this->redirect ( array (
+				// echo $temp;
+				$reTemp = count($data) - 1;
+				$timeTemp = 
+				// $this->ViewTestResult($temp, 5);
+				// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+				$this->redirect ( array (
 					'controller' => 'student',
 					'action' => 'viewtestresult',
 					'hit' => $temp,
 					'total' => $reTemp,
 					'time' => $timeTemp 
-			) );
-			//
+					) );
+				//
+			}
+		}
+
+		function ViewTestResult() {
+			print_r( $this->request->params);
+			$this->set('hit',$this->request->params['named']['hit']);
+			$this->set('total',$this->request->params['named']['total']);
+			$this->set('time',$this->request->params['named']['time']);
+			/*$this->set('hit',$this->params['url']['hit']);
+			$this->set('total',$this->params['url']['total']);
+			$this->set('time',$this->params['url']['time']);
+			$this->set ( 'hit', $this->request->params->url['hit'] );
+			$this->set ( 'total', $this->request->params->url['total'] );*/
+		}
+
+		function ChangePassword() {
 		}
 	}
-	function ViewTestResult() {
-// 		print_r ($this->params['url']);
-		print_r( $this->request->params);
-		$this->set('hit',$this->request->params['named']['hit']);
-		$this->set('total',$this->request->params['named']['total']);
-		$this->set('time',$this->request->params['named']['time']);
-// 		$this->set('hit',$this->params['url']['hit']);
-// 		$this->set('total',$this->params['url']['total']);
-// 		$this->set('time',$this->params['url']['time']);
-// 		$this->set ( 'hit', $this->request->params->url['hit'] );
-// 		$this->set ( 'total', $this->request->params->url['total'] );
-	}
-	function ChangePassword() {
-	}
-}
