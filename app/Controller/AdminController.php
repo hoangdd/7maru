@@ -172,7 +172,7 @@ class AdminController extends AppController {
             );
             
             $data_private   = array(
-                'user_id'       =>  
+                'user_id'       =>  '',
                 'privatepost'   =>  $data['privatepost'],
             );
             if(isset($data_public)){

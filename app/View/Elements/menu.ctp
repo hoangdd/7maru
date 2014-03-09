@@ -204,7 +204,85 @@ user => comment, index
 		<?php 
 		if( $role=='R4' ) :
 		?>
-	
+			<ul class="nav navbar-nav">
+				<?php
+					$option = array(
+						'controller' => 'Home',
+						'action' => 'index'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Home', $option);
+					?>
+				</li>
+
+				<?php
+					$option = array(
+						'controller' => 'Login',
+						'action' => 'index'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Login', $option);
+					?>
+				</li>
+
+				<li>
+					<a href="#">Register</a>
+				</li>
+				<?php
+					$option = array(
+						'controller' => 'Teacher',
+						'action' => 'register'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Teacher', $option);
+					?>
+				</li>
+				<?php
+					$option = array(
+						'controller' => 'Student',
+						'action' => 'register'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Student', $option);
+					?>
+				</li>
+			</ul>	
 		<?php
 		endif;	//	if( $role=='R2' ) :
 		?>
