@@ -17,10 +17,10 @@
 
 <?php
     echo $this->Html->css('common');
-    $message = array('Your lesson has many violation from student.',
-                     'Your comments were violation.',
-                     'You copied lesson of other.',
-                     'Your lesson didn`t have any documents.',);
+    $message = array(__('Your lesson has many violation from student.'),
+                     __('Your comments were violation.'),
+                     __('You copied lesson of other.'),
+                     __('Your lesson didn`t have any documents.'),);
 ?>
 
 <!-- Notification of Admin -->
@@ -69,7 +69,7 @@
                           <div class="form-group">
                               <label class="col-sm-2 control-label">Message: </label>
                                 <div class="col-sm-10">
-                                    <select class="form-control">
+                                    <select id="select_message" class="form-control">
                                         <?php
                                             //echo $this->Form->input('',array('type'=>'select','options'=>$message)); 
                                             foreach($message as $m):
@@ -99,16 +99,16 @@
 
                 <div class="multiselect">
                     <table class="table table-bordered table-hover" id = "user-table">
-                        <th class="danger"><labe>Name</labe></th>
                         <th class="danger"><labe>Username</labe></th>
+                        <th class="danger"><labe>Full Name</labe></th>
                         <th class="danger"><labe><input type="checkbox"/>Check</labe></th>
                         <?php
                             /*foreach ($user['name'] as $name):
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
-                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td           
-                                class="username">'.$d['User']['username'].'</td>';
+                                echo '<tr><td class="username">'.$d['User']['username'].'</td><td class="name">'
+                                    .$d['User']['firstname'].' '.$d['User']['lastname'].'</td>';
                                 echo '<td class="check_box"><input class="send-checkbox" type="checkbox" name="'.$d['User']['user_id'].'"/></td>
                                 </tr>';
                             endforeach;
@@ -155,17 +155,29 @@
         });
         
         $("th input").click(function(){
-            var status = $(this).prop('checked');            
-            $(".check_box input").prop('checked',status);
+            var status = $(this).prop('checked');      
+            
+            $(".check_box input").each(function(){
+                if($(this).is(":visible")) $(this).prop('checked',status);
+            });
         })
 
         $('#search-input').on('input',function(e){
             hide_row_with($(this).val());
         });
+        $(".check_box input").click(function(){
+            $("th input").prop('checked',false);
+        })
     })
+    
+    $("#select_message").change(function(){
+        $("#privateTextarea").val($("#select_message").val());
+    });
+    
     function resetTextareaPrivate(){
         document.getElementById('privateTextarea').value = "";
         $(".check_box input").prop('checked',false);
+        $("th input").prop('checked',false);
     };
     function resetTextareaPublic(){
         document.getElementById('publicTextarea').value = "";
