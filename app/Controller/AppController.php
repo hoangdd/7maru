@@ -86,7 +86,8 @@ class AppController extends Controller {
 
         if( empty($role)) $role = 'R4'; //guest
 
-        $userRoles = Configure::read('userRoles')[$role];
+        $userRolesData = Configure::read('userRoles');
+        $userRoles = $userRolesData[$role];
 
         if( empty($userRoles) ) return false; //invalid role;
 
