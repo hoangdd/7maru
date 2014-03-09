@@ -57,8 +57,7 @@ class TeacherController extends AppController {
                         'User.username' => $data['username']
                     )));
                 if(empty($res)){
-                    //chua ton tai
-                    //$error['username'] ='Username chua ton tai!';
+                    //存在しない
                 }else{
                     $error['username'][5] ='Username is exist.';
                     $check_user = false;
@@ -233,7 +232,6 @@ class TeacherController extends AppController {
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
                 if( !in_array($ext, $img_exts) ){
                   $error['profile_picture'][0] ='Unsupported image file';  
-                  $check_user = false;
                 }
             }
             //====================================
@@ -258,7 +256,7 @@ class TeacherController extends AppController {
                 //ユーザのデータをセーブする
                 /*
                 *   username,firstname,lastname,date_of_birth,address,password,
-                *   user_type,mail,phone_number
+                *   user_type,mail,phone_number,profile_picture
                 */            
                 //自動にteacher_idを作られる
                 if(isset($result['Teacher']['teacher_id'])){

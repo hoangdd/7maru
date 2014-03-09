@@ -158,8 +158,30 @@ class AdminController extends AppController {
 		$this->set ( 'error', $error );
 	}
 	function Notification() {
-		$data = $this->User->find ( 'all' );
-		$this->set ( "data", $data );
+        //load list user
+		$list_user = $this->User->find ( 'all' );
+		$this->set ( "data", $list_user );
+        
+        //check submit
+        if($this->request->is('post')){
+            $data = $this->request->data;
+            
+            $data_public = array(
+                'user_id'   =>  'all',
+                'content'    =>  $data['publicpost'],
+            );
+            
+            $data_private   = array(
+                'user_id'       =>  
+                'privatepost'   =>  $data['privatepost'],
+            );
+            if(isset($data_public)){
+                $this->Admin->create($data_teacher);
+                $result = $this->Teacher->save();
+            }else if(isset($data_private)){
+                
+            }
+        }
 	}
 	function login() {
         //check loggedIn();

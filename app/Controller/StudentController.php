@@ -6,9 +6,6 @@ class StudentController extends AppController {
 			'User',
 			'Student' 
 	);
-	function index() {
-
-    public $uses = array('User','Student');
     
 	function index(){
 
@@ -18,6 +15,7 @@ class StudentController extends AppController {
 		$this->Auth->userModel = 'Student';
 		$this->Auth->allow ( 'dotest', 'viewtestresult' );
 	}
+    
 	function Register() {
 		$error = array ();
 		// $user_re_ex='/^[A-Za-z]+\_[A-Za-z]+[0-9]$/';
@@ -25,45 +23,51 @@ class StudentController extends AppController {
 		// $pass_re_ex='/^.*(?=.{7,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).*$/';
 		$pass_re_ex = '/^\w+$/';
 		$email_re_ex = '[a-z0-9\\._]*[a-z0-9_]@[a-z0-9][a-z0-9\\-\\.]*[a-z0-9]\\.[a-z]{2,6}$';
-		// If has data
-		if ($this->request->isPost ()) {
-			// $this->log($this->request->data);
+		//データがある場合
+		if ($this->request->is('post')) {
 			$data = $this->request->data;
-			/*
-			 * Check username: 0: null 1: empty 2: not match form 3: min short 4: max long 5: is used
-			 */
+            
+			 /*
+               ユーザ名前をチェック:
+                0:  null
+                1:  empty
+                2:  not match form
+                3:  too short
+                4:  too long
+                5:  was used
+            */
 			$check_user = true;
 			
-			if (! isset ( $data ['username'] )) {
-				$error ['username'] [0] = 'Username is equal null.';
+			if (!isset($data ['username'])) {
+				$error['username'][0] = 'Username is equal null.';
 				$check_user = false;
 			}
 			
-			if (empty ( $data ['username'] )) {
-				$error ['username'] [1] = 'Username is empty.';
+			if (empty($data['username'])){
+				$error['username'][1] = 'Username is empty.';
 				$check_user = false;
 			} else {
-				if (! preg_match ( $user_re_ex, $data ['username'] )) {
-					$error ['username'] [2] = 'Username is not match form.';
+				if (!preg_match($user_re_ex,$data['username'])){
+					$error['username'][2] = 'Username is not match form.';
 					$check_user = false;
 				}
 				
-				if (strlen ( $data ['username'] ) < 6) {
-					$error ['username'] [3] = 'Username is too short.';
+				if (strlen($data['username'])< 6){
+					$error['username'][3] = 'Username is too short.';
 					$check_user = false;
 				}
 				
-				if (strlen ( $data ['username'] ) > 30) {
-					$error ['username'] [4] = 'Username is too long.';
+				if (strlen($data['username'])> 30){
+					$error['username'][4] = 'Username is too long.';
 					$check_user = false;
 				}
 				
-				$res = $this->User->find ( 'all', array (
+				$res = $this->User->find ('all', array(
 						'conditions' => array (
 								'User.username' => $data ['username'] 
 						) 
 				) );
-				if (empty ( $res )) {
+				if (empty($res)){
 					// chua ton tai
 					// $error['username'] ='Username chua ton tai!';
 				} else {
@@ -71,57 +75,68 @@ class StudentController extends AppController {
 					$check_user = false;
 				}
 			}
-			// =================================
-			
-			/*
-			 * Check password: 0: null 1: empty 2: not match form 3: min short 4: max long
-			 */
-			if (! isset ( $data ['password'] )) {
-				$error ['password'] [0] = 'Password is equal null.';
+			 //=================================
+            
+            /*
+               パースワードをチェック:
+                0:  null
+                1:  empty
+                2:  not match form
+                3:  too short
+                4:  too long
+            */
+			if (!isset($data['password'])){
+				$error['password'][0] = 'Password is equal null.';
 				$check_user = false;
 			}
 			
-			if (empty ( $data ['password'] )) {
-				$error ['password'] [1] = 'Password is empty.';
+			if (empty($data['password'])) {
+				$error['password'][1] = 'Password is empty.';
 				$check_user = false;
 			} else {
-				if (! preg_match ( $pass_re_ex, $data ['password'] )) {
-					$error ['password'] [2] = 'Password is not match form.';
+				if (!preg_match($pass_re_ex,$data['password'])) {
+					$error['password'][2] = 'Password is not match form.';
 					$check_user = false;
 				}
 				
-				if (strlen ( $data ['password'] ) < 8) {
-					$error ['password'] [3] = 'Password is too short.';
+				if (strlen($data['password']) < 8) {
+					$error['password'][3] = 'Password is too short.';
 					$check_user = false;
 				}
 				
-				if (strlen ( $data ['password'] ) > 30) {
-					$error ['password'] [4] = 'Password is too long.';
+				if (strlen($data['password']) > 30) {
+					$error['password'][4] = 'Password is too long.';
 					$check_user = false;
 				}
 			}
 			
 			/*
-			 * Check RetypePassword 0: null 1: empty 2: not match with password
-			 */
-			if (! isset ( $data ['retypepassword'] )) {
-				$error ['retypepassword'] [0] = 'Password is equal null.';
+                もう一度パースワードを確認する:
+                0:  null
+                1:  empty
+                2:  not match with password
+            */
+			if (!isset($data['retypepassword'])){
+				$error['retypepassword'][0] = 'Password is equal null.';
 				$check_user = false;
 			}
 			
-			if (empty ( $data ['retypepassword'] )) {
-				$error ['retypepassword'] [1] = 'Password is empty.';
+			if (empty($data ['retypepassword'] )) {
+				$error ['retypepassword'][1] = 'Password is empty.';
 				$check_user = false;
 			} else {
-				if (strcmp ( $data ['retypepassword'], $data ['password'] ) != 0) {
-					$error ['retypepassword'] [2] = 'Password and RetypePassword are not equal.';
+				if (strcmp($data['retypepassword'],$data['password'] )!= 0) {
+					$error['retypepassword'][2] = 'Password and RetypePassword are not equal.';
 					$check_user = false;
 				}
 			}
 			
-			/*
-			 * Check FirstName and LastName 0: null 1: empty 2: too long
-			 */
+			 /*
+                FirstName と LastNameをチェック：
+                0:  null
+                1:  empty
+                2:  too long
+            */
 			if (! isset ( $data ['firstname'] )) {
 				$error ['firstname'] [0] = 'First name is equal null.';
 				$check_user = false;
@@ -153,19 +168,49 @@ class StudentController extends AppController {
 					$check_user = false;
 				}
 			}
-			// check email
-			if (! isset ( $data ['mail'] )) {
-				$error ['mail'] [0] = 'Email is equal null.';
-				$check_user = false;
+            
+             //verifycode_answerをチェック：
+            if(!isset($data['verifycode_answer'])){
+                $error['verifycode_answer'][0] ='Answer of verifycode is equal null.';
+                $check_user = false;
 			}
-			if (empty ( $data ['mail'] )) {
-				$error ['mail'] [1] = 'Email is empty.';
-				$check_user = false;
+            
+			if(empty($data['verifycode_answer'])){
+                $error['lastname'][1] ='Answer of verifycode is empty.';
+                $check_user = false;
+			}	
+            else{
+
+                if(strlen($data['verifycode_answer']) > 50){
+                    $error['verifycode_answer'][2] ='Answer of verifycode is too long.';
+                    $check_user = false;
+                }
+            }
+            
+			 //Eメールをチェック
+           if(!isset($data['mail'])){
+                $error['mail'][0] ='Email is equal null.';
+                $check_user = false;
 			}
+			if(empty($data['mail'])){
+                $error['mail'][1] ='Email is empty.';
+                $check_user = false;
+			}else{
+                $res = $this->User->find('all',array(
+                    'conditions'=>array(
+                        'User.mail' => $data['mail']
+                    )));
+                if(empty($res)){
+                    //存在しない
+                }else{
+                    $error['mail'][2] ='Email was exist.';
+                    $check_user = false;
+                }
+            }
 			// =================================
 			
 			$check_student = true;
-			// check bank_account
+			// check credit_account
 			if (! isset ( $data ['credit_account'] )) {
 				$error ['credit_account'] [0] = 'Credit account is equal null.';
 				$check_student = false;
@@ -176,8 +221,7 @@ class StudentController extends AppController {
 			}
 			// =================================
 			
-			// check phone number
-			
+			//携帯電話の番号をチェック：
 			if (! empty ( $data ['phone_number'] )) {
 				if (strlen ( $data ['phone_number'] ) < 10) {
 					$error ['phone_number'] [0] = 'Phone number is too short.';
@@ -187,118 +231,58 @@ class StudentController extends AppController {
 					$error ['phone_number'] [1] = 'Phone number is too long.';
 				}
 			}
-
-			// ====================================
-			
-			// xong check
-			// tien hanh luu du lieu vao Model
-			$data ['id'] = $data ['username'] . '' . $data ['password'];
-			// save data of student
-			/*
-			 * Bank_acount, office, description
-			 */
-			$data_student = array (
-					'student_id' => $data ['id'] . "sudent",
-					'credit_account' => $data ['credit_account'],
-					'level' => $data ['level'] 
-			);
-			if ($check_student == true) {
-				$this->Student->create ( $data_student );
-				$this->Student->save ();
-			}
-			
-			// save data of user
-			/*
-			 * username,firstname,lastname,date_of_birth,address,password, user_type,mail,phone_number
-			 */
-			$data_user = array (
-					'user_id' => $data ['id'],
-					'foreign' => $data [''],
-					'username' => $data ['username'],
-					'password' => $data ['password'],
-					'firstname' => $data ['firstname'],
-					'lastname' => $data ['lastname'],
-					'address' => $data ['address'],
-					// 'image_profile' => $data['image_profile'],
-					'mail' => $data ['mail'],
-					'phone_number' => $data ['phone_number'],
-					'date_of_birth' => $data ['date_of_birth'],
-					'user_type' => 2 
-			);
-			if ($check_user == true) {
-				$this->User->create ( $data_user );
-				$this->User->save ();
-			}
-		}
-		$this->set ( 'error', $error );
-
-            //=================================
-            
-            //check phone number
-            
-			if(!empty($data['phone_number'])){
-                if(strlen($data['phone_number']) < 10){
-                    $error['phone_number'][0] ='Phone number is too short.';
-                    $check_student = false;
-                }
-
-                if(strlen($data['phone_number']) > 15){
-                    $error['phone_number'][1] ='Phone number is too long.';
-                    $check_student = false;
-                }
-            }
-            //====================================
-            //check profile picture;
+             //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
                 $img_exts = Configure::read('srcFile')['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
                 if( !in_array($ext, $img_exts) ){
-                  $error['profile_picture'][0] ='Unsupported image file.';  
-                    $check_student = false;
+                  $error['profile_picture'][0] ='Unsupported image file';  
                 }
             }
-			//xong check
-			// tien hanh luu du lieu vao Model
-            $data['id'] =$data['username'].''.$data['password'];
-            //save data of student
-            /*
-            *   Bank_acount, office, description
-            */
-            $data_student = array(
-                'student_id'    =>  $data['id']."sudent",
-                'credit_account' =>   $data['credit_account'],
-                'level'    =>      $data['level'],
-            );
-            if($check_student==true){
-                $this->Student->create($data_student);
-                $this->Student->save();
-            }
-            
-            //save data of user
-            /*
-            *   username,firstname,lastname,date_of_birth,address,password,
-            *   user_type,mail,phone_number
-            */
-            $data_user = array(
-                'user_id'   =>  $data['id'],
-                'foreign'   =>  $data[''],
-                'username'  =>  $data['username'],
-                'password'  =>  $data['password'],
-                'firstname'  => $data['firstname'],
-                'lastname'  =>  $data['lastname'],
-                'address'  =>   $data['address'],
-                'profile_picture' => $profile_pic,
-                'mail'  =>  $data['mail'],
-                'phone_number'  =>  $data['phone_number'],
-                'date_of_birth'  =>  $data['date_of_birth'],
-                'user_type' =>  2,
-            );
-            if($check_user==true){
-                $this->User->create($data_user);
-                $this->User->save();
-            }
-            $this->set('error', $error);
+            //====================================
+
+			//学生のデーだをセーブ
+			/*
+			 * Credit_acount, level
+			 */
+            if ($check_student == true && $check_user == true) {
+                $data_student = array (
+                    'username'      =>  $data['username'],
+                    'credit_account' => $data ['credit_account'],
+                    'level'          => $data ['level'] 
+                );
+				$this->Student->create ( $data_student );
+                //セーブしたり、結果を出した
+				$result = $this->Student->save ();
+			
+			
+			 //ユーザのデータをセーブする
+                /*
+                *   username,firstname,lastname,date_of_birth,address,password,
+                *   user_type,mail,phone_number,profile_picture
+                */ 
+			    if(isset($result['Student']['student_id'])){
+                    $data_user = array(
+                        'foreign_id'=>  $result['Student']['student_id'],
+                        'username'  =>  $data['username'],
+                        'password'  =>  $data['password'],
+                        'firstname'  => $data['firstname'],
+                        'lastname'  =>  $data['lastname'],
+                        'address'  =>   $data['address'],
+                        'verifycode_question' => $data['verifycode_question'],
+                        'verifycode_answer' => $data['verifycode_answer'],
+                        'mail'  =>  $data['mail'],
+                        'phone_number'  =>  $data['phone_number'],
+                        'date_of_birth'  =>  $data['date_of_birth'],
+                        'user_type' =>  2,
+                        'profile_picture' => $profile_pic,
+                    );
+
+                    $this->User->create($data_user);
+                    $this->User->save();
+			     }
+		      }
         }
         $this->set('error', $error);
 	}
@@ -341,17 +325,9 @@ class StudentController extends AppController {
             $this->set("arr",$arr);
         }
         }
+		$this->set ( 'error', $error );
+    }
         
-	function Profile() {
-		// $sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
-		// $data=$this->User->query($sql);
-		$data = $this->User->find ( 'first', array (
-				'conditions' => array (
-						'User.user_id' => $pid 
-				) 
-		) );
-		$this->set ( "data", $data );
-	}
 	function EditProfile() {
 	}
 	function Destroy() {

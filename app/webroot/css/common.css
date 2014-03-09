@@ -94,7 +94,7 @@ td{
 span.span_star{
     position: absolute;
     width:20px; height:20px;
-    right:10; top:10;
+    right:0; top:10;
 }
 
 /**

@@ -3,7 +3,7 @@ echo $this->Html->css('common');
 echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
 ?>
 
-<div class="col-md-12 highlight" style="background-image: url(/7maru/img/brown.png);background-repeat: repeat;background-position: top center;">
+<div class="col-md-12 highlight" style="background-image: url(/7maru/img/new-background-test.jpg);background-repeat: repeat;background-position: top center; background-size: contain;">
 <h1 class="text-center">Teacher Register</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
@@ -308,15 +308,13 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             
         </table>
         <div class="text-center">
-            <button type="button" class="btn btn-primary" type="submit">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
             <button type="button" class="btn btn-primary">Cancel</button>
         </div>         
-        <input type="submit">
     </form>
 </div>
 </div>
 <script>
-    var retypepass_flag = false;
     $(document).ready(function(){
         
     $("#register-form").validate();

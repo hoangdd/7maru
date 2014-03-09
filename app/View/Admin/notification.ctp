@@ -37,20 +37,16 @@
             <!--panel body-->
             <div class="panel-body">
                 <label>Input:</label>
-                <textarea class="form-control" rows="10"></textarea>
+                <textarea class="form-control" rows="10" id="publicTextarea"></textarea>
                 <p></p>
                 
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
-                        <!--<?php
-                            echo $this->Form->button('Post', array('type' => 'submit'));
-                            echo $this->Form->button('Cancel', array('type'=>'reset')); 
-                        ?>-->
-                        <button type="button" class="btn btn-success">
+                        <button name="publicpost" type="submit" class="btn btn-success">
                         <span class="glyphicon glyphicon-envelope"></span> Post
                         </button>
                     
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" class="btn btn-warning" onClick="resetTextareaPublic();">
                         <span class="glyphicon glyphicon-refresh"></span> Reset
                         </button>
                     </div>
@@ -70,12 +66,24 @@
             <!--panel body-->
             <div class="panel-body">
                     <div class="text-center">
-                        <?php
-                            echo $this->Form->input('Message : ',array('type'=>'select','options'=>$message)); 
-                        ?>
+                         <form class="form-horizontal" role="form">
+                          <div class="form-group">
+                              <label class="col-sm-2 control-label">Message: </label>
+                                <div class="col-sm-10">
+                                    <select class="form-control">
+                                        <?php
+                                            //echo $this->Form->input('',array('type'=>'select','options'=>$message)); 
+                                            foreach($message as $m):
+                                                echo '<option>'.$m.'</option>';
+                                            endforeach;
+                                        ?>
+                                    </select>
+                                </div>
+                          </div>
+                        </form>
                     </div>
                     <label>Input:</label>
-                    <textarea class="form-control" rows="2" id="privateTextarea"></textarea>
+                    <textarea class="form-control" rows="3" id="privateTextarea"></textarea>
                 </form>
                 <p></p>
                 <div class="multiselect">
@@ -88,13 +96,20 @@
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
                             endforeach;*/
                             foreach ($data as $d):
+<<<<<<< Updated upstream
                                 echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td class="username">'.$d['User']['username'].'</td>';
                                 echo '<td class="check_box"><input class="send-checkbox" type="checkbox" name="'.$d['User']['user_id'].'"/></td></tr>';
+=======
+                                echo '<tr><td class="name">'.$d['User']['firstname'].' '.$d['User']['lastname'].'</td><td                       
+                                class="username">'.$d['User']['username'].'</td><td class="check_box">
+                                <input type="checkbox" name="option[]"/></td></tr>';
+>>>>>>> Stashed changes
                             endforeach;
                         ?>
                     </table>
                 </div>
                 <p></p>
+<<<<<<< Updated upstream
                 <div class="form-group">
                     <button type="button" id='post-button' class="btn btn-success">
                     <span class="glyphicon glyphicon-envelope"></span> Post
@@ -104,6 +119,19 @@
                     <span class="glyphicon glyphicon-refresh"></span> Reset
                     </button>
                 </div>
+=======
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <button name="privatepost" type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-envelope"></span> Post
+                        </button>
+                    
+                        <button type="button" class="btn btn-warning" onClick="resetTextareaPrivate();">
+                        <span class="glyphicon glyphicon-refresh"></span> Reset
+                        </button>
+                    </div>
+                </form>
+>>>>>>> Stashed changes
             </div>
         </div>
     </div>
@@ -135,8 +163,11 @@
             $(".check_box input").prop('checked',status);
         })
     })
-    function resetTextarea(){
+    function resetTextareaPrivate(){
         document.getElementById('privateTextarea').value = "";
         $(".check_box input").prop('checked',false);
     };
+    function resetTextareaPublic(){
+        document.getElementById('publicTextarea').value = "";
+    }
 </script>
