@@ -1,5 +1,5 @@
 <?php
 
 class LessonReference extends AppModel {
-	$useTable = 'coma_references';
+	public $useTable = 'coma_references';
 }
