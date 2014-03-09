@@ -43,6 +43,7 @@ class AdminController extends AppController {
 		$this->Auth->allow ( 'login', 'logout' );
 		$this->Auth->allow ( 'CreateAdmin' );
 		$this->Auth->allow ( 'Notification' );
+		$this->Auth->allow();
 	}
 	function CreateAdmin() {
 		$error = array ();
@@ -218,8 +219,59 @@ class AdminController extends AppController {
 	}
 	function statistic() {
 	}
-	function account() {
-	}
+	function account(){
+        if ($this->request->is('post')){
+            $month = $this->request->data['month'];
+            $year = $this->request->data['year'];
+        }
+        else {
+            $today = getdate();        
+            //get month now()            
+            $month = $today['mon'];
+            $year = $today['year'];        
+        }        
+        //get data        
+        $data = json_encode($this->getDataForAccount($month,$year));
+        $this->set('data',$data);
+        $this->set('month',$month);
+        $this->set('year',$year);
+    }     
+    public function getDataForAccount($month = null,$year = null){        
+            if (($month == null ) && ($year == null)){
+                 $today = getdate();        
+                //get month now()            
+                $month = $today['mon'];
+                $year = $today['year'];        
+            }
+            $this->loadModel('ComaTransaction');                    
+            $this->loadModel('User');     
+            $this->loadModel('Student');           
+            $this->Student->primaryKey = 'student_id';
+            $this->User->primaryKey = 'user_id';
+            $conditions = array('MONTH(ComaTransaction.created) = '.$month,'YEAR(ComaTransaction.created) = '. $year,'ComaTransaction.student_id = User.user_id');
+            $this->ComaTransaction->bindModel(array(
+                'belongsTo' => array(
+                    'User' => array(
+                        'className' => 'User',
+                        'foreignKey' => false,                             
+                        'order'=>'ComaTransaction.created DESC',
+                        'conditions' => $conditions
+                        )
+                    )
+                ), false);
+            $this->User->bindModel(array(
+             'hasOne' => array(
+                'Student' => array(
+                    'className' => 'Student',
+                    'foreignKey' => false, 
+                    'conditions'  => array('User.foreign_id = Student.student_id')
+                    )
+                )
+             ), false);            
+            $data = $this->ComaTransaction->find('all',array('conditions' => $conditions,'recursive' => 2));                    
+            $this->set('data',$data);         
+            return $data;                
+    }
 	function userManage() {
 		$paginate = array (
 			'limit' => 10,
@@ -325,4 +377,43 @@ class AdminController extends AppController {
 		}
 		die;
 	}
+
+	function formatToWriteAccountFile($data){
+        $_SERER_CODE = "ELS-UBT-GWK54M78";
+        debug($data);
+        $today = getdate();                
+        $dateOfTran = getdate();
+        $tab = "    ";
+        // get row to write
+        $row = array();
+        $row[0] = array($_SERER_CODE,$dateOfTran['year'],$dateOfTran['mon'],$today['year'],$today['mon'],'admin','admin');
+        $i = 1;
+        $money = 20000;
+        foreach ($data as $dt):
+            $row[$i] = array($dt['User']['username'],$dt['User']['firstname'].$dt['User']['lastname'],$money,$dt['User']['address'],$dt['User']['phone_number'],$dt['User']['Student']['credit_account']);
+            $i++;
+        endforeach;
+        $end = array("END__END__END".$dateOfTran['year'].$dateOfTran['mon']);
+        $row[$i++] = $end;
+        $str = "";
+        $tab = "\t";
+        $newLine = "\n";
+        foreach($row as $r):
+            foreach ($r as $c):
+                $str = $str.$c.$tab;
+            endforeach;
+            $str = $str.$newLine;
+        endforeach;
+        file_put_contents("export.tsv", $str);
+        return $str;
+    }
+    function exportAccountFile(){    
+        if ($this->request->is('post')){
+            $data = $this->request->data;                        
+            $str = $this->formatToWriteAccountFile($data);            
+            //Write to file 
+            $this->set('str',$str);            
+        }
+    }
+ 
 }

@@ -370,5 +370,13 @@ class TeacherController extends AppController {
 	function  EditLession() {
 	
 	}
+    function getDataStatistic(){
+        if ($this->request->is('post')){
+            $data = $this->request->data;
+            $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
+            $this->set('request',$request);
+        }
+    }
+
 }
 

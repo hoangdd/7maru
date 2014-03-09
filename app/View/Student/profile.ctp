@@ -12,6 +12,7 @@
 	?>
 	
 	<div>
+    <embed type="application/x-shockwave-flash" src="http://localhost/7maru/File/img/demo.swf" name="plugin" height="200px" width="200px"></embed>
 		<?php
     echo "<br>";
     echo $this->Html->link('Editprofile',
