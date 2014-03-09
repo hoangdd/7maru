@@ -85,8 +85,20 @@
                     <textarea class="form-control" rows="3" id="privateTextarea"></textarea>
                 </form>
                 <p></p>
+
+                <div class = "input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </span>
+                    <input type = "text" id = "search-input" class = "form-control" placeholder = "Search">
+                   <!--  <div>
+                        <button class = "btn btn-primary" id = "search-button">Search</button>
+                    </div> -->
+                </div>
+                <p></p>
+
                 <div class="multiselect">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover" id = "user-table">
                         <th class="danger"><labe>Name</labe></th>
                         <th class="danger"><labe>Username</labe></th>
                         <th class="danger"><labe><input type="checkbox"/>Check</labe></th>
@@ -146,6 +158,10 @@
             var status = $(this).prop('checked');            
             $(".check_box input").prop('checked',status);
         })
+
+        $('#search-input').on('input',function(e){
+            hide_row_with($(this).val());
+        });
     })
     function resetTextareaPrivate(){
         document.getElementById('privateTextarea').value = "";
@@ -153,5 +169,16 @@
     };
     function resetTextareaPublic(){
         document.getElementById('publicTextarea').value = "";
+    }
+    function hide_row_with(key){
+        $('#user-table tr').each(function(index){
+            if(index){
+                if(this.innerText.indexOf(key) == -1){
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }    
+            }
+        });
     }
 </script>

@@ -72,7 +72,7 @@
                     </div>
                 <?php } ?>                
             </div>
-            <div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
+            <div class="col-sm-3">
                 <?php foreach ($categories as $category){ ?>
                     <div class="input-group checkbox-result-wrapper" style = "display: none">
                         <span class="input-group-addon">
