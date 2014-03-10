@@ -3,6 +3,7 @@
  	text-align: center;
  }	
 </style>
+
 <!-- header -->
 <h3 style="text-align:center">
 	IP Adress Manage
@@ -35,7 +36,7 @@
 			<?php 
 			//$array_item = $array_list['2'];
 			echo $this->Form->create('AdminIp',
-		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ip_manage')
+		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ipManage')
 		  			)
 		  			);
 		  		 
@@ -132,13 +133,7 @@
 <!-- paginate -->
 <div class='text-center'>
 	<ul class="pagination">
-	  <li>
-	  	<?php
-    echo $this->Paginator->counter(array(
-    'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-    ));
-    ?>  
-	  </li>
+
 	  <li>
 	  	<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
 	  </li>
