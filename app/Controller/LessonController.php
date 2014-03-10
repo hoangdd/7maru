@@ -234,7 +234,6 @@ class LessonController extends AppController {
 	private function check_Document_File(){
 	}
 
-
 	public function viewContent($fid){
 		$files = $this->File->find($fid);
 		debug($files);
@@ -303,7 +302,5 @@ class LessonController extends AppController {
 //     	print_r($data);
 		debug($data);
     }
-
-
 
 }
