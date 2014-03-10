@@ -12,10 +12,16 @@
 	echo $this->Html->css('datepicker');
 ?>
 <div class="row">	
-	<p class='title'>Money management</p>
+	<p class='title'><?php echo __('Money management');?></p>
 </div>
 <div class="row">
-	<div class="col-md-2 date"><strong> Choose month: </strong></div>
+	<div class="col-md-2 date">
+		<strong> 
+			<?php
+			echo __('Choose month');
+			?>
+		:</strong>
+	</div>
 	<div class="col-md-3 date">	
 		<input class="form-control" id="dp1" readonly=""/>
 	</div>
@@ -44,8 +50,8 @@ $(document).ready(function(){
 	data =	 <?php echo $data ?>;				
     function update(data){    	
     	student = data['student'];
-	teacher = data['teacher'];	
-			var strToAppend = "<tr><th>Username</th><th>Name</th><th>Type</th><th> Money </th><th>Credit card number</th> </tr>";			
+		teacher = data['teacher'];			
+			var strToAppend = "<tr><th><?php echo __('Purchased date');?></th><th><?php echo __('Username');?></th><th><?php echo __('Name');?></th><th><?php echo __('Type');?></th><th> <?php echo __('Money');?> </th><th><?php echo __('Credit card number');?></th></tr>";
 			if (data != null){
 	 		for (var i in student){
 		 			strToAppend += "<tr>";		 			
@@ -83,15 +89,17 @@ $(document).ready(function(){
 	 // 			});    	
 
 	});
+	var alert_success = <?php echo '"'.__("Export successfully").'"'?>;
+	var alert_error	= <?php echo '"'.__("Error was happended while exporting file").'"'?>;
 	$("#exportButton").click(function(){	 			
 	 			$.ajax({
 	 				type: 'post',
 	 				data: {data:data},	 						 		
 	 				url: <?php echo "'".$this->Html->url(array('controller' => 'admin','action' => 'exportAccountFile'))."'" ?>,		 				
 	 			}).done(function(dt){	 		 					
-					alert("Export successfully");		 				
+					alert(alert_success);		 				
 	 			}).error(function(){
-	 				alert("Error was happended while exporting file");
+	 				alert(alert_error);
 	 			})    	
 	 		}); 		 				
     $("#dp1").datepicker({

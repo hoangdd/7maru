@@ -38,9 +38,11 @@ class User extends AppModel {
         $data['user_id'] = $this->_generateId($idString);
 
         //save image profile
-        $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
-        move_uploaded_file($data['profile_picture']['tmp_name'], IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext);
-        $data['profile_picture'] = $data['user_id'].'.'.$ext;
+        if( !empty($data['profile_picture'])){
+            $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
+            move_uploaded_file($data['profile_picture']['tmp_name'], IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext);
+            $data['profile_picture'] = $data['user_id'].'.'.$ext;
+        }
         
         //hash verifycode
         $verifycode_question = $data['username'].$data['verifycode_question'].FILL_CHARACTER;

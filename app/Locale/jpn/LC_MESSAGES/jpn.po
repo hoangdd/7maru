@@ -1,0 +1,108 @@
+<!-- ADMIN -->
+
+<!-- ACCOUNT -->
+msgid "Choose month"
+msgstr "月を選択する"
+
+msgid "Money management"
+msgstr "収集管理"
+
+msgid "Purchased date"
+msgstr "買った日"
+
+msgid "Username"
+msgstr "ユーザ名"
+
+msgid "Credit card number"
+msgstr "クレジットカード番号"
+
+msgid "Export successfully"
+msgstr "出力が完成します"
+
+msgid "Error was happended while exporting file"
+msgstr "ファイルを出力する時、エラーがあります"
+
+
+<!-- Violation report -->
+msgid "VIOLATION REPORT"
+msgstr "違反報告"
+
+msgid "No."
+msgstr "番号"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Comment"
+msgstr "コメント"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Destroy"
+msgstr "削除"
+
+<!-- Change Password -->
+msgid "Admin Change Password"
+msgstr "管理者のパースワードの変更"
+
+msgid "Current Password"
+msgstr "現在パースワード"
+
+msgid "New Password"
+msgstr "新しいパースワード"
+
+msgid "Confirm Password"
+msgstr "確認パースワード"
+
+msgid "Change"
+msgstr "変更"
+
+<!-- Create Admin -->
+msgid "Create another admin"
+msgstr "他の管理者の増加"
+
+msgid "Password"
+msgstr "パースワード"
+
+msgid "Retype Password"
+msgstr "確認パースワード"
+
+msgid "Register"
+msgstr "登録"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+<!-- admin home -->
+msgid "ADMIN HOMEPAGE"
+msgstr "管理者のホームページ"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "HomePage"
+msgstr "ホームページ"
+
+msgid "Contact"
+msgstr ""
+
+msgid "Block User"
+msgstr "ユーザの防ぐ"
+
+msgid "Report"
+msgstr "違反報告"
+
+msgid "Statistic"
+msgstr "統計"
+
+msgid "IP Manage"
+msgstr "IP管理"
+
+msgid "User Manage"
+msgstr "ユーザ管理"
+
+msgid "Reference Manage"
+msgstr ""
+
+<!-- IP Manage -->
