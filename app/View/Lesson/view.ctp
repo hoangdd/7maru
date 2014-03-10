@@ -109,7 +109,6 @@ if(isset($data)) :
 							<?php
 
 
->>>>>>> Stashed changes
 							foreach ($data['File'] as $key => $value) {
 								if($value['isTest']){
 									echo $this->Html->link($value['file_name'], array(
