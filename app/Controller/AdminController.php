@@ -603,7 +603,11 @@ class AdminController extends AppController {
                         )
                             ));
 
+<<<<<<< Updated upstream
                     if ((count($specificallyThisOne) == 0)&&filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
+=======
+                    if (count($specificallyThisOne) == 0) {
+>>>>>>> Stashed changes
                         $this->AdminIp->set('ip', $ipRetrieved);
                         $this->AdminIp->save();
                     }

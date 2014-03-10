@@ -2,74 +2,89 @@
 <div class="row">
 	<div class="col-md-3">
 		<?php
-		echo $this->Html->image("data/avata/".$data1['User']['profile_picture'],array(
-			'alt'=>'CakePHP',
-			'width'=>'180px',
-			'class' => 'img-rounded',
-			'style' => 'text-align:center;'
-			));
+
+        if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
+        else $image = $data['User']['profile_picture'];
+        echo $this->Html->image($image,array(            
+         'width'=>'180px',
+         'class' => 'img-rounded',
+         'style' => 'text-align:center;'
+         ));
+
         echo "<br><br>";
-		echo $this->Html->link('Statistic',
-			'Statistic',array(
-				'class'=>'btn btn-primary btn-lg',
-				'role'=>'button',
-				'style'=>'width:180px;height:30px;font-size:14px;text-align:center;'
-			));
-		echo "<br><br>";
-		echo $this->Html->link('ChangePassword',
-			'ChangePassword',array(
-				'class'=>'btn btn-primary btn-lg',
-				'role'=>'button',
-                'style'=>'width:180px;height:30px;font-size:14px;text-align:center;'
-			));
+        echo "<div class='text-center'>";
+        echo $this->Html->link('Statistic',
+         'Statistic',array(
+            'class'=>'btn btn-primary',
+            'role'=>'button',
+            'style'=>'font-size:14px;margin:auto;width:80%'
+            ));
+        echo "<p></p></div><div class='text-center'>";        
+        echo $this->Html->link('ChangePassword',
+         'ChangePassword',array(
+            'class'=>'btn btn-primary',
+            'role'=>'button',
+             'style'=>'font-size:14px;margin:auto;width:80%'
+            ));
+        echo "</div>";
 		?>
 	</div>';
 	<div class="col-md-9" style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
 		<h1 style="text-align:center;font-family:”Times New Roman”;">Change Profile</h1>
 		<br>';
-        <form class="form-horizontal" role="form" action="EditProfile" method="POST" enctype="multipart/form-data">
-             <div class="form-group " style="text-align:center;">
+        <form name='Teacher' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?>  class="form-horizontal" role="form">
+             <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">First Name:</label>
                 <div class="col-sm-6">
-                <input type="text" name='firstname' class="form-control" id="inputEmail3" placeholder="First Name">
-                </div>
+                <input name="firstname"  type="text" class="form-control" id="inputEmail3" placeholder="First Name" value=<?php echo "'".$userData['firstname']  ."'" ?> >                                     
+
              </div>
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">Last Name:</label>
                 <div class="col-sm-6">
-                <input type="text" name='lastname' class="form-control" id="inputEmail3" placeholder="Last Name">
+
+                <input name="lastname" type="text" class="form-control" id="inputEmail3" placeholder="Last Name" value=<?php echo "'".$userData['lastname']  ."'" ?>>
+
                 </div>
              </div>
              <div class="form-group">
                 <label class="col-sm-3 control-label">Birthday:</label>
                  <div class="col-md-6">
-                        <input type="date" name='date_of_birth' class="form-control" placeholder="Birthday">
+
+                        <input name="date_of_birth" type="date" class="form-control" placeholder="Birthday" value=<?php echo "'".$userData['date_of_birth']  ."'" ?>>
+
                  </div>
              </div>
              <div class="form-group">
                 <label class="col-sm-3 control-label">Addresss:</label>
                 <div class="col-sm-6">
-                <input type="text" name='address' class="form-control" placeholder="Address">
+
+                <input name="mail" type="email" class="form-control" placeholder="Email address" value=<?php echo "'".$userData['mail']  ."'" ?>>
+
+                </div>
+             </div>
+             <div class="form-group">
+                <label class="col-sm-3 control-label">Addresss:</label>
+                <div class="col-sm-6">
+
+                <input name="address" class="form-control" placeholder="Adress" value=<?php echo "'".$userData['address']  ."'" ?>>
+
                 </div>
              </div>
              <div class="form-group">
                 <label class="col-sm-3 control-label">Phone Number:</label>
                 <div class="col-sm-6">
-                <input type="text" name='phone_number' class="form-control" placeholder="Phone Number">
+
+                <input name="phone_number" class="form-control" placeholder="Phone Number" value=<?php echo "'".$userData['phone_number']  ."'" ?>>
                 </div>
              </div>
              <div class="form-group">
                 <label  class="col-sm-3 control-label">Bank Account:</label>
                 <div class="col-sm-6">
-                <input type="text" name='bank_account' class="form-control"  placeholder="Bank Account">
+                <input name="bank_account" lass="form-control"  placeholder="Bank Account" value=<?php echo "'".$teacherData['bank_account']  ."'" ?>>
                 </div>
-             </div>
-             <div class="form-group">
-                <label class="col-sm-3 control-label">Registration Day:</label>
-                 <div class="col-md-6">
-                 <input type="date" name='created' class="form-control" placeholder="Registration Day">
-                 </div>
-             </div>
+             </div>                        
+
              <div class="form-group">
              	<label class="col-sm-3 control-label">Upload photo:</label>
              	<div class="col-md-6">
@@ -78,7 +93,9 @@
                 </div>
              </div>	
             <div class="align-right" style="text-align:center;">
-                <input type="submit" value="Save" class="btn btn-primary">
+
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a href = <?php echo  "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?> class="btn btn-primary" style='color:white'>Refresh</a>                
             </div> 
         </form>     
 	</div>

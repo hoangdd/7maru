@@ -255,7 +255,7 @@ class TeacherController extends AppController {
                     'username' => $data['username'], //ユーザ名を送る
                     'bank_account' => $data['bank_account'],
                     'office' => $data['office'],
-                    'description' => $data['description'],
+                    'description' => $data['description'],                    
                 );
                 $this->Teacher->create($data_teacher);
 
@@ -274,10 +274,12 @@ class TeacherController extends AppController {
                         'username' => $data['username'],
                         'password' => $data['password'],
                         'firstname' => $data['firstname'],
-                        'lastname' => $data['lastname'],
+                        'lastname' => $data['lastname'],                        
                         'address' => $data['address'],
                         'verifycode_question' => $data['verifycode_question'],
+                        'original_verifycode_question' => $data['verifycode_question'],
                         'verifycode_answer' => $data['verifycode_answer'],
+                        'original_verifycode_answer' => $data['verifycode_answer'],
                         'mail' => $data['mail'],
                         'phone_number' => $data['phone_number'],
                         'date_of_birth' => $data['date_of_birth'],
@@ -300,7 +302,7 @@ class TeacherController extends AppController {
                 'conditions' => array(
                     'User.user_id' => $pid,
                 )
-            ));
+            ));            
             $this->set("data", $data);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
@@ -309,7 +311,7 @@ class TeacherController extends AppController {
                         'Teacher.teacher_id' => $a,
 
                     )
-                ));
+                ));                
                 $this->set("data1", $data1);
                 $this->loadModel("Coma");
                 $data2 = $this->Coma->find('all', array(
@@ -323,6 +325,7 @@ class TeacherController extends AppController {
     }
 
 
+<<<<<<< Updated upstream
 //	function EditProfile(){
 //        if($this->Auth->loggedIn()){ 
 //            $pid=$this->Auth->User('user_id');
@@ -356,13 +359,16 @@ class TeacherController extends AppController {
 //                }
 //                $this->User->id=$pid;
 
+=======
+>>>>>>> Stashed changes
     function EditProfile() {
-        if ($this->Auth->loggedIn()) {
-            if ($this->request->is('post')) {
+        if ($this->Auth->loggedIn()) {            
+            if ($this->request->is('post')) {               
                 $pid = $this->Auth->User('user_id');
                 $this->User->id = $pid;
 
                 $this->User->read();
+<<<<<<< Updated upstream
                 $this->User->save($a);
                 $pid1=$data1['User']['foreign_id'];
                 $b['Teacher']['bank_account']=$data['bank_account'];
@@ -371,6 +377,31 @@ class TeacherController extends AppController {
                 $this->Teacher->read();
                 $this->Teacher->save($b);
             }
+=======
+                if ($this->User->save($this->request->data)){
+                    $this->Session->setFlash(__('Edit successful'));
+ //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                }
+            }        
+                //get data                 
+                $teacherData = $this->Teacher->find('first',
+                    array(
+                        'conditions' => array(
+                            'Teacher.teacher_id' => $this->Auth->User('foreign_id')
+                            )
+                        )
+                );            
+                $this->loadModel('User');
+                $userData = $this->User->find('first',
+                    array(
+                        'conditions' => array(
+                            'User.user_id' => $this->Auth->User('user_id')
+                            )
+                        )
+                    );                
+                $this->set('teacherData',$teacherData['Teacher']);
+                $this->set('userData',$userData['User']);                            
+>>>>>>> Stashed changes
         }
     }
 

@@ -47,21 +47,33 @@ class LoginController extends AppController {
                 ));
         }        
         if ($this->request->is('post')) {            
+<<<<<<< Updated upstream
             $data = $this->request->data['User'];                    
+=======
+            $data = $this->request->data['User'];                               
+>>>>>>> Stashed changes
             if (isset($_SESSION['countFail'])){
                 if ($_SESSION['countFail'] >= 3){
                 //check verifycode and password
                     $answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
                     $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
-                    $result = $this->User->find('all',array('verifycode_answer' => $answer,'verifycode_question' => $question));
+                    $result = $this->User->find('all',array('username' => $data['username'],'verifycode_answer' => $answer,'verifycode_question' => $question));
                     if ($result == null){                        
                         $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
                         return;                   
                     }                    
+<<<<<<< Updated upstream
                  }}                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
             if ($this->Auth->login()) {
                 // Login success                               
+=======
+                 }
+                 }                         
+            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
+            if ($this->Auth->login()) {
+                // Login success                 
+>>>>>>> Stashed changes
                 $userType = $this->Auth->user('user_type');
                 if( $userType==1 || $userType=='1'){    
                     $this->Session->write('Auth.User.role', 'R2');
@@ -186,26 +198,5 @@ class LoginController extends AppController {
             'controller' => 'Home',
             'action' => 'index'
             ));
-    }
-
-    function checkVerifycode($username = null,$verifycode = null){
-        if ( $username ==null || $verifycode == null ){            
-            $_SESSION['verifycode'] = false;
-            return false;        
-        }
-        else{
-            $hash = $this->Auth->password($username.$verifycode);
-            $result = $this->User->find('all',array(
-                'conditions' => array(
-                        'User.username' => 'username',
-                        'User.verifycode' => $hash
-                    )
-                ));
-            if ($result){
-                $_SESSION['verifycode'] = true;
-            }
-            $_SESSION['verifycode'] = false;
-        }
-
     }
 }

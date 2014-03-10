@@ -47,9 +47,3 @@
 			</label>
 		</div>
 </div>
-
-<script>
-	$(document).ready(fucntion(){
-
-	})
-</script>

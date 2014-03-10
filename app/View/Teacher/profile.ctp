@@ -1,10 +1,18 @@
 <div class="row">
 	
 <div class="col-md-3">
+<<<<<<< Updated upstream
 	
 	<?php
    echo $this->Html->image("data/avata/".$data1['User']['profile_picture'], array(
 	'alt' => 'CakePHP',
+=======
+
+	<?php    
+  if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
+  else $image = $data['User']['profile_picture'];   
+   echo $this->Html->image($image, array(	
+>>>>>>> Stashed changes
 	'width' => '180px',
 	'class' => 'img-rounded',
 	'style' => 'text-align:center;'
