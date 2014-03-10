@@ -212,8 +212,6 @@ class AdminController extends AppController {
 	}
 	function changePassword() {
 	}
-	function ipManage() {
-	}
 	function statistic() {
 	}
 	function account(){
@@ -340,8 +338,67 @@ class AdminController extends AppController {
 		$this->set ( 'data', $data );
 	}
 	function blockUser() {
-	}
-	function ip_manage() {
+        if ($this->request->is('ajax') && (isset($this->request->data['type']))) {
+            if (isset($this->request->data['stt'])) {
+                $stt = trim($this->request->data['stt']);
+                $updateStt = $stt == '1' ? 0 : 1;
+                $username = trim($this->request->data['username']);
+                $arrayStt = array(
+                    '0' => 'Block',
+                    '1' => 'Active'
+                );
+                $updateBlock = $this->User->updateAll(
+                        array(
+                    'User.block' => "'" . $updateStt . "'"
+                        ), array(
+                    'User.username' => $username
+                        )
+                );
+                if ($updateBlock) {
+                    $return = (array(
+                        'msg' => 'success',
+                        'stt' => $arrayStt[$updateStt],
+                        'value' => $updateStt
+                    ));
+                } else {
+                    $return = (array(
+                        'msg' => 'error'
+                    ));
+                }
+                echo json_encode($return);
+                die;
+            }
+            if (isset($this->request->data['cmt'])) {
+                $cmt = $this->request->data['cmt'];
+                $updateCmt = $cmt == 'true' ? 1 : 0;
+                //var_dump($updateCmt);die;
+                $username = trim($this->request->data['username']);
+                $updateComment = $this->User->updateAll(
+                        array(
+                    'User.comment' => "'" . $updateCmt . "'"
+                        ), array(
+                    'User.username' => $username
+                        )
+                );
+                $return = $updateComment ? array('msg' => 'success', 'stt' => $updateCmt) : array('msg' => 'error');
+                echo json_encode($return);
+                die;
+            }
+        } 
+        else {
+            $this->autorender = false;
+            $paginate = array(
+                'limit' => 3,
+                'fields' => array('User.firstname', 'User.lastname', 'User.username, User.comment, User.block')
+            );
+            $this->Paginator->settings = $paginate;
+            // var_dump($this->paginate);die;
+            $data = $this->Paginator->paginate('User');
+            //$data = $this->User->find('all');
+            $this->set('data', $data);
+        }
+    }
+	function ipManage() {
 		$enter = "";
 		$modFlag = 0;
 		$pre;
