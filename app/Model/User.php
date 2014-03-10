@@ -38,9 +38,18 @@ class User extends AppModel {
         $data['user_id'] = $this->_generateId($idString);
 
         //save image profile
-        if( !empty($data['profile_picture'])){
+        if( !empty($data['profile_picture'])&&
+            !empty($data['profile_picture']['tmp_name'])&&
+            !empty($data['profile_picture']['name'])){
+              
             $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
-            move_uploaded_file($data['profile_picture']['tmp_name'], IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext);
+            $file_url = IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext;
+            
+            //if file exist, remove
+            if(file_exists($file_url)){
+                unlink($file_url);
+            }
+            move_uploaded_file($data['profile_picture']['tmp_name'],$file_url );
             $data['profile_picture'] = $data['user_id'].'.'.$ext;
         }
         

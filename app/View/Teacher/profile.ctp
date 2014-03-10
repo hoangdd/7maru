@@ -3,7 +3,7 @@
 <div class="col-md-3">
 	
 	<?php
-   echo $this->Html->image('resource/ldp.jpg', array(
+   echo $this->Html->image("data/avata/".$data1['User']['profile_picture'], array(
 	'alt' => 'CakePHP',
 	'width' => '180px',
 	'class' => 'img-rounded',
