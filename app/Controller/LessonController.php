@@ -3,12 +3,64 @@
 class LessonController extends AppController {
 
     var $components =  array('Session');
-    var $uses = array('Category','Lesson','LessonCategory','File');
-    
-	function index(){
-		 App::uses('Utilities', 'Lib');
-		 $util = new Utilities();
-		 $this->set('util',$util);
+    var $uses = array('Category','Lesson','LessonCategory','File','Teacher','RateLesson','LessonTransaction');
+    /**
+    * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
+    *　$id: 授業のID
+    */
+	function Index($id){
+		App::uses('Utilities', 'Lib');
+		$util = new Utilities();
+		$this->set('util',$util);
+        
+        //授業の見られる数を1回を増加する。
+        
+        $this->Lesson->increaseView($id);
+
+        // データベースから、授業の情報を取得
+        $lesson = $this->Lesson->findByComaId ($id);
+        debug($lesson);
+        $lesson = $lesson['Lesson'];
+        
+        // 授業のイメージリンクを準備する。
+        $lesson['image'] = '/'.FILL_CHARACTER.'/img/data/cover';
+        if($lesson['cover']){
+            $subfix = preg_split('/\./', $lesson['cover']);
+            $subfix = $subfix[count($subfix)-1];
+        } else {
+            $subfix = '';
+        }
+        $lesson['image'] .= '/'.$lesson['coma_id'].'.'.$subfix;
+        
+        //授業の評価された数を準備する。
+        $lesson['ranker'] = $this->RateLesson->get_rate_num($lesson['coma_id']);
+        
+        //平均評価を数いる。
+        $lesson['stars'] = $this->RateLesson->get_mean_rate($lesson['coma_id']);
+        
+        //授業の見られる数を準備する。
+        
+        // ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
+        $user = $this->Auth->user();
+        // debug($user);
+        if($user && $this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+            $lesson['buy_status'] = 1;
+        } else {
+            $lesson['buy_status'] = 0;
+        }
+        
+        //　授業のカテゴリを全部GET
+        
+        $tags = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
+        $tags = $this->Category->get_all_category_name($tags);
+        $lesson['tags'] = $tags;
+        
+        debug($lesson);
+
+        $this->set('lesson',$lesson);
+
+        // $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
+        // debug($teacher);
 	}
 
 	function Create(){
@@ -47,6 +99,16 @@ class LessonController extends AppController {
                     $error['test'] = 'Unsupported Test File Format';
                 } else if($_FILES['test']['size'] > 5242880){
                     $error['test'] = 'Test File Too Big';
+                }
+
+                //テストファイルの構造は正しいかどうかをチェックする。
+                $fileReader = fopen($_FILES['test']['tmp_name'],'r');
+                if($fileReader){
+                    while (($line = fgets($fileReader)) !== false) {
+
+                    }
+                } else {
+                    $error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
                 }
             }
             // for($i = 0, $len = $);
@@ -118,7 +180,6 @@ class LessonController extends AppController {
                                     'isTest' => 'flase'
                                 )
                             );
-
                         }
                     }
                 } 
@@ -157,8 +218,11 @@ class LessonController extends AppController {
 	function Destroy(){
 		
 	}
-	function View(){
-	}
+	function View($id){
+	   $lesson = $this->Lesson->findByComaId ($id);
+       debug($lesson);
+       $this->set('coma',$lesson);
+    }
 	
 	function Comment(){
 	}

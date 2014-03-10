@@ -214,6 +214,8 @@ class AdminController extends AppController {
 	}
 	function statistic() {
 	}
+        
+        
 	function account(){
         if ($this->request->is('post')){
             $month = $this->request->data['month'];
@@ -264,7 +266,7 @@ class AdminController extends AppController {
                     )
                 ), true);
             
-            $this->LessonTransaction->Lesson->bindModel(array(
+            $this->Lesson->bindModel(array(
             	'belongsTo' => array(
             		'Author' => array(
             			'className' => 'User',
@@ -313,21 +315,25 @@ class AdminController extends AppController {
             	}
             endforeach;            
             $accountData = array('teacher' => $teacher,'student' => $student);            
+            $accountData['month'] = $month;
+            $accountData['year'] = $year;
             $this->set('data',$accountData);         
             return $accountData;                
     }	
 
     function userManage() {
 		$paginate = array (
-			'limit' => 10,
+			'limit' => 5,
 			'fields' => array (
+				'User.user_id',	
 				'User.firstname',
 				'User.lastname',
 				'User.username',
 				'User.date_of_birth',
 				'User.user_type',
 				'User.created' 
-				) 
+				),
+			'conditions' => array('User.activated' => 1) 
 			);
 		$this->Paginator->settings = $paginate;
 		// $this->Paginator->options(array(
@@ -516,12 +522,11 @@ class AdminController extends AppController {
     	$teacher = $data['teacher'];
     	$student = $data['student'];
         $today = getdate();    
-        if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];
-        $dateOfTran = getdate();
+        if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];        
         $tab = "    ";
         // get row to write
         $row = array();
-        $row[0] = array($_SERER_CODE,$dateOfTran['year'],$dateOfTran['mon'],$today['year'],$today['mon'],'admin','admin');
+        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$this->Auth->user('admin_id'),$this->Auth->user('username'));
         $i = 1;
         $money = 20000;
         foreach ($student as $dt):
@@ -543,7 +548,7 @@ class AdminController extends AppController {
             endforeach;
             $str = $str.$newLine;
         endforeach;
-        $filename = "ELS-UBT-".$today['year']."-".$today['mon'].".tsv";
+        $filename = "ELS-UBT-".$data['year']."-".$data['month'].".tsv";
         file_put_contents($filename, $str);
         return $str;
     }
@@ -555,5 +560,32 @@ class AdminController extends AppController {
             $this->set('str',$str);            
         }
     }
- 
+	/**
+	* edit prifile user 
+	*/
+
+	function delete($userId){
+		$this->loadModel('User');		
+		$this->User->id = $userId;					
+		 $this->User->saveField('activated',0);
+		// $this->User->update()	
+		 $this->redirect('userManage');
+	}
+	function resetPassword($userId){
+		$this->loadModel('User');				
+		$result  = $this->User->find('first',array(
+			'conditions' => array('user_id' => $userId),
+			'fields' => array('original_password')
+		));		
+		$this->User->setField('password',$result['User']['original_password']);
+	}
+	function resetVerifyCode($userId){
+		$this->loadModel('User');				
+		$result  = $this->User->find('first',array(
+			'conditions' => array('user_id' => $userId),
+			'fields' => array('original_verifycode_answer','original_verifycode_question')
+		));
+		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
+		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
+	}
 }

@@ -51,27 +51,26 @@ $(document).ready(function(){
     function update(data){    	
     	student = data['student'];
 		teacher = data['teacher'];			
-			var strToAppend = "<tr><th><?php echo __('Purchased date');?></th><th><?php echo __('Username');?></th><th><?php echo __('Name');?></th><th><?php echo __('Type');?></th><th> <?php echo __('Money');?> </th><th><?php echo __('Credit card number');?></th></tr>";
+			var strToAppend = "<tr><th><?php echo __('Username');?></th><th><?php echo __('Name');?></th><th><?php echo __('Type');?></th><th> <?php echo __('Money');?> </th><th><?php echo __('Credit card number');?></th></tr>";
 			if (data != null){
-	 		for (var i in student){
-		 			strToAppend += "<tr>";		 			
-		 			strToAppend+= "<td>" + student[i]['info']['username']+"</td>";
-		 			strToAppend+= "<td>"+student[i]['info']['lastname']+student[i]['info']['firstname']+"</td>";
-		 			strToAppend+= "<td>"+_TYPE_CREDIT_CARD+"</td>";
-		 			strToAppend+= "<td>"+student[i]['count']*_STUDENT_PAY_MONEY+"</td>";
-		 			strToAppend+= "<td>"+student[i]['info']['Student']['credit_account']+"</td>"; 					 			
-		 			strToAppend+= "</tr>";
-		 		}
-	 		
-	 		for (var i in teacher){
-		 			strToAppend += "<tr>";		 			
-		 			strToAppend+= "<td>" + teacher[i]['info']['username']+"</td>";
-		 			strToAppend+= "<td>"+teacher[i]['info']['lastname']+teacher[i]['info']['firstname']+"</td>";
-		 			strToAppend+= "<td>"+_TYPE_BANK_ACCOUNT+"</td>";
-		 			strToAppend+= "<td>"+teacher[i]['count']*_TEACHER_PROFIT+"</td>";
-		 			strToAppend+= "<td>"+teacher[i]['info']['Teacher']['bank_account']+"</td>"; 			
-		 			strToAppend+= "</tr>";
-		 		}
+		 		for (var i in student){
+			 			strToAppend += "<tr>";		 			
+			 			strToAppend+= "<td>" + student[i]['info']['username']+"</td>";
+			 			strToAppend+= "<td>"+student[i]['info']['lastname']+student[i]['info']['firstname']+"</td>";
+			 			strToAppend+= "<td>"+_TYPE_CREDIT_CARD+"</td>";
+			 			strToAppend+= "<td>"+student[i]['count']*_STUDENT_PAY_MONEY+"</td>";
+			 			strToAppend+= "<td>"+student[i]['info']['Student']['credit_account']+"</td>"; 					 			
+			 			strToAppend+= "</tr>";
+			 		};	 		
+		 		for (var i in teacher){
+			 			strToAppend += "<tr>";		 			
+			 			strToAppend+= "<td>" + teacher[i]['info']['username']+"</td>";
+			 			strToAppend+= "<td>"+teacher[i]['info']['lastname']+teacher[i]['info']['firstname']+"</td>";
+			 			strToAppend+= "<td>"+_TYPE_BANK_ACCOUNT+"</td>";
+			 			strToAppend+= "<td>"+teacher[i]['count']*_TEACHER_PROFIT+"</td>";
+			 			strToAppend+= "<td>"+teacher[i]['info']['Teacher']['bank_account']+"</td>"; 			
+			 			strToAppend+= "</tr>";
+			 		}
 	 		}	 		
 	 		$("#account_data").html(strToAppend);	 			 			
 	}

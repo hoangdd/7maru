@@ -17,37 +17,37 @@
 			<tr>
 
 				<th class='text-center' style="width:5%">
-					<?php echo __('No.') ?>
+					No.
 				</th>
 
 				<th class='' style="width:10%">
-					<?php echo __('Name') ?>
+					Name
 				</th>
 
 				<th class='text-center' style="width:10%">
-					<?php echo __('Username') ?>
+					Username					
 				</th>
 
 				<th class='text-center' style="width:5%">
-					<?php echo __('Type') ?>
+					Type
 				</th>
 				<th class='text-center' style="width:15%">
-					<?php echo __('Date of birth') ?>
+					Date of birth
 				</th>
 				<th class='text-center' style="width:25%">
-					<?php echo __('Created Account Time') ?>
+					Created Account Time
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Edit') ?>
+					Edit
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Destroy') ?>
+					Destroy
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Reset password') ?>
+					Reset password
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Verify code') ?>
+					Verify code
 				</th>
 			</tr>
 		</thead>
@@ -64,10 +64,10 @@
 					echo $td.$user['User']['user_type'].$close;								
 					echo $td.$user['User']['date_of_birth'].$close;				
 					echo $td.$user['User']['created'].$close;				
-					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'edit',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'reset_password',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'reset_verifycode',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'edit')).$close;
+					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete')).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'Reset')).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'Reset')).$close;
 					echo "</tr>";			
 				endforeach;
 			?>

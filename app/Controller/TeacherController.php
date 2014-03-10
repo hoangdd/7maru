@@ -1,5 +1,7 @@
 <?php
 
+App:: uses('AppModel','Model','User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
+
 class TeacherController extends AppController {
 
     public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
@@ -234,10 +236,12 @@ class TeacherController extends AppController {
             //====================================
             //自己のイメージをチェック：
             if (!empty($_FILES['profile_picture'])) {
-                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $configs = Configure::read('srcFile');
+                $img_exts = $configs['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                if (!in_array($ext, $img_exts)) {
+                if (!in_array($ext, $img_exts)) 
+                {
                     $error['profile_picture'][0] = 'Unsupported image file';
                 }
             }
@@ -336,31 +340,30 @@ class TeacherController extends AppController {
             )
         ));
 
-
         $this->set('lesson', $lesson);
+
 //        $this->set('teacher', $teacher);
 //        $this->set('user', $user);
         //debug(Router::url('/',true));
+        debug($lesson);
         if ($this->request->is('ajax')) {
+
             $id = $this->request->data['id'];
-            $delete = true;
-            if(!$this->Lesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonTransaction->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonReference->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonCategory->deleteAll(array('coma_id' => $id),false)&&
-                !$this->RateLesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->ReportLesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->Comment->deleteAll(array('coma_id' => $id),false)){
-                $delete = false;
-            }
-            if($delete){
-                echo json_encode(array('stt'=>'success'));
-            }else{
-                echo json_encode(array('stt' => 'error'));
+            $this->LessonTransaction->deleteAll(array('LessonTransaction.coma_id' => $id), false);
+            $this->LessonReference->deleteAll(array('LessonReference.coma_id' => $id), false);
+            $this->LessonCategory->deleteAll(array('LessonCategory.coma_id' => $id), false);
+            $this->RateLesson->deleteAll(array('RateLesson.coma_id' => $id), false);
+            $this->ReportLesson->deleteAll(array('ReportLesson.coma_id' => $id), false);
+            $this->Comment->deleteAll(array('Comment.coma_id' => $id), false);
+            
+            if ($this->Lesson->deleteAll(array('coma_id' => $id), false)) {
+                echo "1";
+            } else {
+                echo "0";
             }
             die;
         }
-    }
+   }
 
     function Statistic() {
         // $this->loadModel(array('Student','Coma','Transaction','RateComa')); 
@@ -405,10 +408,7 @@ class TeacherController extends AppController {
     }
 	function ChangePassword(){
 	}
-	
-	function CreateLesson() {
 
-	}
 	
 	function  EditLession() {
 	
@@ -418,12 +418,6 @@ class TeacherController extends AppController {
             $data = $this->request->data;
             $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
             $this->set('request',$request);
-            }
         }
-
     }
-    function EditLession() {
-        
-    }
-
 }

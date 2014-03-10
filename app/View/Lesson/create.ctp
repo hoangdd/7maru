@@ -136,7 +136,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Test File Format</label>
             <div class="col-sm-8">
-                <a class="btn btn-link"  href="#"><span class="glyphicon glyphicon-download-alt"></span>   Download Here</a>
+                <a class="btn btn-link"  href=<?php echo '"'.WEBROOT_DIR."/testfile.tsv".'"' ?> ><span class="glyphicon glyphicon-download-alt"></span>   Download Here</a>
             </div>
         </div>
         <div class="form-group row" <?php if(isset($error) && isset($error['copyright']))echo "has-error"; ?> >

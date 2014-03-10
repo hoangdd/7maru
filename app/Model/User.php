@@ -51,7 +51,7 @@ class User extends AppModel {
         $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
         
         //hash password
-        $passString = $data['username'].$data['password'];
+        $passString = $data['username'].$data['password'].FILL_CHARACTER;
         $data['password'] = $this->_hashPassword($passString);
 
         $this->data['User'] = $data;
