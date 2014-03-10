@@ -560,6 +560,7 @@ class AdminController extends AppController {
             $this->set('str',$str);            
         }
     }
+<<<<<<< Updated upstream
 	/**
 	* edit prifile user 
 	*/
@@ -588,4 +589,50 @@ class AdminController extends AppController {
 		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
 		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
 	}
+=======
+ 
+
+ 	function ReferenceManage(){
+ 		$this->loadModel('Lesson');
+ 		$this->loadModel('LessonReference');
+ 		$this->loadModel('User');
+        $this->LessonReference->bindModel(array(
+            'belongsTo' => array(
+                'Lesson' => array(
+                   'className' => 'Lesson',
+                    'foreignKey' => 'coma_id',
+                    //'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
+                 )
+            )
+        ), true);        
+            
+        $this->LessonReference->Lesson->bindModel(array(
+            'belongsTo' => array(
+            	'Author' => array(
+            		'className' => 'User',
+            		'foreignKey' => 'author',                                                     
+                    //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
+            	)
+            )
+        ), true);
+        $data = $this->LessonReference->find('all',array('recursive' => 3));
+
+        // debug($data);
+        $author = array();
+        foreach($data as $dt):
+        	debug($dt['Lesson']['Author']['firstname'].''.$dt['Lesson']['Author']['lastname']);
+        endforeach;      
+ 		/*$paginate = array (
+			'limit' => 10,
+			'fields' => array (
+				'LessonReference.name',
+				'LessonReference.link',
+				'LessonReference.created' 
+				) 
+			);
+		$this->Paginator->settings = $paginate;
+		$data = $this->Paginator->paginate ( 'User' );
+		$this->set ( 'data', $data );*/
+ 	}
+>>>>>>> Stashed changes
 }
