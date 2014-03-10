@@ -3,7 +3,8 @@ class AdminController extends AppController {
 	public $uses = array (
 		'User',
 		'Admin',
-		'AdminIp' 
+		'AdminIp',
+        'Notification'
 		);
 	public $components = array (
 		'Auth' => array(
@@ -43,8 +44,8 @@ class AdminController extends AppController {
 		$this->Auth->allow ( 'login', 'logout' );
 		$this->Auth->allow ( 'CreateAdmin' );
 		$this->Auth->allow ( 'Notification' );
-		$this->Auth->allow();
 	}
+    
 	function CreateAdmin() {
 		$error = array ();
 		$user_re_ex = '/^[A-Za-z]\w+$/';
@@ -158,32 +159,28 @@ class AdminController extends AppController {
 		}
 		$this->set ( 'error', $error );
 	}
+    
 	function Notification() {
         //load list user
-		$list_user = $this->User->find ( 'all' );
+		$list_user = $this->User->find ( 'all',array('order'=>array(
+            'User.username' => 'asc')
+        ) );
 		$this->set ( "data", $list_user );
         
-        //check submit
+        //luu csdl post public
         if($this->request->is('post')){
             $data = $this->request->data;
-            
             $data_public = array(
                 'user_id'   =>  'all',
                 'content'    =>  $data['publicpost'],
             );
-            
-            $data_private   = array(
-                'user_id'       =>  '',
-                'privatepost'   =>  $data['privatepost'],
-            );
             if(isset($data_public)){
-                $this->Admin->create($data_teacher);
-                $result = $this->Teacher->save();
-            }else if(isset($data_private)){
-                
+                $this->Notification->create($data_public);
+                $this->Notification->save();
             }
         }
 	}
+    
 	function login() {
         //check loggedIn();
 		if($this->Auth->loggedIn()){
@@ -215,10 +212,10 @@ class AdminController extends AppController {
 	}
 	function changePassword() {
 	}
-	function ipManage() {
-	}
 	function statistic() {
 	}
+        
+        
 	function account(){
         if ($this->request->is('post')){
             $month = $this->request->data['month'];
@@ -236,53 +233,107 @@ class AdminController extends AppController {
         $this->set('month',$month);
         $this->set('year',$year);
     }     
-    public function getDataForAccount($month = null,$year = null){        
+     public function getDataForAccount($month = null,$year = null){        
             if (($month == null ) && ($year == null)){
                  $today = getdate();        
                 //get month now()            
                 $month = $today['mon'];
                 $year = $today['year'];        
-            }
-            $this->loadModel('ComaTransaction');                    
+            }            
+            $this->loadModel('LessonTransaction');                    
             $this->loadModel('User');     
-            $this->loadModel('Student');           
+            $this->loadModel('Student');   
+            $this->loadModel('Teacher');
+            $this->loadModel('Lesson');                        
             $this->Student->primaryKey = 'student_id';
             $this->User->primaryKey = 'user_id';
-            $conditions = array('MONTH(ComaTransaction.created) = '.$month,'YEAR(ComaTransaction.created) = '. $year,'ComaTransaction.student_id = User.user_id');
-            $this->ComaTransaction->bindModel(array(
+            $this->Teacher->primaryKey = 'teacher_id';
+            $this->Lesson->primaryKey = 'coma_id';            
+            $conditions = array('MONTH(LessonTransaction.created) = '.$month,'YEAR(LessonTransaction.created) = '. $year);
+            $this->LessonTransaction->bindModel(array(
                 'belongsTo' => array(
                     'User' => array(
                         'className' => 'User',
-                        'foreignKey' => false,                             
-                        'order'=>'ComaTransaction.created DESC',
-                        'conditions' => $conditions
-                        )
+                        'foreignKey' => 'student_id',                             
+                        'order'=>'LessonTransaction.created DESC'
+                        //'conditions' => array('LessonTransaction.student_id = User.user_id')
+                        ),
+                    'Lesson' => array(
+                    		'className' => 'Lesson',
+                    		'foreignKey' => 'coma_id',
+                    		//'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
+                    	)
                     )
-                ), false);
-            $this->User->bindModel(array(
-             'hasOne' => array(
+                ), true);
+            
+            $this->Lesson->bindModel(array(
+            	'belongsTo' => array(
+            		'Author' => array(
+            			'className' => 'User',
+            			'foreignKey' => 'author',                                                     
+                        //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
+            			)
+            		)
+            	), true);
+            $this->LessonTransaction->Lesson->Author->bindModel(array(
+            	'belongsTo' => array(
+            		'Teacher' => array(
+            			'className' => 'Teacher', 
+            			'foreignKey' => 'foreign_id'            			
+            			//'conditions' => array('LessonTransaction.Coma.Author.foreign_id = Teacher.teacher_id')
+            			)
+            		)
+            	),true)  ;                  
+            $this->LessonTransaction->User->bindModel(array(
+             'belongsTo' => array(
                 'Student' => array(
                     'className' => 'Student',
-                    'foreignKey' => false, 
-                    'conditions'  => array('User.foreign_id = Student.student_id')
+                    'foreignKey' => 'foreign_id'                    
                     )
-                )
-             ), false);            
-            $data = $this->ComaTransaction->find('all',array('conditions' => $conditions,'recursive' => 2));                    
-            $this->set('data',$data);         
-            return $data;                
-    }
-	function userManage() {
+             	)
+             ), true);            
+            $data = $this->LessonTransaction->find('all',array('conditions' => $conditions,'recursive' => 3));                    
+            $student = array();
+            $teacher = array();            
+            //get student and teacher account record monthly
+            foreach($data as $dt):
+            	if (!isset($student[$dt['User']['user_id']])){
+            		$student[$dt['User']['user_id']] = array();
+            		$student[$dt['User']['user_id']]['count'] = 1;
+            		$student[$dt['User']['user_id']]['info'] = $dt['User'];
+            	}
+            	else{
+            		++$student[$dt['User']['user_id']]['count'];
+            	}
+            	if (!isset($teacher[$dt['Lesson']['Author']['user_id']])){
+            		$teacher[$dt['Lesson']['Author']['user_id']] = array();
+            		$teacher[$dt['Lesson']['Author']['user_id']]['count'] = 1;
+            		$teacher[$dt['Lesson']['Author']['user_id']]['info'] = $dt['Lesson']['Author'];
+            	}
+            	else{
+            		++$teacher[$dt['Lesson']['Author']['user_id']]['count'];
+            	}
+            endforeach;            
+            $accountData = array('teacher' => $teacher,'student' => $student);            
+            $accountData['month'] = $month;
+            $accountData['year'] = $year;
+            $this->set('data',$accountData);         
+            return $accountData;                
+    }	
+
+    function userManage() {
 		$paginate = array (
-			'limit' => 10,
+			'limit' => 5,
 			'fields' => array (
+				'User.user_id',	
 				'User.firstname',
 				'User.lastname',
 				'User.username',
 				'User.date_of_birth',
 				'User.user_type',
 				'User.created' 
-				) 
+				),
+			'conditions' => array('User.activated' => 1) 
 			);
 		$this->Paginator->settings = $paginate;
 		// $this->Paginator->options(array(
@@ -293,8 +344,67 @@ class AdminController extends AppController {
 		$this->set ( 'data', $data );
 	}
 	function blockUser() {
-	}
-	function ip_manage() {
+        if ($this->request->is('ajax') && (isset($this->request->data['type']))) {
+            if (isset($this->request->data['stt'])) {
+                $stt = trim($this->request->data['stt']);
+                $updateStt = $stt == '1' ? 0 : 1;
+                $username = trim($this->request->data['username']);
+                $arrayStt = array(
+                    '0' => 'Block',
+                    '1' => 'Active'
+                );
+                $updateBlock = $this->User->updateAll(
+                        array(
+                    'User.block' => "'" . $updateStt . "'"
+                        ), array(
+                    'User.username' => $username
+                        )
+                );
+                if ($updateBlock) {
+                    $return = (array(
+                        'msg' => 'success',
+                        'stt' => $arrayStt[$updateStt],
+                        'value' => $updateStt
+                    ));
+                } else {
+                    $return = (array(
+                        'msg' => 'error'
+                    ));
+                }
+                echo json_encode($return);
+                die;
+            }
+            if (isset($this->request->data['cmt'])) {
+                $cmt = $this->request->data['cmt'];
+                $updateCmt = $cmt == 'true' ? 1 : 0;
+                //var_dump($updateCmt);die;
+                $username = trim($this->request->data['username']);
+                $updateComment = $this->User->updateAll(
+                        array(
+                    'User.comment' => "'" . $updateCmt . "'"
+                        ), array(
+                    'User.username' => $username
+                        )
+                );
+                $return = $updateComment ? array('msg' => 'success', 'stt' => $updateCmt) : array('msg' => 'error');
+                echo json_encode($return);
+                die;
+            }
+        } 
+        else {
+            $this->autorender = false;
+            $paginate = array(
+                'limit' => 3,
+                'fields' => array('User.firstname', 'User.lastname', 'User.username, User.comment, User.block')
+            );
+            $this->Paginator->settings = $paginate;
+            // var_dump($this->paginate);die;
+            $data = $this->Paginator->paginate('User');
+            //$data = $this->User->find('all');
+            $this->set('data', $data);
+        }
+    }
+	function ipManage() {
 		$enter = "";
 		$modFlag = 0;
 		$pre;
@@ -327,12 +437,30 @@ class AdminController extends AppController {
 						'conditions' => array (
 							'AdminIp.ip' => $pre 
 							) 
-						) );
+
+					) );
+					if(!filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
+						echo "Not a valid IP address!";
+					}
+					else{
+						if ((strcmp ( strval($pre), $ipRetrieved ) != 0) && (count ( $specificallyThisOne ) != 0)) {
+							echo $specificallyThisOne ['AdminIp'] ['ip_id'];
+							$this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
+							$this->AdminIp->saveField ( 'ip', $ipRetrieved );
+	// 						$this->AdminIp->set ( 'ip_id', $specificallyThisOne ['AdminIp'] ['ip_id'] );
+	// 						$this->AdminIp->read(null,$specificallyThisOne ['AdminIp'] ['ip_id']);
+	// 						$this->AdminIp->set ( 'ip', $ipRetrieved );
+	// 						$this->AdminIp->save ();
+						}
+
+
 					if ((strcmp ( strval($pre), $ipRetrieved ) != 0) && (count ( $specificallyThisOne ) != 0)) {
 						echo $specificallyThisOne ['AdminIp'] ['ip_id'];
 						$this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
 						$this->AdminIp->saveField ( 'ip', $ipRetrieved );
+
 					}
+				}
 				} else {
 					$specificallyThisOne = $this->AdminIp->find ( 'first', array (
 						'conditions' => array (
@@ -358,39 +486,55 @@ class AdminController extends AppController {
 		$this->Paginator->settings = $pagination;
 		$data = $this->Paginator->paginate ( 'AdminIp' );
 		$this->set ( 'data', $data );
+
 		$temp = $this->request->query;
 	}
+    
 	function delip() {
 		$ip = $this->params ['url'] ['ip'];
 	}
-	function send(){
-		// lay du lieu gui len
-		$data = $this->request->data['ids'];
+    
+	function check_notification(){
+        $this->loadModel('Notification');
+        if($this->request->is('post')){
+            // lay du lieu gui len
+            $id_array = $this->request->data['ids'];
 
-		// chuyen sau thanh mang
-		$id_array = explode(',', $data);
-
-		if( !empty($data)){
-			echo 'ok';
-		}else{
-			echo 'error';
-		}
-		die;
+            // chuyen sau thanh mang
+            $data = $this->request->data;
+            $data_private = array();
+            foreach($id_array as $user_id):                
+                $record = array('Notification'=>array( 'user_id' => $user_id,'content' => $data['privatepost'] ));
+                $data_private[] = $record;
+            endforeach;
+            if(isset($data_private)){
+               // $this->Notification->create($data_private);                
+                if ($this->Notification->saveMany($data_private)) echo "Send complete!";
+            }
+        }
+        die;
 	}
 
 	function formatToWriteAccountFile($data){
         $_SERER_CODE = "ELS-UBT-GWK54M78";
-        debug($data);
-        $today = getdate();                
-        $dateOfTran = getdate();
+        $_STUDENT_PAY_MONEY = 20000;
+    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*60/100;    
+    	$teacher = $data['teacher'];
+    	$student = $data['student'];
+        $today = getdate();    
+        if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];        
         $tab = "    ";
         // get row to write
         $row = array();
-        $row[0] = array($_SERER_CODE,$dateOfTran['year'],$dateOfTran['mon'],$today['year'],$today['mon'],'admin','admin');
+        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$this->Auth->user('admin_id'),$this->Auth->user('username'));
         $i = 1;
         $money = 20000;
-        foreach ($data as $dt):
-            $row[$i] = array($dt['User']['username'],$dt['User']['firstname'].$dt['User']['lastname'],$money,$dt['User']['address'],$dt['User']['phone_number'],$dt['User']['Student']['credit_account']);
+        foreach ($student as $dt):
+			$row[$i] = array($dt['info']['username'],$dt['info']['firstname'].$dt['info']['lastname'],$dt['count']*$_STUDENT_PAY_MONEY,$dt['info']['address'],$dt['info']['phone_number'],$dt['info']['credit_account']);
+            $i++;
+        endforeach;
+        foreach ($teacher as $dt):
+			$row[$i] = array($dt['info']['username'],$dt['info']['firstname'].$dt['info']['lastname'],$dt['count']*$_TEACHER_PROFIT,$dt['info']['address'],$dt['info']['phone_number'],$dt['info']['bank_account']);
             $i++;
         endforeach;
         $end = array("END__END__END".$dateOfTran['year'].$dateOfTran['mon']);
@@ -404,7 +548,8 @@ class AdminController extends AppController {
             endforeach;
             $str = $str.$newLine;
         endforeach;
-        file_put_contents("export.tsv", $str);
+        $filename = "ELS-UBT-".$data['year']."-".$data['month'].".tsv";
+        file_put_contents($filename, $str);
         return $str;
     }
     function exportAccountFile(){    
@@ -415,5 +560,32 @@ class AdminController extends AppController {
             $this->set('str',$str);            
         }
     }
- 
+	/**
+	* edit prifile user 
+	*/
+
+	function delete($userId){
+		$this->loadModel('User');		
+		$this->User->id = $userId;					
+		 $this->User->saveField('activated',0);
+		// $this->User->update()	
+		 $this->redirect('userManage');
+	}
+	function resetPassword($userId){
+		$this->loadModel('User');				
+		$result  = $this->User->find('first',array(
+			'conditions' => array('user_id' => $userId),
+			'fields' => array('original_password')
+		));		
+		$this->User->setField('password',$result['User']['original_password']);
+	}
+	function resetVerifyCode($userId){
+		$this->loadModel('User');				
+		$result  = $this->User->find('first',array(
+			'conditions' => array('user_id' => $userId),
+			'fields' => array('original_verifycode_answer','original_verifycode_question')
+		));
+		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
+		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
+	}
 }

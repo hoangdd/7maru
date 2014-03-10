@@ -15,4 +15,16 @@ class LessonCategory extends AppModel {
         }
         $this->saveMany($dataArr);
     }
+    public function get_Lesson_categories($coma_id){
+        $tags = array();
+        $categories = $this->findAllByComaId($coma_id);
+        // debug($categories);
+        if($categories){
+            foreach($categories as $category){
+                $tags[] = $category['LessonCategory']['category_id'];
+            }
+        }
+        // debug($tags);die();
+        return $tags;
+    }
 }

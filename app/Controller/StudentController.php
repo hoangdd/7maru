@@ -4,15 +4,22 @@ class StudentController extends AppController {
 	public $testList;
 	public $uses = array (
 			'User',
-			'Student' 
+			'Student',
+			'File' 
+			
 	);
 
 	public function beforeFilter() {
 		parent::beforeFilter ();
+
+		$this->Auth->userModel = 'Student';
+		$this->Auth->allow ( 'dotest', 'viewtestresult','beforetest','exam' );
+
 		$this->Auth->allow();//Allow all
 	}
 	
 	function index(){
+
 	}
 
 	function Register() {
@@ -232,6 +239,7 @@ class StudentController extends AppController {
 			}
              //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
+
                 $img_exts = Configure::read('srcFile')['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
@@ -391,153 +399,87 @@ class StudentController extends AppController {
 	function Test() {
 	}
 
-	function DoTest() {
-			$nFileName = "testfile.tsv"; // Hidden due to security reasons.
-			$nRow = 1;
+	
+	
+	function DoTest(){
+		$finalTest = $this->File->readTsv("testfile.tsv");
+		
+		print_r($finalTest);
+		if (! $this->request->is ( "post" )) {
+		} else {
 			
-			$nFile = fopen ( $nFileName, "r" );
-			
-			$finalTest;
-			
-			if ($nFile !== FALSE) {
-				$temp = 0;
-				$temp_temp = 0;
-				$arrayLen = 0;
-				$indexItem = "Question";
-				$questionNumber = 1;
-				$questionContent;
-				$optNumber = 1;
-				$optionIndex = "Option";
-				
-				$result;
-				
-				$finalTest;
-				$arrayOption;
-				while ( ! feof ( $nFile ) ) {
-					$nLineData = fgets ( $nFile );
-					$temp_temp ++;
-					if ($temp_temp > 4) {
-						
-						// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
-						$flagQuestion = 0; // doc cau hoi
-										   // $nLineData = mb_convert_encoding($nLineData, "UTF-8");
-						$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
-						
-						$nParsed = explode ( "\t", $nLineData, - 1 );
-						if (count ( $nParsed ) == 3) {
-							if (strcmp ( $nParsed [0], " " ) != 0) {
-								if (strcmp ( $nParsed [1], "QS" ) == 0) {
-									$indexItem = "Question " . $questionNumber;
-									$questionContent = $nParsed [2];
-								} else {
-									
-									if (strcmp ( $nParsed [1], "KS" ) == 0) {
-										// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
-										// print_r($resultStrTemp);
-										$resultStr = substr ( $nParsed [2], 2, - 1 );
-										$result = intval ( $resultStr );
-										// $result = $nParsed[2];
-										// echo $result;
-										
-										$arrTemp = array (
-											"content" => $questionContent 
-											);
-										$arrTemp += $arrayOption;
-										$arrTemp += array (
-											"mark" => $result 
-											);
-										
-										$arrResult = array (
-											$indexItem => $arrTemp 
-											);
-										if ($temp == 0) {
-											$finalTest = $arrResult;
-											$temp ++;
-										} else
-										$finalTest += $arrResult;
-										
-										$questionNumber ++;
-										$indexItem = "Question";
-										$optNumber = 1;
-										$optionIndex = "Option";
-									} else {
-										
-										$optionIndex = "Option" . $optNumber;
-										if ($optNumber == 1) {
-											$arrayOption = array (
-												$optionIndex => $nParsed [2] 
-												);
-										} else {
-											$arrayOption += array (
-												$optionIndex => $nParsed [2] 
-												);
-										}
-										$optNumber ++;
-									}
-								}
-								// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
-								// echo "$nParsed[2] <br>";
-							}
-						}
-						
-						// echo "Parsed Line - " & $nParsed[0] & "<br>"; //Debug, Outputs Junk (eg Line 4 = @P)
-						// echo "<br> Parsed Line - $nParsed[0] <br>"; //Debug, Outputs Proper (eg Line 4 = #START)
-					}
+			$totques=count($this->request->data['hid']);
+			echo $totques;
+// 			print_r($this->request->data['hid']);
+			$temp = 0;$mark = 0;
+			for($i = 0;$i<$totques;$i++){
+				if(!isset($this->request->data['Question'.$i])) $mark++;
+				else {
+					echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
+					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
+					$temp++;
 				}
-				
-				// print_r($finalTest);
-				$this->set ( "test_list", $finalTest );
-				$this->testList = $finalTest;
-				fclose ( $nFile );
-				// return $finalTest;
+				}
 			}
-			// return null;
+			$reTemp = $totques;
+			echo $mark;
+			echo $temp;
 			
-			if (! $this->request->is ( "post" )) {
-			} else {
-				
-				$data = $this->request->data ['Student'];
-				print_r ( $data );
-				// $this->testList = $this->DoTest();
-				// if($this->testList != null)
-				// //print_r($this->testList);
-				$temp = 0;
-				foreach ( $data as $q => $m ) {
-					if (strcmp ( $q, "timer" ) != 0) {
-						$str = "Option" . $finalTest [$q] ['mark'];
-						if (strcmp ( $str, $m ) == 0)
-							$temp ++;
-					}
-					else $timeTemp = $m;
-				}
-				// echo $temp;
-				$reTemp = count($data) - 1;
-				$timeTemp = 
-				// $this->ViewTestResult($temp, 5);
-				// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+			
+// 			$data = $this->request->data ['Student'];
+// 			print_r ( $data );
+			// $this->testList = $this->DoTest();
+			// if($this->testList != null)
+			// //print_r($this->testList);
+			
+// 			foreach ( $data as $q => $m ) {
+// 				if (strcmp ( $q, "timer" ) != 0) {
+// 					$str = "Option" . $finalTest [$q] ['mark'];
+// 					if (strcmp ( $str, $m ) == 0)
+// 						$temp ++;
+// 				}
+// 				else $timeTemp = $m;
+// 			}
+// 			echo $temp;
+// 			$reTemp = count($data) - 1;
+			
+// 			$this->ViewTestResult($temp, 5);
+// 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+// 			$this->redirect ( array (
+
+// 			
 				$this->redirect ( array (
+
 					'controller' => 'student',
 					'action' => 'viewtestresult',
 					'hit' => $temp,
 					'total' => $reTemp,
-					'time' => $timeTemp 
-					) );
-				//
-			}
-		}
 
-		function ViewTestResult() {
-			print_r( $this->request->params);
-			$this->set('hit',$this->request->params['named']['hit']);
-			$this->set('total',$this->request->params['named']['total']);
-			$this->set('time',$this->request->params['named']['time']);
-			/*$this->set('hit',$this->params['url']['hit']);
-			$this->set('total',$this->params['url']['total']);
-			$this->set('time',$this->params['url']['time']);
-			$this->set ( 'hit', $this->request->params->url['hit'] );
-			$this->set ( 'total', $this->request->params->url['total'] );*/
-		}
-
-		function ChangePassword() {
+					'mark' => $mark,
+					'time' => 10
+			) );
+			//
 		}
 	}
+
+							
+	function ViewTestResult() {
+// 		print_r ($this->params['url']);
+// 		print_r( $this->request->params);
+		$this->set('hit',$this->request->params['named']['hit']);
+		$this->set('total',$this->request->params['named']['total']);
+		$this->set('time',$this->request->params['named']['time']);
+		$this->set('mark',$this->request->params['named']['mark']);
+// 		$this->set('hit',$this->params['url']['hit']);
+// 		$this->set('total',$this->params['url']['total']);
+// 		$this->set('time',$this->params['url']['time']);
+// 		$this->set ( 'hit', $this->request->params->url['hit'] );
+// 		$this->set ( 'total', $this->request->params->url['total'] );
+	}
+	function Beforetest(){}
+	function Exam(){
+		
+	}
+	function ChangePassword() {
+	}
+}

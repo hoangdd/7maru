@@ -2,7 +2,11 @@
 echo $this->Html->css('common');
 ?>
 
-<h1 class="center-block">Create another admin</h1>
+<h1 class="center-block">
+    <?php
+        echo __('Create another admin');
+    ?>
+</h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
     <form class="form-horizontal" role="form" action="createAdmin" method="POST">
@@ -10,7 +14,12 @@ echo $this->Html->css('common');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Username:</label>
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('Username');
+                            ?>
+                            :
+                        </label>
                     </div>
                 </td>
                 <td>
@@ -33,7 +42,11 @@ echo $this->Html->css('common');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Password:</label>
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('Password');
+                            ?>
+                        :</label>
                     </div>
                 </td>
                 <td>
@@ -54,7 +67,11 @@ echo $this->Html->css('common');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Retype Password:</label>
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('Retype Password');
+                            ?>
+                        :</label>
                     </div>
                 </td>
                 <td>
@@ -73,9 +90,16 @@ echo $this->Html->css('common');
             </tr>
         </table>
         <div class="text-center">
-            <input type="submit">
-            <button type="button" class="btn btn-primary" type="submit">Register</button>
-            <button type="button" class="btn btn-primary">Cancel</button>
+            <button class="btn btn-primary" type="submit">
+                <?php
+                    echo __('Register');
+                ?>
+            </button>
+            <button type="button" class="btn btn-primary">
+                <?php
+                    echo __('Cancel');
+                ?>
+            </button>
         </div>         
     </form>
 </div>

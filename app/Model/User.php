@@ -41,7 +41,6 @@ class User extends AppModel {
         if( !empty($data['profile_picture'])&&
             !empty($data['profile_picture']['tmp_name'])&&
             !empty($data['profile_picture']['name'])){
-              
             $ext = pathinfo($data['profile_picture']['name'], PATHINFO_EXTENSION);
             $file_url = IMAGE_PROFILE_DIR.DS.$data['user_id'].'.'.$ext;
             
@@ -51,6 +50,7 @@ class User extends AppModel {
             }
             move_uploaded_file($data['profile_picture']['tmp_name'],$file_url );
             $data['profile_picture'] = $data['user_id'].'.'.$ext;
+
         }
         
         //hash verifycode
@@ -60,7 +60,7 @@ class User extends AppModel {
         $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
         
         //hash password
-        $passString = $data['username'].$data['password'];
+        $passString = $data['username'].$data['password'].FILL_CHARACTER;
         $data['password'] = $this->_hashPassword($passString);
 
         $this->data['User'] = $data;

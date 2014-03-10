@@ -75,11 +75,13 @@ Configure::write('userRoles', array(
 /*========================End config user roles ====================*/
 
 /*========================Config file ====================*/
-define('DATA_DIR', DS.'opt'.DS.'lampp'.DS.'htdocs'.DS.'data');
+define('DATA_DIR', APP.'data');
 define('IMG_DATA_DIR', DATA_DIR.DS.'img');
 define('VIDEO_DATA_DIR', DATA_DIR.DS.'video');
 define('AUDIO_DATA_DIR', DATA_DIR.DS.'audio');
 define('SWF_DATA_DIR', DATA_DIR.DS.'swf');
+define('TSV_DATA_DIR', DATA_DIR.DS.'tsv');
+define('HTML_DATA_DIR', DATA_DIR.DS.'html');
 define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
 
@@ -114,8 +116,12 @@ Configure::write('srcFile', array(
 			'avi', 'flv', 'mp4'
 			),
 
-		)
-
+		),
+	'tsv' => array(
+		'extension'=> array(
+			'tsv'
+			)
+		),
 	));
 
 Configure::write('dataFile', array(

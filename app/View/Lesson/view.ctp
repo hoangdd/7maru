@@ -13,14 +13,14 @@
 *   Lesson: title, image, stars
 */
     echo $this->Html->css('common');
-    $lesson = array(
-        'title' =>  'Tokyo Hot',
-        'image' =>  'tokyo_hot.jpg',
-        'stars' => 2.5,
-        'reader' => 4,
-        'ranker' => 3,
-        'created_date' => '2013/12/1',
-    );
+    // $lesson = array(
+    //     'title' =>  'Tokyo Hot',
+    //     'image' =>  'tokyo_hot.jpg',
+    //     'stars' => 2.5,
+    //     'reader' => 4,
+    //     'ranker' => 3,
+    //     'created_date' => '2013/12/1',
+    // );
     $teacher = array(
             'image' => 'profile.jpg',
             'name' => 'agaraki yui',            

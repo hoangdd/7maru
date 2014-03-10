@@ -72,7 +72,7 @@
                     </div>
                 <?php } ?>                
             </div>
-            <div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
+            <div class="col-sm-3">
                 <?php foreach ($categories as $category){ ?>
                     <div class="input-group checkbox-result-wrapper" style = "display: none">
                         <span class="input-group-addon">
@@ -128,15 +128,15 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Lesson Image</label>
             <div class="col-sm-8">
-                <input type="file" name="image">
-//                <?php //echo $this->Form->file('image'); ?>
+                <input type="file" name="cover-image">
+//                <?php //echo $this->Form->file('cover-image'); ?>
                 <img src="/7maru/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
             </div>
         </div>
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Test File Format</label>
             <div class="col-sm-8">
-                <a class="btn btn-link"  href="#"><span class="glyphicon glyphicon-download-alt"></span>   Download Here</a>
+                <a class="btn btn-link"  href=<?php echo '"'.WEBROOT_DIR."/testfile.tsv".'"' ?> ><span class="glyphicon glyphicon-download-alt"></span>   Download Here</a>
             </div>
         </div>
         <div class="form-group row" <?php if(isset($error) && isset($error['copyright']))echo "has-error"; ?> >
