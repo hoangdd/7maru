@@ -325,42 +325,7 @@ class TeacherController extends AppController {
     }
 
 
-<<<<<<< Updated upstream
-//	function EditProfile(){
-//        if($this->Auth->loggedIn()){ 
-//            $pid=$this->Auth->User('user_id');
-//            $data1=$this->User->find('first',array(
-//                    'conditions' => array('User.user_id' => $pid,
-//                        )
-//            ));
-//            $this->set("data1",$data1);
-//            if($this->request->is('post')){
-//                
-//                $data=$this->request->data;
-//                if( !empty($_FILES['profile_picture'])&&
-//                    !empty($_FILES['profile_picture']['tmp_name'])&&
-//                    !empty($_FILES['profile_picture']['name'])){
-//                    $img_exts = Configure::read('srcFile')['image']['extension'];
-//                    $profile_pic = $_FILES['profile_picture'];
-//                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-//                    if( !in_array($ext, $img_exts) ){
-//                        $error['profile_picture'][0] ='Unsupported image file';  
-//                    }
-//                }
-//                $a['User']['firstname']=$data['firstname'];
-//                $a['User']['lastname']=$data['lastname'];
-//                $a['User']['date_of_birth']=$data['date_of_birth'];
-//                $a['User']['address']=$data['address'];
-//                $a['User']['phone_number']=$data['phone_number'];
-//                $a['User']['created']=$data['created'];
-//                $a['User']['username']=$data1['User']['username'];
-//                if( isset($profile_pic)){
-//                    $a['User']['profile_picture']=$profile_pic;
-//                }
-//                $this->User->id=$pid;
 
-=======
->>>>>>> Stashed changes
     function EditProfile() {
         if ($this->Auth->loggedIn()) {            
             if ($this->request->is('post')) {               
@@ -368,16 +333,6 @@ class TeacherController extends AppController {
                 $this->User->id = $pid;
 
                 $this->User->read();
-<<<<<<< Updated upstream
-                $this->User->save($a);
-                $pid1=$data1['User']['foreign_id'];
-                $b['Teacher']['bank_account']=$data['bank_account'];
-                $b['Teacher']['username']=$this->Auth->user('username');
-                $this->Teacher->id=$pid1;
-                $this->Teacher->read();
-                $this->Teacher->save($b);
-            }
-=======
                 if ($this->User->save($this->request->data)){
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
@@ -401,7 +356,6 @@ class TeacherController extends AppController {
                     );                
                 $this->set('teacherData',$teacherData['Teacher']);
                 $this->set('userData',$userData['User']);                            
->>>>>>> Stashed changes
         }
     }
 

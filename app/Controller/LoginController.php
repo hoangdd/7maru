@@ -47,11 +47,7 @@ class LoginController extends AppController {
                 ));
         }        
         if ($this->request->is('post')) {            
-<<<<<<< Updated upstream
-            $data = $this->request->data['User'];                    
-=======
             $data = $this->request->data['User'];                               
->>>>>>> Stashed changes
             if (isset($_SESSION['countFail'])){
                 if ($_SESSION['countFail'] >= 3){
                 //check verifycode and password
@@ -62,18 +58,12 @@ class LoginController extends AppController {
                         $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
                         return;                   
                     }                    
-<<<<<<< Updated upstream
-                 }}                         
-            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
-            if ($this->Auth->login()) {
-                // Login success                               
-=======
+
                  }
                  }                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
             if ($this->Auth->login()) {
                 // Login success                 
->>>>>>> Stashed changes
                 $userType = $this->Auth->user('user_type');
                 if( $userType==1 || $userType=='1'){    
                     $this->Session->write('Auth.User.role', 'R2');
