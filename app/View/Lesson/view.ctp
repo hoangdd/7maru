@@ -71,7 +71,7 @@
     			echo '<p>'.$lesson['stars'].' ranker / '.$lesson['reader'].' reader'.'</p>';
                 echo $this->Html->link('Lets try with test!', array(
                     'controller'=>'student',
-                    'action'=>'test',
+                    'action'=>'exam',
                 ),array('class' => 'btn btn-primary btn-lg active'));
                 
         ?>
