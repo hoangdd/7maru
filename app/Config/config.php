@@ -75,7 +75,7 @@ Configure::write('userRoles', array(
 /*========================End config user roles ====================*/
 
 /*========================Config file ====================*/
-define('DATA_DIR', DS.'opt'.DS.'lampp'.DS.'htdocs'.DS.'data');
+define('DATA_DIR', APP.'data');
 define('IMG_DATA_DIR', DATA_DIR.DS.'img');
 define('VIDEO_DATA_DIR', DATA_DIR.DS.'video');
 define('AUDIO_DATA_DIR', DATA_DIR.DS.'audio');

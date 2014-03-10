@@ -14,7 +14,7 @@ class FileController extends AppController {
 		}
 
 	}
-	public function img($file_id){
+	public function file($file_id){
 
 		$this->layout = false;
 		$this->viewClass = 'Media';
@@ -30,16 +30,9 @@ class FileController extends AppController {
 			return false;
 		}
 
-		$ext = pathinfo($file['File']['url'], PATHINFO_EXTENSION);
 
-		$dataFile = Configure::read('dataFile');
-		if( !isset($data['mimeType'][$ext])||empty($data['mimeType'][$ext]) ){
-			//unsupported file
-			return false;
-		}
-
-		$mineType = $data['mimeType'][$ext];
- 		$path = $file['']
+		$mineType = $data['mimeType'][$file['File']['ext']];
+ 		$path = $file['File']['path']
 
 		$params = array(
             'download'  => false, //no force download
@@ -47,8 +40,19 @@ class FileController extends AppController {
 	        'mimeType'  => array(
 	            'flash' => 'application/x-shockwave-flash'
 	        ),
-            'path'      => APP . 'data' . DS .'demo.swf'
+            'path'      => $path
         );
 		$this->set($params);
 	}
 }
+
+
+
+/*
+$ext = pathinfo($file['File']['url'], PATHINFO_EXTENSION);
+
+$dataFile = Configure::read('dataFile');
+if( !isset($data['mimeType'][$ext])||empty($data['mimeType'][$ext]) ){
+	//unsupported file
+	return false;
+}*/

@@ -128,8 +128,8 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Lesson Image</label>
             <div class="col-sm-8">
-                <input type="file" name="image">
-//                <?php //echo $this->Form->file('image'); ?>
+                <input type="file" name="cover-image">
+//                <?php //echo $this->Form->file('cover-image'); ?>
                 <img src="/7maru/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
             </div>
         </div>
