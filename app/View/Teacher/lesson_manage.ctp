@@ -100,6 +100,7 @@ $(document).ready(function(){
 
             var id = $(this).attr('name');
             $.ajax({
+<<<<<<< Updated upstream
                 url : "lessonManage",
                 data : {id : id},
                 type : 'post',
@@ -118,6 +119,26 @@ $(document).ready(function(){
                 }*/
             })
         }
+=======
+            url : "deleteLesson",
+            data : {id : id},
+            type : 'post',
+            dataType : 'text',
+            complete : function(data){
+                console.log(data);
+                if (data.responseText == 1) {
+                    $('.lesson[lessonid='+id+']').fadeOut();
+                    alert('Deletion success');
+                }else{
+                    alert('can not  delete');
+                }
+            },
+            /*error : function(){
+                
+            }*/
+        })
+   }
+>>>>>>> Stashed changes
 
     })
     $('#search-input').on('input',function(e){

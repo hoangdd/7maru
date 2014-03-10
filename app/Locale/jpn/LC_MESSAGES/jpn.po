@@ -103,6 +103,6 @@ msgid "User Manage"
 msgstr "ユーザ管理"
 
 msgid "Reference Manage"
-msgstr ""
+msgstr "資料管理"
 
 <!-- IP Manage -->

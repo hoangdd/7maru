@@ -3,7 +3,7 @@
 <div class="col-md-3">
 	
 	<?php
-   echo $this->Html->image('resource/ldp.jpg', array(
+   echo $this->Html->image("data/avata/".$data['User']['profile_picture'], array(
 	'alt' => 'CakePHP',
 	'width' => '180px',
 	'class' => 'img-rounded',
@@ -12,11 +12,10 @@
 	?>
 	
 	<div>
-    <embed type="application/x-shockwave-flash" src="http://localhost/7maru/File/img/demo.swf" name="plugin" height="200px" width="200px"></embed>
 		<?php
     echo "<br>";
-    echo $this->Html->link('Editprofile',
-      'Editprofile',array(
+    echo $this->Html->link('EditProfile',
+      'EditProfile',array(
         'class'=>'btn btn-primary btn-lg',
         'role'=>'button',
         'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'

@@ -297,7 +297,7 @@ class StudentController extends AppController {
 	}
 
 	function Profile(){
-		$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
+		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
 			// $data=$this->User->query($sql);
 
         if($this->Auth->loggedIn()){
@@ -308,7 +308,7 @@ class StudentController extends AppController {
         		)
         	));
         $this->set("data",$data);
-        if($data['User']['user_type']==1){
+        if($data['User']['user_type']==2){
         	$a=$data['User']['foreign_id'];
             $data1=$this->Student->find('first',array(
             	'conditions' => array(
@@ -332,12 +332,61 @@ class StudentController extends AppController {
                     ));
             }
             $this->set("arr",$arr);
+          }
         }
-        }
-		$this->set ( 'error', $error );
+		
     }
 
 	function EditProfile() {
+		if($this->Auth->loggedIn()){
+             $pid=$this->Auth->User('user_id');
+             $data1=$this->User->find('first',array(
+                      'conditions' => array(
+                          'User.user_id' => $pid,
+                      	)
+             		));
+             $this->set("data1",$data1);
+             if($this->request->is('post')){
+             	//$pid=$this->Auth->User('user_id');
+             	$data=$this->request->data;
+             	/*$data1=$this->User->find('first',array(
+                      'conditions' => array(
+                          'User.user_id' => $pid,
+                      	)
+             		));*/
+             	
+             	if( !empty($_FILES['profile_picture'])&&
+             		!empty($_FILES['profile_picture']['tmp_name'])&&
+            		!empty($_FILES['profile_picture']['name'])){
+                    $img_exts = Configure::read('srcFile')['image']['extension'];
+                    $profile_pic = $_FILES['profile_picture'];
+                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+                    if( !in_array($ext, $img_exts) ){
+                        $error['profile_picture'][0] ='Unsupported image file';  
+                    }
+                }
+                $a['User']['firstname']=$data['firstname'];
+                $a['User']['lastname']=$data['lastname'];
+                $a['User']['date_of_birth']=$data['date_of_birth'];
+                $a['User']['address']=$data['address'];
+                $a['User']['phone_number']=$data['phone_number'];
+                $a['User']['created']=$data['created'];
+                $a['User']['username']=$data1['User']['username'];
+                if( isset($profile_pic)){
+                	$a['User']['profile_picture']=$profile_pic;
+                }
+                $this->User->id=$pid;
+                $this->User->read();
+                $this->User->save($a);
+                $pid1=$data1['User']['foreign_id'];
+                $b['Student']['credit_account']=$data['credit_account'];
+                $b['Student']['username']=$this->Auth->user('username');
+                $this->Student->id=$pid1;
+                $this->Student->read();
+                $this->Student->save($b);
+
+             }
+		}
 	}
 
 	function Destroy() {
