@@ -323,38 +323,38 @@ class TeacherController extends AppController {
     }
 
 
-	function EditProfile(){
-        if($this->Auth->loggedIn()){ 
-            $pid=$this->Auth->User('user_id');
-            $data1=$this->User->find('first',array(
-                    'conditions' => array('User.user_id' => $pid,
-                        )
-            ));
-            $this->set("data1",$data1);
-            if($this->request->is('post')){
-                
-                $data=$this->request->data;
-                if( !empty($_FILES['profile_picture'])&&
-                    !empty($_FILES['profile_picture']['tmp_name'])&&
-                    !empty($_FILES['profile_picture']['name'])){
-                    $img_exts = Configure::read('srcFile')['image']['extension'];
-                    $profile_pic = $_FILES['profile_picture'];
-                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                    if( !in_array($ext, $img_exts) ){
-                        $error['profile_picture'][0] ='Unsupported image file';  
-                    }
-                }
-                $a['User']['firstname']=$data['firstname'];
-                $a['User']['lastname']=$data['lastname'];
-                $a['User']['date_of_birth']=$data['date_of_birth'];
-                $a['User']['address']=$data['address'];
-                $a['User']['phone_number']=$data['phone_number'];
-                $a['User']['created']=$data['created'];
-                $a['User']['username']=$data1['User']['username'];
-                if( isset($profile_pic)){
-                    $a['User']['profile_picture']=$profile_pic;
-                }
-                $this->User->id=$pid;
+//	function EditProfile(){
+//        if($this->Auth->loggedIn()){ 
+//            $pid=$this->Auth->User('user_id');
+//            $data1=$this->User->find('first',array(
+//                    'conditions' => array('User.user_id' => $pid,
+//                        )
+//            ));
+//            $this->set("data1",$data1);
+//            if($this->request->is('post')){
+//                
+//                $data=$this->request->data;
+//                if( !empty($_FILES['profile_picture'])&&
+//                    !empty($_FILES['profile_picture']['tmp_name'])&&
+//                    !empty($_FILES['profile_picture']['name'])){
+//                    $img_exts = Configure::read('srcFile')['image']['extension'];
+//                    $profile_pic = $_FILES['profile_picture'];
+//                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+//                    if( !in_array($ext, $img_exts) ){
+//                        $error['profile_picture'][0] ='Unsupported image file';  
+//                    }
+//                }
+//                $a['User']['firstname']=$data['firstname'];
+//                $a['User']['lastname']=$data['lastname'];
+//                $a['User']['date_of_birth']=$data['date_of_birth'];
+//                $a['User']['address']=$data['address'];
+//                $a['User']['phone_number']=$data['phone_number'];
+//                $a['User']['created']=$data['created'];
+//                $a['User']['username']=$data1['User']['username'];
+//                if( isset($profile_pic)){
+//                    $a['User']['profile_picture']=$profile_pic;
+//                }
+//                $this->User->id=$pid;
 
     function EditProfile() {
         if ($this->Auth->loggedIn()) {
@@ -381,13 +381,9 @@ class TeacherController extends AppController {
                 'Lesson.author' => $this->Auth->user('user_id')
             )
         ));
-
         $this->set('lesson', $lesson);
-
-//        $this->set('teacher', $teacher);
-//        $this->set('user', $user);
-        //debug(Router::url('/',true));
-        debug($lesson);
+   }
+   function deleteLesson(){
         if ($this->request->is('ajax')) {
 
             $id = $this->request->data['id'];
