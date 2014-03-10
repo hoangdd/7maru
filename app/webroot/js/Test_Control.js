@@ -228,7 +228,7 @@ function doQuestion(quest, ss) {
 		writefn("\n")
 		writefn("&nbsp;")
 		writefn("<input type='button' onClick=\"myshowopt(" + (quest)
-				+ ",0)\" value='Back' class=\"test_next_but\" />")
+				+ ",0)\" value='前へ' class=\"test_next_but\" />")
 	}
 	writefn("\n")
 	writefn("          ")
@@ -236,11 +236,11 @@ function doQuestion(quest, ss) {
 		writefn("\n")
 		writefn("\n")
 		writefn("<input type='button' onClick=\"myshowopt(" + quest
-				+ ",2)\" value='Next' class=\"test_next_but\" />")
+				+ ",2)\" value='次へ' class=\"test_next_but\" />")
 	}
 	writefn(" <input type='button' onClick=\"javascript:resetRdo(" + quest
 			+ "," + questions[quest].sectionid + "," + type + "," + myname
-			+ ")\" value='Reset'  class=\"test_next_but\"  />")
+			+ ")\" value='レセット'  class=\"test_next_but\"  />")
 
 	btime = "btime" + quest + "";
 	hid = "hid[" + quest + "]";
@@ -264,7 +264,7 @@ function doQuestion(quest, ss) {
 			writefn(" <input type='button'  value='Go to next section' class='bluebut' onclick='javascript:evalu()' > ")
 		} else {
 			writefn("\n")
-			writefn(" <input type='button'  value='Finish' class='test_next_but'  onclick=\"javascript:shtm('','2')\" >")
+			writefn(" <input type='button'  value='完了' class='test_next_but'  onclick=\"javascript:shtm('','2')\" >")
 		}
 	}
 	writefn("<div id='txt"
@@ -578,8 +578,7 @@ function update_time(t, t1) {
 function checkTime() {
 	tmMx = -waitTime;
 	if (tmMx != 0) {
-		alert('Time to complete your test is ' + stmsC(Math.abs(tmMx))
-				+ ' \n\nPlease check time count.');
+		alert('本当にテストをうけるね！ ');
 		shtm((tmMx > 0) ? 0 : tmMx, '')
 //		shtm(20,'');
 	}

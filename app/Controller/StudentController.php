@@ -9,15 +9,15 @@ class StudentController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter ();
-<<<<<<< HEAD
+
 		$this->Auth->userModel = 'Student';
 		$this->Auth->allow ( 'dotest', 'viewtestresult','beforetest','exam' );
-=======
+
 		$this->Auth->allow();//Allow all
 	}
 	
 	function index(){
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
+
 	}
 
 	function Register() {
@@ -237,7 +237,7 @@ class StudentController extends AppController {
 			}
              //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
-<<<<<<< HEAD
+
 //                 $img_exts = Configure::read('srcFile')['image']['extension'];
 //                 $profile_pic = $_FILES['profile_picture'];
 //                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
@@ -245,14 +245,14 @@ class StudentController extends AppController {
 //                   $error['profile_picture'][0] ='Unsupported image file.';  
 //                     $check_student = false;
 //                 }
-=======
-                $img_exts = Configure::read('srcFile')['image']['extension'];
-                $profile_pic = $_FILES['profile_picture'];
-                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                if( !in_array($ext, $img_exts) ){
-                  $error['profile_picture'][0] ='Unsupported image file';  
-                }
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
+
+//                 $img_exts = Configure::read('srcFile')['image']['extension'];
+//                 $profile_pic = $_FILES['profile_picture'];
+//                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+//                 if( !in_array($ext, $img_exts) ){
+//                   $error['profile_picture'][0] ='Unsupported image file';  
+//                 }
+
             }
             //====================================
 
@@ -358,69 +358,22 @@ class StudentController extends AppController {
 	}
 
 	function DoTest() {
-<<<<<<< HEAD
-		$nFileName = "testfile.tsv"; // Hidden due to security reasons.
-		$nRow = 1;
-		
-		$nFile = fopen ( $nFileName, "r" );
-		
-		$finalTest;
-		
-		if ($nFile !== FALSE) {
-			$temp = 0;
-			$temp_temp = 0;
-			$arrayLen = 0;
-			$indexItem = "Question";
-			$questionNumber = 0;
-			$questionContent;
-			$optNumber = 0;
-			$optionIndex = "Option";
-=======
-			$nFileName = "testfile.tsv"; // Hidden due to security reasons.
+
+	$nFileName = "testfile.tsv"; // Hidden due to security reasons.
 			$nRow = 1;
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
 			
 			$nFile = fopen ( $nFileName, "r" );
 			
 			$finalTest;
-<<<<<<< HEAD
-			$arrayOption;
-			while ( ! feof ( $nFile ) ) {
-				$nLineData = fgets ( $nFile );
-				$temp_temp ++;
-				if ($temp_temp > 4) {
-					
-					// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
-					$flagQuestion = 0; // doc cau hoi
-					                   // $nLineData = mb_convert_encoding($nLineData, "UTF-8");
-					$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
-					
-					$nParsed = explode ( "\t", $nLineData, - 1 );
-					if (count ( $nParsed ) == 3) {
-						if (strcmp ( $nParsed [0], "" ) != 0) {
-							if (strcmp ( $nParsed [1], "QS" ) == 0) {
-								$indexItem = "Question" . $questionNumber;
-								$questionContent = $nParsed [2];
-							} else {
-								
-								if (strcmp ( $nParsed [1], "KS" ) == 0) {
-									// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
-									// print_r($resultStrTemp);
-									$resultStr = substr ( $nParsed [2], 2, - 1 );
-									$result = intval ( $resultStr );
-									$result = $result - 1;
-									// $result = $nParsed[2];
-									// echo $result;
-=======
 			
 			if ($nFile !== FALSE) {
 				$temp = 0;
 				$temp_temp = 0;
 				$arrayLen = 0;
 				$indexItem = "Question";
-				$questionNumber = 1;
+				$questionNumber = 0;
 				$questionContent;
-				$optNumber = 1;
+				$optNumber = 0;
 				$optionIndex = "Option";
 				
 				$result;
@@ -439,18 +392,18 @@ class StudentController extends AppController {
 						
 						$nParsed = explode ( "\t", $nLineData, - 1 );
 						if (count ( $nParsed ) == 3) {
-							if (strcmp ( $nParsed [0], " " ) != 0) {
+							if (strcmp ( $nParsed [0], "" ) != 0) {
 								if (strcmp ( $nParsed [1], "QS" ) == 0) {
-									$indexItem = "Question " . $questionNumber;
+									$indexItem = "Question" . $questionNumber;
 									$questionContent = $nParsed [2];
 								} else {
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
 									
 									if (strcmp ( $nParsed [1], "KS" ) == 0) {
 										// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
 										// print_r($resultStrTemp);
 										$resultStr = substr ( $nParsed [2], 2, - 1 );
 										$result = intval ( $resultStr );
+										$result = $result - 1;
 										// $result = $nParsed[2];
 										// echo $result;
 										
@@ -470,30 +423,15 @@ class StudentController extends AppController {
 											$temp ++;
 										} else
 										$finalTest += $arrResult;
-<<<<<<< HEAD
-									
-									$questionNumber ++;
-									$indexItem = "Question";
-									$optNumber = 0;
-									$optionIndex = "Option";
-								} else {
-									
-									$optionIndex = "Option" . $optNumber;
-									if ($optNumber == 0) {
-										$arrayOption = array (
-												$optionIndex => $nParsed [2] 
-										);
-=======
 										
 										$questionNumber ++;
 										$indexItem = "Question";
-										$optNumber = 1;
+										$optNumber = 0;
 										$optionIndex = "Option";
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
 									} else {
 										
 										$optionIndex = "Option" . $optNumber;
-										if ($optNumber == 1) {
+										if ($optNumber == 0) {
 											$arrayOption = array (
 												$optionIndex => $nParsed [2] 
 												);
@@ -521,13 +459,7 @@ class StudentController extends AppController {
 				fclose ( $nFile );
 				// return $finalTest;
 			}
-			// return null;
-			
-<<<<<<< HEAD
-			// print_r($finalTest);
-			$this->set ( "test_list", $finalTest );
-			$this->testList = $finalTest;
-			fclose ( $nFile );
+
 			$AA = count($finalTest) - 1;
 		$data='function Section (sectionName,sectionID,secQues,secTime,secMarks,secNegMark,consumedsecTime,consumedsecq)
 			{
@@ -589,7 +521,7 @@ class StudentController extends AppController {
 			}';
 		$resTem = '<font face=Arial size=2>';
 		$resTemEnd = '</font>';
-		$direc = '<b><u>Directions:</u></b>';
+		$direc = '<b><u>内容:</u></b>';
 		$start = 'resp=new Array(';
 		$res;$i=0;$j=1;$cot = 0;$startNumber = 1000;
 		$quesControl = '';
@@ -643,10 +575,7 @@ class StudentController extends AppController {
 		$fp = fopen('test_store/test_test.js', 'w');
 		fwrite($fp, $data);
 		fclose($fp);
-		
-			// return $finalTest;
-		}
-		// return null;
+
 		
 		if (! $this->request->is ( "post" )) {
 		} else {
@@ -688,43 +617,24 @@ class StudentController extends AppController {
 			
 // 			$this->ViewTestResult($temp, 5);
 // 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
-			$this->redirect ( array (
-=======
-			if (! $this->request->is ( "post" )) {
-			} else {
-				
-				$data = $this->request->data ['Student'];
-				print_r ( $data );
-				// $this->testList = $this->DoTest();
-				// if($this->testList != null)
-				// //print_r($this->testList);
-				$temp = 0;
-				foreach ( $data as $q => $m ) {
-					if (strcmp ( $q, "timer" ) != 0) {
-						$str = "Option" . $finalTest [$q] ['mark'];
-						if (strcmp ( $str, $m ) == 0)
-							$temp ++;
-					}
-					else $timeTemp = $m;
-				}
-				// echo $temp;
-				$reTemp = count($data) - 1;
-				$timeTemp = 
-				// $this->ViewTestResult($temp, 5);
-				// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+// 			$this->redirect ( array (
+
+// 			
 				$this->redirect ( array (
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f
+
 					'controller' => 'student',
 					'action' => 'viewtestresult',
 					'hit' => $temp,
 					'total' => $reTemp,
-<<<<<<< HEAD
+
 					'mark' => $mark,
 					'time' => 10
 			) );
 			//
 		}
 	}
+
+							
 	function ViewTestResult() {
 // 		print_r ($this->params['url']);
 // 		print_r( $this->request->params);
@@ -747,26 +657,3 @@ class StudentController extends AppController {
 	function ChangePassword() {
 	}
 }
-=======
-					'time' => $timeTemp 
-					) );
-				//
-			}
-		}
-
-		function ViewTestResult() {
-			print_r( $this->request->params);
-			$this->set('hit',$this->request->params['named']['hit']);
-			$this->set('total',$this->request->params['named']['total']);
-			$this->set('time',$this->request->params['named']['time']);
-			/*$this->set('hit',$this->params['url']['hit']);
-			$this->set('total',$this->params['url']['total']);
-			$this->set('time',$this->params['url']['time']);
-			$this->set ( 'hit', $this->request->params->url['hit'] );
-			$this->set ( 'total', $this->request->params->url['total'] );*/
-		}
-
-		function ChangePassword() {
-		}
-	}
->>>>>>> 8d873b2c1825bcbf9268a0be2cc1d2f430491f6f

@@ -151,7 +151,7 @@ function DivCloseOpen(divid)
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
           <tr bgcolor="#F68122">
             <td width="6" style="background:url(/7maru/app/webroot/anything/sprite_05.jpg) left no-repeat;" height="27">&nbsp;</td>
-            <td width="705" background="/7maru/app/webroot/anything/sprite_07.jpg" class="content_head" ><strong>Do Test</strong></td>
+            <td width="705" background="/7maru/app/webroot/anything/sprite_07.jpg" class="content_head" ><strong>テストを受ける</strong></td>
             <td width="6" style="background:url(/7maru/app/webroot/anything/sprite_06.jpg) right no-repeat;" height="27">&nbsp;</td>
           </tr>
           <tr>
@@ -172,7 +172,7 @@ function DivCloseOpen(divid)
                               <tr>
                                 <td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
                                   <tr>
-                                    <td height="33" colspan="4" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>Timer</strong></td>
+                                    <td height="33" colspan="4" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>時間</strong></td>
                                     </tr>
                 
 <SCRIPT language="javascript">
@@ -182,7 +182,7 @@ function DivCloseOpen(divid)
 	statusWidth = Math.floor(100/sectionArr.length);
 	secCoun=1;
 	totminCon=sectionArr[secCoun-1].secTime/60;
-			document.write('<tr><td width="28%" height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;border-bottom:#dbdbdb dashed 1px;"><strong>Selected </strong></td>');
+			document.write('<tr><td width="28%" height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;border-bottom:#dbdbdb dashed 1px;"><strong>選ぶ数 </strong></td>');
 
 			sectionvar+='<div class=\"bid_middle_slet_under\" id=\"optSection'+secCoun+'\"><img src="/7maru/app/webroot/anything/loader.gif" border="0" /></div>';
 			statusBarCode+='<div style=\"width:100%;\"><div style=\"width:'+statusWidth+'%; float:left; border:1px solid #E1E1E1; border-right:0px;\">Section '+secCoun+'</div></div>';
@@ -191,8 +191,8 @@ function DivCloseOpen(divid)
 
 	document.write('<td width="21%" align="center" class="web_font_9" style="border-bottom:#dbdbdb dashed 1px;border-right:#dbdbdb dashed 1px"><div><span id="sTime'+secCoun+'">00:00</span></div></td>'+
 	'<td width="32%" rowspan="2" align="center" valign="top" bgcolor="#F2EEE2" class="web_font_11" ><strong><br />'+
-	'Time Left<br /><br /><SPAN id=disp name="disp">00:00:00</SPAN></strong></td></tr>'+
-	'<tr><td height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>Total</strong></td>'+
+	'時間落<br /><br /><SPAN id=disp name="disp">00:00:00</SPAN></strong></td></tr>'+
+	'<tr><td height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>全部</strong></td>'+
     '<td align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px"><span id="totattempt">0</span></td>'+
 	'<td align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px"><div id=\"totmins\">00:00</div></td>'+
 	'</tr>');
@@ -204,7 +204,7 @@ function DivCloseOpen(divid)
                               <tr>
                                 <td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
                                     <tr>
-                                      <td height="33" colspan="3" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>Move To</strong></td>
+                                      <td height="33" colspan="3" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>問題選択</strong></td>
                                     </tr>
                                     <tr>
                                       
@@ -280,14 +280,14 @@ function DivCloseOpen(divid)
       <TABLE border="0" cellSpacing="0" cellPadding="3" align="center" width="100%" style="border: 1px solid rgb(219, 219, 219);">
         <TBODY>
         <TR>
-          <TD class="test_list_border" height="18" colSpan="2" align="left"><img src="/7maru/app/webroot/anything/test_head_icon.png" alt="icon" width="20" height="20" align="absmiddle" /><span class="profile_info_text">Test Details</span></TD>
+          <TD class="test_list_border" height="18" colSpan="2" align="left"><img src="/7maru/app/webroot/anything/test_head_icon.png" alt="icon" width="20" height="20" align="absmiddle" /><span class="profile_info_text">テスト詳細</span></TD>
         </TR>
         <TR bgcolor="#f3efe4">
-          <TD width="34%" height="30" align="right" class="test_list_border"><strong>Test Name :</strong></TD>
+          <TD width="34%" height="30" align="right" class="test_list_border"><strong>テスト名前 :</strong></TD>
           <TD width="66%" align="left" class="web_font_19 test_list_border"><strong>Test</strong></TD>
         </TR>
         <TR>
-          <TD height="30" align="right" class="test_list_border"><strong>No. of questions :</strong></TD>
+          <TD height="30" align="right" class="test_list_border"><strong>問題数</strong></TD>
           <TD align="left" class="test_list_border web_font_19">
             <DIV id="totques1"><strong>
             <SCRIPT language="javascript">
@@ -296,7 +296,7 @@ function DivCloseOpen(divid)
             </strong></DIV></TD>
         </TR>
         <TR bgcolor="#f3efe4">
-          <TD height="30" align="right" class="test_list_border"><strong>Time (minutes) : </strong></TD>
+          <TD height="30" align="right" class="test_list_border"><strong>時間 : </strong></TD>
           <TD align="left" class="test_list_border web_font_19">
             <strong><DIV id="tottime1"></DIV></strong></TD></TR>
         <TR class="blue_bg_admin">
@@ -341,9 +341,9 @@ function DivCloseOpen(divid)
 				}
 			?>
             </DIV><BR><BR>
-            <!--<div class="test_foot_pau" id = "startTest" style="display:none;"><a href="#" onClick="myshow(1,0);">Start Test</a></div>-->
+            <!--<div class="test_foot_pau" id = "startTest" style="display:none;"><a href="#" onClick="myshow(1,0);">始める</a></div>-->
             <DIV style="TEXT-ALIGN: left; LINE-HEIGHT: 2em; DISPLAY: none; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: nowrap; FLOAT: left; COLOR: #006699; FONT-SIZE: 1em; FONT-WEIGHT: bold" id="divNotLoading" align="left"></DIV>
-            <DIV style="DISPLAY: none" id="startTest" class="marked1"><A href="javascript:void(0);" onclick="myshow(1,0);"><strong>Start Test</strong></A></DIV>      </TD>
+            <DIV style="DISPLAY: none" id="startTest" class="marked1"><A href="javascript:void(0);" onclick="myshow(1,0);"><strong>始める</strong></A></DIV>      </TD>
       </TR>
       </TBODY></TABLE>
       </DIV></DIV>
