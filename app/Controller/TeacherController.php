@@ -234,10 +234,12 @@ class TeacherController extends AppController {
             //====================================
             //自己のイメージをチェック：
             if (!empty($_FILES['profile_picture'])) {
-                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $configs = Configure::read('srcFile');
+                $img_exts = $configs['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                if (!in_array($ext, $img_exts)) {
+                if (!in_array($ext, $img_exts)) 
+                {
                     $error['profile_picture'][0] = 'Unsupported image file';
                 }
             }
@@ -341,6 +343,7 @@ class TeacherController extends AppController {
 //        $this->set('teacher', $teacher);
 //        $this->set('user', $user);
         //debug(Router::url('/',true));
+        debug($lesson);
         if ($this->request->is('ajax')) {
             $id = $this->request->data['id'];
             $delete = true;
@@ -406,10 +409,6 @@ class TeacherController extends AppController {
 	function ChangePassword(){
 	}
 	
-	function CreateLesson() {
-
-	}
-	
 	function  EditLession() {
 	
 	}
@@ -418,12 +417,8 @@ class TeacherController extends AppController {
             $data = $this->request->data;
             $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
             $this->set('request',$request);
-            }
         }
 
-    }
-    function EditLession() {
-        
     }
 
 }
