@@ -403,17 +403,15 @@ class TeacherController extends AppController {
     function ChangePassword() {
         
     }
-
-    function getDataStatistic() {
-        if ($this->request->is('post')) {
+	
+	function  EditLession() {
+	
+	}
+    function getDataStatistic(){
+        if ($this->request->is('post')){
             $data = $this->request->data;
-            $result = array(array('day', 'number'), array(1, 2), array(2, 3), array(3, 4));
-            $this->set('request', $request);
+            $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
+            $this->set('request',$request);
         }
     }
-
-    function EditLesson() {
-        
-    }
-
 }

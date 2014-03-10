@@ -23,7 +23,7 @@ class LoginController extends AppController {
 
         if ($this->request->is('post')) {
             $data = $this->request->data['User'];
-            $this->request->data['User']['password'] = (string)($data['username'] . $data['password']);
+            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
             if ($this->Auth->login()) {
                 // Login success
                 $userType = $this->Auth->user('user_type');
