@@ -36,7 +36,7 @@
 			<?php 
 			//$array_item = $array_list['2'];
 			echo $this->Form->create('AdminIp',
-		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ip_manage')
+		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ipManage')
 		  			)
 		  			);
 		  		 
