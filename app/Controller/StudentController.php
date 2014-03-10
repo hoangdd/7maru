@@ -240,12 +240,12 @@ class StudentController extends AppController {
              //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
 
-                $img_exts = Configure::read('srcFile')['image']['extension'];
-                $profile_pic = $_FILES['profile_picture'];
-                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                if( !in_array($ext, $img_exts) ){
-                  $error['profile_picture'][0] ='Unsupported image file';  
-                }
+//                 $img_exts = Configure::read('srcFile')['image']['extension'];
+//                 $profile_pic = $_FILES['profile_picture'];
+//                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+//                 if( !in_array($ext, $img_exts) ){
+//                   $error['profile_picture'][0] ='Unsupported image file';  
+//                 }
             }
             //====================================
 
@@ -262,7 +262,7 @@ class StudentController extends AppController {
 				$this->Student->create ( $data_student );
                 //セーブしたり、結果を出した
 				$result = $this->Student->save ();
-			
+				echo "ngo";
 			
 			 //ユーザのデータをセーブする
                 /*
@@ -288,9 +288,11 @@ class StudentController extends AppController {
 
                     $this->User->create($data_user);
                     $this->User->save();
+                    echo "ngo1";
 			     }
 		      }
         }
+        
         $this->set('error', $error);
 	}
 

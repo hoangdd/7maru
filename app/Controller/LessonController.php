@@ -2,7 +2,7 @@
 define('FILE_DIR', WEBROOT_DIR.DS.'files'.DS.'data');
 class LessonController extends AppController {
 
-    var $components =  array('Session');
+    var $components =  array('Session','Paginator');
     var $uses = array('Category','Lesson','LessonCategory','File','Teacher','RateLesson','LessonTransaction');
     /**
     * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
@@ -202,5 +202,68 @@ class LessonController extends AppController {
 
     private function check_Document_File(){
 
+    }
+    
+    function Hotlesson() {
+    	$page_limit = 4;
+    	$pagination = array (
+    			'limit' => $page_limit,
+    			'fields' => array (
+    					'RateLesson.coma_id','SUM(RateLesson.rate) as temp'),
+    			'order' => array('temp' => 'DESC'),
+    			'group' =>  'RateLesson.coma_id'
+    	   	);
+    	$this->Paginator->settings = $pagination;
+    	$data = $this->Paginator->paginate ( 'RateLesson');
+    	
+    	print_r($data);
+    }
+    
+    function Newlesson() {
+    	$page_limit = 3;
+    	$pagination = array (
+    			'limit' => $page_limit,
+    			'fields' => array (
+    					'Lesson.coma_id'),
+    			'order' => array('Lesson.created' => 'DESC'),
+    			'group' =>  'Lesson.coma_id'
+    	
+    	);
+    	$this->Paginator->settings = $pagination;
+    	$data = $this->Paginator->paginate ( 'LessonTransaction');
+    	
+    	print_r($data);
+    }
+    
+    function Recentlesson() {
+    	$page_limit = 3;
+    	$pagination = array (
+    			'limit' => $page_limit,
+    			'fields' => array (
+    					'LessonTransaction.coma_id'),
+    			'order' => array('LessonTransaction.created' => 'DESC'),
+    			'group' =>  'LessonTransaction.coma_id'
+    	
+    	);
+    	$this->Paginator->settings = $pagination;
+    	$data = $this->Paginator->paginate ( 'LessonTransaction');
+    	
+    	print_r($data);
+    }
+    
+    function Bestseller() {
+//     	$data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
+    	$page_limit = 4;
+		$pagination = array (
+				'limit' => $page_limit,
+				'fields' => array (
+						'LessonTransaction.coma_id','Count(*) as count'),
+				'order' => array('count' => 'DESC'),
+				'group' =>  'LessonTransaction.coma_id'
+				
+		);
+    	
+//     	print_r($data);
+		debug($data);
     }
 }
