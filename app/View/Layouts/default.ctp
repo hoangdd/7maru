@@ -54,11 +54,11 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		<div id="header">
 			<?php echo $this->element('menu');?>
 		</div>
-		<div id="content">
+		<div id="content" >
 			<div class="row highlight">
 				<div class="col-md-2">
 				</div>
-				<div class="col-md-8 highlight" style="background-color:white">
+				<div class="col-md-8 highlight" style="background-color:white;min-height:500px">
 					<?php echo $this->Session->flash(); ?>
 					<?php echo $this->fetch('content'); ?>
 				</div>

@@ -37,6 +37,10 @@ $beginDate = '21/2/2013';
       // instantiates the pie chart, passes in the data and
       // draws it.
       var unit = 'views';
+      dd = today.getDate();
+      mm = today.getMonth()+1; //January is 0!
+      yyyy = today.getFullYear();
+      if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
       var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
       options = {
                            title: 'Number of '+unit,             
@@ -47,7 +51,7 @@ $beginDate = '21/2/2013';
                            legend: 'none',
                      };   
       google.setOnLoadCallback(function(){drawChart(dataArray,options)});
-      function drawChart(dataArray,options) {               
+      function drawChart(dataArray,options) {                       
             data = google.visualization.arrayToDataTable(dataArray);
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
             chart.draw(data, options);
@@ -76,12 +80,7 @@ $beginDate = '21/2/2013';
             <div class='col-md-12'>                    
                   <div class='col-md-6' style='border-right:1px solid #cccccc'>
                         <p>Today: 
-                              <script>today = new Date()
-                              var dd = today.getDate();
-                              var mm = today.getMonth()+1; //January is 0!
-
-                              var yyyy = today.getFullYear();
-                              if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+                              <script>today = new Date()                              
                               document.write(today);
                               </script>
                         </p>     
@@ -166,23 +165,32 @@ $beginDate = '21/2/2013';
 
       <script type="text/javascript">
       $(document).ready(function(){       
-            $("ul.nav li a").click(function(){
-                  $("ul.nav li.active").removeClass('active');
-                  $(this).parent("li").addClass('active');                        
-                  var unit = $(this).attr('id');
+       // var dataArray;
+        $("ul.nav li a").click(function(){
+          $("ul.nav li.active").removeClass('active');
+          $(this).parent("li").addClass('active');                        
+          var unit = $(this).attr('id');
                         //do change chart here  
                         //dataArray will be get by ajax
-                        var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
-                        options = {
-                           title: 'Number of '+unit,             
-                           width: '100%',
-                           height:'100%',
-                           hAxis: {title: 'day'},
-                           vAxis: {title: unit},                  
-                           legend: 'none',
+                        $.ajax({
+                          type:'post',
+                          dataType: 'json',
+                          url: <?php echo "'".$this->Html->url(array('controller' => 'teacher','action' => 'getDataStatistic'."'")) ?>,
+                          data: {type:unit,day:day,month:month,year:year}
+                        }).done(function(dt){
+                          dataArray = dt;
+                        })
+                      //  var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
+                      options = {
+                       title: 'Number of '+unit,             
+                       width: '100%',
+                       height:'100%',
+                       hAxis: {title: 'day'},
+                       vAxis: {title: unit},                  
+                       legend: 'none',
                      };   
                      drawChart(dataArray,options);                               
                      return false;
-               })                  
+                   })                  
       })
       </script>  

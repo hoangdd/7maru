@@ -3,7 +3,7 @@
 class LessonController extends AppController {
 
     var $components =  array('Session');
-    var $uses = array('Category','Lesson','LessonCategory');
+    var $uses = array('Category','Lesson','LessonCategory','File');
     
 	function index(){
 		 App::uses('Utilities', 'Lib');
@@ -12,28 +12,15 @@ class LessonController extends AppController {
 	}
 
 	function Create(){
-        
-        //  $this->loadModel('Category');
         $categories =  $this->Category->find('all');
-//        debug($categories);
         $this->set('categories',$categories);
-        $filename = WEBROOT_DIR.DS.'img'.DS.'lessoncover'.DS.$_FILES['document']['name']; 
-        debug($filename);
-        // if (move_uploaded_file($_FILES['document']['tmp_name'],WEBROOT_DIR.DS.'img'.DS.'lessoncover'.DS.$_FILES['document']['name'])){
-        //     $this->Session->setFlash('Upload OK');
-        // }
-        if(!empty($_FILES)){
-            move_uploaded_file($_FILES["file"]["tmp_name"] ,WEBROOT_DIR.DS.'files'.DS.'data'.DS.$_FILES["file"]["name"]);
-        }
         if($this->request->is('post')){
-//            debug($_FILES);
-//            die;
             $data = $this->request->data;
             debug($data);
+            debug($_FILES);
             $error = array(); //error that return to client;
             // check if copyright check box had checked yet?
             if(!isset($data['copyright'])){
-//                $this->Session->setFlash('Please Check copyright checkbox!!!');
                 $error['copyright'] = 'Please confirm your copyright';               
             }
             
@@ -46,13 +33,35 @@ class LessonController extends AppController {
             if(ctype_space($data['desc'])){
                 $error['desc'] = 'Lesson Description do not suppose to be empty';
             }
-            if($data['image']){
+            if($_FILES['image']['name']){
                 //Check if image format is supported
-                if(preg_match('/\.(jpg|png|gif|tif)$/',$data['image'])){
-                    
-                } else {
+                if(!preg_match('/\.(jpg|png|gif|tif)$/',$_FILES['image']['name'])){
                     $error['image'] = 'Unsupported Image Format';
+                } else if($_FILES['image']['size'] > 2097152){
+                    $error['image'] = 'Image Size Too Big';
                 }
+            }
+            if($_FILES['test']['name']){
+                //Check if image format is supported
+                if(!preg_match('/\.(csv)$/',$_FILES['test']['name'])){
+                    $error['test'] = 'Unsupported Test File Format';
+                } else if($_FILES['test']['size'] > 5242880){
+                    $error['test'] = 'Test File Too Big';
+                }
+            }
+            // for($i = 0, $len = $);
+            if($_FILES['document']['name'][0]){
+                //Check if image format is supported
+                for($i = 0, $len = count($_FILES['document']['name']) ; $i < $len; $i++){
+                    if($_FILES['document']['name'][$i]){
+                        if(!preg_match('/\.(pdf|doc|docx|txt|ppt|pptx|xlsx|xls)$/',$_FILES['document']['name'][$i])){
+                            $error['document'] = 'Unsupported Document Format';
+                        } else if($_FILES['document']['size'][$i] > 5242880){
+                            $error['document'] = 'Document Size Too Big';
+                        }
+                    }
+                }
+                
             }
             
             if(count($error)){
@@ -65,11 +74,10 @@ class LessonController extends AppController {
                     'Lesson'=> array(
                         'name'=> $data['name'],
                         'description'=> $data['desc'],
-                        'author' => $this->Auth->user('user_id')
-                    )
-                );
-                debug($saveData);
-                $this->Lesson->create();
+                        'author' => $this->Auth->user('user_id'),
+                        'cover' => $_FILES['image']['name']
+                        )
+                    );
                 $lesson = $this->Lesson->save($saveData);
                 // save Lesson Category
                 if($lesson && isset($data['category'])){
@@ -78,11 +86,66 @@ class LessonController extends AppController {
                 
                 // Save Lesson image and files
                 debug($_FILES);
-                $filename = WEBROOT_DIR.'/img/lessoncover/'.$_FILES['image']['name']; 
-                debug($filename);
-                if (move_uploaded_file($_FILES['image']['tmp_name'],$filename)){
-                    $this->Session->setFlash('Upload OK');
+                if($_FILES['image']['name']){
+                    // get image subFix
+                    $subfix = preg_split('/\./',$_FILES['image']['name']);
+                    $subfix = '.'.$subfix[count($subfix)-1];
+
+                    $filename = $_SERVER['DOCUMENT_ROOT'].$this->webroot.'app/webroot/img/lessoncover/'.$lesson['Lesson']['id'].$subfix; 
+                    debug($filename);
+                    if (move_uploaded_file($_FILES['image']['tmp_name'],$filename)){
+                        $this->Session->setFlash('Upload OK');
+                    }
                 }
+                $saveData = array();
+                if($_FILES['document']['name'][0]){
+                    for($i = 0, $len = count($_FILES['document']['name']) ; $i < $len; $i++){
+                        // get document subFix
+                        if($_FILES['document']['name'][$i]){
+                            $subfix = preg_split('/\./',$_FILES['document']['name'][$i]);
+                            $subfix = '.'.$subfix[count($subfix)-1];
+                            $filename = $_SERVER['DOCUMENT_ROOT'].$this->webroot.'app/webroot/files/Document/'.$lesson['Lesson']['id'].'_'.$_FILES['document']['name'][$i]; 
+                            debug($filename);
+                            if (move_uploaded_file($_FILES['document']['tmp_name'][$i],$filename)){
+                                $this->Session->setFlash('Upload OK');
+                            }
+                            $saveData[] = array(
+                                'File' => array(
+                                    'file_name' => $_FILES['document']['name'][$i],
+                                    'path' => 'app/webroot/files/Document/'.$lesson['Lesson']['id'].'_'.$_FILES['document']['name'][$i],
+                                    'coma_id' => $lesson['Lesson']['id'],
+                                    'type' => $_FILES['document']['type'][$i],
+                                    'isTest' => 'flase'
+                                )
+                            );
+
+                        }
+                    }
+                } 
+                if($_FILES['test']['name'][0]){
+                    // get test subFix
+                    $subfix = preg_split('/\./',$_FILES['test']['name']);
+                    $subfix = '.'.$subfix[count($subfix)-1];
+                    $filename = $_SERVER['DOCUMENT_ROOT'].$this->webroot.'app/webroot/files/Test/'.$lesson['Lesson']['id'].'_'.$_FILES['test']['name']; 
+                    debug($filename);
+                    if (move_uploaded_file($_FILES['test']['tmp_name'],$filename)){
+                        $this->Session->setFlash('Upload OK');
+                    }
+                    $saveData[] = array(
+                        'File' => array(
+                            'file_name' => $_FILES['test']['name'],
+                            'path' => 'app/webroot/files/Test/'.$lesson['Lesson']['id'].'_'.$_FILES['test']['name'],
+                            'coma_id' => $lesson['Lesson']['id'],
+                            'type' => $_FILES['test']['type'],
+                            'isTest' => 'true'
+                        )
+                    );
+                } 
+                // Save Files Information
+
+                
+                $this->File->saveMany($saveData);
+
             }
         }
 	}
@@ -99,4 +162,8 @@ class LessonController extends AppController {
 	
 	function Comment(){
 	}
+
+    private function check_Document_File(){
+
+    }
 }

@@ -1,8 +1,7 @@
 <IfModule mod_rewrite.c>
    RewriteEngine on
-   RewriteCond %{HTTP_REFERER} !^http://(www\.)?localhost [NC] 
-   RewriteCond %{HTTP_REFERER} !^http://(www\.)?localhost.*$ [NC] 
-   RewriteRule \.(gif|jpg|swf)$ - [F]
-   
+   RewriteRule    ^$ app/webroot/ [L]
    RewriteRule    (.*) app/webroot/$1 [L]
-</IfModule>
+   
+   </IfModule>
+

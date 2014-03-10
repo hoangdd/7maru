@@ -1,9 +1,62 @@
+<script>
+    window.onload = function(){
+        // other tag process, add new files input
+        $('#input_Category').on('input',function(e){
+            hide_Checkbox_with($(this).val());
+        });
+
+        // $('.checkbox-result-wrapper').hide();
+
+        $('.checkbox-wrapper').find('input').change(function(){
+            if(this.checked){
+                show_result_Checkbox_with($(this).parent().parent().find('label').text());
+            } else {
+                hide_result_Checkbox_with($(this).parent().parent().find('label').text());
+            }
+        });
+
+    }
+    function on_document_input(){
+        var document_input = $(".document-input");
+        var needadd = true;
+        for(var i=0, len=document_input.length ; i<len; i++){
+            if(document_input[i].value == ""){
+                needadd = false;
+                break;
+            }
+        }
+        if(needadd) add_new_document_input();
+    }
+    function hide_Checkbox_with(key){
+        $('.checkbox-name').each(function(wrapper){
+            if(this.innerText.indexOf(key) == -1){
+                $(this).parent().hide();
+            // } else if( $(this).parent().find('input').is(':checked') ){
+                // $(this).parent().hide();
+            } else {
+                $(this).parent().show();
+            }
+        });
+    }
+    function show_result_Checkbox_with(name){
+        $('.checkbox-result-name').each(function(){
+            if(this.innerText == name){
+                $(this).parent().show();
+            }
+        })
+    }
+    function hide_result_Checkbox_with(name){
+        $('.checkbox-result-name').each(function(){
+            if(this.innerText == name){
+                $(this).parent().hide();
+            }
+        })
+    }
+    function add_new_document_input(){
+        $('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input" onchange = "on_document_input()">');
+    }
+</script>
 <h1>Create new Lesson</h1>
-<form action="create" method="post" enctype="multipart/form-data">
-    <label for="file">Filename:</label>
-    <input type="file" name="file" id="file"><br>
-    <input type="submit" name="submit" value="Submit">
-</form>
 <div class="form-wrapper">
     <form class="form-horizontal" method="post" action="create" enctype="multipart/form-data">
 <!--        Category check box-->
@@ -11,11 +64,21 @@
             <label class="control-label col-sm-4" for="lesson_type">Category</label>
             <div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
                 <?php foreach ($categories as $category){ ?>
-                    <div class="input-group">
+                    <div class="input-group checkbox-wrapper">
                         <span class="input-group-addon">
                             <input type="checkbox" value= <?php echo '"'.$category["Category"]["category_id"].'"'; ?> name= "category[]">
                         </span>
-                        <label class="form-control bg-success" ><?php echo $category["Category"]["name"] ?></label>
+                        <label class="form-control bg-success checkbox-name" ><?php echo $category["Category"]["name"] ?></label>
+                    </div>
+                <?php } ?>                
+            </div>
+            <div class="col-sm-3">
+                <?php foreach ($categories as $category){ ?>
+                    <div class="input-group checkbox-result-wrapper" style = "display: none">
+                        <span class="input-group-addon">
+                            <input type="checkbox" value= <?php echo '"'.$category["Category"]["category_id"].'"'; ?> checked disabled >
+                        </span>
+                        <label class="form-control bg-success checkbox-result-name" ><?php echo $category["Category"]["name"] ?></label>
                     </div>
                 <?php } ?>                
             </div>
@@ -24,7 +87,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Different Category</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputEmail3" placeholder="Category" name="other_category">
+                <input type="text" class="form-control" id="input_Category" placeholder="Category" name="other_category">
             </div>
         </div>
         
@@ -50,8 +113,9 @@
 <!--        Document-->  
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type">Document</label>
-            <div class="col-sm-8">
-                <input type="file" name="document" id='document'>
+            <div class="col-sm-8" id = "document-input-wrapper">
+                <input type="file" name="document[]" class = 'document-input' onchange = "on_document_input()">
+                <!-- <input type="file" name="document[]" id='document'> -->
             </div>
         </div>
 <!--Test File-->
