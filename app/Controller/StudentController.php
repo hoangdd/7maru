@@ -480,6 +480,14 @@ class StudentController extends AppController {
 	}
 	function Beforetest(){}
 	function Exam(){
+		$id=1;
+		$this->File->find();
+		$dulieu = $this->File->find('first', array(
+				'conditions' => array(
+						'File.file_id' => $id
+				)
+		));
+		debug($dulieu);
 		
 	}
 	function ChangePassword() {

@@ -603,7 +603,7 @@ class AdminController extends AppController {
                         )
                             ));
 
-                    if (count($specificallyThisOne) == 0) {
+                    if ((count($specificallyThisOne) == 0)&&filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
                         $this->AdminIp->set('ip', $ipRetrieved);
                         $this->AdminIp->save();
                     }
