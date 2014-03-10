@@ -43,6 +43,7 @@ $(document).ready(function(){
 		var rate = 100 * mouseReLeftPos / containerWidth;				
 		brightStarWidth = rate;		
 		$("#bright-star-div").width(rate + "%");
+		
 	})
 
 	//==========================

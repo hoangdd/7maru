@@ -9,4 +9,10 @@ class Lesson extends AppModel {
 //            'foreignKey' => 'author',
     ////        )
     //    );
+    
+    public function increaseView($coma_id){
+        $lesson = $this->read(null,$coma_id);
+        $this->set('viewed',$lesson['Lesson']['viewed']+1);
+        $this->save();
+    }
 }
