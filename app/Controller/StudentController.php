@@ -10,7 +10,7 @@ class StudentController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter ();
 		$this->Auth->userModel = 'Student';
-		$this->Auth->allow ( 'dotest', 'viewtestresult' );
+		$this->Auth->allow ( 'dotest', 'viewtestresult','beforetest','exam' );
 	}
 	function Register() {
 		$error = array ();
@@ -244,13 +244,13 @@ class StudentController extends AppController {
             //====================================
             //check profile picture;
             if( !empty($_FILES['profile_picture'])){
-                $img_exts = Configure::read('srcFile')['image']['extension'];
-                $profile_pic = $_FILES['profile_picture'];
-                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                if( !in_array($ext, $img_exts) ){
-                  $error['profile_picture'][0] ='Unsupported image file.';  
-                    $check_student = false;
-                }
+//                 $img_exts = Configure::read('srcFile')['image']['extension'];
+//                 $profile_pic = $_FILES['profile_picture'];
+//                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+//                 if( !in_array($ext, $img_exts) ){
+//                   $error['profile_picture'][0] ='Unsupported image file.';  
+//                     $check_student = false;
+//                 }
             }
 			//xong check
 			// tien hanh luu du lieu vao Model
@@ -328,9 +328,9 @@ class StudentController extends AppController {
 			$temp_temp = 0;
 			$arrayLen = 0;
 			$indexItem = "Question";
-			$questionNumber = 1;
+			$questionNumber = 0;
 			$questionContent;
-			$optNumber = 1;
+			$optNumber = 0;
 			$optionIndex = "Option";
 			
 			$result;
@@ -349,9 +349,9 @@ class StudentController extends AppController {
 					
 					$nParsed = explode ( "\t", $nLineData, - 1 );
 					if (count ( $nParsed ) == 3) {
-						if (strcmp ( $nParsed [0], " " ) != 0) {
+						if (strcmp ( $nParsed [0], "" ) != 0) {
 							if (strcmp ( $nParsed [1], "QS" ) == 0) {
-								$indexItem = "Question " . $questionNumber;
+								$indexItem = "Question" . $questionNumber;
 								$questionContent = $nParsed [2];
 							} else {
 								
@@ -360,6 +360,7 @@ class StudentController extends AppController {
 									// print_r($resultStrTemp);
 									$resultStr = substr ( $nParsed [2], 2, - 1 );
 									$result = intval ( $resultStr );
+									$result = $result - 1;
 									// $result = $nParsed[2];
 									// echo $result;
 									
@@ -382,12 +383,12 @@ class StudentController extends AppController {
 									
 									$questionNumber ++;
 									$indexItem = "Question";
-									$optNumber = 1;
+									$optNumber = 0;
 									$optionIndex = "Option";
 								} else {
 									
 									$optionIndex = "Option" . $optNumber;
-									if ($optNumber == 1) {
+									if ($optNumber == 0) {
 										$arrayOption = array (
 												$optionIndex => $nParsed [2] 
 										);
@@ -413,6 +414,122 @@ class StudentController extends AppController {
 			$this->set ( "test_list", $finalTest );
 			$this->testList = $finalTest;
 			fclose ( $nFile );
+			$AA = count($finalTest) - 1;
+		$data='function Section (sectionName,sectionID,secQues,secTime,secMarks,secNegMark,consumedsecTime,consumedsecq)
+			{
+				this.sectionName=sectionName;
+				this.sectionID=sectionID;
+				this.secQues=secQues;
+				this.secTime=secTime;
+				this.secMarks=secMarks;
+				this.secNegMark=secNegMark;
+				this.consumedsecTime=consumedsecTime;
+				this.consumedsecq=consumedsecq;
+			}
+				
+			function Question(qname,type,qstring,response,img,fid,fname,b_time,diff,testids,sectionid,flag)
+			{
+				this.qname=qname;
+				this.type=type;
+				this.qstring=qstring;
+				this.response=response;
+				this.img=img;
+				this.fid=fname;
+				this.fname=fid;
+				this.b_time=b_time;
+				this.diff=diff;
+				this.testids=testids;
+				this.sectionid=sectionid
+				this.flag=flag;
+			}
+			//document.write(a);
+			var zin=1,top=0, mycount=0, waitTime=60 , qright=0, mycomment,nowtime;
+			var global=new Array(3);
+			var abc,xyz,tm;
+			var tname = "Reading Comprehension";
+			var tid = "src366";
+			var cname = "RC: 1" ;
+			var gg = "d";
+			var recent, recent2, recdone=false, opera7, opera=CheckOpera56();
+			P7_OpResizeFix();
+			function P7_OpResizeFix(a) { //v1.1 by PVII
+			if(!window.opera){return;}if(!document.p7oprX){
+			 document.p7oprY=window.innerWidth;document.p7oprX=window.innerHeight;
+			 document.onmousemove=P7_OpResizeFix;
+			 }else{if(document.p7oprX){
+			  var k=document.p7oprX-window.innerHeight;
+			  var j=document.p7oprY - window.innerWidth;
+			  if(k>1 || j>1 || k<-1 || j<-1){
+			  document.p7oprY=window.innerWidth;document.p7oprX=window.innerHeight;
+			  do_reposition();}}}
+			}
+			function cachewrite(s,idx){global[idx]+=s;}
+			function CheckOpera56()
+			{
+			var version;
+			if (navigator.userAgent.toLowerCase().indexOf(\'opera\') == -1) return false;
+			version=parseInt(navigator.appVersion.toLowerCase());
+			if (version>6) {opera7=true; return false;}
+			if (version<5) return false;
+			return true;
+			}';
+		$resTem = '<font face=Arial size=2>';
+		$resTemEnd = '</font>';
+		$direc = '<b><u>Directions:</u></b>';
+		$start = 'resp=new Array(';
+		$res;$i=0;$j=1;$cot = 0;$startNumber = 1000;
+		$quesControl = '';
+		print_r($finalTest);
+		foreach ($finalTest as $key => $value){
+			$rec = $start;
+			foreach($value as $keyT => $valueT){
+				
+				if((strcmp($keyT,'content')!=0)&&(strcmp($keyT,'mark')!=0)){
+					if($i != 0) {
+						$rec .= ',';
+					}
+					$rec .= '"'.$resTem;
+					$rec .= addslashes($valueT);
+					$rec .= $resTemEnd.'"';
+					$i=1;
+				}
+				
+			}
+			if($j == count($finalTest))
+				$quesControl .= 'ques'.$cot;
+			else $quesControl .= 'ques'.$cot.',';
+			
+			$rec .= ');comm="";valu="";ques'.$cot.' = new Question(';
+			$rec .= '"'.$key.'",0,';
+			$rec .= '"'.$resTem.$direc.$resTemEnd.'<p>'.$resTem;
+			$rec .= '<b>'.addslashes($value['content']).'</b>';
+			$rec .= $resTemEnd.'",';
+			
+			$rec .= 'resp,';
+			$rec .= '"'.$startNumber.'",';
+			$rec .= '"'.$startNumber.'",';
+			$rec .= '"",';
+			$rec .= '0,0,';
+			$rec .= '"test_test","1",0);';
+			
+			$data .= $rec;
+			
+			$i=0;
+			$j++;
+			$cot++;
+			$startNumber++;
+			 
+		}//END FOR LOOP
+		
+		$data .= 'questions = new Array ('.$quesControl.');sectionArr0 = new Section(';
+		$data .= '"Section 1",';
+		$data .= '"1","'.$AA.'","600","1","0",0,0);';
+		$data .= 'sectionArr = new Array (sectionArr0);';
+		
+		$fp = fopen('test_store/test_test.js', 'w');
+		fwrite($fp, $data);
+		fclose($fp);
+		
 			// return $finalTest;
 		}
 		// return null;
@@ -420,23 +537,41 @@ class StudentController extends AppController {
 		if (! $this->request->is ( "post" )) {
 		} else {
 			
-			$data = $this->request->data ['Student'];
-			print_r ( $data );
+			$totques=count($this->request->data['hid']);
+			echo $totques;
+// 			print_r($this->request->data['hid']);
+			$temp = 0;$mark = 0;
+			for($i = 0;$i<$totques;$i++){
+				if(!isset($this->request->data['Question'.$i])) $mark++;
+				else {
+					echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
+					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
+					$temp++;
+				}
+				}
+			}
+			$reTemp = $totques;
+			echo $mark;
+			echo $temp;
+			
+			
+// 			$data = $this->request->data ['Student'];
+// 			print_r ( $data );
 			// $this->testList = $this->DoTest();
 			// if($this->testList != null)
 			// //print_r($this->testList);
-			$temp = 0;
-			foreach ( $data as $q => $m ) {
-				if (strcmp ( $q, "timer" ) != 0) {
-					$str = "Option" . $finalTest [$q] ['mark'];
-					if (strcmp ( $str, $m ) == 0)
-						$temp ++;
-				}
-				else $timeTemp = $m;
-			}
+			
+// 			foreach ( $data as $q => $m ) {
+// 				if (strcmp ( $q, "timer" ) != 0) {
+// 					$str = "Option" . $finalTest [$q] ['mark'];
+// 					if (strcmp ( $str, $m ) == 0)
+// 						$temp ++;
+// 				}
+// 				else $timeTemp = $m;
+// 			}
 // 			echo $temp;
-			$reTemp = count($data) - 1;
-			$timeTemp = 
+// 			$reTemp = count($data) - 1;
+			
 // 			$this->ViewTestResult($temp, 5);
 // 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
 			$this->redirect ( array (
@@ -444,22 +579,30 @@ class StudentController extends AppController {
 					'action' => 'viewtestresult',
 					'hit' => $temp,
 					'total' => $reTemp,
-					'time' => $timeTemp 
+					'mark' => $mark,
+					'time' => 10
 			) );
 			//
 		}
 	}
 	function ViewTestResult() {
 // 		print_r ($this->params['url']);
-		print_r( $this->request->params);
+// 		print_r( $this->request->params);
 		$this->set('hit',$this->request->params['named']['hit']);
 		$this->set('total',$this->request->params['named']['total']);
 		$this->set('time',$this->request->params['named']['time']);
+		$this->set('mark',$this->request->params['named']['mark']);
 // 		$this->set('hit',$this->params['url']['hit']);
 // 		$this->set('total',$this->params['url']['total']);
 // 		$this->set('time',$this->params['url']['time']);
 // 		$this->set ( 'hit', $this->request->params->url['hit'] );
 // 		$this->set ( 'total', $this->request->params->url['total'] );
+	}
+	function Beforetest(){}
+	function Exam(){
+	if ($this->request->is ( "post" )) {
+		
+		}
 	}
 	function ChangePassword() {
 	}

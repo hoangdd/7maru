@@ -255,14 +255,19 @@ class AdminController extends AppController {
 									'AdminIp.ip' => $pre 
 							) 
 					) );
-					if ((strcmp ( strval($pre), $ipRetrieved ) != 0) && (count ( $specificallyThisOne ) != 0)) {
-						echo $specificallyThisOne ['AdminIp'] ['ip_id'];
-						$this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
-						$this->AdminIp->saveField ( 'ip', $ipRetrieved );
-// 						$this->AdminIp->set ( 'ip_id', $specificallyThisOne ['AdminIp'] ['ip_id'] );
-// 						$this->AdminIp->read(null,$specificallyThisOne ['AdminIp'] ['ip_id']);
-// 						$this->AdminIp->set ( 'ip', $ipRetrieved );
-// 						$this->AdminIp->save ();
+					if(!filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
+						echo "Not a valid IP address!";
+					}
+					else{
+						if ((strcmp ( strval($pre), $ipRetrieved ) != 0) && (count ( $specificallyThisOne ) != 0)) {
+							echo $specificallyThisOne ['AdminIp'] ['ip_id'];
+							$this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
+							$this->AdminIp->saveField ( 'ip', $ipRetrieved );
+	// 						$this->AdminIp->set ( 'ip_id', $specificallyThisOne ['AdminIp'] ['ip_id'] );
+	// 						$this->AdminIp->read(null,$specificallyThisOne ['AdminIp'] ['ip_id']);
+	// 						$this->AdminIp->set ( 'ip', $ipRetrieved );
+	// 						$this->AdminIp->save ();
+						}
 					}
 				} else {
 					$specificallyThisOne = $this->AdminIp->find ( 'first', array (
@@ -291,6 +296,7 @@ class AdminController extends AppController {
 		// debug($data);
 		// print_r($data);
 		$this->set ( 'data', $data );
+
 		$temp = $this->request->query;
 		// print_r($temp);
 		
