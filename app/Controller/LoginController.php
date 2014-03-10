@@ -54,19 +54,17 @@ class LoginController extends AppController {
 
                 //check verifycode and password
                     $answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
-                    $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);            
-                    debug($answer);
-                    debug($question);
+                    $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
                     $result = $this->User->find('all',array('verifycode_answer' => $answer,'verifycode_question' => $question));
                     if ($result == null){                        
                      $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
                      return;                   
                  }
                  unset($_SESSION['countFail']);
-             }
-            }
-            if ($this->Auth->login()) {                              
-                // Login success                
+             }            
+            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
+            if ($this->Auth->login()) {
+                // Login success
                 $userType = $this->Auth->user('user_type');
                 if( $userType==1 || $userType=='1'){    
                     $this->Session->write('Auth.User.role', 'R2');
@@ -89,9 +87,11 @@ class LoginController extends AppController {
                 }
             }
         }
+        }
     }
 
     function changePassword() {
+        
         if ($this->request->is('post')) {
 
             // Get data from view via $data

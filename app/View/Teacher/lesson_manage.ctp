@@ -18,12 +18,12 @@
                 <li><a href="#">Separated link</a></li>
                 <li class="divider"></li>
                 <li><a href="#">One more separated link</a></li>
-              </ul>
+              </ul>EW44444
             </li>
           </ul>
           <div class="col-xs-8">
               <form class="navbar-form">
-                    <input type="text" class="form-control " placeholder="Search">
+                    <input type="text" class="form-control " id = "search-input" placeholder="Search">
               </form>
           </div>
         </div><!-- /.navbar-collapse -->
@@ -49,7 +49,7 @@
                             echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
                                 'width' => '140px',
                                 'height' => '140px',
-                                'url' => '/lesson/index'
+                                'url' => '/lesson/view'.$value['Lesson']['coma_id']
                                 ));
                         ?>
                     </div>
@@ -67,7 +67,7 @@
                 <div class="media-body">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><a href="../lesson/index">
+                            <h2 class="panel-title"><a href= <?php echo "'../lesson/view/".$value['Lesson']['coma_id']."'" ;?> >
                                 <strong>
                                     <?php 
                                     echo $value['Lesson']["name"]; 
@@ -78,13 +78,13 @@
                         </div>
                         <div class="panel-body">
                             <?php 
-                            echo utf8_encode($value['Lesson']['description']);
+                            echo ($value['Lesson']['description']);
                             ?>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
+                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
                     <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default">Delete</button>
                 </div>
             </div>
@@ -96,34 +96,54 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('.delete-btn').click(function(){
-        if(confirm("Are your sure about deleting this lesson  ?!")){
+        if(confirm("Are your sure about deleting this lesson ?!")){
 
             var id = $(this).attr('name');
             $.ajax({
-            url : "lessonManage",
-            data : {id : id},
-            type : 'post',
-            dataType : 'json',
-            success : function(data){
-                if (data.stt == 'success') {
-                    //alert('Xoa thanh cong');
-                    $('.lesson[lessonid='+id+']').fadeOut();
-                }else{
+                url : "lessonManage",
+                data : {id : id},
+                type : 'post',
+                dataType : 'json',
+                complete : function(data){
+                    console.log(data);
+                    if (data.responseText == 1) {
+                        $('.lesson[lessonid='+id+']').fadeOut();
+                        alert('Xoa thanh cong');
+                    }else{
+                        alert('can not  delete');
+                    }
+                },
+                /*error : function(){
                     
-                }
-            },
-            error : function(){
-                alert('can not  delete');
-            }
-        })
-   }
+                }*/
+            })
+        }
 
     })
+    $('#search-input').on('input',function(e){
+        hide_lesson_with($(this).val());
+    });
 });
 
 $(document).on('click','#addLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'teacher/statistic';
+    location.href = link + 'teacher/createLesson';
 
 });
+
+$(document).on('click','#editLesson',function(){
+    var link = "<?php echo Router::url('/',true)?>" ;
+    location.href = link + 'teacher/editLesson';
+
+});
+function hide_lesson_with(key){
+    $('.lesson').each(function(wrapper){
+        var text = this.innerText.replace('Edit','').replace('Delete','');
+        if(text.indexOf(key) == -1){
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+}
 </script>

@@ -8,21 +8,21 @@
 	//================
 	// sample variable for lesson data		
   echo $this->Html->css('common');
-  $lesson = array(
-    'description' => 'The lesson will support you about women. The more detail, it supplies a list of very interested video which will show you everything about women\'sbeauty, the most naturally excited beauty.',		
-    'authorId' => '34wsdf',
-    'title' => 'Victoria Secret',
-    'image' => 'Victoria.jpeg',
-    'tags' => array('math','18+'),
-    'stars' => 2.5,
-    'reader' => 4,
-    'ranker' => 3,
-    'buy_status' => 1,
-    'created_date' => '2013/12/1',
-    'materials' => array(),
-    'tests' => array(
-      )
-    );
+  // $lesson = array(
+  //   'description' => 'The lesson will support you about women. The more detail, it supplies a list of very interested video which will show you everything about women\'sbeauty, the most naturally excited beauty.',		
+  //   'authorId' => '34wsdf',
+  //   'title' => 'Victoria Secret',
+  //   'image' => 'Victoria.jpeg',
+  //   'tags' => array('math','18+'),
+  //   'stars' => 2.5,
+  //   'reader' => 4,
+  //   'ranker' => 3,
+  //   'buy_status' => 1,
+  //   'created_date' => '2013/12/1',
+  //   'materials' => array(),
+  //   'tests' => array(
+  //     )
+  //   );
   $teacher = array(
     'image' => 'profile.jpg',
     'name' => 'agaraki yui',            
@@ -38,7 +38,9 @@
      'id' => 'dgfg'
      )
     );
-  $lesson['created_date'] = $util->convertDate($lesson['created_date']);
+
+  $lesson['created_date'] = preg_split("/ /", $lesson['created']);
+  $lesson['created_date'] = $lesson['created_date'][0];
 
 	//================
   ?>
@@ -66,7 +68,7 @@
     			//created date
      echo '<p></p>';
      echo '<p class="text_center"> Created Date: <strong>'.$lesson['created_date'].'</strong> </p>';
-     echo '<p>'.$lesson['stars'].' ranker / '.$lesson['reader'].' reader'.'</p>';
+     echo '<p>'.$lesson['stars'].' ranker / '.$lesson['viewed'].' viewed'.'</p>';
   
     			// [buy] button
      if ($lesson['buy_status']){
