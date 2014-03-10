@@ -44,6 +44,7 @@ class LoginController extends AppController {
     }
 
     function changePassword() {
+        
         if ($this->request->is('post')) {
 
             // Get data from view via $data

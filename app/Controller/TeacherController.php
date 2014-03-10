@@ -1,5 +1,7 @@
 <?php
 
+App:: uses('AppModel','Model','User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
+
 class TeacherController extends AppController {
 
     public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
@@ -336,31 +338,25 @@ class TeacherController extends AppController {
             )
         ));
 
-
         $this->set('lesson', $lesson);
-//        $this->set('teacher', $teacher);
-//        $this->set('user', $user);
-        //debug(Router::url('/',true));
         if ($this->request->is('ajax')) {
+
             $id = $this->request->data['id'];
-            $delete = true;
-            if(!$this->Lesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonTransaction->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonReference->deleteAll(array('coma_id' => $id),false)&&
-                !$this->LessonCategory->deleteAll(array('coma_id' => $id),false)&&
-                !$this->RateLesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->ReportLesson->deleteAll(array('coma_id' => $id),false)&&
-                !$this->Comment->deleteAll(array('coma_id' => $id),false)){
-                $delete = false;
-            }
-            if($delete){
-                echo json_encode(array('stt'=>'success'));
-            }else{
-                echo json_encode(array('stt' => 'error'));
+            $this->LessonTransaction->deleteAll(array('LessonTransaction.coma_id' => $id), false);
+            $this->LessonReference->deleteAll(array('LessonReference.coma_id' => $id), false);
+            $this->LessonCategory->deleteAll(array('LessonCategory.coma_id' => $id), false);
+            $this->RateLesson->deleteAll(array('RateLesson.coma_id' => $id), false);
+            $this->ReportLesson->deleteAll(array('ReportLesson.coma_id' => $id), false);
+            $this->Comment->deleteAll(array('Comment.coma_id' => $id), false);
+            
+            if ($this->Lesson->deleteAll(array('coma_id' => $id), false)) {
+                echo "1";
+            } else {
+                echo "0";
             }
             die;
         }
-    }
+   }
 
     function Statistic() {
         // $this->loadModel(array('Student','Coma','Transaction','RateComa')); 
@@ -403,26 +399,20 @@ class TeacherController extends AppController {
         debug($result);
         die;
     }
-	function ChangePassword(){
-	}
-	
-	function CreateLesson() {
 
-	}
-	
-	function  EditLession() {
-	
-	}
-    function getDataStatistic(){
-        if ($this->request->is('post')){
-            $data = $this->request->data;
-            $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
-            $this->set('request',$request);
-            }
-        }
-
+    function ChangePassword() {
+        
     }
-    function EditLession() {
+
+    function getDataStatistic() {
+        if ($this->request->is('post')) {
+            $data = $this->request->data;
+            $result = array(array('day', 'number'), array(1, 2), array(2, 3), array(3, 4));
+            $this->set('request', $request);
+        }
+    }
+
+    function EditLesson() {
         
     }
 

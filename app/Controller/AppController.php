@@ -64,8 +64,8 @@ class AppController extends Controller {
         parent::beforeFilter();
         if(!$this->__permission()){
             echo '403 Forbidden error.';
-//             die;
         }
+
     }
     private function __permission($user_role = null, $current_controller = null){
         $role = isset($user_role) ? $user_role : $this->Auth->user('role');
