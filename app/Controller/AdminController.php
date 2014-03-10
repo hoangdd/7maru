@@ -236,43 +236,93 @@ class AdminController extends AppController {
         $this->set('month',$month);
         $this->set('year',$year);
     }     
-    public function getDataForAccount($month = null,$year = null){        
+     public function getDataForAccount($month = null,$year = null){        
             if (($month == null ) && ($year == null)){
                  $today = getdate();        
                 //get month now()            
                 $month = $today['mon'];
                 $year = $today['year'];        
-            }
+            }            
             $this->loadModel('ComaTransaction');                    
             $this->loadModel('User');     
-            $this->loadModel('Student');           
+            $this->loadModel('Student');   
+            $this->loadModel('Teacher');
+            $this->loadModel('Coma');                        
             $this->Student->primaryKey = 'student_id';
             $this->User->primaryKey = 'user_id';
-            $conditions = array('MONTH(ComaTransaction.created) = '.$month,'YEAR(ComaTransaction.created) = '. $year,'ComaTransaction.student_id = User.user_id');
+            $this->Teacher->primaryKey = 'teacher_id';
+            $this->Coma->primaryKey = 'coma_id';            
+            $conditions = array('MONTH(ComaTransaction.created) = '.$month,'YEAR(ComaTransaction.created) = '. $year);
             $this->ComaTransaction->bindModel(array(
                 'belongsTo' => array(
                     'User' => array(
                         'className' => 'User',
-                        'foreignKey' => false,                             
-                        'order'=>'ComaTransaction.created DESC',
-                        'conditions' => $conditions
-                        )
+                        'foreignKey' => 'student_id',                             
+                        'order'=>'ComaTransaction.created DESC'
+                        //'conditions' => array('ComaTransaction.student_id = User.user_id')
+                        ),
+                    'Coma' => array(
+                    		'className' => 'Coma',
+                    		'foreignKey' => 'coma_id',
+                    		//'conditions' => array('ComaTransaction.coma_id = Coma.coma_id')
+                    	)
                     )
-                ), false);
-            $this->User->bindModel(array(
-             'hasOne' => array(
+                ), true);
+            
+            $this->ComaTransaction->Coma->bindModel(array(
+            	'belongsTo' => array(
+            		'Author' => array(
+            			'className' => 'User',
+            			'foreignKey' => 'author',                                                     
+                        //'conditions' => array('User.user_id = ComaTransaction.Coma.author')
+            			)
+            		)
+            	), true);
+            $this->ComaTransaction->Coma->Author->bindModel(array(
+            	'belongsTo' => array(
+            		'Teacher' => array(
+            			'className' => 'Teacher', 
+            			'foreignKey' => 'foreign_id'            			
+            			//'conditions' => array('ComaTransaction.Coma.Author.foreign_id = Teacher.teacher_id')
+            			)
+            		)
+            	),true)  ;                  
+            $this->ComaTransaction->User->bindModel(array(
+             'belongsTo' => array(
                 'Student' => array(
                     'className' => 'Student',
-                    'foreignKey' => false, 
-                    'conditions'  => array('User.foreign_id = Student.student_id')
+                    'foreignKey' => 'foreign_id'                    
                     )
-                )
-             ), false);            
-            $data = $this->ComaTransaction->find('all',array('conditions' => $conditions,'recursive' => 2));                    
-            $this->set('data',$data);         
-            return $data;                
-    }
-	function userManage() {
+             	)
+             ), true);            
+            $data = $this->ComaTransaction->find('all',array('conditions' => $conditions,'recursive' => 3));                    
+            $student = array();
+            $teacher = array();            
+            //get student and teacher account record monthly
+            foreach($data as $dt):
+            	if (!isset($student[$dt['User']['user_id']])){
+            		$student[$dt['User']['user_id']] = array();
+            		$student[$dt['User']['user_id']]['count'] = 1;
+            		$student[$dt['User']['user_id']]['info'] = $dt['User'];
+            	}
+            	else{
+            		++$student[$dt['User']['user_id']]['count'];
+            	}
+            	if (!isset($teacher[$dt['Coma']['Author']['user_id']])){
+            		$teacher[$dt['Coma']['Author']['user_id']] = array();
+            		$teacher[$dt['Coma']['Author']['user_id']]['count'] = 1;
+            		$teacher[$dt['Coma']['Author']['user_id']]['info'] = $dt['Coma']['Author'];
+            	}
+            	else{
+            		++$teacher[$dt['Coma']['Author']['user_id']]['count'];
+            	}
+            endforeach;            
+            $accountData = array('teacher' => $teacher,'student' => $student);            
+            $this->set('data',$accountData);         
+            return $accountData;                
+    }	
+
+    function userManage() {
 		$paginate = array (
 			'limit' => 10,
 			'fields' => array (
@@ -380,8 +430,12 @@ class AdminController extends AppController {
 
 	function formatToWriteAccountFile($data){
         $_SERER_CODE = "ELS-UBT-GWK54M78";
-        debug($data);
-        $today = getdate();                
+        $_STUDENT_PAY_MONEY = 20000;
+    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*60/100;    
+    	$teacher = $data['teacher'];
+    	$student = $data['student'];
+        $today = getdate();    
+        if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];
         $dateOfTran = getdate();
         $tab = "    ";
         // get row to write
@@ -389,8 +443,12 @@ class AdminController extends AppController {
         $row[0] = array($_SERER_CODE,$dateOfTran['year'],$dateOfTran['mon'],$today['year'],$today['mon'],'admin','admin');
         $i = 1;
         $money = 20000;
-        foreach ($data as $dt):
-            $row[$i] = array($dt['User']['username'],$dt['User']['firstname'].$dt['User']['lastname'],$money,$dt['User']['address'],$dt['User']['phone_number'],$dt['User']['Student']['credit_account']);
+        foreach ($student as $dt):
+			$row[$i] = array($dt['info']['username'],$dt['info']['firstname'].$dt['info']['lastname'],$dt['count']*$_STUDENT_PAY_MONEY,$dt['info']['address'],$dt['info']['phone_number'],$dt['info']['credit_account']);
+            $i++;
+        endforeach;
+        foreach ($teacher as $dt):
+			$row[$i] = array($dt['info']['username'],$dt['info']['firstname'].$dt['info']['lastname'],$dt['count']*$_TEACHER_PROFIT,$dt['info']['address'],$dt['info']['phone_number'],$dt['info']['bank_account']);
             $i++;
         endforeach;
         $end = array("END__END__END".$dateOfTran['year'].$dateOfTran['mon']);
@@ -404,7 +462,8 @@ class AdminController extends AppController {
             endforeach;
             $str = $str.$newLine;
         endforeach;
-        file_put_contents("export.tsv", $str);
+        $filename = "ELS-UBT-".$today['year']."-".$today['mon'].".tsv";
+        file_put_contents($filename, $str);
         return $str;
     }
     function exportAccountFile(){    
