@@ -233,7 +233,6 @@ class LessonController extends AppController {
 
 	private function check_Document_File(){
 	}
-<<<<<<< Updated upstream
 
 	public function viewContent($fid){
 		$files = $this->File->find($fid);
@@ -303,14 +302,4 @@ class LessonController extends AppController {
 //     	print_r($data);
 		debug($data);
     }
-
-=======
-
-	public function viewContent($fid){
-		$files = $this->File->find($fid);
-		debug($files);
-		die;
-
-	}
->>>>>>> Stashed changes
 }
