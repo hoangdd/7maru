@@ -214,6 +214,8 @@ class AdminController extends AppController {
 	}
 	function statistic() {
 	}
+        
+        
 	function account(){
         if ($this->request->is('post')){
             $month = $this->request->data['month'];

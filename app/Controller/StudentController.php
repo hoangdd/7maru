@@ -238,21 +238,12 @@ class StudentController extends AppController {
              //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
 
-//                 $img_exts = Configure::read('srcFile')['image']['extension'];
-//                 $profile_pic = $_FILES['profile_picture'];
-//                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-//                 if( !in_array($ext, $img_exts) ){
-//                   $error['profile_picture'][0] ='Unsupported image file.';  
-//                     $check_student = false;
-//                 }
-
-//                 $img_exts = Configure::read('srcFile')['image']['extension'];
-//                 $profile_pic = $_FILES['profile_picture'];
-//                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-//                 if( !in_array($ext, $img_exts) ){
-//                   $error['profile_picture'][0] ='Unsupported image file';  
-//                 }
-
+                $img_exts = Configure::read('srcFile')['image']['extension'];
+                $profile_pic = $_FILES['profile_picture'];
+                $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
+                if( !in_array($ext, $img_exts) ){
+                  $error['profile_picture'][0] ='Unsupported image file';  
+                }
             }
             //====================================
 

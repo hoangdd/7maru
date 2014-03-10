@@ -84,7 +84,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
+                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
                     <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default">Delete</button>
                 </div>
             </div>
@@ -96,7 +96,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('.delete-btn').click(function(){
-        if(confirm("Are your sure about deleting this lesson  ?!")){
+        if(confirm("Are your sure about deleting this lesson ?!")){
 
             var id = $(this).attr('name');
             $.ajax({
@@ -104,17 +104,18 @@ $(document).ready(function(){
                 data : {id : id},
                 type : 'post',
                 dataType : 'json',
-                success : function(data){
-                    if (data.stt == 'success') {
-                        //alert('Xoa thanh cong');
+                complete : function(data){
+                    console.log(data);
+                    if (data.responseText == 1) {
                         $('.lesson[lessonid='+id+']').fadeOut();
+                        alert('Xoa thanh cong');
                     }else{
-                        
+                        alert('can not  delete');
                     }
                 },
-                error : function(){
-                    alert('can not  delete');
-                }
+                /*error : function(){
+                    
+                }*/
             })
         }
 
@@ -126,7 +127,13 @@ $(document).ready(function(){
 
 $(document).on('click','#addLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'teacher/statistic';
+    location.href = link + 'teacher/createLesson';
+
+});
+
+$(document).on('click','#editLesson',function(){
+    var link = "<?php echo Router::url('/',true)?>" ;
+    location.href = link + 'teacher/editLesson';
 
 });
 function hide_lesson_with(key){
