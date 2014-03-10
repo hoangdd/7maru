@@ -240,51 +240,51 @@ class AdminController extends AppController {
                 $month = $today['mon'];
                 $year = $today['year'];        
             }            
-            $this->loadModel('ComaTransaction');                    
+            $this->loadModel('LessonTransaction');                    
             $this->loadModel('User');     
             $this->loadModel('Student');   
             $this->loadModel('Teacher');
-            $this->loadModel('Coma');                        
+            $this->loadModel('Lesson');                        
             $this->Student->primaryKey = 'student_id';
             $this->User->primaryKey = 'user_id';
             $this->Teacher->primaryKey = 'teacher_id';
-            $this->Coma->primaryKey = 'coma_id';            
-            $conditions = array('MONTH(ComaTransaction.created) = '.$month,'YEAR(ComaTransaction.created) = '. $year);
-            $this->ComaTransaction->bindModel(array(
+            $this->Lesson->primaryKey = 'coma_id';            
+            $conditions = array('MONTH(LessonTransaction.created) = '.$month,'YEAR(LessonTransaction.created) = '. $year);
+            $this->LessonTransaction->bindModel(array(
                 'belongsTo' => array(
                     'User' => array(
                         'className' => 'User',
                         'foreignKey' => 'student_id',                             
-                        'order'=>'ComaTransaction.created DESC'
-                        //'conditions' => array('ComaTransaction.student_id = User.user_id')
+                        'order'=>'LessonTransaction.created DESC'
+                        //'conditions' => array('LessonTransaction.student_id = User.user_id')
                         ),
-                    'Coma' => array(
-                    		'className' => 'Coma',
+                    'Lesson' => array(
+                    		'className' => 'Lesson',
                     		'foreignKey' => 'coma_id',
-                    		//'conditions' => array('ComaTransaction.coma_id = Coma.coma_id')
+                    		//'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
                     	)
                     )
                 ), true);
             
-            $this->ComaTransaction->Coma->bindModel(array(
+            $this->LessonTransaction->Lesson->bindModel(array(
             	'belongsTo' => array(
             		'Author' => array(
             			'className' => 'User',
             			'foreignKey' => 'author',                                                     
-                        //'conditions' => array('User.user_id = ComaTransaction.Coma.author')
+                        //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
             			)
             		)
             	), true);
-            $this->ComaTransaction->Coma->Author->bindModel(array(
+            $this->LessonTransaction->Lesson->Author->bindModel(array(
             	'belongsTo' => array(
             		'Teacher' => array(
             			'className' => 'Teacher', 
             			'foreignKey' => 'foreign_id'            			
-            			//'conditions' => array('ComaTransaction.Coma.Author.foreign_id = Teacher.teacher_id')
+            			//'conditions' => array('LessonTransaction.Coma.Author.foreign_id = Teacher.teacher_id')
             			)
             		)
             	),true)  ;                  
-            $this->ComaTransaction->User->bindModel(array(
+            $this->LessonTransaction->User->bindModel(array(
              'belongsTo' => array(
                 'Student' => array(
                     'className' => 'Student',
@@ -292,7 +292,7 @@ class AdminController extends AppController {
                     )
              	)
              ), true);            
-            $data = $this->ComaTransaction->find('all',array('conditions' => $conditions,'recursive' => 3));                    
+            $data = $this->LessonTransaction->find('all',array('conditions' => $conditions,'recursive' => 3));                    
             $student = array();
             $teacher = array();            
             //get student and teacher account record monthly
@@ -305,13 +305,13 @@ class AdminController extends AppController {
             	else{
             		++$student[$dt['User']['user_id']]['count'];
             	}
-            	if (!isset($teacher[$dt['Coma']['Author']['user_id']])){
-            		$teacher[$dt['Coma']['Author']['user_id']] = array();
-            		$teacher[$dt['Coma']['Author']['user_id']]['count'] = 1;
-            		$teacher[$dt['Coma']['Author']['user_id']]['info'] = $dt['Coma']['Author'];
+            	if (!isset($teacher[$dt['Lesson']['Author']['user_id']])){
+            		$teacher[$dt['Lesson']['Author']['user_id']] = array();
+            		$teacher[$dt['Lesson']['Author']['user_id']]['count'] = 1;
+            		$teacher[$dt['Lesson']['Author']['user_id']]['info'] = $dt['Lesson']['Author'];
             	}
             	else{
-            		++$teacher[$dt['Coma']['Author']['user_id']]['count'];
+            		++$teacher[$dt['Lesson']['Author']['user_id']]['count'];
             	}
             endforeach;            
             $accountData = array('teacher' => $teacher,'student' => $student);            
