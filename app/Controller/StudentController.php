@@ -400,8 +400,6 @@ class StudentController extends AppController {
 
 	function Test() {
 	}
-
-	
 	
 	function DoTest(){
 		$finalTest = $this->File->readTsv("testfile.tsv");
@@ -412,7 +410,7 @@ class StudentController extends AppController {
 			
 			$totques=count($this->request->data['hid']);
 			echo $totques;
-// 			print_r($this->request->data['hid']);
+			// print_r($this->request->data['hid']);
 			$temp = 0;$mark = 0;
 			for($i = 0;$i<$totques;$i++){
 				if(!isset($this->request->data['Question'.$i])) $mark++;
@@ -428,28 +426,28 @@ class StudentController extends AppController {
 			echo $temp;
 			
 			
-// 			$data = $this->request->data ['Student'];
-// 			print_r ( $data );
+			// $data = $this->request->data ['Student'];
+			// print_r ( $data );
 			// $this->testList = $this->DoTest();
 			// if($this->testList != null)
 			// //print_r($this->testList);
 			
-// 			foreach ( $data as $q => $m ) {
-// 				if (strcmp ( $q, "timer" ) != 0) {
-// 					$str = "Option" . $finalTest [$q] ['mark'];
-// 					if (strcmp ( $str, $m ) == 0)
-// 						$temp ++;
-// 				}
-// 				else $timeTemp = $m;
-// 			}
-// 			echo $temp;
-// 			$reTemp = count($data) - 1;
+			// foreach ( $data as $q => $m ) {
+			// 	if (strcmp ( $q, "timer" ) != 0) {
+			// 		$str = "Option" . $finalTest [$q] ['mark'];
+			// 		if (strcmp ( $str, $m ) == 0)
+			// 			$temp ++;
+			// 	}
+			// 	else $timeTemp = $m;
+			// }
+			// echo $temp;
+			// $reTemp = count($data) - 1;
 			
-// 			$this->ViewTestResult($temp, 5);
-// 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
-// 			$this->redirect ( array (
+			// $this->ViewTestResult($temp, 5);
+			// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+			// $this->redirect ( array (
 
-// 			
+			
 				$this->redirect ( array (
 
 					'controller' => 'student',
@@ -466,18 +464,19 @@ class StudentController extends AppController {
 
 							
 	function ViewTestResult() {
-// 		print_r ($this->params['url']);
-// 		print_r( $this->request->params);
+		// print_r ($this->params['url']);
+		// print_r( $this->request->params);
 		$this->set('hit',$this->request->params['named']['hit']);
 		$this->set('total',$this->request->params['named']['total']);
 		$this->set('time',$this->request->params['named']['time']);
 		$this->set('mark',$this->request->params['named']['mark']);
-// 		$this->set('hit',$this->params['url']['hit']);
-// 		$this->set('total',$this->params['url']['total']);
-// 		$this->set('time',$this->params['url']['time']);
-// 		$this->set ( 'hit', $this->request->params->url['hit'] );
-// 		$this->set ( 'total', $this->request->params->url['total'] );
+		// $this->set('hit',$this->params['url']['hit']);
+		// $this->set('total',$this->params['url']['total']);
+		// $this->set('time',$this->params['url']['time']);
+		// $this->set ( 'hit', $this->request->params->url['hit'] );
+		// $this->set ( 'total', $this->request->params->url['total'] );
 	}
+	
 	function Beforetest(){}
 	function Exam(){
 		$id=1;
@@ -488,8 +487,8 @@ class StudentController extends AppController {
 				)
 		));
 		debug($dulieu);
-		
 	}
+
 	function ChangePassword() {
 	}
 }

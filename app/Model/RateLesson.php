@@ -2,6 +2,7 @@
 
 class RateLesson extends AppModel {
 	public $useTable = 'rate_comas';
+    public $primaryKey = 'rate_id';
     /**
     * 
     */

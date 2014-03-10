@@ -8,17 +8,17 @@ class File extends AppModel {
 		$data = $this->data['File'];
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
-		$data['id'] = hash('crc32', (string)$idString);
+		$data['file_id'] = hash('crc32', (string)$idString);
 
 		$fileinfo = pathinfo($data['name']);
 		// PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME
 
-		$ret = $this->__convertAndSave($data['id'], $data['tmp_name'], $fileinfo['extension']);
+		$ret = $this->__convertAndSave($data['file_id'], $data['tmp_name'], $fileinfo['extension']);
 		if($ret == false) return false; //fail
 
 		$data['path'] = $ret;
-		$data['coma_id'] = $this->data['coma_id'];
-		$data['file_name'] = $fileinfo['file_name'];
+		$data['coma_id'] = $this->data['File']['coma_id'];
+		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
 
 		$this->data['File'] = $data;
@@ -249,7 +249,7 @@ class File extends AppModel {
 			$start = 'resp=new Array(';
 					$res;$i=0;$j=1;$cot = 0;$startNumber = 1000;
 					$quesControl = '';
-					print_r($finalTest);
+					// print_r($finalTest);
 					foreach ($finalTest as $key => $value){
 					$rec = $start;
 						foreach($value as $keyT => $valueT){
