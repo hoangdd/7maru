@@ -25,7 +25,7 @@ class AdminController extends AppController {
             ),
             'loginAction' => array(
                 'controller' => 'Admin',
-                'action' => 'changePassword',
+                'action' => 'login',
             ),
             'loginRedirect' => array(
                 'controller' => 'Admin',
@@ -218,7 +218,6 @@ class AdminController extends AppController {
     }
 
     function changePassword() {
-        debug($this->Auth->user('admin_id'));die;
         if ($this->request->is('post')) {
 
             // Get data from view via $data
@@ -278,14 +277,13 @@ class AdminController extends AppController {
                     'Admin.admin_id' => $this->Auth->user('admin_id'),
                     ),
                 ));
-            debug($admin);die;
             /* Check current password to password in database
              * If valid then update new Password
              */
 
             if ($this->Auth->password($this->Auth->user('username') . $current) === $admin['Admin']['password']) {
                 $hashNewPassword = $this->Auth->password($this->Auth->user('username') . $new);
-                $updatePassword = $this->User->updateAll(
+                $updatePassword = $this->Admin->updateAll(
                     array(
                         'Admin.password' => "'" . $hashNewPassword . "'"
                         ), array(
