@@ -55,7 +55,7 @@
                  </div>
              </div>
              <div class="form-group">
-                <label class="col-sm-3 control-label">Addresss:</label>
+                <label class="col-sm-3 control-label">Email: </label>
                 <div class="col-sm-6">
 
                 <input name="mail" type="email" class="form-control" placeholder="Email address" value=<?php echo "'".$userData['mail']  ."'" ?>>

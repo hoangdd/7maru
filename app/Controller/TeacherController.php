@@ -333,12 +333,19 @@ class TeacherController extends AppController {
                 $this->User->id = $pid;                
                 $this->request->data['profile_picture'] = $_FILES['profile_picture'];
                 $data = $this->User->create($this->request->data);                
-                $data['User']['user_id'] = $pid;                
-                debug($data);
+                $teacherData = $data['User']['bank_account'];
+                unset($data['User']['bank_account']);                
                 if ($this->User->save($data)){
-                    debug("ok");
-                    $this->Session->setFlash(__('Edit successful'));
+                    $teacherData = array(
+                            'Teacher' => array(
+                                'teacher_id' => $this->Auth->User('foreign_id'),
+                                'bank_account' => $teacherData
+                                )
+                        );
+                    if ($this->Teacher->save($teacherData)){                    
+                        $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                    }
                 }                
                 }        
                 //get data                 
