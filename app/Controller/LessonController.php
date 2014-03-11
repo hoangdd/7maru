@@ -241,7 +241,7 @@ class LessonController extends AppController {
 		debug($files);
     }
     
-    function HotLesson() {
+    function HotLesson($pageIndex) {
     	$page_limit = 4;
     	$this->layout = null;
     	$this->loadModel('Lesson');
@@ -359,7 +359,7 @@ class LessonController extends AppController {
     	$data = $this->Paginator->paginate ( 'LessonTransaction'); 
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
-    		foreach($lesson['RateLesson'] as $le){    			
+    		foreach($lesson['Lesson']['RateLesson'] as $le){    			
     			$rank =  $rank + $le['rate'];
     			++$count;
     		}
