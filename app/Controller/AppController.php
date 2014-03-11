@@ -82,8 +82,6 @@ class AppController extends Controller {
         $controller['controller'] = strtolower($controller['controller']);
         $controller['action'] = strtolower($controller['action']);
 
-        
-
         if( empty($role)) $role = 'R4'; //guest
 
         $userRolesData = Configure::read('userRoles');

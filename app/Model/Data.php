@@ -1,5 +1,6 @@
 <?php
-class File extends AppModel {
+class Data extends AppModel {
+	public $useTable = 'files';
 	public $primaryKey  = 'file_id';
 
 	public function beforeSave($option = array()){
@@ -29,23 +30,26 @@ class File extends AppModel {
 		// @todo: if file exsist
 		//pdf file
 		if(in_array($ext, $fileType['pdf']['extension'])){
-			if(move_uploaded_file($tmp, SWF_DATA_DIR.DS.$fid.'.'.$ext)){
-				$this->__convertPdfToSwf(SWF_DATA_DIR.DS.$fid.'.'.$ext, SWF_DATA_DIR.DS.$fid.'.swf');
-				return VIDEO_DATA_DIR.DS.$fid.'.swf';	
+			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+				 $this->__convertPdfToSwf(DATA_SRC_DIR.DS.$fid.'.'.$ext, SWF_DATA_DIR.DS.$fid.'.swf');
+				// return VIDEO_DATA_DIR.DS.$fid.'.swf';	
+				return $fid.'.swf';	
 			}
 		}
 
 		// audio file
 		if(in_array($ext, $fileType['audio']['extension'])){
 			if(move_uploaded_file($tmp, AUDIO_DATA_DIR.DS.$fid.'.'.$ext)){
-				return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
+				// return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
+				return $fid.'.'.$ext;
 			}
 		}
 
 		//video file
 		if(in_array($ext, $fileType['video']['extension'])){
 			if( move_uploaded_file($tmp, VIDEO_DATA_DIR.DS.$fid.'.'.$ext)){
-				return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
+				// return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
+				return $fid.'.'.$ext;
 			}
 		}
 
@@ -58,7 +62,8 @@ class File extends AppModel {
 				$jsFileName = HTML_DATA_DIR.DS.$fid.'.js';
 				// debug($jsFileName);
 				$this->__tsvToJs($jsFileName, $data);
-				return HTML_DATA_DIR.DS.$fid.'.js';
+				// return HTML_DATA_DIR.DS.$fid.'.js';
+				return $fid.'.js';
 			}
 		}
 
@@ -68,16 +73,8 @@ class File extends AppModel {
 	}
 
 	private function __convertPdfToSwf($src, $output){
-		if(!empty($src)) return false;
-		if( empty($url) ) return false;
-
-		$default_config = array(
-			'dirname' => pathinfo($url,PATHINFO_DIRNAME),
-			'filename' => pathinfo($url, PATHINFO_FILENAME),
-			'extension' => 'swf',
-		);
 		$command = Configure::read('command');
-		$cmd = printf($command['pdf2swf'][0], $url, $default_config['dirname'].DS.$default_config['filename']);
+		$cmd = sprintf($command['pdf2swf'][0], $src, $output);
 		return $this->__execute($cmd);
 	}
 
@@ -301,10 +298,9 @@ class File extends AppModel {
 					fwrite($fp, $data);
 					fclose($fp);
 		}
+
 	//execute command
-
 	private function __execute($command) {
-
 		// remove newlines and convert single quotes to double to prevent errors
 		$command = str_replace(array("\n", "'"), array('', '"'), $command);
 
@@ -315,6 +311,6 @@ class File extends AppModel {
 		$command = escapeshellcmd($command);
 
 		// execute convert program
-		exec($command);
+		return exec($command);
 	}
 }

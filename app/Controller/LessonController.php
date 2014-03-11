@@ -3,7 +3,7 @@ define('FILE_DIR', WEBROOT_DIR.DS.'files'.DS.'data');
 class LessonController extends AppController {
 
     var $components =  array('Session','Paginator');
-    var $uses = array('Category','Lesson','LessonCategory','File','Teacher','RateLesson','LessonTransaction');
+    var $uses = array('Category','Lesson','LessonCategory','Data','Teacher','RateLesson','LessonTransaction');
     /**
     * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
     *　$id: 授業のID
@@ -86,7 +86,7 @@ class LessonController extends AppController {
 			}
 			if($_FILES['cover-image']['name']){
 				//Check if image format is supported
-				if(!preg_match('/\.(jpg|png|gif|tif)$/',$_FILES['cover-image']['name'])){
+				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
 					$error['image'] = 'Unsupported Image Format';
 				} else if($_FILES['cover-image']['size'] > 2097152){
 					$error['image'] = 'Image Size Too Big';
@@ -127,7 +127,7 @@ class LessonController extends AppController {
 			
 			if(count($error)){
 				$this->set('error',$error);
-				// debug($error);
+				debug($error);
 				$this->set('data',$data);
 			}else{
 				// Save Lesson Information
@@ -165,8 +165,8 @@ class LessonController extends AppController {
 					# code... 
 					if(!(isset($value['error'])&&$value['error']!=0) ){
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];
-						$this->File->create(array('File' => $value));
-						$this->File->save();    
+						$this->Data->create(array('File' => $value));
+						$this->Data->save();    
 					} 
 				}
 
@@ -177,8 +177,8 @@ class LessonController extends AppController {
 					if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
 						$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
 						$testFile['isTest'] = true;
-						$this->File->create(array('File' => $testFile));
-						$this->File->save();    
+						$this->Data->create(array('File' => $testFile));
+						$this->Data->save();    
 					}
 				}
 			}
@@ -235,9 +235,10 @@ class LessonController extends AppController {
 	}
 
 	public function viewContent($fid){
-		$files = $this->File->find($fid);
+		$files = $this->Data->find('first', array(
+			'conditions' => array('file_id' =>$fid)
+			));
 		debug($files);
-		die;
     }
     
     function Hotlesson() {

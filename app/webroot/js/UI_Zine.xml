@@ -1,0 +1,3 @@
+<element type="button" id="bttnBookView" height="19" icon_width="21" icon_height="13" />
+<element type="button" id="bttnSinglePage" height="19" paddingLeft="0" icon_width="10" icon_height="13"  />
+<element type="separator" id="barViewMode" width="3" height="21" />"

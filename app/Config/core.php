@@ -53,7 +53,7 @@
 		'level' => E_ALL & ~E_DEPRECATED,
 		'trace' => true
 	));
-
+	Configure::write('Config.language', 'jpn');
 /**
  * Configure the Exception handler used for uncaught exceptions. By default,
  * ErrorHandler::handleException() is used. It will display a HTML page for the exception, and

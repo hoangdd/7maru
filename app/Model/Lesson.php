@@ -4,12 +4,7 @@ class Lesson extends AppModel {
 	public $useTable = 'comas';
     
 	public $primaryKey = 'coma_id';
-	// public $belongsTo = array(
-	// 	'User' => array(
-	// 		'className' => 'User',
-	// 		'foreignKey' => 'author',
-	// 		)
-	// 	);
+
 	public function increaseView($coma_id){
         $lesson = $this->read(null,$coma_id);
         $this->set('viewed',$lesson['Lesson']['viewed']+1);
@@ -30,6 +25,10 @@ class Lesson extends AppModel {
 			move_uploaded_file($data['cover']['tmp_name'], LESSON_COVER_DIR.DS.$filename.'.'.$ext);
 			$data['cover'] = $filename.'.'.$ext;
 			$this->data['Lesson'] = $data;
+		}else{
+			unset($data['cover']);
 		}
+
+		$this->data['Lesson'] = $data;
 	}
 }
