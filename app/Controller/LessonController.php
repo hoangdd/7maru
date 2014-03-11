@@ -264,15 +264,16 @@ class LessonController extends AppController {
     		) 
     	)
     	);
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit, 
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
     			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
     			'group' => 'RateLesson.coma_id',
     			'recursive' => 3
     	   	);    
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'RateLesson');
+    	//$this->Paginator->settings = $pagination;
+    	$data = $this->RateLesson->find ('all',$options);
     	foreach($data as $key=>$value){
     		$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
     		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
@@ -282,7 +283,7 @@ class LessonController extends AppController {
     	debug($data);
     }
     
-    function NewLesson() {
+    function NewLesson($pageIndex) {
     	$this->loadModel('Lesson');
     	$this->loadModel('User');
     	$this->loadModel('RateLesson');    	
@@ -300,13 +301,14 @@ class LessonController extends AppController {
     		),
     	));
     	$page_limit = 3;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'order' => array('Lesson.created' => 'DESC'),    			
     			'group' => 'Lesson.coma_id'    			
     	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'Lesson');
+		    	
+    	$data = $this->Lesson->find ( 'all',$options);
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['RateLesson'] as $le){    			
@@ -348,15 +350,14 @@ class LessonController extends AppController {
     		)
     	));
     	$page_limit = 4;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
     			'order' => array('LessonTransaction.created' => 'DESC'),
     			'group' =>  'LessonTransaction.transaction_id',
     			'recursive' => 2
     	
-    	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'LessonTransaction'); 
+    	);    	
+    	$data = $this->LessonTransaction->find ( 'all',$options); 
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['Lesson']['RateLesson'] as $le){    			
