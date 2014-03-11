@@ -7,7 +7,7 @@
 
 /*========================SYSTEM CONFIG ====================*/
 define('FILL_CHARACTER', '7maru');
-define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avata');
+define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avatar');
 define('LESSON_COVER_DIR', WWW_ROOT.'img'.DS.'data'.DS.'cover');
 
 /*========================Config user roles ====================*/
