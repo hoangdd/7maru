@@ -71,7 +71,7 @@ class User extends AppModel {
             }
             move_uploaded_file($data['profile_picture']['tmp_name'],$file_url );
             $data['profile_picture'] = $data['user_id'].'.'.$ext;
-        }
+        }else unset($data['profile_picture']);
         
         
         //hash password

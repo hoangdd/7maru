@@ -127,7 +127,7 @@ Configure::write('srcFile', array(
 Configure::write('dataFile', array(
 	'swf' => array(
 		'extension' => array('swf'),
-		'mineType' => array(
+		'mimeType' => array(
 			'swf' => array('flash' => 'application/x-shockwave-flash'),
 			),
 		'path' => SWF_DATA_DIR,
@@ -137,7 +137,7 @@ Configure::write('dataFile', array(
 		'extension'=> array(
 			'png', 'jpg', 'jpeg', 'gif'
 			),
-		'mineType' => array(
+		'mimeType' => array(
 			'png' => array('image' => 'image/png'),
 			'jpg' => array('image' => 'image/jpeg'),
 			'jpeg' => array('image' => 'image/jpeg'),
@@ -150,7 +150,7 @@ Configure::write('dataFile', array(
 		'extension'=> array(
 			'wav', 'mp3'
 			),
-		'mineType' => array(
+		'mimeType' => array(
 			'wav' => array('audio' => 'audio/wav'),
 			'mp3' => array('audio' => 'audio/mpeg3'),
 			),
@@ -160,7 +160,7 @@ Configure::write('dataFile', array(
 		'extension'=> array(
 			'avi', 'flv', 'mp4'
 			),
-		'mineType' => array(
+		'mimeType' => array(
 			'avi' => array('video' => 'video/avi'),
 			),
 		'path' => VIDEO_DATA_DIR,
@@ -168,7 +168,7 @@ Configure::write('dataFile', array(
 
 	))	;
 
-Configure::write('comand', array(
+Configure::write('command', array(
 	'pdf2swf' => array(
 		'pdf2swf %s -o %s'
 		),

@@ -380,7 +380,7 @@ class StudentController extends AppController {
 	}
 	
 	function DoTest(){
-		$finalTest = $this->File->readTsv("testfile.tsv");
+		$finalTest = $this->Data->readTsv("testfile.tsv");
 		
 		print_r($finalTest);
 		if (! $this->request->is ( "post" )) {
@@ -458,10 +458,10 @@ class StudentController extends AppController {
 	function Beforetest(){}
 	function Exam(){
 		$id=1;
-		$this->File->find();
-		$dulieu = $this->File->find('first', array(
+		$this->Date->find();
+		$dulieu = $this->Date->find('first', array(
 				'conditions' => array(
-						'File.file_id' => $id
+						'Data.file_id' => $id
 				)
 		));
 		debug($dulieu);

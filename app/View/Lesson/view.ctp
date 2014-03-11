@@ -108,7 +108,6 @@ if(isset($data)) :
 							<a href="#" class="list-group-item active">Test</a>
 							<?php
 
-
 							foreach ($data['File'] as $key => $value) {
 								if($value['isTest']){
 									echo $this->Html->link($value['file_name'], array(
