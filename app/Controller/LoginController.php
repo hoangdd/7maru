@@ -4,7 +4,7 @@
 class LoginController extends AppController {
 
     public $helpers = array("Html", 'Session');
-    public $uses = array('User');    
+    public $uses = array('User');      
     public $components = array(
         'Session',
         'DebugKit.Toolbar',
@@ -40,6 +40,8 @@ class LoginController extends AppController {
     );
     public function beforeFilter() {        
         parent::beforeFilter();
+        $this->Auth->allow('Login/index');
+        $this->Auth->allow('Home/index');
     }
     function index() {
 
@@ -52,19 +54,19 @@ class LoginController extends AppController {
         }        
         if ($this->request->is('post')) {            
             $data = $this->request->data['User'];                               
-            if (isset($_SESSION['countFail'])){
-                if ($_SESSION['countFail'] >= 3){
-                //check verifycode and password
-                    $answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
-                    $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
-                    $result = $this->User->find('all',array('username' => $data['username'],'verifycode_answer' => $answer,'verifycode_question' => $question));
-                    if ($result == null){                        
-                        $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-                        return;                   
-                    }                    
+            // if (isset($_SESSION['countFail'])){
+            //     if ($_SESSION['countFail'] >= 3){
+            //     //check verifycode and password
+            //         $answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
+            //         $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
+            //         $result = $this->User->find('all',array('username' => $data['username'],'verifycode_answer' => $answer,'verifycode_question' => $question));
+            //         if ($result == null){                        
+            //             $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
+            //             return;                   
+            //         }                    
 
-                 }
-                 }                         
+            //      }
+            //      }                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
             if ($this->Auth->login()) {
                 // Login success                 
@@ -75,21 +77,21 @@ class LoginController extends AppController {
                     $this->Session->write('Auth.User.role', 'R3');
                 }
                 $this->Session->setFlash(__("Login success"));
-                if (isset($_SESSION['countFail'])){
-                    unset($_SESSION['countFail']);
-                }
-                $this->redirect($this->Auth->redirectUrl());                
+                // if (isset($_SESSION['countFail'])){
+                //     $_SESSION['countFail'] = 1;
+                // }                
+                return $this->redirect($this->Auth->redirectUrl());
             } 
             else {
             //Login fail                                
                 $this->Session->setFlash(
                     __('Username or password is incorrect'), 'default', array(), 'auth');          
-                if (!isset($_SESSION['countFail'])){
-                    $_SESSION['countFail']= 1;     
-                }                               
-                else{
-                    ++$_SESSION['countFail'];                    
-                }
+                // if (!isset($_SESSION['countFail'])){
+                //     $_SESSION['countFail']= 1;     
+                // }                               
+                // else{
+                //     ++$_SESSION['countFail'];                    
+                // }
             }    
         }
     }
@@ -188,9 +190,5 @@ class LoginController extends AppController {
 
     function logout() {
         $this->redirect($this->Auth->logout());
-        $this->redirect(array(
-            'controller' => 'Home',
-            'action' => 'index'
-            ));
     }
 }
