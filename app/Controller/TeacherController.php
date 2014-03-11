@@ -331,12 +331,16 @@ class TeacherController extends AppController {
             if ($this->request->is('post')) {               
                 $pid = $this->Auth->User('user_id');
                 $this->User->id = $pid;                
-                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
-                if ($this->User->save($this->request->data)){
+                $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+                $data = $this->User->create($this->request->data);                
+                $data['User']['user_id'] = $pid;                
+                debug($data);
+                if ($this->User->save($data)){
+                    debug("ok");
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
-                }
-            }        
+                }                
+                }        
                 //get data                 
                 $teacherData = $this->Teacher->find('first',
                     array(
@@ -344,8 +348,7 @@ class TeacherController extends AppController {
                             'Teacher.teacher_id' => $this->Auth->User('foreign_id')
                             )
                         )
-                );            
-                $this->loadModel('User');
+                );                           
                 $userData = $this->User->find('first',
                     array(
                         'conditions' => array(

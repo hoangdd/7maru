@@ -27,10 +27,10 @@
             ));
         echo "</div>";
         ?>
-    </div>';
+    </div>
     <div class="col-md-9" style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
         <h1 style="text-align:center;font-family:”Times New Roman”;">Change Profile</h1>
-        <br>';
+        <br>
         <form name='Student' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Student','action' => 'EditProfile'))."'" ?>  class="form-horizontal" enctype="multipart/form-data" role="form">
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">First Name:</label>
