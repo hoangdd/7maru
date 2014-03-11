@@ -8,58 +8,63 @@ class LessonController extends AppController {
     * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
     *　$id: 授業のID
     */
-	function Index($id){
+	function Index($id = null){
 		App::uses('Utilities', 'Lib');
 		$util = new Utilities();
 		$this->set('util',$util);
+		if($id){
+			//授業の見られる数を1回を増加する。
 		
-		//授業の見られる数を1回を増加する。
-		
-		$this->Lesson->increaseView($id);
+			$this->Lesson->increaseView($id);
 
-		// データベースから、授業の情報を取得
-		$lesson = $this->Lesson->findByComaId ($id);
-		debug($lesson);
-		$lesson = $lesson['Lesson'];
-		
-		// 授業のイメージリンクを準備する。
-		$lesson['image'] = '/'.FILL_CHARACTER.'/img/data/cover';
-		if($lesson['cover']){
-			$subfix = preg_split('/\./', $lesson['cover']);
-			$subfix = $subfix[count($subfix)-1];
+			// データベースから、授業の情報を取得
+			$lesson = $this->Lesson->findByComaId ($id);
+			debug($lesson);
+			$lesson = $lesson['Lesson'];
+			
+			// 授業のイメージリンクを準備する。
+			$lesson['image'] = '/'.FILL_CHARACTER.'/img/data/cover';
+			if($lesson['cover']){
+				$subfix = preg_split('/\./', $lesson['cover']);
+				$subfix = $subfix[count($subfix)-1];
+			} else {
+				$subfix = '';
+			}
+			$lesson['image'] .= '/'.$lesson['coma_id'].'.'.$subfix;
+			
+			//授業の評価された数を準備する。
+			$lesson['ranker'] = $this->RateLesson->get_rate_num($lesson['coma_id']);
+			
+			//平均評価を数いる。
+			$lesson['stars'] = $this->RateLesson->get_mean_rate($lesson['coma_id']);
+			
+			//授業の見られる数を準備する。
+			
+			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
+			$user = $this->Auth->user();
+			// debug($user);
+			if($user && $this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+				$lesson['buy_status'] = 1;
+			} else {
+				$lesson['buy_status'] = 0;
+			}
+			
+			//　授業のカテゴリを全部GET
+			
+			$tags = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
+			$tags = $this->Category->get_all_category_name($tags);
+			$lesson['tags'] = $tags;
+			
+
+			$this->set('lesson',$lesson);
+			$this->set('user',$this->Auth->user());
+
+			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
+			// debug($teacher);
 		} else {
-			$subfix = '';
-		}
-		$lesson['image'] .= '/'.$lesson['coma_id'].'.'.$subfix;
-		
-		//授業の評価された数を準備する。
-		$lesson['ranker'] = $this->RateLesson->get_rate_num($lesson['coma_id']);
-		
-		//平均評価を数いる。
-		$lesson['stars'] = $this->RateLesson->get_mean_rate($lesson['coma_id']);
-		
-		//授業の見られる数を準備する。
-		
-		// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
-		$user = $this->Auth->user();
-		// debug($user);
-		if($user && $this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-			$lesson['buy_status'] = 1;
-		} else {
-			$lesson['buy_status'] = 0;
+			throw new NotFoundException();
 		}
 		
-		//　授業のカテゴリを全部GET
-		
-		$tags = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
-		$tags = $this->Category->get_all_category_name($tags);
-		$lesson['tags'] = $tags;
-		
-
-		$this->set('lesson',$lesson);
-
-		// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
-		// debug($teacher);
 	}
 
 	function Create(){
@@ -240,7 +245,13 @@ class LessonController extends AppController {
 			));
 		debug($files);
     }
-    
+    public function rate(){
+    	if($this->request->is('post')){
+    		$data = $this->request->data;
+    		debug($data);
+    		$this->RateLesson->rate_Lesson($data['coma_id'], $data['user_id'], $data['rate']);
+    	}
+    }
     function Hotlesson() {
     	$page_limit = 4;
     	$pagination = array (
