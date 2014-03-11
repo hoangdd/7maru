@@ -252,62 +252,150 @@ class LessonController extends AppController {
     		$this->RateLesson->rate_Lesson($data['coma_id'], $data['user_id'], $data['rate']);
     	}
     }
-    function Hotlesson() {
+    
+    function HotLesson($pageIndex) {
     	$page_limit = 4;
+    	$this->layout = null;
+    	$this->loadModel('Lesson');
+    	$this->loadModel('User');
+    	$this->loadModel('RateLesson');
+    	$this->RateLesson->bindModel(array(
+    		'belongsTo' => array(
+    			'Lesson' => array(
+    				'className' => 'Lesson',
+    				'foreignKey' => 'coma_id'
+    			)
+    		),    		
+    	));
+    	$this->Lesson->bindModel(array(
+    		'belongsTo' => array(    		
+    			'Author' => array(
+    				'className' => 'User',
+    				'foreignKey' => 'author'
+    			)
+    		) 
+    	)
+    	);
     	$pagination = array (
-    			'limit' => $page_limit,
-    			'fields' => array (
-    					'RateLesson.coma_id','SUM(RateLesson.rate) as temp'),
-    			'order' => array('temp' => 'DESC'),
-    			'group' =>  'RateLesson.coma_id'
-    	   	);
+    			'limit' => $page_limit, 
+    			'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
+    			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
+    			'group' => 'RateLesson.coma_id',
+    			'recursive' => 3
+    	   	);    
     	$this->Paginator->settings = $pagination;
     	$data = $this->Paginator->paginate ( 'RateLesson');
-    	
-    	print_r($data);
+    	foreach($data as $key=>$value){
+    		$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
+    		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+    		unset($data[$key]['Lesson']['Author']);
+    		unset($data[$key]['0']);
+    	}
+    	debug($data);
     }
     
-    function Newlesson() {
+    function NewLesson() {
+    	$this->loadModel('Lesson');
+    	$this->loadModel('User');
+    	$this->loadModel('RateLesson');    	
+    	$this->Lesson->bindModel(array(
+    		'belongsTo' => array(    		
+    			'Author' => array(
+    				'className' => 'User',
+    				'foreignKey' => 'author'
+    			)
+    		) ,
+    		'hasMany' => array(
+    			'RateLesson' => array(
+    				'foreignKey' => 'coma_id',    				
+    			)
+    		),
+    	));
     	$page_limit = 3;
     	$pagination = array (
-    			'limit' => $page_limit,
-    			'fields' => array (
-    					'Lesson.coma_id'),
-    			'order' => array('Lesson.created' => 'DESC'),
-    			'group' =>  'Lesson.coma_id'
-    	
+    			'limit' => $page_limit,    			
+    			'order' => array('Lesson.created' => 'DESC'),    			
+    			'group' => 'Lesson.coma_id'    			
     	);
     	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'LessonTransaction');
-    	
-    	print_r($data);
+    	$data = $this->Paginator->paginate ( 'Lesson');
+    	foreach($data as $key=>$lesson){
+    		$rank = 0;$count = 0;
+    		foreach($lesson['RateLesson'] as $le){    			
+    			$rank =  $rank + $le['rate'];
+    			++$count;
+    		}
+			if ($count != 0) {
+					$rank = $rank / $count;
+			}			    		
+    		$data[$key]['RateLesson'] = $rank;    		
+    	}    	
+    	debug($data);
     }
     
-    function Recentlesson() {
-    	$page_limit = 3;
+    function RecentLesson() {
+    	$this->loadModel('Lesson');
+    	$this->loadModel('User');
+    	$this->loadModel('LessonTransaction');
+    	$this->loadModel('RateLesson');
+    	$this->LessonTransaction->bindModel(array(
+    		'belongsTo' => array(    		
+    			'Lesson' => array(
+    				'className' => 'Lesson',
+    				'foreignKey' => 'coma_id',    			
+    			)
+    		)   		
+    	));
+    	$this->Lesson->bindModel(array(
+    		'belongsTo' => array(    		
+    			'Author' => array(
+    				'className' => 'User',
+    				'foreignKey' => 'author'
+    			)
+    		),
+    		'hasMany' => array(
+    			'RateLesson' => array(
+    				'foreignKey' => 'coma_id',    				
+    			)
+    		)
+    	));
+    	$page_limit = 4;
     	$pagination = array (
-    			'limit' => $page_limit,
-    			'fields' => array (
-    					'LessonTransaction.coma_id'),
+    			'limit' => $page_limit,    			
     			'order' => array('LessonTransaction.created' => 'DESC'),
-    			'group' =>  'LessonTransaction.coma_id'
+    			'group' =>  'LessonTransaction.transaction_id',
+    			'recursive' => 2
     	
     	);
     	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'LessonTransaction');
-    	
-    	print_r($data);
+    	$data = $this->Paginator->paginate ( 'LessonTransaction'); 
+    	foreach($data as $key=>$lesson){
+    		$rank = 0;$count = 0;
+    		foreach($lesson['Lesson']['RateLesson'] as $le){    			
+    			$rank =  $rank + $le['rate'];
+    			++$count;
+    		}
+			if ($count != 0) {
+					$rank = $rank / $count;
+			}			    		
+    		$data[$key]['RateLesson'] = $rank;      		
+    		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+    		unset($data[$key]['Lesson']['RateLesson']);  		
+    		unset($data[$key]['Lesson']['Author']);
+    		unset($data[$key]['LessonTransaction']);
+    	}    	   	
+    	debug($data);
     }
     
     function Bestseller() {
 //     	$data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
     	$page_limit = 4;
-		$pagination = array (
-				'limit' => $page_limit,
+		$pagination = array (				
 				'fields' => array (
 						'LessonTransaction.coma_id','Count(*) as count'),
 				'order' => array('count' => 'DESC'),
-				'group' =>  'LessonTransaction.coma_id'
+				'group' =>  'LessonTransaction.coma_id',
+				'limit' => $page_limit
 				
 		);
     	

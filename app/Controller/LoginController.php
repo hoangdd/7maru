@@ -40,6 +40,7 @@ class LoginController extends AppController {
     );
     public function beforeFilter() {        
         parent::beforeFilter();
+        $this->Auth->autoRedirect = false;
         $this->Auth->allow('Login/index');
         $this->Auth->allow('Home/index');
     }
@@ -76,7 +77,7 @@ class LoginController extends AppController {
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
-                $this->Session->setFlash(__("Login success"));
+                $this->Session->setFlash(__("Login success"));                
                 // if (isset($_SESSION['countFail'])){
                 //     $_SESSION['countFail'] = 1;
                 // }                

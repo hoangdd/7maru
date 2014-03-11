@@ -7,7 +7,7 @@
         echo $this->Html->image($image,array(            
          'width'=>'180px',
          'class' => 'img-rounded',
-         'style' => 'text-align:center;'
+         'style' => 'text-align:center'
          ));
 
         echo "<br><br>";
@@ -27,10 +27,10 @@
             ));
         echo "</div>";
 		?>
-	</div>';
-	<div class="col-md-9" style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
-		<h1 style="text-align:center;font-family:”Times New Roman”;">Change Profile</h1>
-		<br>';
+	</div>
+	<div class="col-md-9" style="font-size:16px;font-family: Times New Roman;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
+		<h1 style="text-align:center;font-family:Times New Roman;">Change Profile</h1>
+		<br>
         <form name='Teacher' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?>  class="form-horizontal" enctype="multipart/form-data" role="form">
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">First Name:</label>
@@ -55,7 +55,7 @@
                  </div>
              </div>
              <div class="form-group">
-                <label class="col-sm-3 control-label">Addresss:</label>
+                <label class="col-sm-3 control-label">Mail:</label>
                 <div class="col-sm-6">
 
                 <input name="mail" type="email" class="form-control" placeholder="Email address" value=<?php echo "'".$userData['mail']  ."'" ?>>

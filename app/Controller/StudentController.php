@@ -340,8 +340,18 @@ class StudentController extends AppController {
             if ($this->request->is('post')) {               
                 $pid = $this->Auth->User('user_id');
                 $this->User->id = $pid;                
-                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
-                if ($this->User->save($this->request->data)){
+                $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+                $data = $this->User->create($this->request->data);
+                $studentData = $data['credit_account'];
+                unset($data['credit_account']);
+                if ($this->User->save($data)){
+                	$studentData = array(
+                		'Student' => array(
+                			'credit_account' => $studentData,
+                			'student_id' => $this->Auth->user('foreign_id')
+                		)
+                	)
+                	if ($this->Student->save($studentData))
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                 }
