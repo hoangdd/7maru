@@ -187,6 +187,7 @@ class AdminController extends AppController {
     }
 
     function login() {
+        debug($this->Auth->password('admin123'));
         //check loggedIn();
         if ($this->Auth->loggedIn()) {
             $this->redirect(array(
@@ -329,7 +330,7 @@ class AdminController extends AppController {
 
         $dataNewUser = $this->User->find('all', array(
             'conditions' => array(
-                'usable' => false
+                'approved' => false
             ),
             'recursive' => 3
         ));
@@ -342,7 +343,7 @@ class AdminController extends AppController {
             $id = $this->request->data['id'];
             if ($this->User->updateAll(
                             array(
-                        'User.usable' => true
+                        'User.approved' => true
                             ), array(
                         'User.user_id' => $id
                             )
