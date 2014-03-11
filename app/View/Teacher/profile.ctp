@@ -20,7 +20,7 @@
 		<br><br>
 		<a href="Statistic" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Statistic</a>
 		<br><br>
-		<a href="ChangePassword" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Change Password</a>
+		<a href=<?php echo "'".$this->Html->url(array('controller' => 'login','action' => 'changePassword'))."'" ?> style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Change Password</a>
 	</div>
 </div>
 <div class="col-md-9">

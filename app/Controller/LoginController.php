@@ -27,6 +27,10 @@ class LoginController extends AppController {
                 'controller' => 'Login',
                 'action' => 'index',
             ),
+            'logoutRedirect' => array(
+                'controller' => 'Login', 
+                'action' => 'index'
+            ),
             'loginRedirect' =>array(
                 'controller' => 'Home',
                 'action' => 'index'
@@ -156,8 +160,8 @@ class LoginController extends AppController {
              * If valid then update new Password
              */
 
-            if ($this->Auth->password($this->Auth->user('username') . $current) === $user['User']['password']) {
-                $hashNewPassword = $this->Auth->password($this->Auth->user('username') . $new);
+            if ($this->Auth->password($this->Auth->user('username') . $current.FILL_CHARACTER) === $user['User']['password']) {
+                $hashNewPassword = $this->Auth->password($this->Auth->user('username') . $new.FILL_CHARACTER);
                 $updatePassword = $this->User->updateAll(
                     array(
                         'User.password' => "'" . $hashNewPassword . "'"
@@ -183,7 +187,7 @@ class LoginController extends AppController {
     }
 
     function logout() {
-        $this->Auth->logout();
+        $this->redirect($this->Auth->logout());
         $this->redirect(array(
             'controller' => 'Home',
             'action' => 'index'

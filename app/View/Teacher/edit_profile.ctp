@@ -1,10 +1,9 @@
 
 <div class="row">
 	<div class="col-md-3">
-		<?php
-
-        if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
-        else $image = $data['User']['profile_picture'];
+		<?php        
+        if($userData['profile_picture'] == null) $image = 'default_profile.jpg';
+        else $image = $userData['profile_picture'];
         echo $this->Html->image($image,array(            
          'width'=>'180px',
          'class' => 'img-rounded',
@@ -21,7 +20,7 @@
             ));
         echo "<p></p></div><div class='text-center'>";        
         echo $this->Html->link('ChangePassword',
-         'ChangePassword',array(
+         array('controller' => 'Login','action' => 'changePassword'),array(
             'class'=>'btn btn-primary',
             'role'=>'button',
              'style'=>'font-size:14px;margin:auto;width:80%'
@@ -32,12 +31,12 @@
 	<div class="col-md-9" style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
 		<h1 style="text-align:center;font-family:”Times New Roman”;">Change Profile</h1>
 		<br>';
-        <form name='Teacher' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?>  class="form-horizontal" role="form">
+        <form name='Teacher' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?>  class="form-horizontal" enctype="multipart/form-data" role="form">
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">First Name:</label>
                 <div class="col-sm-6">
                 <input name="firstname"  type="text" class="form-control" id="inputEmail3" placeholder="First Name" value=<?php echo "'".$userData['firstname']  ."'" ?> >                                     
-
+            </div>
              </div>
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label">Last Name:</label>

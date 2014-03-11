@@ -330,9 +330,8 @@ class TeacherController extends AppController {
         if ($this->Auth->loggedIn()) {            
             if ($this->request->is('post')) {               
                 $pid = $this->Auth->User('user_id');
-                $this->User->id = $pid;
-
-                $this->User->read();
+                $this->User->id = $pid;                
+                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
                 if ($this->User->save($this->request->data)){
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
