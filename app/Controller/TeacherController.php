@@ -255,7 +255,7 @@ class TeacherController extends AppController {
                     'username' => $data['username'], //ユーザ名を送る
                     'bank_account' => $data['bank_account'],
                     'office' => $data['office'],
-                    'description' => $data['description'],
+                    'description' => $data['description'],                    
                 );
                 $this->Teacher->create($data_teacher);
 
@@ -274,10 +274,12 @@ class TeacherController extends AppController {
                         'username' => $data['username'],
                         'password' => $data['password'],
                         'firstname' => $data['firstname'],
-                        'lastname' => $data['lastname'],
+                        'lastname' => $data['lastname'],                        
                         'address' => $data['address'],
                         'verifycode_question' => $data['verifycode_question'],
+                        'original_verifycode_question' => $data['verifycode_question'],
                         'verifycode_answer' => $data['verifycode_answer'],
+                        'original_verifycode_answer' => $data['verifycode_answer'],
                         'mail' => $data['mail'],
                         'phone_number' => $data['phone_number'],
                         'date_of_birth' => $data['date_of_birth'],
@@ -300,7 +302,7 @@ class TeacherController extends AppController {
                 'conditions' => array(
                     'User.user_id' => $pid,
                 )
-            ));
+            ));            
             $this->set("data", $data);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
@@ -309,7 +311,7 @@ class TeacherController extends AppController {
                         'Teacher.teacher_id' => $a,
 
                     )
-                ));
+                ));                
                 $this->set("data1", $data1);
                 $this->loadModel("Coma");
                 $data2 = $this->Coma->find('all', array(
@@ -323,54 +325,36 @@ class TeacherController extends AppController {
     }
 
 
-	function EditProfile(){
-        if($this->Auth->loggedIn()){ 
-            $pid=$this->Auth->User('user_id');
-            $data1=$this->User->find('first',array(
-                    'conditions' => array('User.user_id' => $pid,
-                        )
-            ));
-            $this->set("data1",$data1);
-            if($this->request->is('post')){
-                
-                $data=$this->request->data;
-                if( !empty($_FILES['profile_picture'])&&
-                    !empty($_FILES['profile_picture']['tmp_name'])&&
-                    !empty($_FILES['profile_picture']['name'])){
-                    $img_exts = Configure::read('srcFile')['image']['extension'];
-                    $profile_pic = $_FILES['profile_picture'];
-                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                    if( !in_array($ext, $img_exts) ){
-                        $error['profile_picture'][0] ='Unsupported image file';  
-                    }
-                }
-                $a['User']['firstname']=$data['firstname'];
-                $a['User']['lastname']=$data['lastname'];
-                $a['User']['date_of_birth']=$data['date_of_birth'];
-                $a['User']['address']=$data['address'];
-                $a['User']['phone_number']=$data['phone_number'];
-                $a['User']['created']=$data['created'];
-                $a['User']['username']=$data1['User']['username'];
-                if( isset($profile_pic)){
-                    $a['User']['profile_picture']=$profile_pic;
-                }
-                $this->User->id=$pid;
 
     function EditProfile() {
-        if ($this->Auth->loggedIn()) {
-            if ($this->request->is('post')) {
+        if ($this->Auth->loggedIn()) {            
+            if ($this->request->is('post')) {               
                 $pid = $this->Auth->User('user_id');
-                $this->User->id = $pid;
-
-                $this->User->read();
-                $this->User->save($a);
-                $pid1=$data1['User']['foreign_id'];
-                $b['Teacher']['bank_account']=$data['bank_account'];
-                $b['Teacher']['username']=$this->Auth->user('username');
-                $this->Teacher->id=$pid1;
-                $this->Teacher->read();
-                $this->Teacher->save($b);
-            }
+                $this->User->id = $pid;                
+                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
+                if ($this->User->save($this->request->data)){
+                    $this->Session->setFlash(__('Edit successful'));
+ //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                }
+            }        
+                //get data                 
+                $teacherData = $this->Teacher->find('first',
+                    array(
+                        'conditions' => array(
+                            'Teacher.teacher_id' => $this->Auth->User('foreign_id')
+                            )
+                        )
+                );            
+                $this->loadModel('User');
+                $userData = $this->User->find('first',
+                    array(
+                        'conditions' => array(
+                            'User.user_id' => $this->Auth->User('user_id')
+                            )
+                        )
+                    );                
+                $this->set('teacherData',$teacherData['Teacher']);
+                $this->set('userData',$userData['User']);                            
         }
     }
 
@@ -381,13 +365,9 @@ class TeacherController extends AppController {
                 'Lesson.author' => $this->Auth->user('user_id')
             )
         ));
-
         $this->set('lesson', $lesson);
-
-//        $this->set('teacher', $teacher);
-//        $this->set('user', $user);
-        //debug(Router::url('/',true));
-        debug($lesson);
+   }
+   function deleteLesson(){
         if ($this->request->is('ajax')) {
 
             $id = $this->request->data['id'];

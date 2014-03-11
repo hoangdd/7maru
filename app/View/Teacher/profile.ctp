@@ -1,10 +1,13 @@
 <div class="row">
 	
 <div class="col-md-3">
-	
-	<?php
-   echo $this->Html->image("data/avata/".$data1['User']['profile_picture'], array(
-	'alt' => 'CakePHP',
+
+
+	<?php    
+  if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
+  else $image = $data['User']['profile_picture'];   
+   echo $this->Html->image($image, array(	
+
 	'width' => '180px',
 	'class' => 'img-rounded',
 	'style' => 'text-align:center;'
@@ -17,7 +20,7 @@
 		<br><br>
 		<a href="Statistic" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Statistic</a>
 		<br><br>
-		<a href="ChangePassword" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Change Password</a>
+		<a href=<?php echo "'".$this->Html->url(array('controller' => 'login','action' => 'changePassword'))."'" ?> style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button">Change Password</a>
 	</div>
 </div>
 <div class="col-md-9">

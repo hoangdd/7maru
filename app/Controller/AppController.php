@@ -31,42 +31,41 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-    public $components = array(
-        'Session',
-        'DebugKit.Toolbar',
-        'Auth' => array(
-            'authenticate' => array(
-                'Form' => array(
-                    'userModel' => 'User',
-                    'fields' => array(
-                        'username' => 'username',
-                        'password' =>'password',
-                    ),
-                    'passwordHasher' => array(
-                        'className' => 'Simple',
-                        'hashType' => 'sha1'
-                    )
-                )
-            ),
-            'loginAction' => array(
-                'controller' => 'Login',
-                'action' => 'index',
-            ),
-            'loginRedirect' =>array(
-                'controller' => 'Home',
-                'action' => 'index'
-            ),
-            'authError' => 'You don\'t have permission to view this page',
-        ),
+    public $components  = array('Session','Auth');
+    // public $components = array(
+    //     'Session',
+    //     'DebugKit.Toolbar',
+    //     'Auth' => array(
+    //         'authenticate' => array(
+    //             'Form' => array(
+    //                 'userModel' => 'User',
+    //                 'fields' => array(
+    //                     'username' => 'username',
+    //                     'password' =>'password',
+    //                 ),
+    //                 'passwordHasher' => array(
+    //                     'className' => 'Simple',
+    //                     'hashType' => 'sha1'
+    //                 )
+    //             )
+    //         ),
+    //         'loginAction' => array(
+    //             'controller' => 'Login',
+    //             'action' => 'index',
+    //         ),
+    //         'loginRedirect' =>array(
+    //             'controller' => 'Home',
+    //             'action' => 'index'
+    //         ),
+    //         'authError' => 'You don\'t have permission to view this page',
+    //     ),
 
-    );
+    // );
      public function beforeFilter() {
         parent::beforeFilter();
         if(!$this->__permission()){
             echo '403 Forbidden error.';
-
         }
-
     }
     private function __permission($user_role = null, $current_controller = null){
         $role = isset($user_role) ? $user_role : $this->Auth->user('role');

@@ -239,8 +239,8 @@ class StudentController extends AppController {
 			}
              //自己のイメージをチェック：
             if( !empty($_FILES['profile_picture'])){
-
-                $img_exts = Configure::read('srcFile')['image']['extension'];
+            	$config = Configure::read('srcFile');
+                $img_exts = $config['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
                 if( !in_array($ext, $img_exts) ){
@@ -261,8 +261,7 @@ class StudentController extends AppController {
                 );
 				$this->Student->create ( $data_student );
                 //セーブしたり、結果を出した
-				$result = $this->Student->save ();
-			
+				$result = $this->Student->save ();				
 			
 			 //ユーザのデータをセーブする
                 /*
@@ -287,10 +286,11 @@ class StudentController extends AppController {
                     );
 
                     $this->User->create($data_user);
-                    $this->User->save();
+                    $this->User->save();                    
 			     }
 		      }
         }
+        
         $this->set('error', $error);
 	}
 
@@ -335,57 +335,37 @@ class StudentController extends AppController {
 		
     }
 
-	function EditProfile() {
-		if($this->Auth->loggedIn()){
-             $pid=$this->Auth->User('user_id');
-             $data1=$this->User->find('first',array(
-                      'conditions' => array(
-                          'User.user_id' => $pid,
-                      	)
-             		));
-             $this->set("data1",$data1);
-             if($this->request->is('post')){
-             	//$pid=$this->Auth->User('user_id');
-             	$data=$this->request->data;
-             	/*$data1=$this->User->find('first',array(
-                      'conditions' => array(
-                          'User.user_id' => $pid,
-                      	)
-             		));*/
-             	
-             	if( !empty($_FILES['profile_picture'])&&
-             		!empty($_FILES['profile_picture']['tmp_name'])&&
-            		!empty($_FILES['profile_picture']['name'])){
-                    $img_exts = Configure::read('srcFile')['image']['extension'];
-                    $profile_pic = $_FILES['profile_picture'];
-                    $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
-                    if( !in_array($ext, $img_exts) ){
-                        $error['profile_picture'][0] ='Unsupported image file';  
-                    }
+	function EditProfile() {	
+        if ($this->Auth->loggedIn()) {            
+            if ($this->request->is('post')) {               
+                $pid = $this->Auth->User('user_id');
+                $this->User->id = $pid;                
+                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
+                if ($this->User->save($this->request->data)){
+                    $this->Session->setFlash(__('Edit successful'));
+ //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                 }
-                $a['User']['firstname']=$data['firstname'];
-                $a['User']['lastname']=$data['lastname'];
-                $a['User']['date_of_birth']=$data['date_of_birth'];
-                $a['User']['address']=$data['address'];
-                $a['User']['phone_number']=$data['phone_number'];
-                $a['User']['created']=$data['created'];
-                $a['User']['username']=$data1['User']['username'];
-                if( isset($profile_pic)){
-                	$a['User']['profile_picture']=$profile_pic;
-                }
-                $this->User->id=$pid;
-                $this->User->read();
-                $this->User->save($a);
-                $pid1=$data1['User']['foreign_id'];
-                $b['Student']['credit_account']=$data['credit_account'];
-                $b['Student']['username']=$this->Auth->user('username');
-                $this->Student->id=$pid1;
-                $this->Student->read();
-                $this->Student->save($b);
-
-             }
-		}
-	}
+            }        
+                //get data                 
+                $studentData = $this->Student->find('first',
+                    array(
+                        'conditions' => array(
+                            'Student.student_id' => $this->Auth->User('foreign_id')
+                            )
+                        )
+                );            
+                $this->loadModel('User');
+                $userData = $this->User->find('first',
+                    array(
+                        'conditions' => array(
+                            'User.user_id' => $this->Auth->User('user_id')
+                            )
+                        )
+                    );                
+                $this->set('studentData',$studentData['Student']);
+                $this->set('userData',$userData['User']);                            
+        }
+    }
 
 	function Destroy() {
 	}
@@ -398,8 +378,6 @@ class StudentController extends AppController {
 
 	function Test() {
 	}
-
-	
 	
 	function DoTest(){
 		$finalTest = $this->File->readTsv("testfile.tsv");
@@ -410,7 +388,7 @@ class StudentController extends AppController {
 			
 			$totques=count($this->request->data['hid']);
 			echo $totques;
-// 			print_r($this->request->data['hid']);
+			// print_r($this->request->data['hid']);
 			$temp = 0;$mark = 0;
 			for($i = 0;$i<$totques;$i++){
 				if(!isset($this->request->data['Question'.$i])) $mark++;
@@ -426,28 +404,28 @@ class StudentController extends AppController {
 			echo $temp;
 			
 			
-// 			$data = $this->request->data ['Student'];
-// 			print_r ( $data );
+			// $data = $this->request->data ['Student'];
+			// print_r ( $data );
 			// $this->testList = $this->DoTest();
 			// if($this->testList != null)
 			// //print_r($this->testList);
 			
-// 			foreach ( $data as $q => $m ) {
-// 				if (strcmp ( $q, "timer" ) != 0) {
-// 					$str = "Option" . $finalTest [$q] ['mark'];
-// 					if (strcmp ( $str, $m ) == 0)
-// 						$temp ++;
-// 				}
-// 				else $timeTemp = $m;
-// 			}
-// 			echo $temp;
-// 			$reTemp = count($data) - 1;
+			// foreach ( $data as $q => $m ) {
+			// 	if (strcmp ( $q, "timer" ) != 0) {
+			// 		$str = "Option" . $finalTest [$q] ['mark'];
+			// 		if (strcmp ( $str, $m ) == 0)
+			// 			$temp ++;
+			// 	}
+			// 	else $timeTemp = $m;
+			// }
+			// echo $temp;
+			// $reTemp = count($data) - 1;
 			
-// 			$this->ViewTestResult($temp, 5);
-// 			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
-// 			$this->redirect ( array (
+			// $this->ViewTestResult($temp, 5);
+			// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
+			// $this->redirect ( array (
 
-// 			
+			
 				$this->redirect ( array (
 
 					'controller' => 'student',
@@ -464,22 +442,31 @@ class StudentController extends AppController {
 
 							
 	function ViewTestResult() {
-// 		print_r ($this->params['url']);
-// 		print_r( $this->request->params);
+		// print_r ($this->params['url']);
+		// print_r( $this->request->params);
 		$this->set('hit',$this->request->params['named']['hit']);
 		$this->set('total',$this->request->params['named']['total']);
 		$this->set('time',$this->request->params['named']['time']);
 		$this->set('mark',$this->request->params['named']['mark']);
-// 		$this->set('hit',$this->params['url']['hit']);
-// 		$this->set('total',$this->params['url']['total']);
-// 		$this->set('time',$this->params['url']['time']);
-// 		$this->set ( 'hit', $this->request->params->url['hit'] );
-// 		$this->set ( 'total', $this->request->params->url['total'] );
+		// $this->set('hit',$this->params['url']['hit']);
+		// $this->set('total',$this->params['url']['total']);
+		// $this->set('time',$this->params['url']['time']);
+		// $this->set ( 'hit', $this->request->params->url['hit'] );
+		// $this->set ( 'total', $this->request->params->url['total'] );
 	}
+	
 	function Beforetest(){}
 	function Exam(){
-		
+		$id=1;
+		$this->File->find();
+		$dulieu = $this->File->find('first', array(
+				'conditions' => array(
+						'File.file_id' => $id
+				)
+		));
+		debug($dulieu);
 	}
+
 	function ChangePassword() {
 	}
 }

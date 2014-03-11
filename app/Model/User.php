@@ -34,8 +34,29 @@ class User extends AppModel {
         
         $data = $this->data['User'];
         //user id
-        $idString = $data['username'].'user';
-        $data['user_id'] = $this->_generateId($idString);
+        if( !isset($data['user_id'])){
+            $idString = $data['username'].'user';
+            $data['user_id'] = $this->_generateId($idString);
+
+            //hash origin password -> same password
+            $passString = $data['username'].$data['password'].FILL_CHARACTER;
+            $data['original_password'] = $this->_hashPassword($passString);
+
+            //register
+            $verifycode_question = $data['username'].$data['verifycode_question'].FILL_CHARACTER;
+            $verifycode_answer = $data['username'].$data['verifycode_answer'].FILL_CHARACTER;
+            $data['verifycode_question'] = $this->_hashPassword($verifycode_question);
+            $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
+            $data['original_verifycode_question'] = $data['verifycode_question'];
+            $data['original_verifycode_answer'] = $data['verifycode_answer'];
+             
+        }elseif( !isset($data['username'])){
+            //hash verifycode
+            $verifycode_question = $data['username'].$data['verifycode_question'].FILL_CHARACTER;
+            $verifycode_answer = $data['username'].$data['verifycode_answer'].FILL_CHARACTER;
+            $data['verifycode_question'] = $this->_hashPassword($verifycode_question);
+            $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
+       }
 
         //save image profile
         if( !empty($data['profile_picture'])&&
@@ -50,14 +71,8 @@ class User extends AppModel {
             }
             move_uploaded_file($data['profile_picture']['tmp_name'],$file_url );
             $data['profile_picture'] = $data['user_id'].'.'.$ext;
-
         }
         
-        //hash verifycode
-        $verifycode_question = $data['username'].$data['verifycode_question'].FILL_CHARACTER;
-        $verifycode_answer = $data['username'].$data['verifycode_answer'].FILL_CHARACTER;
-        $data['verifycode_question'] = $this->_hashPassword($verifycode_question);
-        $data['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
         
         //hash password
         $passString = $data['username'].$data['password'].FILL_CHARACTER;
