@@ -435,7 +435,7 @@ class TeacherController extends AppController {
 
         //luu va tra lai ket qua
         $result = $this->Teacher->save();
-        debug($result);
+        // debug($result);
         die;
     }
 	function ChangePassword(){

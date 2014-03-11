@@ -30,6 +30,35 @@
 // Page 1
 ?>
 
+<style type="text/css">
+	.nav-inverse nav a span{
+		color: gray;
+	}
+	.intro-menu-fixed{
+		position: fixed;
+		top: 0px;
+		z-index: 2 !important;
+	}
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(window).scroll(function(){
+			page1bottom = $('.page:first').offset().top + $('.page:first').height();
+			narbottom = $('.nav.page-nav').offset().top + $('.nav.page-nav').height();
+			if(narbottom>page1bottom){
+				$('.page:first').addClass('nav-inverse');
+			}else{
+				$('.page:first').removeClass('nav-inverse');
+			}
+
+			if(narbottom>page1bottom+350){
+				$('#intro-menu').addClass('intro-menu-fixed');
+			}else{
+				$('#intro-menu').removeClass('intro-menu-fixed');
+			}
+		})
+	});
+</script>
 <div class="page">
 
 	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">

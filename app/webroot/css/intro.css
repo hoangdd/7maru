@@ -13,7 +13,9 @@
 	width: 100%;
 	height: 88vh;
 	display: block;
-	border-bottom: 1px solid #888;
+}
+#bk-list{
+	margin-top: 100px;
 }
 .sns-connect{
 	position: absolute;

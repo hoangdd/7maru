@@ -5,7 +5,7 @@ class StudentController extends AppController {
 	public $uses = array (
 			'User',
 			'Student',
-			'File' 
+			'Data' 
 			
 	);
 
@@ -466,15 +466,13 @@ class StudentController extends AppController {
 	}
 	
 	function Beforetest(){}
-	function Exam(){
-		$id=1;
-		$this->Date->find();
-		$dulieu = $this->Date->find('first', array(
+	function Exam($id = null){
+		$dulieu = $this->Data->find('first', array(
 				'conditions' => array(
 						'Data.file_id' => $id
 				)
 		));
-		debug($dulieu);
+		// debug($dulieu);
 	}
 
 	function ChangePassword() {
