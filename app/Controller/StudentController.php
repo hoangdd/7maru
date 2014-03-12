@@ -245,7 +245,7 @@ class StudentController extends AppController {
                 $ext = pathinfo($profile_pic['name'], PATHINFO_EXTENSION);
                 if( !in_array($ext, $img_exts) ){
                   $error['profile_picture'][0] ='Unsupported image file';  
-                }
+                }				
             }
             //====================================
 
@@ -268,24 +268,11 @@ class StudentController extends AppController {
                 *   username,firstname,lastname,date_of_birth,address,password,
                 *   user_type,mail,phone_number,profile_picture
                 */ 
-			    if(isset($result['Student']['student_id'])){
-                    $data_user = array(
-                        'foreign_id'=>  $result['Student']['student_id'],
-                        'username'  =>  $data['username'],
-                        'password'  =>  $data['password'],
-                        'firstname'  => $data['firstname'],
-                        'lastname'  =>  $data['lastname'],
-                        'address'  =>   $data['address'],
-                        'verifycode_question' => $data['verifycode_question'],
-                        'verifycode_answer' => $data['verifycode_answer'],
-                        'mail'  =>  $data['mail'],
-                        'phone_number'  =>  $data['phone_number'],
-                        'date_of_birth'  =>  $data['date_of_birth'],
-                        'user_type' =>  2,
-                        'profile_picture' => $profile_pic,
-                    );
-
-                    $this->User->create($data_user);
+			    if(isset($result['Student']['student_id'])){                   
+					$data['foreign_id'] = $result['Student']['student_id'];
+					$data['user_type'] = 2;
+					$data['profile_picture'] = $profile_pic;
+                    $this->User->create($data);
                     $this->User->save();                    
 			     }
 		      }
@@ -321,6 +308,7 @@ class StudentController extends AppController {
                     )
                 ));
             $this->loadModel("Coma");
+			$arr = array();
             for($i=0;$i<count($data2);$i++){
                 $temp=$data2[$i]['ComaTransaction']['coma_id'];
                 $arr[]=$data3=$this->Coma->find('first',array(
@@ -338,24 +326,27 @@ class StudentController extends AppController {
 	function EditProfile() {	
         if ($this->Auth->loggedIn()) {            
             if ($this->request->is('post')) {               
-                $pid = $this->Auth->User('user_id');
-                $this->User->id = $pid;                
+                $pid = $this->Auth->User('user_id');                
                 $this->request->data['profile_picture'] = $_FILES['profile_picture'];
                 $data = $this->User->create($this->request->data);
-                $studentData = $data['credit_account'];
+				$data['User']['user_id'] = $this->Auth->user('user_id');
+                $studentData = $data['User']['credit_account'];
                 unset($data['credit_account']);
-                if ($this->User->save($data)){
+				$result = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));				
+                if ($result){
                 	$studentData = array(
                 		'Student' => array(
                 			'credit_account' => $studentData,
-                			'student_id' => $this->Auth->user('foreign_id')
+                			'student_id' => $this->Auth->user('foreign_id'),
+							'username' => $this->Auth->user('username')
                 		)
-                	)
-                	if ($this->Student->save($studentData))
+                	);
+                	if ($this->Student->save($studentData)){
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                 }
-            }        
+				}   
+			}				
                 //get data                 
                 $studentData = $this->Student->find('first',
                     array(
