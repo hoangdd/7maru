@@ -21,6 +21,13 @@ $blurStarImage = 'blurStar.png';
 $containerWidth = $options['width'] * $__MAX_RANK;	
 $containerHeight = $options['height'];
 $brightStarWidth = 100*$options['stars'] / $__MAX_RANK;
+$coma_id = $options['coma_id'];
+$action = 'null';
+$user_id = 'null';
+if(isset($options['action']) && isset($options['user_id'])){
+	$action = $options['action'];
+	$user_id = $options['user_id'];
+}
 	//=======================	
 ?>
 <script>
@@ -43,8 +50,30 @@ $(document).ready(function(){
 		var rate = 100 * mouseReLeftPos / containerWidth;				
 		brightStarWidth = rate;		
 		$("#bright-star-div").width(rate + "%");
+
+		// ajax
+
+		if(action != 'null' && user_id != 'null'){
+			$.post(
+				action, 
+				{
+					'coma_id': coma_id,
+					'user_id': user_id,
+					'rate': Math.round(rate*5/100)
+				},
+				function(error, res){
+					res;
+				}
+			);
+		}
+		console.log(action);
 		
 	})
+
+	var action = <?php echo "'$action';"; ?>
+	var user_id = <?php echo "'$user_id';"; ?>
+	var coma_id = <?php echo "'$coma_id';"; ?>
+
 
 	//==========================
 })

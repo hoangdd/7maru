@@ -329,25 +329,27 @@ class TeacherController extends AppController {
     function EditProfile() {
         if ($this->Auth->loggedIn()) {            
             if ($this->request->is('post')) {               
-                $pid = $this->Auth->User('user_id');
-                $this->User->id = $pid;                
+                $pid = $this->Auth->User('user_id');                
                 $this->request->data['profile_picture'] = $_FILES['profile_picture'];
-                $data = $this->User->create($this->request->data);                
+                $data = $this->User->create($this->request->data);
+				$data['User']['user_id'] = $this->Auth->user('user_id');				
                 $teacherData = $data['User']['bank_account'];
-                unset($data['User']['bank_account']);                
-                if ($this->User->save($data)){
+                unset($data['User']['bank_account']);  		
+				$result = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));				
+                if ($result){
                     $teacherData = array(
                             'Teacher' => array(
                                 'teacher_id' => $this->Auth->User('foreign_id'),
-                                'bank_account' => $teacherData
+                                'bank_account' => $teacherData,
+								'username' => $this->Auth->user('username')
                                 )
                         );
                     if ($this->Teacher->save($teacherData)){                    
                         $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                     }
-                }                
-                }        
+                }               
+			}        
                 //get data                 
                 $teacherData = $this->Teacher->find('first',
                     array(
@@ -435,7 +437,7 @@ class TeacherController extends AppController {
 
         //luu va tra lai ket qua
         $result = $this->Teacher->save();
-        debug($result);
+        // debug($result);
         die;
     }
 	function ChangePassword(){

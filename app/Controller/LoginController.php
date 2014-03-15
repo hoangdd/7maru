@@ -53,21 +53,32 @@ class LoginController extends AppController {
                 'action' => 'index',
                 ));
         }        
-        if ($this->request->is('post')) {            
-            $data = $this->request->data['User'];                               
-            // if (isset($_SESSION['countFail'])){
-            //     if ($_SESSION['countFail'] >= 3){
-            //     //check verifycode and password
-            //         $answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
-            //         $question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
-            //         $result = $this->User->find('all',array('username' => $data['username'],'verifycode_answer' => $answer,'verifycode_question' => $question));
-            //         if ($result == null){                        
-            //             $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-            //             return;                   
-            //         }                    
+        if ($this->request->is('post')) { 
+			if (isset($this->request->data['User'])){
+            $data = $this->request->data['User'];            
+            if (isset($_SESSION['countFail'])){
+                if ($_SESSION['countFail'] >= 3){
+                //check verifycode and password
+					$answer = "";$question ="";	
+					if (isset($this->request->data['answer']) && isset($this->request->data['question'])){
+						$answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
+						$question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
+					}					
+                    $result = $this->User->find('all',
+						array(
+							'conditions' => array(
+								'username' => $data['username'],
+								'verifycode_answer' => $answer,
+								'verifycode_question' => $question
+					)));
+                    if ( ($result == null) || empty($result)){                        
+                        $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
+						++$_SESSION['countFail']; 
+                        return;                   
+                    }                    
 
-            //      }
-            //      }                         
+                 }
+                 }                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
             if ($this->Auth->login()) {
                 // Login success                 
@@ -78,23 +89,24 @@ class LoginController extends AppController {
                     $this->Session->write('Auth.User.role', 'R3');
                 }
                 $this->Session->setFlash(__("Login success"));                
-                // if (isset($_SESSION['countFail'])){
-                //     $_SESSION['countFail'] = 1;
-                // }                
+                if (isset($_SESSION['countFail'])){
+                    $_SESSION['countFail'] = 1;
+                }                
                 return $this->redirect($this->Auth->redirectUrl());
             } 
             else {
             //Login fail                                
                 $this->Session->setFlash(
                     __('Username or password is incorrect'), 'default', array(), 'auth');          
-                // if (!isset($_SESSION['countFail'])){
-                //     $_SESSION['countFail']= 1;     
-                // }                               
-                // else{
-                //     ++$_SESSION['countFail'];                    
-                // }
+                if (!isset($_SESSION['countFail'])){
+                    $_SESSION['countFail']= 1;     
+                }                               
+                else{
+                    ++$_SESSION['countFail'];                    
+                }
             }    
-        }
+			}
+		}
     }
 
     function changePassword() {
