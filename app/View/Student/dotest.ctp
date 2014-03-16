@@ -1,121 +1,78 @@
-<?php
 
-/* If you refresh the page
-   or
-   leave the page to browse and come back
-   then the timer will continue to count down until finished. */
 
-// $minutes and $seconds are added together to get total time.
-$minutes = 1; // Enter minutes
-$seconds = 0; // Enter seconds
-$time_limit = ($minutes * 60) + $seconds + 1; // Convert total time into seconds
-if(!isset($_SESSION["start_time"	])){$_SESSION["start_time"] = mktime(date(G),date(i),date(s),date(m),date(d),date(Y)) + $time_limit;} // Add $time_limit (total time) to start time. And store into session variable.
-?>
-<div class="row">
-  <div class="col-md-8">
-  	<h3> Question </h3>
-  	 
-		<table width=100%> <tr> <td width=30>&nbsp;<td> <table border=1>
-		<?php 
-				foreach($test_list as $key => $value) {
-				echo "<tR><td><span class=style2><h3>".$key."</h3>".$value['content']."</style>";
-				$ignore = 0;
-				foreach($value as $keyItem => $valueItem) {
-					
-					//if((strcmp($keyItemStr,"content")!=0) || (strcmp($keyItemStr,"mark")!=0)) {
-					if($ignore!=0 && $ignore != count($value)-1) {
-						echo "<tr><td class=style8>".$keyItem[6].".".$valueItem;
-					}
-					$ignore++;
-				} 
-			}
-		?>
-		
-	
-</table></table>
-  </div>
-  <div class="col-md-4">
-  	<h3> Answer </h3>
-  	
-  	<?php echo $this->Form->create('Student',
-  		array( 'url' => array('controller' => 'student', 'action' => 'dotest')
-  			)
-  			);
-  		 ?>
-	  <table width=100%> <tr> <td width=30>&nbsp;<td> <table border=0>
-	  <?php 
-				foreach($test_list as $key => $value) {
-				echo "<tR><td><span class=style2><h3>"."</h3></style>";
-				$ignore = 0; $opt;
-				foreach($value as $keyItem => $valueItem) {
-					
-					//if((strcmp($keyItemStr,"content")!=0) || (strcmp($keyItemStr,"mark")!=0)) {
-					if($ignore!=0 && $ignore != count($value)-1) {
-						if($ignore == 1) $opt = array($keyItem => intval($keyItem[6]));
-						else $opt += array($keyItem => intval($keyItem[6]));
-						//echo $this->Form->inputs(array('name' => array('type' => 'radio','value' =>intval($keyItem[6]))));
-						//echo "<input type=radio name=ans value=".intval($keyItem[6]).">";
-						
-						//echo $this->Form->radio($keyItem, array($keyItem => intval($keyItem[6])));
-					}
-					$ignore++;
+<html>
+	<head>
+			<style>
+				h1
+				{
+					color:orange;
+					text-align:center;
 				}
-				echo $this->Form->radio($key, $opt); 
-			}
-		?>
-			<tR><td><span class=style2><h3>Time :</h3>
-				<?php 
-					echo $this->Form->input('Student.timer', array(
-				    	'type' => 'text',
-				    	'id' => 'txt',
-				    	'readonly' => 'readonly'
-						));
-				?> 
 				
 			</style>
-			<script>
-var ct = setInterval("calculate_time()",100); // Start clock.
-function calculate_time()
-{
+	</head>
 
- var end_time = "<?php echo $_SESSION["start_time"]; ?>"; // Get end time from session variable (total time in seconds).
- var dt = new Date(); // Create date object.
- var time_stamp = dt.getTime()/1000; // Get current minutes (converted to seconds).
- var total_time = end_time - Math.round(time_stamp); // Subtract current seconds from total seconds to get seconds remaining.
- var mins = Math.floor(total_time / 60); // Extract minutes from seconds remaining.
- var secs = total_time - (mins * 60); // Extract remainder seconds if any.
- if(secs < 10){secs = "0" + secs;} // Check if seconds are less than 10 and add a 0 in front.
- document.getElementById("txt").value = mins + ":" + secs; // Display remaining minutes and seconds.
- // Check for end of time, stop clock and display message.
- if(mins <= 0)
- {
-  if(secs <= 0 || mins < 0)
-  {
-   clearInterval(ct);
-   document.getElementById("txt").value = "0:00";
-   
-   alert("The time is up.");
-   }
-  }
- }
-</script>
-			<tR><td><span class=style2>
-			
-				<?php
-				$options = array(
-				    'label' => 'サブメット',
-				    'id' => 'submitButton',
-				    'div' => array(
-				        'class' => 'glass-pill',
-				    )
-				);
-					echo $this->Form->end($options);
-				 //echo $this->Form->end('Done'); ?>
-				
-				
-			</style>
-		</table></table>
-  </div>
-</div>
+	<body>
+	
+		<h1>結果</h1>
+		<div class="jumbotron">
+		  <p>終わった時間:<?php echo $time;?>分</p>
+		  <p>テストのテーマ:IT日本語</p>
+		  
+		</div>
 
-<script type="text/javascript">countDown(5, "timer")</script>
+<?php 
+	$correct_per = round((intval($hit)/intval($total))*100,2);
+	$incorrect_per = round(((intval($total)-intval($hit))/intval($total))*100,2);
+	$notattempt_per = round(((intval($total)-intval($mark))/intval($total))*100,2);
+	$score_per = round((intval($markGET)/intval($markTotal))*100,2);
+?>
+			<div>
+                    <div class="width3">
+                      
+                      <hr />
+                      <table class="no-style full" cellpadding="0" cellspacing="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td style="padding-left:10px;">正しい</td>
+                            <td class="ta-right"><?php echo $hit; ?>/<?php echo $total; ?></td>
+                            <td><div value="1" id="progress1" class="progress full progress-green"><span style="width: <?php echo $correct_per; ?>%; display: block;"><b style="display: inline;"><?php echo $correct_per; ?>%</b></span></div></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left:10px;">正しくない</td>
+                            <td class="ta-right"><?php $incorrect = intval($total) - intval($hit);
+                            	echo $incorrect; ?>/<?php echo $total; ?></td>
+                            <td><div value="2" id="progress2" class="progress full progress-red"><span style="width: <?php echo $incorrect_per; ?>%; display: block;"><b style="display: inline;"><?php echo $incorrect_per; ?>%</b></span></div></td>
+                          </tr>
+                          
+                          <tr>
+                            <td style="padding-left:10px;">選ぶ</td>
+                            <td class="ta-right"><?php
+                            	$not_attempt = intval($total) - intval($mark); 
+                            	echo $not_attempt; ?>/<?php echo $total; ?></td>
+                            <td><div value="2" id="progress3" class="progress full progress-blue"><span style="width: <?php echo $notattempt_per; ?>%; display: block;"><b style="display: inline;"><?php echo $notattempt_per; ?>%</b></span></div></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left:10px;">選ばない</td>
+                            <td class="ta-right"><?php echo $mark; ?>/<?php echo $total; ?></td>
+                            <td><div value="2" id="progress4" class="progress full progress-orange"><span style="width: <?php echo (100-$notattempt_per); ?>%; display: block;"><b style="display: inline;"><?php echo (100-$notattempt_per); ?>%</b></span></div></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left:10px;">点数</td>
+                            <td class="ta-right"><?php echo $markGET; ?>/<?php echo $markTotal; ?></td>
+                            <td><div value="2" id="progress4" class="progress full progress-orange"><span style="width: <?php echo $score_per; ?>%; display: block;"><b style="display: inline;"><?php echo $score_per; ?>%</b></span></div></td>
+                          </tr>
+                          <tr>
+                            <td colspan="3" style="padding-left:10px;" align="center">
+                            <span style="font-weight: bold"><a href="javascript:showQuesSec(0);" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">実施したテストを見る</a> 
+                            | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;"授業を見る</a>
+                            | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">次のテストをする</a></span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+
+	</body>
+</html>

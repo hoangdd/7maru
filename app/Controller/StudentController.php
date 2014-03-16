@@ -350,7 +350,7 @@ class StudentController extends AppController {
                 			'credit_account' => $studentData,
                 			'student_id' => $this->Auth->user('foreign_id')
                 		)
-                	)
+                	);
                 	if ($this->Student->save($studentData))
                     $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
@@ -390,62 +390,55 @@ class StudentController extends AppController {
 	}
 	
 	function DoTest(){
-		$finalTest = $this->Data->readTsv("testfile.tsv");
 		
-		print_r($finalTest);
 		if (! $this->request->is ( "post" )) {
 		} else {
 			
+			$values = $this->request->data['testfilegettest'];
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values.'.tsv');
 			$totques=count($this->request->data['hid']);
-			echo $totques;
-			// print_r($this->request->data['hid']);
+
 			$temp = 0;$mark = 0;
+			$markGET = 0;
+			$markTotal = 0;
 			for($i = 0;$i<$totques;$i++){
+				$markTotal += intval($finalTest['Question'.$i]['markNumber']);
 				if(!isset($this->request->data['Question'.$i])) $mark++;
 				else {
-					echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
+// 					echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
 					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
-					$temp++;
+					
+						$markGET += intval($finalTest['Question'.$i]['markNumber']);
+						$temp++;
+					
 				}
 				}
 			}
 			$reTemp = $totques;
-			echo $mark;
-			echo $temp;
-			
-			
-			// $data = $this->request->data ['Student'];
-			// print_r ( $data );
-			// $this->testList = $this->DoTest();
-			// if($this->testList != null)
-			// //print_r($this->testList);
-			
-			// foreach ( $data as $q => $m ) {
-			// 	if (strcmp ( $q, "timer" ) != 0) {
-			// 		$str = "Option" . $finalTest [$q] ['mark'];
-			// 		if (strcmp ( $str, $m ) == 0)
-			// 			$temp ++;
-			// 	}
-			// 	else $timeTemp = $m;
-			// }
-			// echo $temp;
-			// $reTemp = count($data) - 1;
+			$this->set('hit',$temp);
+			$this->set('total',$reTemp);
+			$this->set('time',600);
+			$this->set('mark',$mark);
+			$this->set('markGET',$markGET);
+			$this->set('markTotal',$markTotal);
+// 			echo $mark;
+// 			echo $temp;
 			
 			// $this->ViewTestResult($temp, 5);
 			// $this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
 			// $this->redirect ( array (
 
 			
-				$this->redirect ( array (
+// 				$this->redirect ( array (
 
-					'controller' => 'student',
-					'action' => 'viewtestresult',
-					'hit' => $temp,
-					'total' => $reTemp,
+// 					'controller' => 'student',
+// 					'action' => 'viewtestresult',
+// 					'hit' => $temp,
+// 					'total' => $reTemp,
 
-					'mark' => $mark,
-					'time' => 10
-			) );
+// 					'mark' => $mark,
+// 					'time' => 10
+// 			) );
 			//
 		}
 	}
@@ -466,13 +459,24 @@ class StudentController extends AppController {
 	}
 	
 	function Beforetest(){}
-	function Exam($id = null){
+	function Exam(){
+		$id = $this->params['url']['id'];
+// 		$this->set('testfile',$this->params['url']['id']);
+// 		$this->set('testfile',$this->request->params['pass']['0']);
 		$dulieu = $this->Data->find('first', array(
 				'conditions' => array(
 						'Data.file_id' => $id
 				)
 		));
-		// debug($dulieu);
+// 		debug($dulieu);
+		$str = "";
+		if(count($dulieu) != 0){
+			$this->set('testfile',$dulieu['Data']['file_name']);
+		} else {
+			$str = "Error test data!!!";
+		}
+		$this->set("warningNotify",$str);
+		
 	}
 
 	function ChangePassword() {

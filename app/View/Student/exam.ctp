@@ -1,322 +1,337 @@
-<style type="text/css">
-	@font-face {
-		font-family:ankit;
-		src:url(fonts/ankit0.eot);
-	}
-	@font-face {
-		font-family: ankit;
-		src:url(fonts/ankit.ttf);
-	}
-	.marked1 { background-image:url(/7maru/app/webroot/anything/1_continue.jpg); background-repeat:no-repeat; background-position:center; text-align: center; padding-bottom: 5px; line-height: 25px; padding-left: 10px; width: 100px; padding-right: 10px; font-family: arial, helvetica, sans-serif; float: right; font-size: 12px;padding-top: 5px;
-	}
-	.marked1 a {
-		color: #000; text-decoration: none;
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>EXAMINATION</title><link rel="shortcut icon" href="/7maru/app/webroot/anything/favicon.png" type="image/x-icon" />
+<STYLE type=text/css>
+@font-face {
+	font-family:Ankit;
+	src:url(fonts/ANKIT0.eot);
 }
-</style>
+@font-face {
+	font-family: Ankit;
+	src:url(fonts/ankit.TTF);
+}
+.marked1 { background-image:url(/7maru/app/webroot/anything/1_continue.jpg); background-repeat:no-repeat; background-position:center;	TEXT-ALIGN: center; PADDING-BOTTOM: 5px; LINE-HEIGHT: 25px; PADDING-LEFT: 10px; WIDTH: 100px; PADDING-RIGHT: 10px; FONT-FAMILY: Arial, Helvetica, sans-serif; FLOAT: right; FONT-SIZE: 12px;PADDING-TOP: 5px;
+}
+.marked1 A {
+	COLOR: #000; TEXT-DECORATION: none;
+}
+</STYLE>
 
-<div style="z-index: 110; border-bottom: #666666 2px solid; position: absolute; text-align: center; border-left: #666666 2px solid; padding-bottom: 20px; margin: auto; padding-left: 20px; padding-right: 20px; display: none; font-family: 'trebuchet ms'; background: #f2f2f2; color: #000000; font-size: 20px; border-top: #666666 2px solid; top: 200px; border-right: #666666 2px solid; padding-top: 20px; left: 260px" id="savetest"></div>
-
+<DIV 
+style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #666666 2px solid; PADDING-BOTTOM: 20px; MARGIN: auto; PADDING-LEFT: 20px; PADDING-RIGHT: 20px; DISPLAY: none; FONT-FAMILY: 'trebuchet MS'; BACKGROUND: #f2f2f2; COLOR: #000000; FONT-SIZE: 20px; BORDER-TOP: #666666 2px solid; TOP: 200px; BORDER-RIGHT: #666666 2px solid; PADDING-TOP: 20px; LEFT: 260px" id="SaveTest"></DIV>
+<!--CSS/Style Sheet Part Ending-->
+<!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
+<SCRIPT language="javascript" src="
 <?php 
-echo $this->Html->script(array('test_test','Test_Control'));
+	$file = '/7maru/app/webroot/test_store/'.$testfile.'.js';
+	echo $file;
 ?>
-<script language="javascript">
-	var xmlhttp;
-	var servername = "<?php echo "exam" ?>";
+"></SCRIPT>
+<?php 
+//echo $this->Html->script('fd280371');
+
+echo $this->Html->script('Test_Control');
+?>
+<SCRIPT language="javascript">
+	var xmlHttp;
+	var servername = "<?php echo "Exam" ?>";
 	
-	function showhint()
+	function showHint()
 	{
 	var testid="<?php $this->tst='aaa';echo $this->tst; ?>";
 	// alert(testid);
 
 
-	xmlhttp=getxmlhttpobject();
-	if (xmlhttp==null)
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
 	{
-		alert ("your browser does not support ajax!");
+		alert ("Your browser does not support AJAX!");
 		return;
 	} 
 	var url="incompletetest.php";
 	url=url+"?testid="+testid;
 	//alert(url);
-	//xmlhttp.onreadystatechange=statechanged;
-	xmlhttp.open("get",url,true);
-	xmlhttp.send(null);
+	//xmlHttp.onreadystatechange=stateChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
 	} 
 	
-	function statechanged() 
+	function stateChanged() 
 	{ 
-		if (xmlhttp.readystate==4)
+		if (xmlHttp.readyState==4)
 		{ 
-		//document.getelementbyid("txthint").innerhtml=xmlhttp.responsetext;
+		//document.getElementById("txtHint").innerHTML=xmlHttp.responseText;
 		}
 	}
-		
-	function getxmlhttpobject()
-		{
-		var xmlhttp=null;
+    
+	function GetXmlHttpObject()
+    {
+		var xmlHttp=null;
 		try
 		{
-		// firefox, opera 8.0+, safari
-			xmlhttp=new xmlhttprequest();
+		// Firefox, Opera 8.0+, Safari
+			xmlHttp=new XMLHttpRequest();
 		}
 		catch (e)
 		{
-		// internet explorer
+		// Internet Explorer
 			try
 			{
-				xmlhttp=new activexobject("msxml2.xmlhttp");
+				xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
 			}
 			catch (e)
 			{
-				xmlhttp=new activexobject("microsoft.xmlhttp");
+				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
 			}
 		}
-		return xmlhttp;
-		}
-</script>
-<script language="javascript">
+		return xmlHttp;
+    }
+</SCRIPT>
+<SCRIPT language="javascript">
 var qno=<?php 
 $this->qno=4;
 echo $this->qno; ?>;
 var proc="";
-var s=new array();
-var attmpt=new array();
-var arr= new array(0);
-var totques=0,totqcon=0,totmincon=1;
-var tottime=0;
+var s=new Array();
+var attmpt=new Array();
+var arr= new Array(0);
+var totQues=0,totqCon=0,totminCon=1;
+var totTime=0;
 var ttakenid='';
 var testid='<?php
 	
  echo $this->tst; ?>';
-var esteemeduser="";
+var EsteemedUser="";
 //var paidtest=1;
 var paidtest=0;
 //function traceststus(){
-//showhint(testid,ttakenid);
+//showHint(testid,ttakenid);
 //alert(testid);
 //alert(ttakenid);
 //}
-</script>
+</SCRIPT>
 
 
-<script language="javascript">
-function divcloseopen(divid)
+<SCRIPT language="javascript">
+function DivCloseOpen(divid)
 {
-	if(document.getelementbyid(divid).style.display=="none")
-		document.getelementbyid(divid).style.display="block";
+	if(document.getElementById(divid).style.display=="none")
+		document.getElementById(divid).style.display="block";
 	else
-		document.getelementbyid(divid).style.display="none";
+		document.getElementById(divid).style.display="none";
 		
-	//  document.getelementbyid(divid).focus();
+	//	document.getElementById(divid).focus();
 }
-</script>
+</SCRIPT>
 
-<!-- javascript part ending-->
+<!-- Javascript Part Ending-->
 </head>
 
 <body>
-<div style="position:absolute" id="txterror"></div>
-<div style="display: block" id="headernone"> </div>
+<DIV style="POSITION:absolute" id="txterror"></DIV>
+<DIV style="DISPLAY: block" id="headerNone"> </DIV>
 <?php //include 'lightbox.phtml'; ?>
 
-<!-- main table with 3 columns -->
+<!-- Main Table with 3 columns -->
 <table width="947" border="0" align="center" cellpadding="0" cellspacing="0">
-<!-- header row content -->
+<!-- Header Row Content -->
 <?php
 //include_once 'headerc.phtml';
 ?>
-<!-- header row content -->
+<!-- Header Row Content -->
 
-<!-- breadcrum() -->
+<!-- Breadcrum() -->
 <tr><td colspan="3" align="left" style="padding:5px; background-image:url(/7maru/app/webroot/anything/sprite_01.jpg); background-repeat:repeat-x;">&nbsp;<?php //breadcrum(); ?></td></tr>
-<!-- breadcrum()-->
+<!-- Breadcrum()-->
 
-<!-- middle row content -->
+<!-- Middle Row Content -->
 <tr>
-	 <td colspan="3" bgcolor="#ffffff" class="sprite_padding_1">
+   <td colspan="3" bgcolor="#FFFFFF" class="sprite_padding_1">
 
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" height="200">
-			<tr>
-				<!-- left coloumn code -->
-			 
-				<!-- center coloumn code -->
-				<td width="*" style="padding-left:6px; padding-right:6px;" valign="top">
-				<?php // echo ucwords($_session['msg']); if(!empty($_session['msg']))unset($_session['msg']);?>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
-					<tr bgcolor="#f68122">
-						<td width="6" style="background:url(/7maru/app/webroot/anything/sprite_05.jpg) left no-repeat;" height="27">&nbsp;</td>
-						<td width="705" background="/7maru/app/webroot/anything/sprite_07.jpg" class="content_head" ><strong>テストを受ける</strong></td>
-						<td width="6" style="background:url(/7maru/app/webroot/anything/sprite_06.jpg) right no-repeat;" height="27">&nbsp;</td>
-					</tr>
-					<tr>
-						<td colspan="3" align="left" valign="top" class="sprite_padding_1 main_box_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="200">
+      <tr>
+        <!-- Left Coloumn Code -->
+       
+        <!-- Center Coloumn Code -->
+        <td width="*" style="padding-left:6px; padding-right:6px;" valign="top">
+        <?php // echo ucwords($_SESSION['msg']); if(!empty($_SESSION['msg']))unset($_SESSION['msg']);?>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+          <tr bgcolor="#F68122">
+            <td width="6" style="background:url(/7maru/app/webroot/anything/sprite_05.jpg) left no-repeat;" height="27">&nbsp;</td>
+            <td width="705" background="/7maru/app/webroot/anything/sprite_07.jpg" class="content_head" ><strong>テストを受ける</strong></td>
+            <td width="6" style="background:url(/7maru/app/webroot/anything/sprite_06.jpg) right no-repeat;" height="27">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="left" valign="top" class="sprite_padding_1 main_box_border">
 <!-- -->
-<div style="display: none" id="headersec">
-			
-			<table border="0" cellspacing="0" cellpadding="0" width="100%" align="center">
-				<tbody>
-				<tr>
-					<td valign="bottom" width="235">
-						
-		<div id="sectionaldiv">
-<!-- timer & move to table -->    
+<DIV style="DISPLAY: none" id="headerSec">
+      
+      <TABLE border="0" cellSpacing="0" cellPadding="0" width="100%" align="center">
+        <TBODY>
+        <TR>
+          <TD valign="bottom" width="235">
+	          
+    <DIV id="sectionalDiv">
+<!-- Timer & Move To Table -->    
 	<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
-												<tr>
-													<td width="50%" bgcolor="#efefef" class="web_border_1"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-															<tr>
-																<td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-																	<tr>
-																		<td height="33" colspan="4" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>時間</strong></td>
-																		</tr>
-								
-<script language="javascript">
-	 var sectiondisplaydata='', sectionvar, statusbarcode='',statuswidth="";
+                        <tr>
+                          <td width="50%" bgcolor="#efefef" class="web_border_1"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                  <tr>
+                                    <td height="33" colspan="4" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>時間</strong></td>
+                                    </tr>
+                
+<SCRIPT language="javascript">
+	 var sectionDisplayData='', sectionvar, statusBarCode='',statusWidth="";
 	 
 	sectionvar ='';
-	statuswidth = math.floor(100/sectionarr.length);
-	seccoun=1;
-	totmincon=sectionarr[seccoun-1].sectime/60;
+	statusWidth = Math.floor(100/sectionArr.length);
+	secCoun=1;
+	totminCon=sectionArr[secCoun-1].secTime/60;
 			document.write('<tr><td width="28%" height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;border-bottom:#dbdbdb dashed 1px;"><strong>選ぶ数 </strong></td>');
 
-			sectionvar+='<div class=\"bid_middle_slet_under\" id=\"optsection'+seccoun+'\"><img src="/7maru/app/webroot/anything/loader.gif" border="0" /></div>';
-			statusbarcode+='<div style=\"width:100%;\"><div style=\"width:'+statuswidth+'%; float:left; border:1px solid #e1e1e1; border-right:0px;\">section '+seccoun+'</div></div>';
+			sectionvar+='<div class=\"bid_middle_slet_under\" id=\"optSection'+secCoun+'\"><img src="/7maru/app/webroot/anything/loader.gif" border="0" /></div>';
+			statusBarCode+='<div style=\"width:100%;\"><div style=\"width:'+statusWidth+'%; float:left; border:1px solid #E1E1E1; border-right:0px;\">Section '+secCoun+'</div></div>';
 			
-	document.write('<td width="19%" align="center" class="web_font_9" style="border-bottom:#dbdbdb dashed 1px;border-right:#dbdbdb dashed 1px"><div id=satt'+seccoun+'><span name=disp'+seccoun+' id=disp'+seccoun+'>0</span>/'+sectionarr[seccoun-1].secques+'</div></td>');
+	document.write('<td width="19%" align="center" class="web_font_9" style="border-bottom:#dbdbdb dashed 1px;border-right:#dbdbdb dashed 1px"><div id=sAtt'+secCoun+'><span name=disp'+secCoun+' id=disp'+secCoun+'>0</span>/'+sectionArr[secCoun-1].secQues+'</div></td>');
 
-	document.write('<td width="21%" align="center" class="web_font_9" style="border-bottom:#dbdbdb dashed 1px;border-right:#dbdbdb dashed 1px"><div><span id="stime'+seccoun+'">00:00</span></div></td>'+
-	'<td width="32%" rowspan="2" align="center" valign="top" bgcolor="#f2eee2" class="web_font_11" ><strong><br />'+
-	'時間落<br /><br /><span id=disp name="disp">00:00:00</span></strong></td></tr>'+
+	document.write('<td width="21%" align="center" class="web_font_9" style="border-bottom:#dbdbdb dashed 1px;border-right:#dbdbdb dashed 1px"><div><span id="sTime'+secCoun+'">00:00</span></div></td>'+
+	'<td width="32%" rowspan="2" align="center" valign="top" bgcolor="#F2EEE2" class="web_font_11" ><strong><br />'+
+	'時間落<br /><br /><SPAN id=disp name="disp">00:00:00</SPAN></strong></td></tr>'+
 	'<tr><td height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>全部</strong></td>'+
-		'<td align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px"><span id="totattempt">0</span></td>'+
+    '<td align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px"><span id="totattempt">0</span></td>'+
 	'<td align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px"><div id=\"totmins\">00:00</div></td>'+
 	'</tr>');
-</script>
-																</table></td>
-															</tr>
-													</table></td>
-													<td width="50%" bgcolor="#efefef" class="web_border_1"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-															<tr>
-																<td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
-																		<tr>
-																			<td height="33" colspan="3" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>問題選択</strong></td>
-																		</tr>
-																		<tr>
-																			
-																			<td width="2%" height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px">&nbsp;</td>
-																			<td width="51%" rowspan="2" align="center" valign="middle" bgcolor="#f2eee2" class="web_font_11" > 
-																			<div id="questionid" class="bid_middle_left_text_box" onclick="divcloseopen('questionhid')" ></div>
-									<div style="position: absolute; display: none;" id="questionhid" class="bid_middle_slet_ques" >
-									<?php
-						
+</SCRIPT>
+                                </table></td>
+                              </tr>
+                          </table></td>
+                          <td width="50%" bgcolor="#efefef" class="web_border_1"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td bgcolor="#f8f8f8" class="web_padding_1"><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <td height="33" colspan="3" align="center" valign="middle" background="/7maru/app/webroot/anything/ismart_48.jpg" class="web_font_9" style="border-right:#dbdbdb dashed 1px;"><strong>問題選択</strong></td>
+                                    </tr>
+                                    <tr>
+                                      
+                                      <td width="2%" height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px">&nbsp;</td>
+                                      <td width="51%" rowspan="2" align="center" valign="middle" bgcolor="#F2EEE2" class="web_font_11" > 
+                                      <DIV id="questionid" class="bid_middle_left_text_box" onclick="DivCloseOpen('questionHid')" ></DIV>
+                  <DIV style="POSITION: absolute; DISPLAY: none;" id="questionHid" class="bid_middle_slet_ques" >
+                  <?php
+				  	
 						//for($i=1;$i<=$this->qno;$i++)
 						for($i=1;$i<=$this->qno;$i++)
 						{
-							echo '<div id="opt'.$i.'" class="bid_middle_slet_under" value="'.$i.'" onclick="divcloseopen(\'questionhid\')"></div>';
+							echo '<DIV id="opt'.$i.'" class="bid_middle_slet_under" value="'.$i.'" onclick="DivCloseOpen(\'questionHid\')"></DIV>';
 						}
-					?>
-				</div> </td>
-																		</tr>
-																		<tr>
-																			<td height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px">&nbsp;</td>
-																		</tr>
-																</table></td>
-															</tr>
-													</table></td>
-													</tr>
-										</table>
-									<span style="display:none;">
-					<script language="javascript">
-						if(sectionarr.length>=1)
+				  ?>
+				</DIV> </td>
+                                    </tr>
+                                    <tr>
+                                      <td height="33" align="center" class="web_font_9" style="border-right:#dbdbdb dashed 1px">&nbsp;</td>
+                                    </tr>
+                                </table></td>
+                              </tr>
+                          </table></td>
+                          </tr>
+                    </table>
+                  <span style="display:none;">
+				  <SCRIPT language="javascript">
+						if(sectionArr.length>=1)
 						document.write(sectionvar);
-					</script>
-									</span>
+				  </SCRIPT>
+                  </span>
 
-<!-- timer & move to table ends here-->    
+<!-- Timer & Move To Table Ends Here-->    
 
-		</div>           </td>
-			</tr>
-				<tr valign="top">          </tr></tbody></table></div>
+    </DIV>           </TD>
+      </TR>
+        <TR valign="top">          </TR></TBODY></TABLE></DIV>
 <!-- -->    &nbsp;
 
- <!-- exam part-1 -->
+ <!-- Exam Part-1 -->
 
-<table border="0" cellspacing="0" cellpadding="0" height="*" bgcolor="#ffffff" width="100%">
-	<tbody>
-	<tr height="2">
-		<td colspan="3"></td></tr>
-	<tr valign="top">
-		<td width="7"></td>
-		<td valign="top">
-			<script language="javascript">
+<TABLE border="0" cellSpacing="0" cellPadding="0" height="*" bgcolor="#FFFFFF" width="100%">
+  <TBODY>
+  <TR height="2">
+    <TD colspan="3"></TD></TR>
+  <TR valign="top">
+    <td width="7"></td>
+    <TD valign="top">
+      <SCRIPT language="javascript">
 			for(var iframe =0; iframe<<?php echo $this->qno; ?>; iframe++){
-				 if(questions[iframe].fid!='' && questions[iframe].fname!='')
+			   if(questions[iframe].fid!='' && questions[iframe].fname!='')
 				{
-				// alert(iframe)        
+				// alert(iframe)				
 				var src = questions[iframe].fname+'/'+questions[iframe].fid;
 				document.write('<div id=\"passage'+iframe+'\" style=\"position:relative; z-index:0; width:100%; height:100% ;display:none;\"><iframe id=\"inderjit'+iframe+'\" width=\"450\" height=\"400\" src=\"'+src+'\" ></iframe></div>');
 				}
 			}
-			</script>
-			<form id="wapform" method="post" name="wapform" 
-			action="dotest">
-			<input id="fullyloaded" type="hidden" name="fullyloaded" > <input id="viewedques" type="hidden" name="viewedques">
-			<!--<div id="dockcontent01" class="test_answer_main" style=" background-color:#eaeaea; display:none; " ></div>-->
-			<input type="hidden" name="test_id" id="test_id" value="<?php echo $this->tst; ?>" />
-			<div style="display:block;" id="wq_user" align="left">
-			<div style="z-index: 110; position: absolute; display: none; top: 70px; left: 49px" id="feedback"></div>
-			<?php
-				for($i=1; $i<=$this->qno; $i++) 
-			{
-			echo '<div style="width: 100%; display: none" id="question'.$i.'"></div>';
+			</SCRIPT>
+      <FORM id="WapForm" method="post" name="WapForm" 
+      action="dotest">
+      <input type = "hidden" name = "testfilegettest" value = "<?php echo $testfile;?>">
+      <INPUT id="fullyloaded" type="hidden" name="fullyloaded" > <INPUT id="viewedQues" type="hidden" name="viewedQues">
+      <!--<div id="dockcontent01" class="test_answer_main" style=" background-color:#EAEAEA; display:none; " ></div>-->
+      <input type="hidden" name="test_id" id="test_id" value="<?php echo $this->tst; ?>" />
+      <DIV style="DISPLAY:block;" id="wq_user" align="left">
+      <DIV style="Z-INDEX: 110; POSITION: absolute; DISPLAY: none; TOP: 70px; LEFT: 49px" id="feedback"></DIV>
+      <?php
+      	for($i=1; $i<=$this->qno; $i++) 
+	  	{
+		  echo '<DIV style="WIDTH: 100%; DISPLAY: none" id="question'.$i.'"></DIV>';
 		}
 	 ?>
-			<div style="width: 100%; display: block" id="instructions" align="center">
-			<table border="0" cellspacing="0" cellpadding="3" align="center" width="100%" style="border: 1px solid rgb(219, 219, 219);">
-				<tbody>
-				<tr>
-					<td class="test_list_border" height="18" colspan="2" align="left"><img src="/7maru/app/webroot/anything/test_head_icon.png" alt="icon" width="20" height="20" align="absmiddle" /><span class="profile_info_text">テスト詳細</span></td>
-				</tr>
-				<tr bgcolor="#f3efe4">
-					<td width="34%" height="30" align="right" class="test_list_border"><strong>テスト名前 :</strong></td>
-					<td width="66%" align="left" class="web_font_19 test_list_border"><strong>test</strong></td>
-				</tr>
-				<tr>
-					<td height="30" align="right" class="test_list_border"><strong>問題数</strong></td>
-					<td align="left" class="test_list_border web_font_19">
-						<div id="totques1"><strong>
-						<script language="javascript">
+      <DIV style="WIDTH: 100%; DISPLAY: block" id="instructions" align="center">
+      <TABLE border="0" cellSpacing="0" cellPadding="3" align="center" width="100%" style="border: 1px solid rgb(219, 219, 219);">
+        <TBODY>
+        <TR>
+          <TD class="test_list_border" height="18" colSpan="2" align="left"><img src="/7maru/app/webroot/anything/test_head_icon.png" alt="icon" width="20" height="20" align="absmiddle" /><span class="profile_info_text">テスト詳細</span></TD>
+        </TR>
+        <TR bgcolor="#f3efe4">
+          <TD width="34%" height="30" align="right" class="test_list_border"><strong>テスト名前 :</strong></TD>
+          <TD width="66%" align="left" class="web_font_19 test_list_border"><strong>Test</strong></TD>
+        </TR>
+        <TR>
+          <TD height="30" align="right" class="test_list_border"><strong>問題数</strong></TD>
+          <TD align="left" class="test_list_border web_font_19">
+            <DIV id="totques1"><strong>
+            <SCRIPT language="javascript">
 				document.write(questions.length);
-						</script>
-						</strong></div></td>
-				</tr>
-				<tr bgcolor="#f3efe4">
-					<td height="30" align="right" class="test_list_border"><strong>時間 : </strong></td>
-					<td align="left" class="test_list_border web_font_19">
-						<strong><div id="tottime1"></div></strong></td></tr>
-				<tr class="blue_bg_admin">
-					<td height="30" colspan="2" align="center" class="test_list_border">
-						<table 
-						style="border-bottom: #cccccc 1px solid; border-left: #cccccc 1px solid; border-top: #cccccc 1px solid; border-right: #cccccc 1px solid; display:none;" 
-						border="0" cellspacing="0" cellpadding="0" width="50%" align="center">
-							<tbody>
-							<tr>
-								<td class="test_paragra_home" width="50%" 
-									align="middle"><b>sections</b></td>
-								<td class="test_paragra_home" align="middle"><b>no.of questions</b></td></tr>
-							<script language="javascript">
-				document.write(sectiondisplaydata);
-							</script>
-							</tbody></table></td></tr>
-				
-				
-				
-				<tr class="blue_bg_admin">
-					<td colspan="2" align="middle" class="test_list_border" style="font-family: arial, helvetica, sans-serif; font-size: 12px">
-						<div style="z-index: 10; border-bottom:#ff9900 1px solid; position: relative; border-left: #ff9900 1px solid; width: 100%; float: left; clear: both; border-top: #ff9900 1px solid; border-right: #ff9900 1px solid">
-						<div style="text-align: right; background: url(/7maru/app/webroot/anything/testloader.gif) repeat-x 50% top; float: left; height: 14px; color: #333; font-weight:bold;" 
-						id="statusbar"></div></div>
-						<div style="z-index: 5; position: relative; width: 100%; float: left; height: 15px; color: #5f5f5f; clear: both; top: -15px">
-						<?php
+            </SCRIPT>
+            </strong></DIV></TD>
+        </TR>
+        <TR bgcolor="#f3efe4">
+          <TD height="30" align="right" class="test_list_border"><strong>時間 : </strong></TD>
+          <TD align="left" class="test_list_border web_font_19">
+            <strong><DIV id="tottime1"></DIV></strong></TD></TR>
+        <TR class="blue_bg_admin">
+          <TD height="30" colSpan="2" align="center" class="test_list_border">
+            <TABLE 
+            style="BORDER-BOTTOM: #cccccc 1px solid; BORDER-LEFT: #cccccc 1px solid; BORDER-TOP: #cccccc 1px solid; BORDER-RIGHT: #cccccc 1px solid; display:none;" 
+            border="0" cellSpacing="0" cellPadding="0" width="50%" align="center">
+              <TBODY>
+              <TR>
+                <TD class="test_paragra_home" width="50%" 
+                  align="middle"><B>Sections</B></TD>
+                <TD class="test_paragra_home" align="middle"><B>No.of questions</B></TD></TR>
+              <SCRIPT language="javascript">
+			  document.write(sectionDisplayData);
+              </SCRIPT>
+              </TBODY></TABLE></TD></TR>
+        
+        
+        
+        <TR class="blue_bg_admin">
+          <TD colSpan="2" align="middle" class="test_list_border" style="FONT-FAMILY: Arial, Helvetica, sans-serif; FONT-SIZE: 12px">
+            <DIV style="Z-INDEX: 10; BORDER-BOTTOM:#FF9900 1px solid; POSITION: relative; BORDER-LEFT: #FF9900 1px solid; WIDTH: 100%; FLOAT: left; CLEAR: both; BORDER-TOP: #FF9900 1px solid; BORDER-RIGHT: #FF9900 1px solid">
+            <DIV style="TEXT-ALIGN: right; BACKGROUND: url(/7maru/app/webroot/anything/testLoader.gif) repeat-x 50% top; FLOAT: left; HEIGHT: 14px; COLOR: #333; font-weight:bold;" 
+            id="statusBar"></DIV></DIV>
+            <DIV style="Z-INDEX: 5; POSITION: relative; WIDTH: 100%; FLOAT: left; HEIGHT: 15px; COLOR: #5f5f5f; CLEAR: both; TOP: -15px">
+            <?php
 				$qn=$this->qno;
 				if($qn>4)
 				$nofdivs=floor($qn/5);
@@ -330,80 +345,84 @@ function divcloseopen(divid)
 				$qq=5;
 				for($i=1;$i<$nofdivs;$i++)
 				{
-					echo '<div style="text-align: right; width: '.$width.'%; float: left">'.$qq.'</div>';
+					echo '<DIV style="TEXT-ALIGN: right; WIDTH: '.$width.'%; FLOAT: left">'.$qq.'</DIV>';
 					$qq+=5;
 				}
 			?>
-						</div><br><br>
-						<!--<div class="test_foot_pau" id = "starttest" style="display:none;"><a href="#" onclick="myshow(1,0);">始める</a></div>-->
-						<div style="text-align: left; line-height: 2em; display: none; font-family: arial, helvetica, sans-serif; white-space: nowrap; float: left; color: #006699; font-size: 1em; font-weight: bold" id="divnotloading" align="left"></div>
-						<div style="display: none" id="starttest" class="marked1"><a href="javascript:void(0);" onclick="myshow(1,0);"><strong>始める</strong></a></div>      </td>
-			</tr>
-			</tbody></table>
-			</div></div>
-			<script language="javascript" type="text/javascript">       
-				document.getelementbyid('tottime1').innerhtml=totmincon;
-			 </script>
-			</form></td>
-			<td width="10"></td>
-			</tr>
-			</tbody></table> 
+            </DIV><BR><BR>
+            <!--<div class="test_foot_pau" id = "startTest" style="display:none;"><a href="#" onClick="myshow(1,0);">始める</a></div>-->
+            <DIV style="TEXT-ALIGN: left; LINE-HEIGHT: 2em; DISPLAY: none; FONT-FAMILY: Arial, Helvetica, sans-serif; WHITE-SPACE: nowrap; FLOAT: left; COLOR: #006699; FONT-SIZE: 1em; FONT-WEIGHT: bold" id="divNotLoading" align="left"></DIV>
+            <DIV style="DISPLAY: none" id="startTest" class="marked1"><A href="javascript:void(0);" onclick="myshow(1,0);"><strong>始める</strong></A></DIV>      </TD>
+      </TR>
+      </TBODY></TABLE>
+      </DIV></DIV>
+      <SCRIPT language="javascript" type="text/javascript">				
+				document.getElementById('tottime1').innerHTML=totminCon;
+			 </SCRIPT>
+			 
+      </FORM></TD>
+      <td width="10"></td>
+      </TR>
+      </TBODY></TABLE> 
 
-<div style="display: none" id="footerorg">
+<DIV style="DISPLAY: none" id="footerorg">
 <table width='100%' border='0' cellspacing='0' cellpadding='0' align="center">
-	<tr>
-	 <td width="7"></td>
+  <tr>
+   <td width="7"></td>
 
-	 <td width="10"></td>
-	</tr>
+   <td width="10"></td>
+  </tr>
 </table>
-</div>
+</DIV>
 
-<div id="footernone"></div>
+<DIV id="footerNone"></DIV>
 
-<div style="z-index: 110; position: absolute; display: none; top: 70px; left: 49px" id="pausetest">
-<div style="z-index: 1; border-bottom: #7b9bbd 2px double; position: absolute; border-left: #7b9bbd 2px double; padding-bottom: 2px; background-color: #f5f5f5; padding-left: 2px; width: 200px; bottom: 10px; padding-right: 2px; display: none; font-family: arial, helvetica, sans-serif; color: #235fba; font-size: 13px; border-top: #7b9bbd 2px double; border-right: #7b9bbd 2px double; padding-top: 2px; left: 0px" id="viewsection"></div>
-<div id="mytarget"></div>
-<script>
+<DIV style="Z-INDEX: 110; POSITION: absolute; DISPLAY: none; TOP: 70px; LEFT: 49px" id="pauseTest">
+<DIV style="Z-INDEX: 1; BORDER-BOTTOM: #7b9bbd 2px double; POSITION: absolute; BORDER-LEFT: #7b9bbd 2px double; PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #f5f5f5; PADDING-LEFT: 2px; WIDTH: 200px; BOTTOM: 10px; PADDING-RIGHT: 2px; DISPLAY: none; FONT-FAMILY: Arial, Helvetica, sans-serif; COLOR: #235fba; FONT-SIZE: 13px; BORDER-TOP: #7b9bbd 2px double; BORDER-RIGHT: #7b9bbd 2px double; PADDING-TOP: 2px; LEFT: 0px" id="ViewSection"></DIV>
+<DIV id="mytarget"></DIV>
+<SCRIPT>
 var txt="";
 if((typeof(window['questions']) == "undefined"))
 {
-	document.getelementbyid("divnotloading").style.display="block"; 
+	document.getElementById("divNotLoading").style.display="block"; 
 }
 
-function handleerr(msg,url,l)
+function handleErr(msg,url,l)
 {
-	document.getelementbyid("divnotloading").style.display="block"; 
-	var browser=navigator.appname;
-	var b_version=navigator.appversion;
-	//var version=parsefloat(b_version);
-	var url="l29ubgluzxrlc3qvrxhhbs5waha/cw5vptumdhn0pti0mjixmgdlbiz0dgfrzw49mzm2mte4mcziyw5uzxi9jkvzdgvlbwvkvxnlcj0mbmv4dd1vsep2wtjwemmwzgxibvz5wvhsbexuqm9jrdl3y205alpytnpqveltzedwemrhbgtqvekwtwpjee1hzgxiavowzedgclpxndlnek0ytvrfne1dwkzjm1jswlcxbfpgvnpawek5";
+	document.getElementById("divNotLoading").style.display="block"; 
+	var browser=navigator.appName;
+	var b_version=navigator.appVersion;
+	//var version=parseFloat(b_version);
+	var url="L29ubGluZXRlc3QvRXhhbS5waHA/cW5vPTUmdHN0PTI0MjIxMGdlbiZ0dGFrZW49MzM2MTE4MCZiYW5uZXI9JkVzdGVlbWVkVXNlcj0mbmV4dD1VSEp2WTJWemMwZGxibVZ5WVhSbExuQm9jRDl3Y205alpYTnpQVEltZEdWemRHbGtQVEkwTWpJeE1HZGxiaVowZEdGclpXNDlNek0yTVRFNE1DWkZjM1JsWlcxbFpGVnpaWEk5";
 	//alert(url);
 	
 	var redirecturl="testerrormail2.php?msg="+msg+"&url="+url+"&l="+l+"&browser="+browser;
 	/*var redirecturl="testerrormail.php?details="+txt;*/
-	senderrreport(redirecturl);
+	sendErrReport(redirecturl);
 	return true;
 }
-onerror=handleerr;
+onerror=handleErr;
 
-document.getelementbyid('fullyloaded').value='';
-document.getelementbyid('viewedques').value='';
-dotest(0);
-</script>
-</div>      
+document.getElementById('fullyloaded').value='';
+document.getElementById('viewedQues').value='';
+doTest(0);
+</SCRIPT>
+</DIV>      
 
-						</td>
-					</tr>
-				</table>
-				</td>
-				<!-- right coloumn code -->
-				<td width="0" style="padding-left:0px; padding-right:0px;" valign="top"></td>
-			</tr>
-		</table>
+            </td>
+          </tr>
+        </table>
+        </td>
+        <!-- Right Coloumn Code -->
+        <td width="0" style="padding-left:0px; padding-right:0px;" valign="top"></td>
+      </tr>
+    </table>
 
-	</td>
+  </td>
 </tr>
 
 
 </table>
+
+</body>
+</html>
