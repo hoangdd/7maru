@@ -53,32 +53,32 @@ class LoginController extends AppController {
                 'action' => 'index',
                 ));
         }        
-        if ($this->request->is('post')) { 
+        if ($this->request->is('post')) {             
 			if (isset($this->request->data['User'])){
-            $data = $this->request->data['User'];            
+            $data = $this->request->data['User'];
             if (isset($_SESSION['countFail'])){
                 if ($_SESSION['countFail'] >= 3){
                 //check verifycode and password
 					$answer = "";$question ="";	
-					if (isset($this->request->data['answer']) && isset($this->request->data['question'])){
-						$answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);                    
-						$question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             
-					}					
-                    $result = $this->User->find('all',
-						array(
-							'conditions' => array(
-								'username' => $data['username'],
-								'verifycode_answer' => $answer,
-								'verifycode_question' => $question
-					)));
-                    if ( ($result == null) || empty($result)){                        
-                        $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-						++$_SESSION['countFail']; 
-                        return;                   
+					if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
+						$answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);
+						$question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             					
+                        $result = $this->User->find('all',
+                          array(
+                             'conditions' => array(
+                                'username' => $data['username'],
+                                'verifycode_answer' => $answer,
+                                'verifycode_question' => $question
+                                )));
+                        if ( ($result == null) || empty($result)){                        
+                            ++$_SESSION['countFail'];
+                            $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
+                            return;
+                        }
                     }                    
-
+                    ++$_SESSION['countFail'];
                  }
-                 }                         
+            }                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
             if ($this->Auth->login()) {
                 // Login success                 
