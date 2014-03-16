@@ -36,20 +36,25 @@ $(document).ready(function(){
 	//to rating
 	var containerWidth = <?php echo $containerWidth; ?>;
 	var brightStarWidth = <?php echo $brightStarWidth; ?>;
-	var maxWidth  = $("#star-container").width();
-	$("#star-container").mousemove(function(e){
+	var coma_id = <?php echo $coma_id ?>;
+	var maxWidth  = $("#star-container-"+coma_id).width();
+	var action = <?php echo "'$action';"; ?>
+	var user_id = <?php echo "'$user_id';"; ?>
+	var coma_id = <?php echo "'$coma_id';"; ?>
+	$("#star-container-"+coma_id).mousemove(function(e){
 		var mouseReLeftPos = (e.pageX - $(this).offset().left );
 		var rate = 100 * mouseReLeftPos / containerWidth;				
-		$("#bright-star-div").width(rate + "%");	
+		$("#bright-star-div-"+coma_id).width(rate + "%");	
 	});	
-	$("#star-container").mouseleave(function(e){		
-			$("#bright-star-div").width(brightStarWidth + "%");
+	$("#star-container-"+coma_id).mouseleave(function(e){		
+			$("#bright-star-div-"+coma_id).width(brightStarWidth + "%");
 	})
-	$("#star-container").click(function(e){
-		var mouseReLeftPos = (e.pageX - $(this).offset().left );
-		var rate = 100 * mouseReLeftPos / containerWidth;				
-		brightStarWidth = rate;		
-		$("#bright-star-div").width(rate + "%");
+	if (action !== "" ){	
+		$("#star-container-"+coma_id).click(function(e){
+			var mouseReLeftPos = (e.pageX - $(this).offset().left );
+			var rate = 100 * mouseReLeftPos / containerWidth;				
+			brightStarWidth = rate;		
+			$("#bright-star-div-"+coma_id).width(rate + "%");
 
 		// ajax
 
@@ -64,15 +69,11 @@ $(document).ready(function(){
 				function(error, res){
 					res;
 				}
-			);
-		}
-		console.log(action);
-		
-	})
-
-	var action = <?php echo "'$action';"; ?>
-	var user_id = <?php echo "'$user_id';"; ?>
-	var coma_id = <?php echo "'$coma_id';"; ?>
+				);
+		}	
+		})
+	}
+	
 
 
 	//==========================
@@ -84,25 +85,25 @@ $(document).ready(function(){
 	height: 100%;
 	background-size: <?php echo $options['width'].'px '.$options['height'].'px' ?>;
 }
-div#star-container{
+div#star-container-<?php echo $coma_id ?>{
 	margin:auto;
 	width:<?php echo $containerWidth ?>px;
 	height: <?php echo $containerHeight ?>px;	
 }
-div#blur-star-div{
+div#blur-star-div-<?php echo $coma_id ?>{
 	width:100% ;	
 	background-image: url(<?php echo $this->webroot.'img/'.$blurStarImage ?>); 
 }
-div#bright-star-div{
+div#bright-star-div-<?php echo $coma_id ?>{
 	width: <?php echo $brightStarWidth."%;" ?>;
 	background-image: url(<?php echo $this->webroot.'img/'.$brightStarImage ?>); 
 }
 
 </style>
-<div class="row text-center" id='star-wrapper'>
-	<div id="star-container">
-		<div class="star-div" id = "blur-star-div">
-			<div class="star-div" id = "bright-star-div">
+<div class="row text-center">
+	<div id="star-container-<?php echo $coma_id ?>">
+		<div class="star-div" id = "blur-star-div-<?php echo $coma_id ?>">
+			<div class="star-div" id = "bright-star-div-<?php echo $coma_id ?>">
 			</div>
 		</div>
 	</div>

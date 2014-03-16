@@ -263,120 +263,48 @@ class LessonController extends AppController {
     
     function HotLesson($pageIndex) {
     	$page_limit = 4;
-    	$this->layout = false;
-    	// $this->loadModel('Lesson');
-    	// $this->loadModel('User');
-    	// $this->loadModel('RateLesson');
-    	// $this->RateLesson->bindModel(array(
-    	// 	'belongsTo' => array(
-    	// 		'Lesson' => array(
-    	// 			'className' => 'Lesson',
-    	// 			'foreignKey' => 'coma_id'
-    	// 		)
-    	// 	),    		
-    	// ));
-    	// $this->Lesson->bindModel(array(
-    	// 	'belongsTo' => array(    		
-    	// 		'Author' => array(
-    	// 			'className' => 'User',
-    	// 			'foreignKey' => 'author'
-    	// 		)
-    	// 	) 
-    	// )
-    	// );
-    	// $pagination = array (
-    	// 		'limit' => $page_limit, 
-    	// 		'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
-    	// 		'order' => array('AVG(RateLesson.rate)' => 'DESC'),
-    	// 		'group' => 'RateLesson.coma_id',
-    	// 		'recursive' => 3
-    	//    	);    
-    	// $this->Paginator->settings = $pagination;
-    	// $data = $this->Paginator->paginate( 'RateLesson');
-    	// foreach($data as $key=>$value){
-    	// 	$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
-    	// 	$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
-    	// 	unset($data[$key]['Lesson']['Author']);
-    	// 	unset($data[$key]['0']);
-    	// }
-    	$data = array(
-			(int) 0 => array(
-				'Lesson' => array(
-					'coma_id' => '3',
-					'author' => '1',
-					'name' => 'De hoc tot toan',
-					'title' => 'cung nhau hoc ',
-					'description' => 'lalalalalala',
-					'created' => '2014-03-03 00:00:00',
-					'modified' => null,
-					'cover' => 'toan.png'
-				),
-				'RateLesson' => '3.0000',
-				'Author' => array(
-					'password' => '*****',
-					'user_id' => '1',
-					'username' => 'dac',
-					'firstname' => 'dac',
-					'lastname' => 'hoang',
-					'date_of_birth' => null,
-					'address' => null,
-					'user_type' => '1',
-					'mail' => null,
-					'phone_number' => null,
-					'created' => '2014-03-04 00:47:04',
-					'modified' => '2014-03-10 15:48:25',
-					'foreign_id' => '1',
-					'verifycode_question' => 'dff57b26c8295215545c72e28293cc39670fca0e',
-					'verifycode_answer' => 'f7abc32537c6366562ad36b19e5f860ce744b8f7',
-					'approved' => '1',
-					'activated' => '0',
-					'original_password' => '',
-					'original_verifycode_answer' => '',
-					'original_verifycode_question' => '',
-					'profile_picture' => ''
-				)
-			),
-			(int) 1 => array(
-				'Lesson' => array(
-					'coma_id' => '4',
-					'author' => '2',
-					'name' => 'De hoc tot van',
-					'title' => 'Van hoc nghe thuat',
-					'description' => 'Gianh cho lua tuoi 18+. Cuon sach ghi lai nhung thoi diem thang hoa cua cac tac gia tre. ',
-					'created' => '2014-03-18 00:00:00',
-					'modified' => null,
-					'cover' => 'vanhoc.png'
-				),
-				'RateLesson' => '2.0000',
-				'Author' => array(
-					'password' => '*****',
-					'user_id' => '2',
-					'username' => 'hoang',
-					'firstname' => 'dac',
-					'lastname' => 'hoang',
-					'date_of_birth' => null,
-					'address' => null,
-					'user_type' => '1',
-					'mail' => null,
-					'phone_number' => null,
-					'created' => '2014-03-04 00:49:33',
-					'modified' => '2014-03-10 15:51:00',
-					'foreign_id' => '2',
-					'verifycode_question' => '',
-					'verifycode_answer' => '',
-					'approved' => '1',
-					'activated' => '0',
-					'original_password' => '',
-					'original_verifycode_answer' => '',
-					'original_verifycode_question' => '',
-					'profile_picture' => ''
-				)
-			)
-		);
+    	$this->layout = null;
+    	$this->loadModel('Lesson');
+    	$this->loadModel('User');
+    	$this->loadModel('RateLesson');
+    	$this->RateLesson->bindModel(array(
+    		'belongsTo' => array(
+    			'Lesson' => array(
+    				'className' => 'Lesson',
+    				'foreignKey' => 'coma_id'
+    			)
+    		),    		
+    	));
+    	$this->Lesson->bindModel(array(
+    		'belongsTo' => array(    		
+    			'Author' => array(
+    				'className' => 'User',
+    				'foreignKey' => 'author'
+    			)
+    		) 
+    	)
+    	);
+    	$options = array (
+    			'limit' => $page_limit, 
+    			'offset' => ($pageIndex-1) * $page_limit,
+    			'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
+    			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
+    			'group' => 'RateLesson.coma_id',
+    			'recursive' => 3
+    	   	);    
+    	//$this->Paginator->settings = $pagination;
+    	$data = $this->RateLesson->find ('all',$options);
+    	foreach($data as $key=>$value){
+    		$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
+    		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+    		unset($data[$key]['Lesson']['Author']);
+    		unset($data[$key]['0']);
+    	}
 		$this->set('data', $data);
     }
     
-    function NewLesson() {
+    function NewLesson($pageIndex) {
+    	$this->layout = null;
     	$this->loadModel('Lesson');
     	$this->loadModel('User');
     	$this->loadModel('RateLesson');    	
@@ -394,13 +322,14 @@ class LessonController extends AppController {
     		),
     	));
     	$page_limit = 3;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'order' => array('Lesson.created' => 'DESC'),    			
     			'group' => 'Lesson.coma_id'    			
     	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate('Lesson');
+
+    	$data = $this->Lesson->find ( 'all',$options);
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['RateLesson'] as $le){    			
@@ -412,10 +341,11 @@ class LessonController extends AppController {
 			}			    		
     		$data[$key]['RateLesson'] = $rank;    		
     	}    	
+    	$this->set("data",$data);
     	// debug($data);
     }
     
-    function RecentLesson() {
+    function RecentLesson($pageIndex) {
     	$this->loadModel('Lesson');
     	$this->loadModel('User');
     	$this->loadModel('LessonTransaction');
@@ -442,15 +372,15 @@ class LessonController extends AppController {
     		)
     	));
     	$page_limit = 4;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'order' => array('LessonTransaction.created' => 'DESC'),
     			'group' =>  'LessonTransaction.transaction_id',
     			'recursive' => 2
     	
-    	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'LessonTransaction'); 
+    	);    	
+    	$data = $this->LessonTransaction->find ( 'all',$options); 
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['Lesson']['RateLesson'] as $le){    			
@@ -466,6 +396,7 @@ class LessonController extends AppController {
     		unset($data[$key]['Lesson']['Author']);
     		unset($data[$key]['LessonTransaction']);
     	}    	   	
+    	$this->set("data",$data);
     	// debug($data);
     }
     

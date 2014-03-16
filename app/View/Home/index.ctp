@@ -77,7 +77,7 @@
 		      </div>
 		    </div>
 		    <div class="item">
-		      <?php echo $this->Html->image('resource/intro.jpg');?>
+		      <?php echo $this->Html->image('resource/intro2.jpg');?>
 		      <div class="carousel-caption">
 		      </div>
 		    </div>

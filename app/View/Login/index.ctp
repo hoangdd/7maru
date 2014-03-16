@@ -1,3 +1,4 @@
+<script>isBlock = 0;</script>
 <div class="col-md-5">
 	<form role="form" method="post" >
 		<h1>Login</h1>
@@ -15,7 +16,9 @@
 		
 		<?php  
 			if (isset($_SESSION['countFail'])){
-				if ($_SESSION['countFail'] >= 3){					
+				if ($_SESSION['countFail'] >= 3){
+					//isBlock
+					echo "<script>isBlock =". $_SESSION['countFail']."</script>"
 					//echo input verifycode	
 			?>		
 		<p></p>
@@ -47,3 +50,26 @@
 			</label>
 		</div>
 </div>
+<div id="overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;background-color:green;opacity:0.5;" >
+	<strong style="position:absolute;top:50%;left:50%;font-size:larger"></strong>
+</div>
+<script>
+$(document).ready(function(){
+	if (isBlock %3 == 0 && isBlock != 0 ){
+		count = 5;
+		alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
+		//disable submit button		
+		$("#overlay").show();				
+		counter = setInterval(timer,1000);		
+		//time
+	}
+	function timer(){
+		$("#overlay strong").html(count);
+		count--;
+		if (count < 0){
+			clearInterval(counter);$("#overlay").hide();
+		}
+		return;
+	}
+})
+</script>
