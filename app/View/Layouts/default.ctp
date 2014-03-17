@@ -42,6 +42,7 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->script('bootstrap');
         echo $this->Html->script('jquery.gdocsviewer');
         
+        
 		
 				
 		echo $this->fetch('meta');
