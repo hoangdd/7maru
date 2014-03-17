@@ -17,6 +17,37 @@ class RateLesson extends AppModel {
         foreach($rates as $rate){
             $sum += $rate['RateLesson']['rate'];
         }
-        return $sum/count($rates);
+        $count = count($rates);
+        if($count){
+            $ratePoint = $sum/count($rates);
+        }else{
+            $ratePoint = 0;
+        }
+        return $ratePoint;
 	}
+    public function rate_Lesson($coma_id, $user_id, $ratePoint){
+        $rate = $this->find('first',array(
+            'conditions'=> array(
+                'coma_id'=> $coma_id,
+                'student_id'=> $user_id
+                )
+            )
+        );
+
+        if($rate){
+            $record = $this->read(null,$rate['RateLesson']['rate_id']);
+            $this->set('rate',$ratePoint);
+            $this->save();
+        } else {
+            $this->create();
+            $saveData = array(
+                    'RateLesson' => array(
+                        'coma_id' => $coma_id,
+                        'student_id' => $user_id,
+                        'rate' => $ratePoint
+                    )
+                );
+            $this->save($saveData);
+        }
+    }
 }

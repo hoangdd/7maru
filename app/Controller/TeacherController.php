@@ -5,8 +5,7 @@ App:: uses('AppModel','Model','User', 'Teacher', 'Lesson', 'Comment', 'LessonCat
 class TeacherController extends AppController {
 
     public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
-    public $helpers = array('Html');
-
+    public $helpers = array('Html');    
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow(); //Allow all
@@ -329,14 +328,27 @@ class TeacherController extends AppController {
     function EditProfile() {
         if ($this->Auth->loggedIn()) {            
             if ($this->request->is('post')) {               
-                $pid = $this->Auth->User('user_id');
-                $this->User->id = $pid;                
-                $this->request->data['User']['profile_picture'] = $_FILES['profile_picture'];
-                if ($this->User->save($this->request->data)){
-                    $this->Session->setFlash(__('Edit successful'));
+                $pid = $this->Auth->User('user_id');                
+                $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+                $data = $this->User->create($this->request->data);
+				$data['User']['user_id'] = $this->Auth->user('user_id');				
+                $teacherData = $data['User']['bank_account'];
+                unset($data['User']['bank_account']);  		
+				$result = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));				
+                if ($result){
+                    $teacherData = array(
+                            'Teacher' => array(
+                                'teacher_id' => $this->Auth->User('foreign_id'),
+                                'bank_account' => $teacherData,
+								'username' => $this->Auth->user('username')
+                                )
+                        );
+                    if ($this->Teacher->save($teacherData)){                    
+                        $this->Session->setFlash(__('Edit successful'));
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
-                }
-            }        
+                    }
+                }               
+			}        
                 //get data                 
                 $teacherData = $this->Teacher->find('first',
                     array(
@@ -344,8 +356,7 @@ class TeacherController extends AppController {
                             'Teacher.teacher_id' => $this->Auth->User('foreign_id')
                             )
                         )
-                );            
-                $this->loadModel('User');
+                );                           
                 $userData = $this->User->find('first',
                     array(
                         'conditions' => array(
@@ -388,30 +399,63 @@ class TeacherController extends AppController {
    }
 
     function Statistic() {
-        // $this->loadModel(array('Student','Coma','Transaction','RateComa')); 
-        // //get id
-        // $id = $this->Auth->user('id');            
-        // $options = array();    
-        // //get data for today
-        // $date = data('dd/mm/yyyy',time());
-        // //get number of rates   
-        // //get number of purchase
-        // $dataOfDay = array();
-        //get begin day
-        //get data for all day        
-    }
+        App::uses('Utilities', 'Lib');
+        $util = new Utilities();
+        $this->set('util',$util);
+        $this->User->id = $this->Auth->user('user_id');
+        $registerDate = $this->Auth->user('created');      
+        $begin =  date_create($registerDate);        
+        $begin = date_format($begin,'Y-m-d');                
+        //$defaultBegin = date("yyyy-mm-dd",$registerDate);
+        $end = date('Y-m-d'); 
+        //get Top 3 lesson
+        //get Lesson of the teacher
+        $lessons = $this->Lesson->find('all',array(
+            'conditions' => array(
+                'author' => $this->Auth->user('user_id')
+            )
+        ));                
+        foreach($lessons as $index=>$lesson){
+            //get number of sale
+            $result = $this->LessonTransaction->find('all',array(
+                'conditions' => array(
+                    'coma_id' => $lesson['Lesson']['coma_id'],
+                    'DATE(created) <='  => $end,
+                    'DATE(created) >='  => $begin
+                ),
+                'fields' => array('COUNT(transaction_id) as buy_num')
+            ));                                    
+            $lessons[$index]['buy_num'] = 0;
+            if (isset($result[0][0]['buy_num'])){
+                 $lessons[$index]['buy_num'] = $result[0][0]['buy_num'];
+            }
 
-    function StatisticOption($begin = null, $end = null) {
-        $this->layout = null;
-        if ($begin === null) {
-            
-        }
-        if ($end === null) {
-            
-        }
-        //get data
-    }
+            //get number of rank lesson
+            $result = $this->RateLesson->find('all',array(
+                'conditions' => array(
+                    'coma_id' => $lesson['Lesson']['coma_id'],
+                    'DATE(created) <='  => $end,
+                    'DATE(created) >='  => $begin
+                ),
+                'fields' => array('AVG(rate) as rate')
+            ));                                    
+            $lessons[$index]['rate'] = 0;
+            if (isset($result[0][0]['rate'])){
+                 $lessons[$index]['rate'] = $result[0][0]['rate'];
+            }
 
+        };                
+        uasort($lessons, function($a,$b){
+            return ($a['buy_num'] < $b['buy_num']);
+        });
+        $top3BoughtLesson = array_slice($lessons,0,3);
+        uasort($lessons, function($a,$b){
+            return ($a['rate'] < $b['rate']);
+        });
+        $top3FavouriteLesson = array_slice($lessons,0,3);
+        $dataToChart = $this->getDataStatistic($begin,$end);        
+        $this->set(compact(array('begin','end','dataToChart','top3BoughtLesson','top3FavouriteLesson')));
+    }
     function CreateLesson() {
         //vao day test thu, do~ phai dien
         $data_teacher = array(
@@ -425,7 +469,7 @@ class TeacherController extends AppController {
 
         //luu va tra lai ket qua
         $result = $this->Teacher->save();
-        debug($result);
+        // debug($result);
         die;
     }
 	function ChangePassword(){
@@ -435,11 +479,176 @@ class TeacherController extends AppController {
 	function  EditLession() {
 	
 	}
-    function getDataStatistic(){
-        if ($this->request->is('post')){
-            $data = $this->request->data;
-            $result = array(array('day','number'),array(1,2),array(2,3),array(3,4));
-            $this->set('request',$request);
+    function getDataStatistic($begin = null,$end = null){                        
+        ///<summary>
+        ///get period 
+        ///<summary>
+        $this->User->id = $this->Auth->user('user_id');
+        $registerDate = $this->Auth->user('created');      
+        $defaultBegin =  date_create($registerDate);        
+        $defalutBegin = date_format($defaultBegin,'Y-m-d');                
+     //   $defaultBegin = date("yyyy-mm-dd",$registerDate);
+        $defaultEnd = date('Y-m-d');          
+        if ($begin == null) $begin = $defaultBegin;
+        if ($end == null) $end = $defaultEnd;         
+        ///<summary>
+        ///get data for begin to end
+        ///<summary>
+         $dataToChart = array();
+        /**
+        * get money statistic
+        */    
+        $dataToChart['Money'] = array(array('day','buy_num'));
+        $this->Lesson->bindModel(array(
+                'hasMany' => array(
+                    'LessonTransaction' => array(
+                        'className' => 'LessonTransaction',
+                        'foreignKey' => 'coma_id',                                         
+                    )                   
+                )                        
+            )
+        );   
+        $this->LessonTransaction->bindModel(array(
+            'belongsTo' => array(
+                'Lesson' => array(
+                    'className' => 'Lesson',                    
+                    'foreignKey' => 'coma_id'
+                )
+            )
+        ))     ;             
+        $moneyArray = $this->LessonTransaction->find('all',array(
+            'conditions' => array(
+                'Lesson.author' => $this->Auth->user('user_id'),
+                'DATE(LessonTransaction.created) <=' => $end,
+                'DATE(LessonTransaction.created) >=' => $begin
+            ),  
+            'fields' => array('COUNT(transaction_id) as buy_num','DATE(LessonTransaction.created) as date'),             
+            'recursive' => 1,
+            'group' => 'date',
+            'order' => 'date'
+        ));        
+        foreach($moneyArray as $m){
+            $dataToChart['Money'][] = array($m[0]['date'],(int)$m[0]['buy_num']);            
+        }       
+        
+        /**
+        * get the most bought category and the most favorite categorys
+        */        
+        $this->loadModel('Category');
+        $this->Category->primaryKey = 'category_id';
+        $this->Category->bindModel(array(
+            'hasMany' => array(
+                'LessonCategory' => array(
+                    'foreignKey' => 'category_id',                    
+                )                
+            )
+        ));
+        $this->LessonCategory->bindModel(array(
+                'belongsTo' => array(
+                    'Lesson' => array(
+                        'foreignKey' => 'coma_id',
+                        'conditions'=>array(
+                        'Lesson.author' => $this->Auth->user('user_id'),                
+                    ),                        
+                    )
+                )
+            )
+        );
+         $this->Lesson->bindModel(array(
+                'hasMany' => array(
+                    'LessonTransaction' => array(
+                        'className' => 'LessonTransaction',
+                        'foreignKey' => 'coma_id', 
+                        'conditions'  => array(
+                           'DATE(LessonTransaction.created) <=' => $end,
+                           'DATE(LessonTransaction.created) >=' => $begin,
+
+                        )                        
+                    ),
+                    'RateLesson' => array(
+                        'className' => 'RateLesson',
+                        'foreignKey' => 'coma_id', 
+                        'conditions'  => array(
+                           'DATE(RateLesson.created) <=' => $end,
+                           'DATE(RateLesson.created) >=' => $begin,
+
+                        )                        
+                    ),                              
+                )                        
+            )
+        );   
+
+        $mostBoughtArray = $this->Category->find('all',array(            
+            'contain' => array(                
+                'LessonCategory' => array(  
+                    'fields'  => array(),
+                    'Lesson' => array(
+                    'fields' => array(),                       
+                        'LessonTransaction' => array(
+                            'fields' => array(
+                                //'DATE(created) as date',
+                                    'COUNT(LessonTransaction.transaction_id) as buy_number'
+                            )
+                        )
+                    )
+                )
+            ),
+            'recursive' => 4,   
+            'fields' => array('name')
+        ));        
+        $favoriteCategoryArray = $this->Category->find('all',array(            
+            'contain' => array(                
+                'LessonCategory' => array(  
+                    'fields'  => array(),
+                    'Lesson' => array(
+                        'fields' => array(),                       
+                        'RateLesson' => array(
+                            'fields' => array(
+                                //'DATE(created) as date',
+                                //'RateLesson.rate',
+                                'RateLesson.rate',                                
+                                )
+                            )
+                        )
+                    )
+                ),
+            'recursive' => 4,            
+            'fields' => array('name'),           
+        ));  
+        //debug($favoriteCategoryArray);
+        $dataToChart['most_bought'] = array();      
+        foreach($mostBoughtArray as $index => $f){
+            $num = 0;                    
+            foreach($f['LessonCategory'] as $category){
+                if (isset($category['Lesson']['LessonTransaction'][0]['LessonTransaction'][0]['buy_number'])){
+                    $num += $category['Lesson']['LessonTransaction'][0]['LessonTransaction'][0]['buy_number'];
+                }
+            }  
+            if ($num != 0){
+                $dataToChart['most_bought'][] = array($f['Category']['name'],(int)$num);            
+            }
         }
+        $dataToChart['favourite_category'] = array();      
+        foreach($favoriteCategoryArray as $index => $f){
+            $num = 0;       
+            $count = 0;             
+            foreach($f['LessonCategory'] as $category){
+                if (isset($category['Lesson']['RateLesson'])){
+                    foreach($category['Lesson']['RateLesson'] as $RateLesson){
+                        $num += $RateLesson['rate'];
+                        $count++;                        
+                    }
+                }
+            };           
+            if($count != 0){
+                //print_r($num);print_r($count);
+                $dataToChart['favourite_category'][] = array($f['Category']['name'],(double)$num/$count);            
+            }
+        }
+        if($this->request->is('post')){
+            echo json_encode($dataToChart);
+            die;
+        }
+        return $dataToChart;
     }
 }

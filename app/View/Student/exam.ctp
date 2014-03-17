@@ -21,8 +21,16 @@
 <DIV 
 style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #666666 2px solid; PADDING-BOTTOM: 20px; MARGIN: auto; PADDING-LEFT: 20px; PADDING-RIGHT: 20px; DISPLAY: none; FONT-FAMILY: 'trebuchet MS'; BACKGROUND: #f2f2f2; COLOR: #000000; FONT-SIZE: 20px; BORDER-TOP: #666666 2px solid; TOP: 200px; BORDER-RIGHT: #666666 2px solid; PADDING-TOP: 20px; LEFT: 260px" id="SaveTest"></DIV>
 <!--CSS/Style Sheet Part Ending-->
-<SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT>
+<!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
+<SCRIPT language="javascript" src="
 <?php 
+	$file = '/7maru/app/webroot/test_store/'.$testfile.'.js';
+	echo $file;
+?>
+"></SCRIPT>
+<?php 
+//echo $this->Html->script('fd280371');
+
 echo $this->Html->script('Test_Control');
 ?>
 <SCRIPT language="javascript">
@@ -265,6 +273,7 @@ function DivCloseOpen(divid)
 			</SCRIPT>
       <FORM id="WapForm" method="post" name="WapForm" 
       action="dotest">
+      <input type = "hidden" name = "testfilegettest" value = "<?php echo $testfile;?>">
       <INPUT id="fullyloaded" type="hidden" name="fullyloaded" > <INPUT id="viewedQues" type="hidden" name="viewedQues">
       <!--<div id="dockcontent01" class="test_answer_main" style=" background-color:#EAEAEA; display:none; " ></div>-->
       <input type="hidden" name="test_id" id="test_id" value="<?php echo $this->tst; ?>" />
@@ -350,6 +359,7 @@ function DivCloseOpen(divid)
       <SCRIPT language="javascript" type="text/javascript">				
 				document.getElementById('tottime1').innerHTML=totminCon;
 			 </SCRIPT>
+			 
       </FORM></TD>
       <td width="10"></td>
       </TR>

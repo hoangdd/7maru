@@ -61,6 +61,11 @@
      $options['stars'] =   $lesson['stars'];      
      $options['width'] = 30;
      $options['height'] = 30;
+     $options['coma_id'] = $lesson['coma_id'];
+     $options['action'] = '/'.FILL_CHARACTER.'/Lesson/rate';
+     if(isset($user)){
+        $options['user_id'] = $user['user_id'];
+     }
      echo $this->element('star_rank',array(
       'options' => $options,                
       ));

@@ -214,6 +214,7 @@ function doQuestion(quest, ss) {
 		}
 		// //////////End Answer sheet////////////////
 	}
+
 	omrVar += "</tr>";
 	writefn("</td></tr>");
 	writefn("<tr>"
@@ -246,6 +247,7 @@ function doQuestion(quest, ss) {
 	hid = "hid[" + quest + "]";
 	sectionID = "sectionID[" + quest + "]";
 	difficu = "difficu" + quest + "";
+//	alert(document.getElementById('testfilegettest').value);
 	writefn("<input type='hidden' id=\"" + hid + "\" name=\"" + hid
 			+ "\" value=\"" + questions[quest].img
 			+ "\"><input type='hidden' name=\"" + btime + "\"  id=\"" + btime
@@ -253,6 +255,8 @@ function doQuestion(quest, ss) {
 			+ "\" value=\"" + questions[quest].diff
 			+ "\"><input type='hidden'  name=\"" + sectionID + "\" value=\""
 			+ questions[quest].sectionid + "\">");
+	
+	
 	if (type == 1) {
 		writefn("<input type='hidden'  name=\"Question" + quest
 				+ "\" id=\"Question" + quest + "\" >");
