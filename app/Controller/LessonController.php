@@ -60,7 +60,7 @@ class LessonController extends AppController {
 			$this->set('user',$this->Auth->user());
 
 			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
-			// debug($teacher);
+			debug($lesson);
 		} else {
 			throw new NotFoundException();
 		}
