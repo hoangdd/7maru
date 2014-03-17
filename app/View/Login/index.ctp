@@ -53,13 +53,21 @@
 <div id="overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;background-color:green;opacity:0.5;" >
 	<strong style="position:absolute;top:50%;left:50%;font-size:larger"></strong>
 </div>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <?php echo __('Please Wait aleast 5s to continue! <br /> If your acount newly created, you must wait until Page admin approve your requset!!!'); ?>
+    </div>
+  </div>
+</div>
 <script>
 $(document).ready(function(){
 	if (isBlock %3 == 0 && isBlock != 0 ){
 		count = 5;
-		alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
+		// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
 		//disable submit button		
-		$("#overlay").show();				
+		$("#overlay").show();
+		$('.bs-example-modal-sm').modal();				
 		counter = setInterval(timer,1000);		
 		//time
 	}

@@ -18,7 +18,7 @@ class Data extends AppModel {
 		if($ret == false) return false; //fail
 
 		$data['path'] = $ret;
-		$data['coma_id'] = $this->data['File']['coma_id'];
+		$data['coma_id'] = $this->data['Data']['File']['coma_id'];
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
 

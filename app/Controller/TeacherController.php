@@ -458,19 +458,20 @@ class TeacherController extends AppController {
     }
     function CreateLesson() {
         //vao day test thu, do~ phai dien
-        $data_teacher = array(
-            'username' => 'hoangdd', //truyen username vao
-            'bank_account' => 'HSNSM',
-            'office' => 'bkhn',
-            'description' => 'xxx',
-        );
+        // $data_teacher = array(
+        //     'username' => 'hoangdd', //truyen username vao
+        //     'bank_account' => 'HSNSM',
+        //     'office' => 'bkhn',
+        //     'description' => 'xxx',
+        // );
 
-        $this->Teacher->create($data_teacher);
+        // $this->Teacher->create($data_teacher);
 
-        //luu va tra lai ket qua
-        $result = $this->Teacher->save();
-        // debug($result);
-        die;
+        // //luu va tra lai ket qua
+        // $result = $this->Teacher->save();
+        // // debug($result);
+        // die;
+        $this->redirect(array('controller' => 'Lesson', 'action'=>'create'));
     }
 	function ChangePassword(){
 	}

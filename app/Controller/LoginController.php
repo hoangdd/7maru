@@ -200,7 +200,7 @@ class LoginController extends AppController {
             $this->set('error', $error);
         }
     }
-
+    
     function logout() {
         $this->redirect($this->Auth->logout());
     }

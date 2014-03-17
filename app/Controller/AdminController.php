@@ -6,7 +6,8 @@ class AdminController extends AppController {
         'User',
         'Admin',
         'AdminIp',
-        'Notification'
+        'Notification',
+        'Category'
     );
     public $components = array(
         'Auth' => array(
@@ -727,4 +728,41 @@ class AdminController extends AppController {
 		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
 		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
 	}
+
+    function addCategory(){
+        if($this->request->is('post')){
+            $data = $this->request->data;
+            // $data[0] = $data;
+            debug($data);
+            $category = $this->Category->findByName($data['Category']['name']);
+            if($category){
+                $this->Session->setFlash(__('This Category already Created!!!'));
+            } else {
+                // $this->Category->create();
+                $this->Category->Save($data);
+                $this->Session->setFlash(__('Successfully Created'));
+            }
+        }
+    }
+    function editCategory($id){
+        $category = $this->Category->findByCategoryId($id);
+        if($category){
+            $this->set('Category',$category);
+            debug($category);
+        } else {
+            throw new NotFoundException();
+        }
+        if($this->request->is('post')){
+            $data = $this->request->data;
+            debug($data);
+            $category = $this->Category->findByName($data['Category']['name']);
+            if($category){
+                $this->Session->setFlash(__('This Category already Created!!!'));
+            } else {
+                // $this->Category->();
+                $this->Category->Save($data);
+                $this->Session->setFlash(__('Successfully Created'));
+            }
+        }
+    }
 }
