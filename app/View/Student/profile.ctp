@@ -4,8 +4,8 @@
 	
 	<?php
 	if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
-        else $image = IMAGE_PROFILE_LINK.$data['User'];
-   echo $this->Html->image(IMAGE_PROFILE_LINK.$data['User']['profile_picture'], array(
+        else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];
+   echo $this->Html->image($image, array(
 	'width' => '180px',
 	'class' => 'img-rounded',
 	'style' => 'text-align:center;'

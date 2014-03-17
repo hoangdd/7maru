@@ -8,9 +8,13 @@
 // function to convert 'Y-m-d' pattern date string to 'd-m-Y' pattern
 //===================================================================
 class Utilities{
-	public function convertDate($dateString){	
+	public function convertDate($dateString){			
 		$date = DateTime::createFromFormat('Y/m/d', $dateString);
-		return $date->format('d-m-Y');
+		if ($date == null){
+			$date = DateTime::createFromFormat('Y-m-d', $dateString);
+			return $date->format('d-m-Y');	
+		}
+		return $date->format('d/m/Y');
 	}
 }
 ?>
