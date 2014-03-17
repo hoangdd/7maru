@@ -12,6 +12,10 @@ if (!isset($options['width'])){
 if (!isset($options['height'])){
 	$options['height'] = $defaultHeight;
 }
+// allow rating or not 
+$rateAllow = 1; //default
+if (isset($options['rateAllow']))
+	$rateAllow = $options['rateAllow'];
 	//=======================
 	//image file name
 $brightStarImage = 'star.png';
@@ -41,15 +45,16 @@ $(document).ready(function(){
 	var action = <?php echo "'$action';"; ?>
 	var user_id = <?php echo "'$user_id';"; ?>
 	var coma_id = <?php echo "'$coma_id';"; ?>
-	$("#star-container-"+coma_id).mousemove(function(e){
-		var mouseReLeftPos = (e.pageX - $(this).offset().left );
-		var rate = 100 * mouseReLeftPos / containerWidth;				
-		$("#bright-star-div-"+coma_id).width(rate + "%");	
-	});	
-	$("#star-container-"+coma_id).mouseleave(function(e){		
+	var rateAllow = <?php echo $rateAllow ?>;
+	if (rateAllow){
+		$("#star-container-"+coma_id).mousemove(function(e){
+			var mouseReLeftPos = (e.pageX - $(this).offset().left );
+			var rate = 100 * mouseReLeftPos / containerWidth;				
+			$("#bright-star-div-"+coma_id).width(rate + "%");	
+		});	
+		$("#star-container-"+coma_id).mouseleave(function(e){		
 			$("#bright-star-div-"+coma_id).width(brightStarWidth + "%");
-	})
-	if (action !== "" ){	
+		})
 		$("#star-container-"+coma_id).click(function(e){
 			var mouseReLeftPos = (e.pageX - $(this).offset().left );
 			var rate = 100 * mouseReLeftPos / containerWidth;				
@@ -71,11 +76,8 @@ $(document).ready(function(){
 				}
 				);
 		}	
-		})
+	})
 	}
-	
-
-
 	//==========================
 })
 </script>

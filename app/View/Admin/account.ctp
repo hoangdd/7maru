@@ -42,11 +42,7 @@ $(document).ready(function(){
 	today = new Date();	
     var month = today.getMonth()+1; //January is 0!
     var year = today.getFullYear();    
-    var data;		
-    var _TYPE_CREDIT_CARD = 18;
-    var _TYPE_BANK_ACCOUNT = 54;
-    var _STUDENT_PAY_MONEY = 20000;
-    var _TEACHER_PROFIT = _STUDENT_PAY_MONEY*60/100;
+    var data;		    
 	data =	 <?php echo $data ?>;				
     function update(data){    	
     	student = data['student'];
@@ -57,8 +53,8 @@ $(document).ready(function(){
 			 			strToAppend += "<tr>";		 			
 			 			strToAppend+= "<td>" + student[i]['info']['username']+"</td>";
 			 			strToAppend+= "<td>"+student[i]['info']['lastname']+student[i]['info']['firstname']+"</td>";
-			 			strToAppend+= "<td>"+_TYPE_CREDIT_CARD+"</td>";
-			 			strToAppend+= "<td>"+student[i]['count']*_STUDENT_PAY_MONEY+"</td>";
+			 			strToAppend+= "<td>"+TYPE_CREDIT_CARD+"</td>";
+			 			strToAppend+= "<td>"+student[i]['count']*MONEY_PER_LESSON+"</td>";
 			 			strToAppend+= "<td>"+student[i]['info']['Student']['credit_account']+"</td>"; 					 			
 			 			strToAppend+= "</tr>";
 			 		};	 		
@@ -66,8 +62,8 @@ $(document).ready(function(){
 			 			strToAppend += "<tr>";		 			
 			 			strToAppend+= "<td>" + teacher[i]['info']['username']+"</td>";
 			 			strToAppend+= "<td>"+teacher[i]['info']['lastname']+teacher[i]['info']['firstname']+"</td>";
-			 			strToAppend+= "<td>"+_TYPE_BANK_ACCOUNT+"</td>";
-			 			strToAppend+= "<td>"+teacher[i]['count']*_TEACHER_PROFIT+"</td>";
+			 			strToAppend+= "<td>"+TYPE_BANK_ACCOUNT+"</td>";
+			 			strToAppend+= "<td>"+teacher[i]['count']*MONEY_PER_LESSON*TEACHER_PROFIT_PERCENTAGE*+"</td>";
 			 			strToAppend+= "<td>"+teacher[i]['info']['Teacher']['bank_account']+"</td>"; 			
 			 			strToAppend+= "</tr>";
 			 		}

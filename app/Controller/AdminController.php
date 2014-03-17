@@ -307,11 +307,6 @@ class AdminController extends AppController {
             $this->set('error', $error);
         }
     }
-
-    function statistic() {
-        
-    }
-
     function acceptNewUser() {
 
         $paginate = array(
@@ -355,7 +350,7 @@ class AdminController extends AppController {
 
         }
     }
-                function account() {
+    function account() {
         if ($this->request->is('post')) {
             $month = $this->request->data['month'];
             $year = $this->request->data['year'];
@@ -818,7 +813,11 @@ class AdminController extends AppController {
                 $this->Session->setFlash(__('Successfully Created'));
             }
         }
+    }
 
+    ///<summary>
+    /// code by @dac
+    ///<summary>
     function editUserProfile($userId){
         $this->loadModel('User');
         $result  = $this->User->find('first',array(
@@ -834,7 +833,7 @@ class AdminController extends AppController {
                     $teacherData = array(
                         'Teacher' => array(
                             'teacher_id' => $result['User']['foreign_id'],
-                            'bank_account' => $data['User']['bank_account'],
+                            'bank_account' => $data['User']['account_number'],
                             'username' => $result['User']['username']
                             )
                         );
@@ -848,7 +847,7 @@ class AdminController extends AppController {
                     $studentData = array(
                         'Student' => array(
                             'student_id' => $result['User']['foreign_id'],
-                            'credit_account' => $data['User']['credit_account'],
+                            'credit_account' => $data['User']['account_number'],
                             'username' => $result['User']['username']
                             )
                         );  
@@ -873,4 +872,94 @@ class AdminController extends AppController {
         $result['User']['account_number'] = $accountNumber;
         $this->set('userData',$result['User']);
     }
+
+    function statistic() {
+        // App::uses('Utilities', 'Lib');
+        // $util = new Utilities();
+        // $this->set('util',$util);
+        // $begin =  date_create('2014/01/01');        
+        // $begin = date_format($begin,'Y-m-d');                        
+        // $end = date('Y-m-d');         
+
+        //================================
+        //get Top 5 the most bought lesson 
+        //================================
+        $this->loadModel('LessonTransaction');
+        $topLesson = $this->LessonTransaction->find('all',array(            
+            'fields' => array('COUNT(transaction_id) as buy_num','coma_id'),
+            'group' => 'coma_id',
+            'order' => 'buy_num',
+            'limit' => 5
+        ));       
+        //get rank of top lesson
+        $this->loadModel('RateLesson');
+        foreach($topLesson as $index => $lesson):
+            $coma_id = $lesson['LessonTransaction']['coma_id'];
+           $result = $this->RateLesson->find('all',array(
+            'conditions' => array(
+                'coma_id' => $coma_id
+            ),
+            'fields' => array('AVG(rate) as rate')
+            ));                                               
+           if (isset($result[0][0]['rate'])){
+               $topLesson[$index]['rate'] = $result[0][0]['rate'];
+           }       
+           $topLesson[$index]['coma_id'] = $coma_id;
+           unset($topLesson[$index]['LessonTransaction']);
+           $topLesson[$index]['buy_num'] = $lesson[0]['buy_num'];
+           unset($topLesson[$index][0]);
+        endforeach;        
+
+        //================================
+        //get Top 5 teacher  
+        //================================        
+        $this->User->bindModel(array(
+                'hasMany' => array(
+                    'Lesson' => array(
+                        'className' => 'Lesson',
+                        'foreignKey' => 'author',                                         
+                    )                   
+                )                        
+            )
+        );   
+        $this->loadModel('Lesson');
+        $this->Lesson->bindModel(array(
+            'hasMany' => array(
+                'LessonTransaction' => array(
+                    'className' => 'LessonTransaction',                    
+                    'foreignKey' => 'coma_id'                    
+                )
+            )
+        ));                     
+        $topTeacher = $this->User->find('all',array(
+            'contain' => array(                                  
+                'Lesson' => array(             
+                    'fields' => array(),
+                    'LessonTransaction' => array(
+                            'fields' => array('transaction_id')
+                        )
+                    )                
+                ),
+            'conditions' => array(
+                'user_type' => 1
+            ),            
+            'fields' =>  array('username','profile_picture'),
+            'recursive' => 3
+        ));                
+        foreach($topTeacher as $index => $money){
+            $buy_num = 0;
+            foreach($money['Lesson'] as $m){
+                $buy_num = $buy_num + $m['LessonTransaction'].count();
+            }
+            $topTeacher[$index]['User']['buy_num'] = $buy_num;
+            unset($topTeacher[$index]['Lesson']);            
+        }        
+        $this->set(compact(array('topTeacher','topLesson','topStudent')));
+    }
+
+    ///==================
+    /// end code by @dac
+    ///==================
 }
+
+?>

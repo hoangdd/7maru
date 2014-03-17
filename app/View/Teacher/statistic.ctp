@@ -15,15 +15,7 @@ $count = count($dataToChart['Money']);
 for ($i = 1; $i< $count; $i++ ){
   $total = $total + $dataToChart['Money'][$i][1];
 }
-$limit = 10;
-
-usort($dataToChart['most_bought'],function($a,$b){ return ($a[1] < $b[1] ); });
-$dataToChart['most_bought'] = array_slice($dataToChart['most_bought'], 0,$limit);
-$dataToChart['most_bought'] = array_merge(array(array('category','buy_num')),$dataToChart['most_bought']);
-
-usort($dataToChart['favourite_category'],function($a,$b){return ($a[1] < $b[1] ); });
-$dataToChart['favourite_category'] = array_slice($dataToChart['favourite_category'], 0,$limit);
-$dataToChart['favourite_category'] = array_merge(array(array('category','rate')),$dataToChart['favourite_category']);
+$total = $total * MONEY_PER_LESSON * TEACHER_PROFIT_PERCENTAGE;
 //====================
 ?>
 <!-- script to draw chart -->
@@ -72,6 +64,7 @@ $dataToChart['favourite_category'] = array_merge(array(array('category','rate'))
                    $options['width'] = 20;
                    $options['height'] = 20;
                    $options['coma_id']  = $lesson['Lesson']['coma_id'];
+                   $options['rateAllow'] = 0;
                    if(isset($user)){
                       $options['user_id'] = $user['user_id'];
                    }
@@ -101,6 +94,7 @@ $dataToChart['favourite_category'] = array_merge(array(array('category','rate'))
                    $options['width'] = 20;
                    $options['height'] = 20;
                    $options['coma_id']  = $lesson['Lesson']['coma_id'];
+                   $options['rateAllow'] = 0;
                    if(isset($user)){
                       $options['user_id'] = $user['user_id'];
                    }
@@ -122,29 +116,35 @@ $dataToChart['favourite_category'] = array_merge(array(array('category','rate'))
             <p class='title'><?php echo __("Statistic by time") ?></p>
       </div>
       <div class="row">
-            <div class='col-md-8 col-md-offset-3 from-to-date'>
-                  <div class='col-md-6'>                                    
-                        <div class="col-md-2"><?php echo __("From") ?></div>
+            <div class='col-md-8 col-md-offset-1 from-to-date'>
+                  <div class='col-md-5'>                                    
+                        <div class="col-md-3"><?php echo __("From") ?></div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp2" readonly=""/>
                         </div>                      
                   </div> 
-                  <div class='col-md-6'>
-                        <div class="col-md-2 text-right"><?php echo __("To"); ?></div>
+                  <div class='col-md-5'>
+                        <div class="col-md-3 text-right"><?php echo __("To"); ?></div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp3" readonly=""/>
                         </div>
                         
+                  </div>
+                  <div class='col-md-2'>
+                    <button id = "load_button" type="button" class="btn btn-warning">
+                      <span class="glyphicon glyphicon-repeat"></span> Load
+                    </button>
+
                   </div>
             </div>
       </div>      
       <p></p>
       <div class='row'>
             <div class='col-md-2'>
-                  <ul class="nav nav-pills nav-stacked">
+                  <ul class="chart nav nav-pills nav-stacked">
                         <li class="active"><a href="#" id="money"><?php echo __("Money"); ?></a></li>
                         <li><a href="#" id="sale_category"><?php echo __("Sale category") ?></a></li>
-                        <li><a href="#" id="favorite_category"><?php echo __("Favorite category") ?></a></li>
+                        <li><a href="#" id="favourite_category"><?php echo __("Favourite category") ?></a></li>
                   </ul>
             </div>
             <div class='col-md-10 char-div' id='chart_div'>
@@ -156,7 +156,7 @@ $dataToChart['favourite_category'] = array_merge(array(array('category','rate'))
 
       </div>
 
-      <script type="text/javascript">
+<script type="text/javascript">
       google.load('visualization', '1', {'packages':['corechart']});      
       var dataArray = eval('(<?php echo json_encode($dataToChart) ?>)');      
       options = {
@@ -178,35 +178,69 @@ $dataToChart['favourite_category'] = array_merge(array(array('category','rate'))
             var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
             chart.draw(data, options);
       }
-      $(document).ready(function(){       
-            $("ul.nav li a").click(function(){
-                  $("ul.nav li.active").removeClass('active');
-                  $(this).parent("li").addClass('active');                        
-                  var unit = $(this).attr('id');
+      $(document).ready(function(){ 
+            //========================
+            //load button click
+            //========================
+            $("#load_button").click(function(){
+              $.ajax({
+                type:'post',               
+                data: {begin: $("#dp2").val(), end:$("#dp3").val() },
+                url: "<?php $this->Html->url(array('action' => 'getDataStatistic')) ?>",
+                dataType: 'json',
+              }).done(function(result){
+                dataArray = result;
+              });
+              var active = $("ul.chart li.active a")[0];
+              var unit = $(active).attr('id');
                         //do change chart here  
-                        //dataArray will be get by ajax
-                        var test = [["category","rate"],["数学",1.75],["地理学",1.5],["Lớp 1",1.5],["Lớp 2",1.5]];
+                        //dataArray will be get by ajax                
                   var  options = {};   
                   if (unit == 'money'){
                     options.title = 'Money';                                      
                     drawLineChart(dataArray['Money'],options);
                   }
                   else if (unit == 'sale_category'){
-                    options.title = 'Sale Category Rate';
-                    options.pieHole = 0.4;
+                    options.title = 'Sale Category Rate';                   
                     options.is3D = true;
                     drawPieChart(dataArray['most_bought'],options);
                   }
-                  else if (unit == 'favorite_category'){
-                    options.title = 'Favorite Category Rate';
+                  else if (unit == 'favourite_category'){
+                    options.title = 'Favourite Category Rate';
                     options.is3D = true;
                     // drawPieChart(dataArray['favourite_category'],options);
-                    drawPieChart(test,options);
+                    drawPieChart(dataArray['favourite_category'],options);
+                  }
+            });
+            //========================
+            //Change chart
+            //========================
+            $("ul.chart li a").click(function(){
+                  $("ul.chart li.active").removeClass('active');
+                  $(this).parent("li").addClass('active');                        
+                  var unit = $(this).attr('id');
+                        //do change chart here  
+                        //dataArray will be get by ajax                
+                  var  options = {};   
+                  if (unit == 'money'){
+                    options.title = 'Money';                                      
+                    drawLineChart(dataArray['Money'],options);
+                  }
+                  else if (unit == 'sale_category'){
+                    options.title = 'Sale Category Rate';                   
+                    options.is3D = true;
+                    drawPieChart(dataArray['most_bought'],options);
+                  }
+                  else if (unit == 'favourite_category'){
+                    options.title = 'Favourite Category Rate';
+                    options.is3D = true;
+                    // drawPieChart(dataArray['favourite_category'],options);
+                    drawPieChart(dataArray['favourite_category'],options);
                   }                    
                   return false;
             })                  
-      })
-      </script>  
+      }) 
+</script>  
 
       <style>
         .index{

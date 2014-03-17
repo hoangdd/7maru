@@ -16,11 +16,11 @@
 		<thead>
 			<tr>
 
-				<th class='text-center' style="width:5%">
+				<th class='text-center' style="width:20%">
 					<?php echo __('No.') ?>
 				</th>
 
-				<th class='' style="width:10%">
+				<th class='text-center' style="width:10%">
 					<?php echo __('Name') ?>
 				</th>
 
@@ -34,7 +34,7 @@
 				<th class='text-center' style="width:15%">
 					<?php echo __('Date of birth') ?>
 				</th>
-				<th class='text-center' style="width:25%">
+				<th class='text-center' style="width:20%">
 					<?php echo __('Created Account Time') ?>
 				</th>
 				<th class='text-center' style="width:5%">

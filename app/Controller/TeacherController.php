@@ -440,9 +440,7 @@ class TeacherController extends AppController {
             //get number of sale
             $result = $this->LessonTransaction->find('all',array(
                 'conditions' => array(
-                    'coma_id' => $lesson['Lesson']['coma_id'],
-                    'DATE(created) <='  => $end,
-                    'DATE(created) >='  => $begin
+                    'coma_id' => $lesson['Lesson']['coma_id']                    
                 ),
                 'fields' => array('COUNT(transaction_id) as buy_num')
             ));                                    
@@ -454,9 +452,7 @@ class TeacherController extends AppController {
             //get number of rank lesson
             $result = $this->RateLesson->find('all',array(
                 'conditions' => array(
-                    'coma_id' => $lesson['Lesson']['coma_id'],
-                    'DATE(created) <='  => $end,
-                    'DATE(created) >='  => $begin
+                    'coma_id' => $lesson['Lesson']['coma_id']                    
                 ),
                 'fields' => array('AVG(rate) as rate')
             ));                                    
@@ -512,7 +508,15 @@ class TeacherController extends AppController {
      //   $defaultBegin = date("yyyy-mm-dd",$registerDate);
         $defaultEnd = date('Y-m-d');          
         if ($begin == null) $begin = $defaultBegin;
-        if ($end == null) $end = $defaultEnd;         
+        if ($end == null) $end = $defaultEnd;
+        if ($this->request->is('post')){
+            $begin = $this->request->data['begin'];
+            $begin = date_create($begin);
+            $begin = date_format($begin,'Y-m-d');
+            $end = $this->request->data['end'];
+            $end = date_create($end);
+            $end = date_format($end,'Y-m-d');
+        }            
         ///<summary>
         ///get data for begin to end
         ///<summary>
@@ -603,18 +607,18 @@ class TeacherController extends AppController {
         $mostBoughtArray = $this->Category->find('all',array(            
             'contain' => array(                
                 'LessonCategory' => array(  
-                    'fields'  => array(),
+                    'fields'  => array()
                     'Lesson' => array(
-                    'fields' => array(),                       
+                        'fields' => array(),                       
                         'LessonTransaction' => array(
                             'fields' => array(
-                                //'DATE(created) as date',
+                                    //'DATE(created) as date',
                                     'COUNT(LessonTransaction.transaction_id) as buy_number'
+                                )
                             )
                         )
                     )
-                )
-            ),
+                ),
             'recursive' => 4,   
             'fields' => array('name')
         ));        
@@ -667,6 +671,16 @@ class TeacherController extends AppController {
                 $dataToChart['favourite_category'][] = array($f['Category']['name'],(double)$num/$count);            
             }
         }
+        //==================
+        // get top 10 category
+        //==================
+        $limit = 10;
+        usort($dataToChart['most_bought'],function($a,$b){ return ($a[1] < $b[1] ); });
+        $dataToChart['most_bought'] = array_slice($dataToChart['most_bought'], 0,$limit);
+        $dataToChart['most_bought'] = array_merge(array(array('category','buy_num')),$dataToChart['most_bought']);
+        usort($dataToChart['favourite_category'],function($a,$b){return ($a[1] < $b[1] ); });
+        $dataToChart['favourite_category'] = array_slice($dataToChart['favourite_category'], 0,$limit);
+        $dataToChart['favourite_category'] = array_merge(array(array('category','rate')),$dataToChart['favourite_category']);
         if($this->request->is('post')){
             echo json_encode($dataToChart);
             die;
