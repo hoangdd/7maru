@@ -26,7 +26,19 @@
 	$incorrect_per = round(((intval($total)-intval($hit))/intval($total))*100,2);
 	$notattempt_per = round(((intval($total)-intval($mark))/intval($total))*100,2);
 	$score_per = round((intval($markGET)/intval($markTotal))*100,2);
+	echo $this->Html->script('jquery_test');
+	$strToMergeUrl = http_build_query(array('aParam' => $choosedEnd));
 ?>
+<script type="text/javascript">
+function showQuesSec(n){
+			//ajaxCodeWriting('question_view',n);
+			ajaxCode('viewtestresult?qid='+n+'&test_id=<?php echo $testfilegettest;?>&<?php echo $strToMergeUrl;?>','question_view');
+	}
+
+</script>
+	 <table width="700" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid rgb(219, 219, 219);">
+	 <tr>
+            <td align="left" valign="top" style="padding-left:5px; padding-right:5px;">
 			<div>
                     <div class="width3">
                       
@@ -64,6 +76,7 @@
                           </tr>
                           <tr>
                             <td colspan="3" style="padding-left:10px;" align="center">
+                            <?php $qid = 0; ?>
                             <span style="font-weight: bold"><a href="javascript:showQuesSec(0);" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">実施したテストを見る</a> 
                             | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;"授業を見る</a>
                             | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">次のテストをする</a></span>
@@ -73,6 +86,10 @@
                       </table>
                     </div>
                 </div>
-
+             </tr>   
+             <tr>
+                <td colspan="2" align="left" valign="top" style="padding-left:5px; padding-right:5px;" id="question_view">&nbsp;</td>
+             </tr>
+          </table>
 	</body>
 </html>
