@@ -6,7 +6,7 @@ class Data extends AppModel {
 	public function beforeSave($option = array()){
 
 		//generate ids 
-		$data = $this->data['File'];
+		$data = $this->data['Data']['File'];
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
 		$data['file_id'] = hash('crc32', (string)$idString);
@@ -22,7 +22,7 @@ class Data extends AppModel {
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
 
-		$this->data['File'] = $data;
+		$this->data['Data']['File'] = $data;
 	}
 
 	private function __convertAndSave($fid, $tmp, $ext){

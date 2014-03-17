@@ -53,7 +53,7 @@
      echo $this->Html->image($lesson['image'],array(
       'class' => 'img-rounded img-responsive',        
       )); 
-     echo '<h1>'.$lesson['title'].'</h1>';
+     echo '<h1>'.$lesson['name'].'</h1>';
      echo '<p></p>';
     			//_____________________
     			//ranking by stars                   
@@ -73,7 +73,7 @@
     			//created date
      echo '<p></p>';
      echo '<p class="text_center"> Created Date: <strong>'.$lesson['created_date'].'</strong> </p>';
-     echo '<p>'.$lesson['stars'].' ranker / '.$lesson['viewed'].' viewed'.'</p>';
+     echo '<p>'.$lesson['ranker'].' ranker / '.$lesson['viewed'].' viewed'.'</p>';
   
     			// [buy] button
      if ($lesson['buy_status']){
