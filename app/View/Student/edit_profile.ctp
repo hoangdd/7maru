@@ -9,7 +9,6 @@
          'class' => 'img-rounded',
          'style' => 'text-align:center;'
          ));
-
         echo "<br><br>";
         echo "<div class='text-center'>";
         echo $this->Html->link('Statistic',

@@ -2,7 +2,6 @@
 	
 <div class="col-md-3">
 
-
 	<?php    
   if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
   else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];   

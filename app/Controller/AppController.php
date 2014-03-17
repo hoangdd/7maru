@@ -30,8 +30,8 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
 class AppController extends Controller {
-    // public $components  = array('Session','Auth','DebugKit.Toolbar');
     public $components = array(
         'Session',
         'DebugKit.Toolbar',
@@ -59,7 +59,6 @@ class AppController extends Controller {
             ),
             'authError' => 'You don\'t have permission to view this page',
         ),
-
     );
      public function beforeFilter() {
         parent::beforeFilter();

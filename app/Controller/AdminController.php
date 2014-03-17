@@ -767,16 +767,20 @@ class AdminController extends AppController {
 			'conditions' => array('user_id' => $userId),
 			'fields' => array('original_password')
 		));		
-		$this->User->setField('password',$result['User']['original_password']);
+        $this->User->id = $userId;
+		$this->User->saveField('password',$result['User']['original_password']);            
+        $this->redirect('userManage');
 	}
-	function resetVerifyCode($userId){
+	function resetVerifycode($userId){
 		$this->loadModel('User');				
 		$result  = $this->User->find('first',array(
 			'conditions' => array('user_id' => $userId),
 			'fields' => array('original_verifycode_answer','original_verifycode_question')
 		));
-		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
-		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
+        $this->User->id = $userId;
+		$this->User->saveField('verifycode_answer',$result['User']['original_verifycode_answer']);
+		$this->User->saveField('verifycode_question',$result['User']['original_verifycode_question']);
+        $this->redirect('userManage');
 	}
 
     function addCategory(){
@@ -814,5 +818,59 @@ class AdminController extends AppController {
                 $this->Session->setFlash(__('Successfully Created'));
             }
         }
+
+    function editUserProfile($userId){
+        $this->loadModel('User');
+        $result  = $this->User->find('first',array(
+            'conditions' => array('user_id' => $userId)            
+        ));
+        if ($this->request->is('post')){                                  
+            $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+            $data = $this->User->create($this->request->data);            
+            $data['User']['user_id'] = $userId;            
+            $isSaved = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));
+            if ($isSaved){
+                if ($result['User']['user_type'] == 1){
+                    $teacherData = array(
+                        'Teacher' => array(
+                            'teacher_id' => $result['User']['foreign_id'],
+                            'bank_account' => $data['User']['bank_account'],
+                            'username' => $result['User']['username']
+                            )
+                        );
+                        $this->loadModel('Teacher');            
+                    if ($this->Teacher->save($teacherData)){                    
+                        $this->Session->setFlash(__('Edit successful'));
+ //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                    }
+                }
+                else{
+                    $studentData = array(
+                        'Student' => array(
+                            'student_id' => $result['User']['foreign_id'],
+                            'credit_account' => $data['User']['credit_account'],
+                            'username' => $result['User']['username']
+                            )
+                        );  
+                        $this->loadModel('Student');
+                    if ($this->Student->save($studentData)){                    
+                        $this->Session->setFlash(__('Edit successful'));                        
+                    }
+                }
+                $this->redirect('#');
+            }           
+        }        
+        if ($result['User']['user_type'] == 1){
+            $this->loadModel('Teacher');
+            $number = $this->Teacher->find('first',array('conditions' => array('teacher_id' => $result['User']['foreign_id'])));
+            $accountNumber = $number['Teacher']['bank_account'];
+        }
+        else{
+            $this->loadModel('Student');
+            $number = $this->Student->find('first',array('conditions' => array('student_id' => $result['User']['foreign_id'])));
+            $accountNumber = $number['Student']['credit_account'];
+        }
+        $result['User']['account_number'] = $accountNumber;
+        $this->set('userData',$result['User']);
     }
 }
