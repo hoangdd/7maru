@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
+-- version 4.0.9deb1.precise~ppa.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2014 at 05:03 PM
--- Server version: 5.5.35
--- PHP Version: 5.3.10-1ubuntu3.10
+-- Generation Time: Mar 11, 2014 at 11:21 AM
+-- Server version: 5.5.35-0ubuntu0.12.04.2
+-- PHP Version: 5.3.10-1ubuntu3.9
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `7maru_admins` (
   `admin_id` char(20) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(50) NOT NULL,
+  PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,7 +39,8 @@ CREATE TABLE IF NOT EXISTS `7maru_admins` (
 
 INSERT INTO `7maru_admins` (`admin_id`, `username`, `password`) VALUES
 ('''1''', 'dac', '123'),
-('''2''', 'hoang', '123');
+('''2''', 'hoang', '123'),
+('1', 'admin', 'a4af7832a6e969eafb671bc80d016c259aeafc0c');
 
 -- --------------------------------------------------------
 
@@ -50,7 +52,15 @@ CREATE TABLE IF NOT EXISTS `7maru_admin_ips` (
   `ip_id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(30) NOT NULL,
   PRIMARY KEY (`ip_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `7maru_admin_ips`
+--
+
+INSERT INTO `7maru_admin_ips` (`ip_id`, `ip`) VALUES
+(1, '192.168.1.3'),
+(2, '192.168.2.4');
 
 -- --------------------------------------------------------
 
@@ -123,19 +133,19 @@ CREATE TABLE IF NOT EXISTS `7maru_comas` (
   `cover` varchar(100) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`coma_id`),
   UNIQUE KEY `coma_id` (`coma_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `7maru_comas`
 --
 
 INSERT INTO `7maru_comas` (`coma_id`, `author`, `name`, `title`, `description`, `created`, `modified`, `cover`) VALUES
-(3, NULL, 'De hoc tot toan', 'cung nhau hoc ', 'lalalalalala', NULL, NULL, 'toan.png'),
-(4, NULL, 'De hoc tot van', 'Van hoc nghe thuat', 'Gianh cho lua tuoi 18+.\r\nCuon sach ghi lai nhung thoi diem thang hoa cua cac tac gia tre. ', NULL, NULL, 'vanhoc.png'),
-(5, NULL, 'De men phieu luu ki', 'tu sach thieu nhi', 'sach gianh cho lua tuoi 18-, \nCu?c phiêu l?u c?a chú d? 18+\n???????', NULL, NULL, 'demen.png'),
-(6, NULL, 'Tay du ki', 'Tieu thuyet kinh dien', 'Đường tăng thiển kinh \r\n小説', NULL, NULL, 'tayduki.png'),
-(7, NULL, 'Sherlock Holmes', 'Truyện trinh thám ', 'Tiểu thuyết hồi hộp gay cấn đến phút chót ', NULL, NULL, 'holme.png'),
-(8, NULL, 'Tâm sinh lý tuổi dậy thì', 'Tâm sinh lý', 'Đề tài nóng bỏng', NULL, NULL, '');
+(3, '1', 'De hoc tot toan', 'cung nhau hoc ', 'lalalalalala', NULL, NULL, 'toan.png'),
+(4, '2', 'De hoc tot van', 'Van hoc nghe thuat', 'Gianh cho lua tuoi 18+.\r\nCuon sach ghi lai nhung thoi diem thang hoa cua cac tac gia tre. ', NULL, NULL, 'vanhoc.png'),
+(5, '3', 'De men phieu luu ki', 'tu sach thieu nhi', 'sach gianh cho lua tuoi 18-, \nCu?c phiêu l?u c?a chú d? 18+\n???????', NULL, NULL, 'demen.png'),
+(6, '4', 'Tay du ki', 'Tieu thuyet kinh dien', 'Đường tăng thiển kinh \r\n小説', NULL, NULL, 'tayduki.png'),
+(7, '2', 'Sherlock Holmes', 'Truyện trinh thám ', 'Tiểu thuyết hồi hộp gay cấn đến phút chót ', NULL, NULL, 'holme.png'),
+(8, '1', 'Tâm sinh lý tuổi dậy thì', 'Tâm sinh lý', 'Đề tài nóng bỏng', NULL, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -151,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `7maru_coma_categories` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `7maru_coma_categories`
@@ -210,15 +220,15 @@ CREATE TABLE IF NOT EXISTS `7maru_coma_transactions` (
 --
 
 INSERT INTO `7maru_coma_transactions` (`transaction_id`, `coma_id`, `student_id`, `created`, `modified`) VALUES
-(1, 3, '2', NULL, NULL),
+(1, 3, '4', '2014-03-03 00:00:00', NULL),
 (2, 4, '1', NULL, NULL),
 (3, 5, '2', NULL, NULL),
 (4, 6, '3', NULL, NULL),
 (5, 3, '2', NULL, NULL),
 (6, 3, '4', NULL, NULL),
-(7, 4, '5', NULL, NULL),
-(8, 4, '6', NULL, NULL),
-(9, 5, '4', NULL, NULL),
+(7, 4, '5', '2014-04-09 00:00:00', NULL),
+(8, 4, '4', '2014-03-20 00:00:00', NULL),
+(9, 5, '4', '2014-03-12 00:00:00', NULL),
 (10, 6, '4', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -250,24 +260,6 @@ INSERT INTO `7maru_comments` (`comment_id`, `user_id`, `coma_id`, `created`, `mo
 (5, '3', '5', NULL, NULL, 'qua ngon '),
 (6, '4', '4', NULL, NULL, 'qua tuyet voi'),
 (7, '6', '8', NULL, NULL, 'nuot');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `7maru_files`
---
-
-CREATE TABLE IF NOT EXISTS `7maru_files` (
-  `file_id` int(11) NOT NULL AUTO_INCREMENT,
-  `file_name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `path` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  `coma_id` int(11) DEFAULT NULL,
-  `type` text CHARACTER SET ascii,
-  `isTest` tinyint(1) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -382,7 +374,8 @@ INSERT INTO `7maru_students` (`student_id`, `credit_account`, `level`, `created`
 ('1', '92834DFKJSNOFOKSDF', '2', NULL, NULL),
 ('2', 'KJDKFLSKĐ23433', '3', NULL, NULL),
 ('3', '734JJGJHBDJSGFYU', '5', NULL, NULL),
-('4', 'JNJDAKSDNIUJNKJDKJ', '3', NULL, NULL);
+('4', 'JNJDAKSDNIUJNKJDKJ', '3', NULL, NULL),
+('834e09f7', '5678GKHJK', 'dai hoc', '2014-03-11 06:47:16', '2014-03-11 06:47:16');
 
 -- --------------------------------------------------------
 
@@ -407,8 +400,13 @@ CREATE TABLE IF NOT EXISTS `7maru_teachers` (
 INSERT INTO `7maru_teachers` (`teacher_id`, `bank_account`, `office`, `description`, `created`, `modified`) VALUES
 ('1', 'JDBF874594id', 'HUST', 'giang day bo mon tam sinh ly', NULL, NULL),
 ('2', 'SDSBDFUYSHUDSN857678', 'NUDE', 'Giao duc gioi tinh', NULL, NULL),
+('2b60dbb3', 'HSNSM', 'bkhn', 'xxx', '2014-03-10 21:48:33', '2014-03-10 21:48:33'),
 ('3', '636jhFGJBJH', 'NUC', 'Day co khi dong luc hoc', NULL, NULL),
-('4', '3454HUKJKBJH', 'FPT', '4 nam kinh nghiem', NULL, NULL);
+('4', '3454HUKJKBJH', 'FPT', '4 nam kinh nghiem', NULL, NULL),
+('9cd8399d', 'TFGH67898', 'HUST', 'Thich da bong', '2014-03-11 00:45:41', '2014-03-11 00:45:41'),
+('af0db0de', 'GHJ3456', 'Thanh Hoa', 'Thich da bong', '2014-03-11 01:04:12', '2014-03-11 01:04:12'),
+('c1bf02ce', 'Ar7890832jKHDF', 'dhbkhn', 'Like soccer', '2014-03-10 21:09:27', '2014-03-10 21:09:27'),
+('fb206a1e', '76789UYFHKBN', 'HUST', 'thi xem phim', '2014-03-11 06:10:13', '2014-03-11 06:10:13');
 
 -- --------------------------------------------------------
 
@@ -432,6 +430,12 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
   `foreign_id` char(20) NOT NULL,
   `verifycode_question` char(40) NOT NULL,
   `verifycode_answer` char(40) NOT NULL,
+  `approved` int(11) NOT NULL,
+  `activated` int(11) NOT NULL,
+  `original_password` char(50) NOT NULL,
+  `original_verifycode_answer` char(50) NOT NULL,
+  `original_verifycode_question` char(50) NOT NULL,
+  `profile_picture` varchar(20) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -440,16 +444,20 @@ CREATE TABLE IF NOT EXISTS `7maru_users` (
 -- Dumping data for table `7maru_users`
 --
 
-INSERT INTO `7maru_users` (`user_id`, `username`, `firstname`, `lastname`, `date_of_birth`, `address`, `password`, `user_type`, `mail`, `phone_number`, `created`, `modified`, `foreign_id`, `verifycode_question`, `verifycode_answer`) VALUES
-('1', 'dac', 'dac', 'hoang', NULL, NULL, 'a16601fdae893294d613fb12e252cb2b0bb3b560', 1, NULL, NULL, '2014-03-04 00:47:04', '2014-03-04 00:47:04', '', '', ''),
-('2', 'hoang', 'dac', 'hoang', NULL, NULL, 'b7e894fb9a364e9fc2db421ac49e0574cfda7191', 1, NULL, NULL, '2014-03-04 00:49:33', '2014-03-04 00:49:33', '', '', ''),
-('3', 'viet', 'viet', 'to', NULL, NULL, 'ab4c7c73b3b6bd6f93dd0082b1b173c82858ff42', 1, NULL, NULL, '2014-03-04 00:50:30', '2014-03-04 00:50:30', '', '', ''),
-('4', 'dat', 'dat', 'to', NULL, NULL, '6088898e80dd32fed07b5af3bb074dd6466100c4', 1, NULL, NULL, '2014-03-04 00:50:46', '2014-03-04 00:50:46', '', '', ''),
-('5', 'tam', 'dat', 'to', NULL, NULL, 'e9d37c14eea93599d205b90006f06f7887a100ba', 2, NULL, NULL, '2014-03-04 00:51:40', '2014-03-04 00:51:40', '', '', ''),
-('6', 'vy', 'TuongVy', 'to', NULL, NULL, '23493fb02d4a0c6a7fb3ca894b75bd324073db45', 2, NULL, NULL, '2014-03-04 00:52:33', '2014-03-04 00:52:33', '', '', ''),
-('7', 'giang', 'Giang', 'Vu', NULL, NULL, '18347141b162c4624e517bc383a49ff7768f7111', 2, NULL, NULL, '2014-03-04 00:53:05', '2014-03-04 00:53:05', '', '', ''),
-('8', 'dung', 'Dung', 'Phuong', NULL, NULL, 'fb0f59d24acf54dabdd9810ed5461824645fe29c', 2, NULL, NULL, '2014-03-04 00:53:36', '2014-03-04 00:53:36', '', '', ''),
-('9', 'hoangdd', NULL, NULL, NULL, NULL, '999cea5004499a5d0e2cf026a9321b29e3363907', NULL, NULL, NULL, NULL, NULL, '', '', '');
+INSERT INTO `7maru_users` (`user_id`, `username`, `firstname`, `lastname`, `date_of_birth`, `address`, `password`, `user_type`, `mail`, `phone_number`, `created`, `modified`, `foreign_id`, `verifycode_question`, `verifycode_answer`, `approved`, `activated`, `original_password`, `original_verifycode_answer`, `original_verifycode_question`, `profile_picture`) VALUES
+('05497cb7', 'linhkhac', 'linh', 'khac', '2014-03-13', 'Gam cau', '5ee06a0f9528e0eec60cd5acca10d2c1f7fe9de5', 1, 'linh@gmail.com', '126782493434f', '2014-03-11 01:04:12', '2014-03-11 01:04:12', 'af0db0de', '9d156d45d26c15b90b6f3a36c32a85c3e4921787', '2675791c483044b66b84c0baa4d93d053eb61add', 1, 1, '', 'math', 'What subject do you like?', '05497cb7.'),
+('1', 'dac', 'dac', 'hoang', NULL, NULL, 'a16601fdae893294d613fb12e252cb2b0bb3b560', 1, NULL, NULL, '2014-03-04 00:47:04', '2014-03-10 15:48:25', '1', 'dff57b26c8295215545c72e28293cc39670fca0e', 'f7abc32537c6366562ad36b19e5f860ce744b8f7', 1, 0, '', '', '', ''),
+('2', 'hoang', 'dac', 'hoang', NULL, NULL, 'b7e894fb9a364e9fc2db421ac49e0574cfda7191', 1, NULL, NULL, '2014-03-04 00:49:33', '2014-03-10 15:51:00', '2', '', '', 1, 0, '', '', '', ''),
+('3', 'viet', 'viet', 'to', NULL, NULL, 'ab4c7c73b3b6bd6f93dd0082b1b173c82858ff42', 1, NULL, NULL, '2014-03-04 00:50:30', '2014-03-10 15:52:21', '3', '', '', 1, 0, '', '', '', ''),
+('4', 'dat', 'dat', 'to', NULL, NULL, '6088898e80dd32fed07b5af3bb074dd6466100c4', 1, NULL, NULL, '2014-03-04 00:50:46', '2014-03-10 15:57:13', '4', '', '', 1, 0, '', '', '', ''),
+('5', 'tam', 'dat', 'to', NULL, NULL, 'e9d37c14eea93599d205b90006f06f7887a100ba', 2, NULL, NULL, '2014-03-04 00:51:40', '2014-03-04 00:51:40', '1', '', '', 0, 0, '', '', '', ''),
+('6', 'vy', 'TuongVy', 'to', NULL, NULL, '23493fb02d4a0c6a7fb3ca894b75bd324073db45', 2, NULL, NULL, '2014-03-04 00:52:33', '2014-03-10 15:57:54', '2', '', '', 0, 0, '', '', '', ''),
+('7', 'giang', 'Giang', 'Vu', NULL, NULL, '18347141b162c4624e517bc383a49ff7768f7111', 2, NULL, NULL, '2014-03-04 00:53:05', '2014-03-04 00:53:05', '3', '', '', 0, 0, '', '', '', ''),
+('8', 'dung', 'Dung', 'Phuong', NULL, NULL, 'fb0f59d24acf54dabdd9810ed5461824645fe29c', 2, NULL, NULL, '2014-03-04 00:53:36', '2014-03-04 00:53:36', '4', '', '', 1, 0, '', '', '', ''),
+('916f11fc', 'hoangdac', 'dac232', 'hoang', '1996-01-02', 'hotada91@gmail.com', 'f2bf8ce00b1ac211a485cb2087b933a6fbd8c54b', 1, 'hotada91@gmail.com', '01649635921', '2014-03-10 21:09:28', '2014-03-10 21:09:28', 'c1bf02ce', '00ce288ddcd33aa3cac87d8d033adbd5b19612b6', 'c6d62c306717ef63bc0276296a017f86bb272854', 1, 1, '', '', '', ''),
+('e9ded74a', 'dinhbinh', 'binh', 'hoang', '2013-01-01', 'Ha nam', '181a1090ae9e96c646bdd71b0cfab763b0551b01', 2, 'binh@gmail.com', '01649635921', '2014-03-11 06:47:16', '2014-03-11 06:47:16', '834e09f7', 'b8fcd3ee7fdf18abeb62411fa2f20f91b8410da2', '5a14319801bbe26cd1216da265a8704aa1400690', 1, 1, 'e5ea61b2fbb0710c92905184c766af4394486661', '5a14319801bbe26cd1216da265a8704aa1400690', 'b8fcd3ee7fdf18abeb62411fa2f20f91b8410da2', 'e9ded74a.jpg'),
+('f68ae89c', 'nguyenxuan', 'xuan', 'nguyen', '2009-09-17', 'Xuan mai', '413a4900f59ed1e5dd6003fa0f165b3a9b919f55', 1, 'bloodfire@gmail.com', '7349823095345', '2014-03-11 00:45:41', '2014-03-11 00:45:41', '9cd8399d', 'd0d7fb96449f70e23f02fb7e45573a1ea6a9dfc4', 'd165d762cc143cef1da3dee431a19574d1fbbbb4', 1, 1, '', 'math', 'What subject do you like?', 'f68ae89c.'),
+('f93019ba', 'minhhoang', 'hoang', 'minh', '2014-01-30', 'ha noi', '80d868afe1198444138b4fb0f6714de3928eb26c', 1, 'hoang@yahoo.com', '01423853459', '2014-03-11 06:10:13', '2014-03-11 06:10:13', 'fb206a1e', '39cf9002ffcbfb5deae3ec941e3c78d3f0c0debe', 'b327224e24f032af57e3b519c39eabaaca4b20f8', 1, 1, '522f98f1b5705e629234152056763082c8b55674', 'b327224e24f032af57e3b519c39eabaaca4b20f8', '39cf9002ffcbfb5deae3ec941e3c78d3f0c0debe', 'f93019ba.jpg');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

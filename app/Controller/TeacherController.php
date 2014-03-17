@@ -294,6 +294,27 @@ class TeacherController extends AppController {
         $this->set('error', $error);
     }
 
+    function CheckUsername(){
+        $this->loadModel('Register');
+         if ($this->request->is('post')) {
+             // lay du lieu gui len
+            $value = $this->request->data['value'];
+            // chuyen sau thanh mang
+            $data = $this->request->data;
+            $res = $this->User->find('first', array(
+                    'conditions' => array(
+                        'User.username' => $value
+                )));           
+            if (isset($res) && !empty($res)) {
+                    //存在しない
+                echo "exist";
+            } else {
+                echo "ok";
+            }
+        }
+        die;
+    }
+
     function Profile() {
         if ($this->Auth->loggedIn()) {
             $pid = $this->Auth->User('user_id');
