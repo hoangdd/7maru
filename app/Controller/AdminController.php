@@ -652,6 +652,56 @@ class AdminController extends AppController {
         die;
     }
 
+    function ReferenceManage(){
+
+       $this->loadModel('Lesson');
+       $this->loadModel('LessonReference');
+       $this->loadModel('User');
+         $this->LessonReference->bindModel(array(
+             'belongsTo' => array(
+                 'Lesson' => array(
+                    'className' => 'Lesson',
+                     'foreignKey' => 'coma_id',
+                     //'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
+                  )
+             )
+         ), true);        
+             
+         $this->LessonReference->Lesson->bindModel(array(
+             'belongsTo' => array(
+               'Author' => array(
+                   'className' => 'User',
+                   'foreignKey' => 'author',                                                     
+                     //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
+               )
+             )
+         ), true);
+
+        $data = $this->LessonReference->find('all',array('recursive' => 3));
+        
+        $reference = array();
+        $i=0;
+        foreach ($data as $dt ) {
+            $reference[$i]['name']  =   $dt['LessonReference']['name'];
+            $reference[$i]['author']=   $dt['Lesson']['Author']['firstname'].' '.$dt['Lesson']['Author']['lastname'];
+            $reference[$i]['date']  =   $dt['LessonReference']['created'];
+            $i++;
+        }
+        $this->set('reference',$reference);
+
+       /*$paginate = array (
+           'limit' => 10,
+           'fields' => array (
+               'LessonReference.name',
+               'LessonReference.link',
+               'LessonReference.created' 
+               ) 
+           );
+       $this->Paginator->settings = $paginate;
+       $data = $this->Paginator->paginate ( 'User' );
+       $this->set ( 'data', $data );*/
+   }
+
     function formatToWriteAccountFile($data) {
         $_SERER_CODE = "ELS-UBT-GWK54M78";
         $_STUDENT_PAY_MONEY = 20000;

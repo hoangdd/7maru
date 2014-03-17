@@ -1,11 +1,6 @@
-<?php 
-	$this->Paginator->options(array(
-         'update' => '#reference_list',
-         'evalScripts' => true
-         ));
-?>
+
 <!-- header -->
-<div id="reference_list">
+<div>
 <h1 style="text-align:center">
 	<?php echo __('Reference Manage'); ?>
 </h1>
@@ -24,6 +19,11 @@
         <th class="info"><label><?php echo __("Date Created");?></label></th>
         <th class="info"><label><?php echo __("Violation");?></label></th>
         <th class="info"><label><?php echo __("Delete");?></label></th>
-        
+        <?php
+        foreach ($reference as $d):
+            echo '<tr><td>'.$d['name'].'</td><td>'.$d['author'].'</td><td>'.$d['date'].'</td>';
+            echo '<td>Violation</td><td>Delete</td></tr>';
+        endforeach;
+        ?>
 	</table>
 </div>

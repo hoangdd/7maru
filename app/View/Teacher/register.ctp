@@ -320,23 +320,46 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
     $("#register-form").validate();
     // method check username follow form    
     jQuery.validator.addMethod("checkusername", function(value,element) {
-    return /^[A-Za-z]\w+$/.test(value);
+        return /^[A-Za-z]\w+$/.test(value);
     });
+
+    //method check username in the database
+    jQuery.validator.addMethod("checkusername_database",function(value,element){
+        var result = true;
+         $.ajax({
+                url:'CheckUsername',//noi muon gui du lieu den
+                type:'post', //method
+                data:{value:value},                
+                complete : function(res){
+                    // du lieu tra ve tu controller
+                    console.log(res.responseText.trim());
+                    if(res.responseText.trim() == "exist")
+                        result = false;
+                    else{
+                    result = true;}
+                }
+        })
+         return result;
+    });
+
     // method check password follow form
     jQuery.validator.addMethod("checkpass", function(value,element) {
-    return /^\w+$/.test(value);
+        return /^\w+$/.test(value);
     });
+
     //rules of username
     $( "#username" ).rules( "add", {
         required: true,
         minlength: 6,
         maxlength: 30,
         checkusername: true,
+        checkusername_database: true,
         messages: {
             required: "Required input",
             minlength: jQuery.format("Please, at least {0} characters are necessary"),
             maxlength: jQuery.format("Please enter no more than {0} characters"),
             checkusername: jQuery.format("Please enter follow format: aaAA123 or abc_123"),
+            checkusername_database: jQuery.format("Username is exist"),
         }
     });
     
