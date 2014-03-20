@@ -6,6 +6,7 @@ class LessonTransaction extends AppModel {
     * ゆーざーは授業を買ったか、そして、その授業は今勉強できるかどうかをチェックする。
     *
     */
+    public $primaryKey =  'transaction_id';
     public function had_active_transaction($user_id, $coma_id){
         $transaction = $this->query("Select * from 7maru_coma_transactions WHERE coma_id = '$coma_id' AND student_id = '$user_id'");
         if($transaction){

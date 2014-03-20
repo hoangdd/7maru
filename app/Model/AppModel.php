@@ -33,7 +33,7 @@ App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class AppModel extends Model {
 
 	public $tablePrefix = '7maru_';
-
+	public $actsAs = array('Containable');
 	//hash password with #sha1 -> return string[40]
 	protected static function _hashPassword($inputString = null){
 		if( !empty($inputString)){

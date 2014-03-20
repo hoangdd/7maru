@@ -3,7 +3,15 @@ define('FILE_DIR', WEBROOT_DIR.DS.'files'.DS.'data');
 class LessonController extends AppController {
 
     var $components =  array('Session','Paginator');
-    var $uses = array('Category','Lesson','LessonCategory','Data','Teacher','RateLesson','LessonTransaction');
+    var $uses = array(
+    	'Category',
+		'Lesson',
+		'LessonCategory',
+		'Data',
+		'Teacher',
+		'RateLesson',
+		'LessonTransaction'
+	);
     /**
     * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
     *　$id: 授業のID
@@ -60,7 +68,7 @@ class LessonController extends AppController {
 			$this->set('user',$this->Auth->user());
 
 			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
-			// debug($teacher);
+			debug($lesson);
 		} else {
 			throw new NotFoundException();
 		}
@@ -132,7 +140,7 @@ class LessonController extends AppController {
 			
 			if(count($error)){
 				$this->set('error',$error);
-				debug($error);
+				// debug($error);
 				$this->set('data',$data);
 			}else{
 				// Save Lesson Information
@@ -225,7 +233,7 @@ class LessonController extends AppController {
 		if( !empty($lesson)){
 		//ok
 		//@todo : check user has permission to view
-			debug($lesson);
+			// debug($lesson);
 			$this->set('data', $lesson);
 
 		}else{
@@ -243,7 +251,7 @@ class LessonController extends AppController {
 		$files = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
-		debug($files);
+		// debug($files);
     }
     public function rate(){
     	if($this->request->is('post')){
@@ -276,25 +284,27 @@ class LessonController extends AppController {
     		) 
     	)
     	);
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit, 
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
     			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
     			'group' => 'RateLesson.coma_id',
     			'recursive' => 3
     	   	);    
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'RateLesson');
+    	//$this->Paginator->settings = $pagination;
+    	$data = $this->RateLesson->find ('all',$options);
     	foreach($data as $key=>$value){
     		$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
     		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
     		unset($data[$key]['Lesson']['Author']);
     		unset($data[$key]['0']);
     	}
-    	debug($data);
+		$this->set('data', $data);
     }
     
-    function NewLesson() {
+    function NewLesson($pageIndex) {
+    	$this->layout = null;
     	$this->loadModel('Lesson');
     	$this->loadModel('User');
     	$this->loadModel('RateLesson');    	
@@ -312,13 +322,14 @@ class LessonController extends AppController {
     		),
     	));
     	$page_limit = 3;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'order' => array('Lesson.created' => 'DESC'),    			
     			'group' => 'Lesson.coma_id'    			
     	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'Lesson');
+
+    	$data = $this->Lesson->find ( 'all',$options);
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['RateLesson'] as $le){    			
@@ -330,10 +341,11 @@ class LessonController extends AppController {
 			}			    		
     		$data[$key]['RateLesson'] = $rank;    		
     	}    	
-    	debug($data);
+    	$this->set("data",$data);
+    	// debug($data);
     }
     
-    function RecentLesson() {
+    function RecentLesson($pageIndex) {
     	$this->loadModel('Lesson');
     	$this->loadModel('User');
     	$this->loadModel('LessonTransaction');
@@ -360,15 +372,15 @@ class LessonController extends AppController {
     		)
     	));
     	$page_limit = 4;
-    	$pagination = array (
+    	$options = array (
     			'limit' => $page_limit,    			
+    			'offset' => ($pageIndex-1) * $page_limit,
     			'order' => array('LessonTransaction.created' => 'DESC'),
     			'group' =>  'LessonTransaction.transaction_id',
     			'recursive' => 2
     	
-    	);
-    	$this->Paginator->settings = $pagination;
-    	$data = $this->Paginator->paginate ( 'LessonTransaction'); 
+    	);    	
+    	$data = $this->LessonTransaction->find ( 'all',$options); 
     	foreach($data as $key=>$lesson){
     		$rank = 0;$count = 0;
     		foreach($lesson['Lesson']['RateLesson'] as $le){    			
@@ -384,7 +396,8 @@ class LessonController extends AppController {
     		unset($data[$key]['Lesson']['Author']);
     		unset($data[$key]['LessonTransaction']);
     	}    	   	
-    	debug($data);
+    	$this->set("data",$data);
+    	// debug($data);
     }
     
     function Bestseller() {
@@ -400,7 +413,7 @@ class LessonController extends AppController {
 		);
     	
 //     	print_r($data);
-		debug($data);
+		// debug($data);
     }
 
 }

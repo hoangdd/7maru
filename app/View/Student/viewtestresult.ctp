@@ -1,70 +1,35 @@
-<html>
-	<head>
-			<style>
-				h1
-				{
-					color:orange;
-					text-align:center;
+<table width="99%" cellspacing="0" cellpadding="0" border="0" align="left" style="border: 1px solid rgb(219, 219, 219);">
+	<tbody>
+	<tr bgcolor="#f2eee2">
+	<td height="22" align="left" class="profile_info_text">問題 <?php echo $qid+1; ?>: 点数 <?php echo $finalTest['Question'.$qid]['markNumber']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php if($total>($qid+1)) { echo '<input type="button" onClick="javascript:showQuesSec('.($qid+1).');" value="Next" class="test_next_but" />'; } ?> &nbsp;&nbsp;&nbsp;&nbsp;<?php if($qid>0) { echo '<input type="button" onClick="javascript:showQuesSec('.($qid-1).');" value="Prev" class="test_next_but" />'; } ?></td>
+	</tr>
+	   <tr><td height="200" width="5%" valign="top" align="left" style="padding: 4px; line-height: 17px; color: rgb(0, 0, 0);" >
+
+	<p align="justify" style="font-family: Arial; font-size: 13px;"><font size="2" face="Arial"><b><u>内容:</u></b></font></p>
+	<p><font size="2" face="Arial"><b><?php echo stripcslashes($finalTest['Question'.$qid]['content']); ?></b></font></p>
+	<div class="QBYQ_incorrect">選択 : <?php 
+		if(strcmp($choosedEnd[$qid],"ignored") == 0) 
+			echo '選ばない ';
+		else if($choosedEnd[$qid] == $finalTest['Question'.$qid]['mark']) echo '正しい ';
+		else echo '正しくない ';
+		?></div><br /><br />
+	<?php
+	// 
+				for($i=0;$i<count($finalTest['Question'.$qid]) - 3;$i++)
+				{ $tempToCompare = intval($finalTest['Question'.$qid]['mark']);
+					echo '<br/>';
+					if($i == $tempToCompare)
+						echo '<img src="/7maru/app/webroot/anything/tic_qByq.gif" />';
+					else if(intval($choosedEnd[$qid])==$i)
+						echo '<img src="/7maru/app/webroot/anything/q-by-q_cross.gif" />';
+					else
+						echo '<img src="/7maru/app/webroot/anything/qbyq_round.gif" />';
+	?>
+	<span align="left" class="exam_head_instruction" style=""><strong><?php echo stripcslashes($finalTest['Question'.$qid]['Option'.$i]); ?></strong></span>
+
+	<?php	
 				}
-				
-			</style>
-	</head>
-
-	<body>
-	
-		<h1>結果</h1>
-		<div class="jumbotron">
-		  <p>終わった時間:<?php echo $time;?>分</p>
-		  <p>テストのテーマ:IT日本語</p>
-		  
-		</div>
-
-<?php 
-	$correct_per = round((intval($hit)/intval($total))*100,2);
-	$incorrect_per = round(((intval($total)-intval($hit))/intval($total))*100,2);
-	$notattempt_per = round(((intval($total)-intval($mark))/intval($total))*100,2);
-?>
-			<div>
-                    <div class="width3">
-                      
-                      <hr />
-                      <table class="no-style full" cellpadding="0" cellspacing="0" border="0">
-                        <tbody>
-                          <tr>
-                            <td style="padding-left:10px;">正しい</td>
-                            <td class="ta-right"><?php echo $hit; ?>/<?php echo $total; ?></td>
-                            <td><div value="1" id="progress1" class="progress full progress-green"><span style="width: <?php echo $correct_per; ?>%; display: block;"><b style="display: inline;"><?php echo $correct_per; ?>%</b></span></div></td>
-                          </tr>
-                          <tr>
-                            <td style="padding-left:10px;">正しくない</td>
-                            <td class="ta-right"><?php $incorrect = intval($total) - intval($hit);
-                            	echo $incorrect; ?>/<?php echo $total; ?></td>
-                            <td><div value="2" id="progress2" class="progress full progress-red"><span style="width: <?php echo $incorrect_per; ?>%; display: block;"><b style="display: inline;"><?php echo $incorrect_per; ?>%</b></span></div></td>
-                          </tr>
-                          
-                          <tr>
-                            <td style="padding-left:10px;">選ぶ</td>
-                            <td class="ta-right"><?php
-                            	$not_attempt = intval($total) - intval($mark); 
-                            	echo $not_attempt; ?>/<?php echo $total; ?></td>
-                            <td><div value="2" id="progress3" class="progress full progress-blue"><span style="width: <?php echo $notattempt_per; ?>%; display: block;"><b style="display: inline;"><?php echo $notattempt_per; ?>%</b></span></div></td>
-                          </tr>
-                          <tr>
-                            <td style="padding-left:10px;">選ばない</td>
-                            <td class="ta-right"><?php echo $mark; ?>/<?php echo $total; ?></td>
-                            <td><div value="2" id="progress4" class="progress full progress-orange"><span style="width: <?php echo (100-$notattempt_per); ?>%; display: block;"><b style="display: inline;"><?php echo (100-$notattempt_per); ?>%</b></span></div></td>
-                          </tr>
-                          <tr>
-                            <td colspan="3" style="padding-left:10px;" align="center">
-                            <span style="font-weight: bold"><a href="javascript:showQuesSec(0);" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">実施したテストを見る</a> 
-                            | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;"授業を見る</a>
-                            | <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">次のテストをする</a></span>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                </div>
-
-	</body>
-</html>
+	?>
+	            </td></tr>
+			</tbody>
+	        </table>

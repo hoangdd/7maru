@@ -6,7 +6,7 @@ class Data extends AppModel {
 	public function beforeSave($option = array()){
 
 		//generate ids 
-		$data = $this->data['File'];
+		$data = $this->data['Data']['File'];
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
 		$data['file_id'] = hash('crc32', (string)$idString);
@@ -18,11 +18,11 @@ class Data extends AppModel {
 		if($ret == false) return false; //fail
 
 		$data['path'] = $ret;
-		$data['coma_id'] = $this->data['File']['coma_id'];
+		$data['coma_id'] = $this->data['Data']['File']['coma_id'];
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
 
-		$this->data['File'] = $data;
+		$this->data['Data']['File'] = $data;
 	}
 
 	private function __convertAndSave($fid, $tmp, $ext){
@@ -59,7 +59,7 @@ class Data extends AppModel {
 			// debug(TSV_DATA_DIR.DS.$fid.'.'.$ext);
 			if( move_uploaded_file($tmp, TSV_DATA_DIR.DS.$fid.'.'.$ext)){
 				$data = $this->readTsv(TSV_DATA_DIR.DS.$fid.'.'.$ext);
-				$jsFileName = HTML_DATA_DIR.DS.$fid.'.js';
+				$jsFileName = 'test_store/'.$fid.'.js';
 				// debug($jsFileName);
 				$this->__tsvToJs($jsFileName, $data);
 				// return HTML_DATA_DIR.DS.$fid.'.js';
@@ -99,16 +99,15 @@ class Data extends AppModel {
 			$arrayOption;
 			while ( ! feof ( $nFile ) ) {
 				$nLineData = fgets ( $nFile );
+				
 				$temp_temp ++;
 				if ($temp_temp > 4) {
 
-					// echo "$nLineData ketthuc<br>"; //Debug, Works Fine.
 					$flagQuestion = 0; // doc cau hoi
 					// $nLineData = mb_convert_encoding($nLineData, "UTF-8");
 					$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
-
-					$nParsed = explode ( "\t", $nLineData, - 1 );
-					if (count ( $nParsed ) == 3) {
+					$nParsed = explode ( "\t", $nLineData );
+					if (count ( $nParsed ) == 3 || count ( $nParsed ) == 4) {
 						if (strcmp ( $nParsed [0], "" ) != 0) {
 							if (strcmp ( $nParsed [1], "QS" ) == 0) {
 								$indexItem = "Question" . $questionNumber;
@@ -119,6 +118,7 @@ class Data extends AppModel {
 									// $resultStrTemp = multiexplode(array("S(",")"),$nParsed[2]);
 									// print_r($resultStrTemp);
 									$resultStr = substr ( $nParsed [2], 2, - 1 );
+									$markNumber = $nParsed[3];
 									$result = intval ( $resultStr );
 									$result = $result - 1;
 									// $result = $nParsed[2];
@@ -129,7 +129,8 @@ class Data extends AppModel {
 										);
 									$arrTemp += $arrayOption;
 									$arrTemp += array (
-										"mark" => $result
+										"mark" => $result,
+										"markNumber" => $markNumber
 										);
 
 									$arrResult = array (
@@ -170,7 +171,6 @@ class Data extends AppModel {
 				}
 			}
 
-				// print_r($finalTest);
 			$this->set ( "test_list", $finalTest );
 				// 								$this->testList = $finalTest;
 			$jsFilename = "test_store/".$nFileName.'js';

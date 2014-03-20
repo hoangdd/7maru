@@ -110,7 +110,7 @@ if(isset($data)) :
 
 							foreach ($data['File'] as $key => $value) {
 								if($value['isTest']){
-									echo $this->Html->link($value['file_name'], array(
+									/*echo $this->Html->link($value['file_name'], array(
 											'controller' => 'Student',
 											'action' => 'Exam',
 											$value['file_id']
@@ -118,7 +118,8 @@ if(isset($data)) :
 										array(
 												'class' => "list-group-item"
 										)
-									);
+									);*/
+									$this->redirect ( '/student/exam?id='.$value['file_id'] );
 								}
 							}
 						}

@@ -2,10 +2,9 @@
 	
 <div class="col-md-3">
 
-
 	<?php    
   if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
-  else $image = $data['User']['profile_picture'];   
+  else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];   
    echo $this->Html->image($image, array(	
 
 	'width' => '180px',

@@ -16,11 +16,11 @@
 		<thead>
 			<tr>
 
-				<th class='text-center' style="width:5%">
+				<th class='text-center' style="width:20%">
 					<?php echo __('No.') ?>
 				</th>
 
-				<th class='' style="width:10%">
+				<th class='text-center' style="width:10%">
 					<?php echo __('Name') ?>
 				</th>
 
@@ -34,7 +34,7 @@
 				<th class='text-center' style="width:15%">
 					<?php echo __('Date of birth') ?>
 				</th>
-				<th class='text-center' style="width:25%">
+				<th class='text-center' style="width:20%">
 					<?php echo __('Created Account Time') ?>
 				</th>
 				<th class='text-center' style="width:5%">
@@ -64,10 +64,10 @@
 					echo $td.$user['User']['user_type'].$close;								
 					echo $td.$user['User']['date_of_birth'].$close;				
 					echo $td.$user['User']['created'].$close;				
-					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'edit',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'editUserProfile',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'reset_password',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'reset_verifycode',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
 					echo "</tr>";			
 				endforeach;
 			?>

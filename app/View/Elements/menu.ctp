@@ -108,6 +108,24 @@ user => comment, index
 					echo $this->Html->link('Statistic', $option);
 					?>
 				</li>
+				<?php
+					$option = array(
+						'controller' => 'Login',
+						'action' => 'logout'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Logout', $option);
+					?>
+				</li>
 			</ul>
 		<?php
 		endif;	//	if( $role=='R2' ) :
@@ -195,6 +213,24 @@ user => comment, index
 					echo $this->Html->link('Statistic', $option);
 					?>
 				</li>
+				<?php
+					$option = array(
+						'controller' => 'Login',
+						'action' => 'logout'
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+					echo $this->Html->link('Logout', $option);
+					?>
+				</li>
 			</ul>
 		<?php
 		endif;	//	if( $role=='R3' ) :
@@ -243,9 +279,9 @@ user => comment, index
 					?>
 				</li>
 
-				<li>
+			<!-- 	<li>
 					<a href="#">Register</a>
-				</li>
+				</li> -->
 				<?php
 					$option = array(
 						'controller' => 'Teacher',

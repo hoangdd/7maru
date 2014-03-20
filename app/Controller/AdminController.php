@@ -6,7 +6,8 @@ class AdminController extends AppController {
         'User',
         'Admin',
         'AdminIp',
-        'Notification'
+        'Notification',
+        'Category'
     );
     public $components = array(
         'Auth' => array(
@@ -307,11 +308,6 @@ class AdminController extends AppController {
             $this->set('error', $error);
         }
     }
-
-    function statistic() {
-        
-    }
-
     function acceptNewUser() {
 
         $paginate = array(
@@ -355,7 +351,7 @@ class AdminController extends AppController {
 
         }
     }
-                function account() {
+    function account() {
         if ($this->request->is('post')) {
             $month = $this->request->data['month'];
             $year = $this->request->data['year'];
@@ -652,6 +648,56 @@ class AdminController extends AppController {
         die;
     }
 
+    function ReferenceManage(){
+
+       $this->loadModel('Lesson');
+       $this->loadModel('LessonReference');
+       $this->loadModel('User');
+         $this->LessonReference->bindModel(array(
+             'belongsTo' => array(
+                 'Lesson' => array(
+                    'className' => 'Lesson',
+                     'foreignKey' => 'coma_id',
+                     //'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
+                  )
+             )
+         ), true);        
+             
+         $this->LessonReference->Lesson->bindModel(array(
+             'belongsTo' => array(
+               'Author' => array(
+                   'className' => 'User',
+                   'foreignKey' => 'author',                                                     
+                     //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
+               )
+             )
+         ), true);
+
+        $data = $this->LessonReference->find('all',array('recursive' => 3));
+        
+        $reference = array();
+        $i=0;
+        foreach ($data as $dt ) {
+            $reference[$i]['name']  =   $dt['LessonReference']['name'];
+            $reference[$i]['author']=   $dt['Lesson']['Author']['firstname'].' '.$dt['Lesson']['Author']['lastname'];
+            $reference[$i]['date']  =   $dt['LessonReference']['created'];
+            $i++;
+        }
+        $this->set('reference',$reference);
+
+       /*$paginate = array (
+           'limit' => 10,
+           'fields' => array (
+               'LessonReference.name',
+               'LessonReference.link',
+               'LessonReference.created' 
+               ) 
+           );
+       $this->Paginator->settings = $paginate;
+       $data = $this->Paginator->paginate ( 'User' );
+       $this->set ( 'data', $data );*/
+   }
+
     function formatToWriteAccountFile($data) {
         $_SERER_CODE = "ELS-UBT-GWK54M78";
         $_STUDENT_PAY_MONEY = 20000;
@@ -717,15 +763,204 @@ class AdminController extends AppController {
 			'conditions' => array('user_id' => $userId),
 			'fields' => array('original_password')
 		));		
-		$this->User->setField('password',$result['User']['original_password']);
+        $this->User->id = $userId;
+		$this->User->saveField('password',$result['User']['original_password']);            
+        $this->redirect('userManage');
 	}
-	function resetVerifyCode($userId){
+	function resetVerifycode($userId){
 		$this->loadModel('User');				
 		$result  = $this->User->find('first',array(
 			'conditions' => array('user_id' => $userId),
 			'fields' => array('original_verifycode_answer','original_verifycode_question')
 		));
-		$this->User->setField('verifycode_answer',$result['User']['original_verifycode_answer']);		
-		$this->User->setField('verifycode_question',$result['User']['original_verifycode_question']);		
+        $this->User->id = $userId;
+		$this->User->saveField('verifycode_answer',$result['User']['original_verifycode_answer']);
+		$this->User->saveField('verifycode_question',$result['User']['original_verifycode_question']);
+        $this->redirect('userManage');
 	}
+
+    function addCategory(){
+        if($this->request->is('post')){
+            $data = $this->request->data;
+            // $data[0] = $data;
+            debug($data);
+            $category = $this->Category->findByName($data['Category']['name']);
+            if($category){
+                $this->Session->setFlash(__('This Category already Created!!!'));
+            } else {
+                // $this->Category->create();
+                $this->Category->Save($data);
+                $this->Session->setFlash(__('Successfully Created'));
+            }
+        }
+    }
+    function editCategory($id){
+        $category = $this->Category->findByCategoryId($id);
+        if($category){
+            $this->set('Category',$category);
+            debug($category);
+        } else {
+            throw new NotFoundException();
+        }
+        if($this->request->is('post')){
+            $data = $this->request->data;
+            debug($data);
+            $category = $this->Category->findByName($data['Category']['name']);
+            if($category){
+                $this->Session->setFlash(__('This Category already Created!!!'));
+            } else {
+                // $this->Category->();
+                $this->Category->Save($data);
+                $this->Session->setFlash(__('Successfully Created'));
+            }
+        }
+    }
+
+    ///<summary>
+    /// code by @dac
+    ///<summary>
+    function editUserProfile($userId){
+        $this->loadModel('User');
+        $result  = $this->User->find('first',array(
+            'conditions' => array('user_id' => $userId)            
+        ));
+        if ($this->request->is('post')){                                  
+            $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+            $data = $this->User->create($this->request->data);            
+            $data['User']['user_id'] = $userId;            
+            $isSaved = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));
+            if ($isSaved){
+                if ($result['User']['user_type'] == 1){
+                    $teacherData = array(
+                        'Teacher' => array(
+                            'teacher_id' => $result['User']['foreign_id'],
+                            'bank_account' => $data['User']['account_number'],
+                            'username' => $result['User']['username']
+                            )
+                        );
+                        $this->loadModel('Teacher');            
+                    if ($this->Teacher->save($teacherData)){                    
+                        $this->Session->setFlash(__('Edit successful'));
+ //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                    }
+                }
+                else{
+                    $studentData = array(
+                        'Student' => array(
+                            'student_id' => $result['User']['foreign_id'],
+                            'credit_account' => $data['User']['account_number'],
+                            'username' => $result['User']['username']
+                            )
+                        );  
+                        $this->loadModel('Student');
+                    if ($this->Student->save($studentData)){                    
+                        $this->Session->setFlash(__('Edit successful'));                        
+                    }
+                }
+                $this->redirect('#');
+            }           
+        }        
+        if ($result['User']['user_type'] == 1){
+            $this->loadModel('Teacher');
+            $number = $this->Teacher->find('first',array('conditions' => array('teacher_id' => $result['User']['foreign_id'])));
+            $accountNumber = $number['Teacher']['bank_account'];
+        }
+        else{
+            $this->loadModel('Student');
+            $number = $this->Student->find('first',array('conditions' => array('student_id' => $result['User']['foreign_id'])));
+            $accountNumber = $number['Student']['credit_account'];
+        }
+        $result['User']['account_number'] = $accountNumber;
+        $this->set('userData',$result['User']);
+    }
+
+    function statistic() {
+        // App::uses('Utilities', 'Lib');
+        // $util = new Utilities();
+        // $this->set('util',$util);
+        // $begin =  date_create('2014/01/01');        
+        // $begin = date_format($begin,'Y-m-d');                        
+        // $end = date('Y-m-d');         
+
+        //================================
+        //get Top 5 the most bought lesson 
+        //================================
+        $this->loadModel('LessonTransaction');
+        $topLesson = $this->LessonTransaction->find('all',array(            
+            'fields' => array('COUNT(transaction_id) as buy_num','coma_id'),
+            'group' => 'coma_id',
+            'order' => 'buy_num',
+            'limit' => 5
+        ));       
+        //get rank of top lesson
+        $this->loadModel('RateLesson');
+        foreach($topLesson as $index => $lesson):
+            $coma_id = $lesson['LessonTransaction']['coma_id'];
+           $result = $this->RateLesson->find('all',array(
+            'conditions' => array(
+                'coma_id' => $coma_id
+            ),
+            'fields' => array('AVG(rate) as rate')
+            ));                                               
+           if (isset($result[0][0]['rate'])){
+               $topLesson[$index]['rate'] = $result[0][0]['rate'];
+           }       
+           $topLesson[$index]['coma_id'] = $coma_id;
+           unset($topLesson[$index]['LessonTransaction']);
+           $topLesson[$index]['buy_num'] = $lesson[0]['buy_num'];
+           unset($topLesson[$index][0]);
+        endforeach;        
+
+        //================================
+        //get Top 5 teacher  
+        //================================        
+        $this->User->bindModel(array(
+                'hasMany' => array(
+                    'Lesson' => array(
+                        'className' => 'Lesson',
+                        'foreignKey' => 'author',                                         
+                    )                   
+                )                        
+            )
+        );   
+        $this->loadModel('Lesson');
+        $this->Lesson->bindModel(array(
+            'hasMany' => array(
+                'LessonTransaction' => array(
+                    'className' => 'LessonTransaction',                    
+                    'foreignKey' => 'coma_id'                    
+                )
+            )
+        ));                     
+        $topTeacher = $this->User->find('all',array(
+            'contain' => array(                                  
+                'Lesson' => array(             
+                    'fields' => array(),
+                    'LessonTransaction' => array(
+                            'fields' => array('transaction_id')
+                        )
+                    )                
+                ),
+            'conditions' => array(
+                'user_type' => 1
+            ),            
+            'fields' =>  array('username','profile_picture'),
+            'recursive' => 3
+        ));                
+        foreach($topTeacher as $index => $money){
+            $buy_num = 0;
+            foreach($money['Lesson'] as $m){
+                $buy_num = $buy_num + $m['LessonTransaction'].count();
+            }
+            $topTeacher[$index]['User']['buy_num'] = $buy_num;
+            unset($topTeacher[$index]['Lesson']);            
+        }        
+        $this->set(compact(array('topTeacher','topLesson','topStudent')));
+    }
+
+    ///==================
+    /// end code by @dac
+    ///==================
 }
+
+?>

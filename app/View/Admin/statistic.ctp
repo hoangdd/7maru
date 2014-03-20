@@ -10,148 +10,141 @@ echo $this->Html->script(array('chartapi','bootstrap-datepicker'));
 echo $this->Html->css('datepicker');
 //====================
 
-//====================
-// Sample data
-$sttBy = 'week'; // statistic by week
-$day = 21; $month = 2; $year = 2014;
-$days = array(21,22,23,24,25,26,27);
-$viewNumADay = 1;
-$voteNumADay = 1;
-$purchaseNumADay = 1;
-$viewNums = array(1,2,3,4,10,20,30);
-$voteNums = array(1,2,3,4,1,2,3);
-$purchaseNums = array(1,2,3,4,1,2,3);
-$beginDate = '21/2/2013';
+$total = 0;
+$count = count($dataToChart['Money']);
+for ($i = 1; $i< $count; $i++ ){
+  $total = $total + $dataToChart['Money'][$i][1];
+}
+$total = $total * MONEY_PER_LESSON * (1 - TEACHER_PROFIT_PERCENTAGE);
 //====================
 ?>
 <!-- script to draw chart -->
 <script type="text/javascript">
-        // Load the Visualization API and the piechart package.
-        google.load('visualization', '1', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.    
-      // google.setOnLoadCallback(drawVoteChart);
-      // google.setOnLoadCallback(drawPurchaseChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      var unit = 'views';
-      dd = today.getDate();
-      mm = today.getMonth()+1; //January is 0!
-      yyyy = today.getFullYear();
-      if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
-      var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
-      options = {
-                           title: 'Number of '+unit,             
-                           width: '100%',
-                           height:'100%',
-                           hAxis: {title: 'day'},
-                           vAxis: {title: unit},                  
-                           legend: 'none',
-                     };   
-      google.setOnLoadCallback(function(){drawChart(dataArray,options)});
-      function drawChart(dataArray,options) {                       
-            data = google.visualization.arrayToDataTable(dataArray);
-            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-      }
+      // Load the Visualization API and the piechart package.      
       //======show datepicker
-      $(document).ready(function(){
-            $("#dp1").datepicker({
-                  format:"dd-mm-yyyy"                  
-            });
+      $(document).ready(function(){         
             $("#dp2").datepicker({
-                  format:"dd-mm-yyyy"
+                  format:"dd-mm-yyyy",
+                  date: <?php echo "'".$util->convertDate($begin)."'" ?>
             });
+            $("#dp2").datepicker('setValue',<?php echo "'".$util->convertDate($begin)."'" ?>);
             $("#dp3").datepicker({
-                  format: "dd-mm-yyyy"
+                  format: "dd-mm-yyyy",                  
             });
+            $("#dp3").datepicker('set','today');
       })
-      </script>
+</script>
       <!-- main interface -->
       <!-- Option to the statistics follow by : week,month,year -->      
       <div class="row">
             <!-- information -->
-            <p class='title'>Information figure</p>
+                    
 
       </div>
       <div class="row">
             <div class='col-md-12'>                    
-                  <div class='col-md-6' style='border-right:1px solid #cccccc'>
-                        <p>Today: 
-                              <script>today = new Date()                              
-                              document.write(today);
-                              </script>
-                        </p>     
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span class="badge">14</span>
-                                The number of views
-                              </li>
-                              <li class="list-group-item">
-                                <span class="badge">14</span>
-                                The number of votes
-                              </li>
-                              <li class="list-group-item">
-                                <span class="badge">14</span>
-                                The number of purchases
-                              </li>                              
-                        </ul>                   
-                  </div>
-                  <div class='col-md-6'>
-                        <p>From the begin: <?php echo $beginDate; ?></p>
-                         <ul class="list-group">
-                            <li class="list-group-item">
-                                <span class="badge">124</span>
-                                The total of views
-                              </li>
-                              <li class="list-group-item">
-                                <span class="badge">124</span>
-                                The total of votes
-                              </li>
-                              <li class="list-group-item">
-                                <span class="badge">124</span>
-                                The total of purchases
-                              </li>                              
-                        </ul>       
-                  </div>
-                  <div class='col-md-4'>
 
-                  </div>
+              <h2 class='text-center'>From the begin: <?php echo $util->convertDate($begin); ?></h2>                                                                      
+              <h1 class='text-center'>
+                <?php echo __("Total of Money").":"; ?>   
+                <span><?php echo $total ?></span>
+              </h1>          
+              <div class="row">
+              <?php echo "<p class='title'>". __("Top 3 bought lesson: ")."</p>";
+              foreach($top3BoughtLesson as $lesson){                                    
+                  echo "<div style='float:left;margin:20px' class='text-center'>";
+                echo $this->Html->image((LESSON_COVER_LINK.$lesson['Lesson']['cover']), array(
+                  'alt' => 'profile',
+                  'class' => 'img-rounded mini_profile',
+                  'style' => 'margin:10px',
+                  'url' => array('controller' => 'lesson', 'action' => 'index', $lesson['Lesson']['coma_id'])
+                  ));                                               
+               $options = array();
+                   $options['stars'] =   $lesson['rate'];      
+                   $options['width'] = 20;
+                   $options['height'] = 20;
+                   $options['coma_id']  = $lesson['Lesson']['coma_id'];
+                   $options['rateAllow'] = 0;
+                   if(isset($user)){
+                      $options['user_id'] = $user['user_id'];
+                   }
+                    echo $this->element('star_rank',array(
+                    'options' => $options,                
+                    ));
+          //______________________
+          //created date                                                             
+                    echo "<p class='text-primary'>".$lesson['Lesson']['name']."</p>";
+                    echo '<p>'.__('Rate point').': <b class="index">'.$lesson['rate'].'</b>  / '.__('Buy').': <b class="index">'.$lesson['buy_num'].'</b></p>';  
+                    echo "</div>";       
+              }                                                
+              ?>  
+              </div>
+              <div class = "row">                            
+                <?php echo "<p class='title'>".__("Top 3 favourite lesson")."</p>";                                
+                foreach($top3FavouriteLesson as $lesson){                                    
+                  echo "<div style='float:left;margin:20px' class='text-center'>";
+                  echo $this->Html->image((LESSON_COVER_LINK.$lesson['Lesson']['cover']), array(
+                    'alt' => 'profile',
+                    'class' => 'img-rounded mini_profile',
+                    'style' => 'margin:10px',
+                    'url' => array('controller' => 'lesson', 'action' => 'index', $lesson['Lesson']['coma_id'])
+                    ));      
+                    $options = array();
+                   $options['stars'] =   $lesson['rate'];      
+                   $options['width'] = 20;
+                   $options['height'] = 20;
+                   $options['coma_id']  = $lesson['Lesson']['coma_id'];
+                   $options['rateAllow'] = 0;
+                   if(isset($user)){
+                      $options['user_id'] = $user['user_id'];
+                   }
+                    echo $this->element('star_rank',array(
+                    'options' => $options,                
+                    ));
+          //______________________
+          //created date                                                             
+                    echo "<p class='text-primary'>".$lesson['Lesson']['name']."</p>";
+                    echo '<p>'.__('Rate point').': <b class="index">'.$lesson['rate'].'</b>  / '.__('Buy').': <b class="index">'.$lesson['buy_num'].'</b></p>';  
+                    echo "</div>";
+                }
+              ?>
             </div>
-            <div>
-
-            </div>
+            </div>            
       </div>
       <!-- statistic by time -->
       <div class="row">
-            <p class='title'>Statistic by time</p>
+            <p class='title'><?php echo __("Statistic by time") ?></p>
       </div>
       <div class="row">
-            <div class='col-md-8 col-md-offset-3 from-to-date'>
-                  <div class='col-md-6'>                                    
-                        <div class="col-md-2">From</div>
+            <div class='col-md-8 col-md-offset-1 from-to-date'>
+                  <div class='col-md-5'>                                    
+                        <div class="col-md-3"><?php echo __("From") ?></div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp2" readonly=""/>
                         </div>                      
                   </div> 
-                  <div class='col-md-6'>
-                        <div class="col-md-2 text-right">To</div>
+                  <div class='col-md-5'>
+                        <div class="col-md-3 text-right"><?php echo __("To"); ?></div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp3" readonly=""/>
                         </div>
                         
+                  </div>
+                  <div class='col-md-2'>
+                    <button id = "load_button" type="button" class="btn btn-warning">
+                      <span class="glyphicon glyphicon-repeat"></span> Load
+                    </button>
+
                   </div>
             </div>
       </div>      
       <p></p>
       <div class='row'>
             <div class='col-md-2'>
-                  <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#" id="views">Views</a></li>
-                        <li><a href="#" id="votes">Votes</a></li>
-                        <li><a href="#" id="purchases">Purchases</a></li>
+                  <ul class="chart nav nav-pills nav-stacked">
+                        <li class="active"><a href="#" id="money"><?php echo __("Money"); ?></a></li>
+                        <li><a href="#" id="sale_category"><?php echo __("Sale category") ?></a></li>
+                        <li><a href="#" id="favourite_category"><?php echo __("Favourite category") ?></a></li>
                   </ul>
             </div>
             <div class='col-md-10 char-div' id='chart_div'>
@@ -163,34 +156,95 @@ $beginDate = '21/2/2013';
 
       </div>
 
-      <script type="text/javascript">
-      $(document).ready(function(){       
-       // var dataArray;
-        $("ul.nav li a").click(function(){
-          $("ul.nav li.active").removeClass('active');
-          $(this).parent("li").addClass('active');                        
-          var unit = $(this).attr('id');
+<script type="text/javascript">
+      google.load('visualization', '1', {'packages':['corechart']});      
+      var dataArray = eval('(<?php echo json_encode($dataToChart) ?>)');      
+      options = {
+       title: 'Money',             
+       width: '100%',
+       height:'100%',
+       hAxis: {title: 'day'},
+       vAxis: {title: 'Money'},                  
+       legend: 'none',
+    };   
+      google.setOnLoadCallback(function(){drawLineChart(dataArray['Money'],options)});
+      function drawPieChart(dataArray,options) {               
+            data = google.visualization.arrayToDataTable(dataArray);
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+      }
+      function drawLineChart(dataArray,options) {               
+            data = google.visualization.arrayToDataTable(dataArray);
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+      }
+      $(document).ready(function(){ 
+            //========================
+            //load button click
+            //========================
+            $("#load_button").click(function(){
+              $.ajax({
+                type:'post',               
+                data: {begin: $("#dp2").val(), end:$("#dp3").val() },
+                url: "<?php $this->Html->url(array('action' => 'getDataStatistic')) ?>",
+                dataType: 'json',
+              }).done(function(result){
+                dataArray = result;
+              });
+              var active = $("ul.chart li.active a")[0];
+              var unit = $(active).attr('id');
                         //do change chart here  
-                        //dataArray will be get by ajax
-                        $.ajax({
-                          type:'post',
-                          dataType: 'json',
-                          url: <?php echo "'".$this->Html->url(array('controller' => 'teacher','action' => 'getDataStatistic'."'")) ?>,
-                          data: {type:unit,day:day,month:month,year:year}
-                        }).done(function(dt){
-                          dataArray = dt;
-                        })
-                      //  var dataArray = ([['day','number'],[1,2],[2,3],[3,4]]); 
-                      options = {
-                       title: 'Number of '+unit,             
-                       width: '100%',
-                       height:'100%',
-                       hAxis: {title: 'day'},
-                       vAxis: {title: unit},                  
-                       legend: 'none',
-                     };   
-                     drawChart(dataArray,options);                               
-                     return false;
-                   })                  
-      })
-      </script>  
+                        //dataArray will be get by ajax                
+                  var  options = {};   
+                  if (unit == 'money'){
+                    options.title = 'Money';                                      
+                    drawLineChart(dataArray['Money'],options);
+                  }
+                  else if (unit == 'sale_category'){
+                    options.title = 'Sale Category Rate';                   
+                    options.is3D = true;
+                    drawPieChart(dataArray['most_bought'],options);
+                  }
+                  else if (unit == 'favourite_category'){
+                    options.title = 'Favourite Category Rate';
+                    options.is3D = true;
+                    // drawPieChart(dataArray['favourite_category'],options);
+                    drawPieChart(dataArray['favourite_category'],options);
+                  }
+            });
+            //========================
+            //Change chart
+            //========================
+            $("ul.chart li a").click(function(){
+                  $("ul.chart li.active").removeClass('active');
+                  $(this).parent("li").addClass('active');                        
+                  var unit = $(this).attr('id');
+                        //do change chart here  
+                        //dataArray will be get by ajax                
+                  var  options = {};   
+                  if (unit == 'money'){
+                    options.title = 'Money';                                      
+                    drawLineChart(dataArray['Money'],options);
+                  }
+                  else if (unit == 'sale_category'){
+                    options.title = 'Sale Category Rate';                   
+                    options.is3D = true;
+                    drawPieChart(dataArray['most_bought'],options);
+                  }
+                  else if (unit == 'favourite_category'){
+                    options.title = 'Favourite Category Rate';
+                    options.is3D = true;
+                    // drawPieChart(dataArray['favourite_category'],options);
+                    drawPieChart(dataArray['favourite_category'],options);
+                  }                    
+                  return false;
+            })                  
+      }) 
+</script>  
+
+      <style>
+        .index{
+          color:red;
+          font-size: large;
+        }
+      </style>

@@ -3,13 +3,12 @@
     <div class="col-md-3">
         <?php        
         if($userData['profile_picture'] == null) $image = 'default_profile.jpg';
-        else $image = $userData['profile_picture'];
+        else $image = IMAGE_PROFILE_LINK.$userData['profile_picture'];
         echo $this->Html->image($image,array(            
          'width'=>'180px',
          'class' => 'img-rounded',
          'style' => 'text-align:center;'
          ));
-
         echo "<br><br>";
         echo "<div class='text-center'>";
         echo $this->Html->link('Statistic',

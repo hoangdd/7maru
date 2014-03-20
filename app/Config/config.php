@@ -9,7 +9,12 @@
 define('FILL_CHARACTER', '7maru');
 define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avatar');
 define('LESSON_COVER_DIR', WWW_ROOT.'img'.DS.'data'.DS.'cover');
-
+define('LESSON_COVER_LINK', "lessoncover/");
+define('IMAGE_PROFILE_LINK',"data/avatar/");
+define('MONEY_PER_LESSON',20000);
+define('TEACHER_PROFIT_PERCENTAGE',0.6);
+define ('TYPE_CREDIT_CARD' , 18);
+define ('TYPE_BANK_ACCOUNT', 54);
 /*========================Config user roles ====================*/
 
 /*
@@ -69,7 +74,7 @@ Configure::write('userRoles', array(
 		'admin' => array('login'),
 		'search' => '*',
 		'student' => array('profile', 'register'),
-		'teacher' => array('profile', 'register'),
+		'teacher' => array('profile', 'register', 'checkusername'),
 	),
 ));
 /*========================End config user roles ====================*/

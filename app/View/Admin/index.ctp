@@ -20,51 +20,30 @@
 <div class='col-md-3' style='min-height:400px;margin:10px;border:1px solid #ddd;padding:0px'>
 	<ol class="breadcrumb" style='margin-bottom:0px'>
 		<ul class="nav nav-pills nav-stacked" style='min-height:380px;'>
-		  <li class="active"><a href="#">
-		  	<?php
-				echo __('HomePage');
-			?>	
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Contact');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Block User');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Report');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Statistic');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('IP Manage');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Create another admin');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('User Manage');
-			?>
-		  </a></li>
-		  <li><a href="#">
-		  	<?php
-				echo __('Reference Manage');
-			?>
-		  </a></li>
+		  <li class="active">
+		  	<?php  echo $this->Html->link(__('HomePage'),array('action' => 'index')) ?>		  	
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('Block User'),array('action' => 'blockUser')) ?>
+		  </li>		  
+		  <li>
+		  	<?php  echo $this->Html->link(__('Report'),array('action' => 'report')) ?>
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('Statistic'),array('action' => 'statistic')) ?>
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('IP Manage'),array('action' => 'ipManage')) ?>		  	
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('Create another admin'),array('action' => 'createAdmin')) ?>
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('User Manage'),array('action' => 'userManage')) ?>		
+		  </li>
+		  <li>
+		  	<?php  echo $this->Html->link(__('Reference Manage'),array('action' => 'ReferenceManage')) ?>		
+		  </li>		 
 		</ul>
 	</ol>
 </div>
