@@ -127,13 +127,13 @@ $(document).ready(function(){
 
 $(document).on('click','#addLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'teacher/createLesson';
+    location.href = link + 'lesson/create';
 
 });
 
 $(document).on('click','#editLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'teacher/editLesson';
+    location.href = link + 'lesson/edit';
 
 });
 function hide_lesson_with(key){

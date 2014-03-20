@@ -340,15 +340,13 @@ class StudentController extends AppController {
                 			'student_id' => $this->Auth->user('foreign_id'),
 							'username' => $this->Auth->user('username')
                 		)
-                	);
-                	if ($this->Student->save($studentData))
-
+                	)
                 	if ($this->Student->save($studentData)){
-                    $this->Session->setFlash(__('Edit successful'));
+                        $this->Session->setFlash(__('Edit successful'));}
  //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                 }
-				}   
-			}				
+			}   
+		}				
                 //get data                 
                 $studentData = $this->Student->find('first',
                     array(
