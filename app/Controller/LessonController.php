@@ -2,27 +2,27 @@
 define('FILE_DIR', WEBROOT_DIR.DS.'files'.DS.'data');
 class LessonController extends AppController {
 
-    var $components =  array('Session','Paginator');
-    var $uses = array(
-    	'Category',
+	var $components =  array('Session','Paginator');
+	var $uses = array(
+		'Category',
 		'Lesson',
 		'LessonCategory',
 		'Data',
 		'Teacher',
 		'RateLesson',
 		'LessonTransaction'
-	);
-    /**
-    * 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
-    *　$id: 授業のID
-    */
+		);
+	/**
+	* 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
+	*　$id: 授業のID
+	*/
 	function Index($id = null){
 		App::uses('Utilities', 'Lib');
 		$util = new Utilities();
 		$this->set('util',$util);
 		if($id){
 			//授業の見られる数を1回を増加する。
-		
+
 			$this->Lesson->increaseView($id);
 
 			// データベースから、授業の情報を取得
@@ -160,7 +160,7 @@ class LessonController extends AppController {
 				}
 				
 				// Save Lesson files
-			   
+
 				//reformat array
 				$document = array();
 				if($_FILES['document']){
@@ -186,16 +186,16 @@ class LessonController extends AppController {
 				//Test file upload
 
 				// save data   
-					$testFile = $_FILES['test'];
-					if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
-						$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
-						$testFile['isTest'] = true;
-						$this->Data->create(array('File' => $testFile));
-						$this->Data->save();    
-					}
+				$testFile = $_FILES['test'];
+				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
+					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
+					$testFile['isTest'] = true;
+					$this->Data->create(array('File' => $testFile));
+					$this->Data->save();    
 				}
 			}
 		}
+	}
 	
 	function Edit(){
 
@@ -252,168 +252,169 @@ class LessonController extends AppController {
 			'conditions' => array('file_id' =>$fid)
 			));
 		// debug($files);
-    }
-    public function rate(){
-    	if($this->request->is('post')){
-    		$data = $this->request->data;
-    		debug($data);
-    		$this->RateLesson->rate_Lesson($data['coma_id'], $data['user_id'], $data['rate']);
-    	}
-    }
-    
-    function HotLesson($pageIndex) {
-    	$page_limit = 4;
-    	$this->layout = null;
-    	$this->loadModel('Lesson');
-    	$this->loadModel('User');
-    	$this->loadModel('RateLesson');
-    	$this->RateLesson->bindModel(array(
-    		'belongsTo' => array(
-    			'Lesson' => array(
-    				'className' => 'Lesson',
-    				'foreignKey' => 'coma_id'
-    			)
-    		),    		
-    	));
-    	$this->Lesson->bindModel(array(
-    		'belongsTo' => array(    		
-    			'Author' => array(
-    				'className' => 'User',
-    				'foreignKey' => 'author'
-    			)
-    		) 
-    	)
-    	);
-    	$options = array (
-    			'limit' => $page_limit, 
-    			'offset' => ($pageIndex-1) * $page_limit,
-    			'fields' => array('AVG(RateLesson.rate) as RateLesson	 ','Lesson.*'),
-    			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
-    			'group' => 'RateLesson.coma_id',
-    			'recursive' => 3
-    	   	);    
-    	//$this->Paginator->settings = $pagination;
-    	$data = $this->RateLesson->find ('all',$options);
-    	foreach($data as $key=>$value){
-    		$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
-    		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
-    		unset($data[$key]['Lesson']['Author']);
-    		unset($data[$key]['0']);
-    	}
-		$this->set('data', $data);
-    }
-    
-    function NewLesson($pageIndex) {
-    	$this->layout = null;
-    	$this->loadModel('Lesson');
-    	$this->loadModel('User');
-    	$this->loadModel('RateLesson');    	
-    	$this->Lesson->bindModel(array(
-    		'belongsTo' => array(    		
-    			'Author' => array(
-    				'className' => 'User',
-    				'foreignKey' => 'author'
-    			)
-    		) ,
-    		'hasMany' => array(
-    			'RateLesson' => array(
-    				'foreignKey' => 'coma_id',    				
-    			)
-    		),
-    	));
-    	$page_limit = 3;
-    	$options = array (
-    			'limit' => $page_limit,    			
-    			'offset' => ($pageIndex-1) * $page_limit,
-    			'order' => array('Lesson.created' => 'DESC'),    			
-    			'group' => 'Lesson.coma_id'    			
-    	);
-
-    	$data = $this->Lesson->find ( 'all',$options);
-    	foreach($data as $key=>$lesson){
-    		$rank = 0;$count = 0;
-    		foreach($lesson['RateLesson'] as $le){    			
-    			$rank =  $rank + $le['rate'];
-    			++$count;
-    		}
-			if ($count != 0) {
-					$rank = $rank / $count;
-			}			    		
-    		$data[$key]['RateLesson'] = $rank;    		
-    	}    	
-    	$this->set("data",$data);
-    	// debug($data);
-    }
-    
-    function RecentLesson($pageIndex) {
-    	$this->loadModel('Lesson');
-    	$this->loadModel('User');
-    	$this->loadModel('LessonTransaction');
-    	$this->loadModel('RateLesson');
-    	$this->LessonTransaction->bindModel(array(
-    		'belongsTo' => array(    		
-    			'Lesson' => array(
-    				'className' => 'Lesson',
-    				'foreignKey' => 'coma_id',    			
-    			)
-    		)   		
-    	));
-    	$this->Lesson->bindModel(array(
-    		'belongsTo' => array(    		
-    			'Author' => array(
-    				'className' => 'User',
-    				'foreignKey' => 'author'
-    			)
-    		),
-    		'hasMany' => array(
-    			'RateLesson' => array(
-    				'foreignKey' => 'coma_id',    				
-    			)
-    		)
-    	));
-    	$page_limit = 4;
-    	$options = array (
-    			'limit' => $page_limit,    			
-    			'offset' => ($pageIndex-1) * $page_limit,
-    			'order' => array('LessonTransaction.created' => 'DESC'),
-    			'group' =>  'LessonTransaction.transaction_id',
-    			'recursive' => 2
-    	
-    	);    	
-    	$data = $this->LessonTransaction->find ( 'all',$options); 
-    	foreach($data as $key=>$lesson){
-    		$rank = 0;$count = 0;
-    		foreach($lesson['Lesson']['RateLesson'] as $le){    			
-    			$rank =  $rank + $le['rate'];
-    			++$count;
-    		}
-			if ($count != 0) {
-					$rank = $rank / $count;
-			}			    		
-    		$data[$key]['RateLesson'] = $rank;      		
-    		$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
-    		unset($data[$key]['Lesson']['RateLesson']);  		
-    		unset($data[$key]['Lesson']['Author']);
-    		unset($data[$key]['LessonTransaction']);
-    	}    	   	
-    	$this->set("data",$data);
-    	// debug($data);
-    }
-    
-    function Bestseller() {
-//     	$data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
-    	$page_limit = 4;
-		$pagination = array (				
-				'fields' => array (
-						'LessonTransaction.coma_id','Count(*) as count'),
-				'order' => array('count' => 'DESC'),
-				'group' =>  'LessonTransaction.coma_id',
-				'limit' => $page_limit
-				
+	}
+	public function rate(){
+		if($this->request->is('post')){
+			$data = $this->request->data;
+			debug($data);
+			$this->RateLesson->rate_Lesson($data['coma_id'], $data['user_id'], $data['rate']);
+		}
+	}
+	
+	function HotLesson($pageIndex) {
+		$page_limit = 4;
+		$this->layout = null;
+		$this->loadModel('Lesson');
+		$this->loadModel('User');
+		$this->loadModel('RateLesson');
+		$this->RateLesson->bindModel(array(
+			'belongsTo' => array(
+				'Lesson' => array(
+					'className' => 'Lesson',
+					'foreignKey' => 'coma_id'
+					)
+				),    		
+			));
+		$this->Lesson->bindModel(array(
+			'belongsTo' => array(    		
+				'Author' => array(
+					'className' => 'User',
+					'foreignKey' => 'author'
+					)
+				) 
+			)
 		);
-    	
-//     	print_r($data);
+		$options = array (
+			'limit' => $page_limit, 
+			'offset' => ($pageIndex-1) * $page_limit,
+			'fields' => array('AVG(RateLesson.rate) as RateLesson','Lesson.*'),
+			'order' => array('AVG(RateLesson.rate)' => 'DESC'),
+			'group' => 'RateLesson.coma_id',
+			'recursive' => 3
+			);    
+		//$this->Paginator->settings = $pagination;
+		$data = $this->RateLesson->find ('all',$options);
+		foreach($data as $key=>$value){
+			$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
+			$data[$key]['author'] = $data[$key]['Lesson']['author'];
+			unset($data[$key]['Lesson']['author']);
+			unset($data[$key]['0']);
+		}
+		$this->log($data, 'hlog');
+		$this->set('data', $data);
+	}
+	
+	function NewLesson($pageIndex) {
+		$this->layout = null;
+		$this->loadModel('Lesson');
+		$this->loadModel('User');
+		$this->loadModel('RateLesson');    	
+		$this->Lesson->bindModel(array(
+			'belongsTo' => array(    		
+				'Author' => array(
+					'className' => 'User',
+					'foreignKey' => 'author'
+					)
+				) ,
+			'hasMany' => array(
+				'RateLesson' => array(
+					'foreignKey' => 'coma_id',    				
+					)
+				),
+			));
+		$page_limit = 3;
+		$options = array (
+			'limit' => $page_limit,    			
+			'offset' => ($pageIndex-1) * $page_limit,
+			'order' => array('Lesson.created' => 'DESC'),    			
+			'group' => 'Lesson.coma_id'    			
+			);
+
+		$data = $this->Lesson->find ( 'all',$options);
+		foreach($data as $key=>$lesson){
+			$rank = 0;$count = 0;
+			foreach($lesson['RateLesson'] as $le){    			
+				$rank =  $rank + $le['rate'];
+				++$count;
+			}
+			if ($count != 0) {
+				$rank = $rank / $count;
+			}			    		
+			$data[$key]['RateLesson'] = $rank;    		
+		}    	
+		$this->set("data",$data);
 		// debug($data);
-    }
+	}
+	
+	function RecentLesson($pageIndex) {
+		$this->loadModel('Lesson');
+		$this->loadModel('User');
+		$this->loadModel('LessonTransaction');
+		$this->loadModel('RateLesson');
+		$this->LessonTransaction->bindModel(array(
+			'belongsTo' => array(    		
+				'Lesson' => array(
+					'className' => 'Lesson',
+					'foreignKey' => 'coma_id',    			
+					)
+				)   		
+			));
+		$this->Lesson->bindModel(array(
+			'belongsTo' => array(    		
+				'Author' => array(
+					'className' => 'User',
+					'foreignKey' => 'author'
+					)
+				),
+			'hasMany' => array(
+				'RateLesson' => array(
+					'foreignKey' => 'coma_id',    				
+					)
+				)
+			));
+		$page_limit = 4;
+		$options = array (
+			'limit' => $page_limit,    			
+			'offset' => ($pageIndex-1) * $page_limit,
+			'order' => array('LessonTransaction.created' => 'DESC'),
+			'group' =>  'LessonTransaction.transaction_id',
+			'recursive' => 2
+
+			);    	
+		$data = $this->LessonTransaction->find ( 'all',$options); 
+		foreach($data as $key=>$lesson){
+			$rank = 0;$count = 0;
+			foreach($lesson['Lesson']['RateLesson'] as $le){    			
+				$rank =  $rank + $le['rate'];
+				++$count;
+			}
+			if ($count != 0) {
+				$rank = $rank / $count;
+			}			    		
+			$data[$key]['RateLesson'] = $rank;      		
+			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+			unset($data[$key]['Lesson']['RateLesson']);  		
+			unset($data[$key]['Lesson']['Author']);
+			unset($data[$key]['LessonTransaction']);
+		}    	   	
+		$this->set("data",$data);
+		// debug($data);
+	}
+	
+	function Bestseller() {
+    	// $data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
+		$page_limit = 4;
+		$pagination = array (				
+			'fields' => array (
+				'LessonTransaction.coma_id','Count(*) as count'),
+			'order' => array('count' => 'DESC'),
+			'group' =>  'LessonTransaction.coma_id',
+			'limit' => $page_limit
+
+			);
+		
+    	// print_r($data);
+		// debug($data);
+	}
 
 }
