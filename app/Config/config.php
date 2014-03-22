@@ -9,7 +9,7 @@
 define('FILL_CHARACTER', '7maru');
 define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avatar');
 define('LESSON_COVER_DIR', WWW_ROOT.'img'.DS.'data'.DS.'cover');
-define('LESSON_COVER_LINK', "lessoncover/");
+define('LESSON_COVER_LINK', "data/cover/");
 define('IMAGE_PROFILE_LINK',"data/avatar/");
 define('MONEY_PER_LESSON',20000);
 define('TEACHER_PROFIT_PERCENTAGE',0.6);

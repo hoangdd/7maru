@@ -14,50 +14,48 @@ class DataController extends AppController {
 		}
 
 	}
-	public function file($file=null){
+	public function file($file_id=null){
 
-		/*$this->layout = false;
-
-				// check file_id empty
-				if( empty($file_id)){
-					return false;
-				}
-
-				//check file exist
-				$file = $this->File->findByFileId($file_id);
-				if(empty($file)){
-					return false;
-				}
-		*/
 		$this->viewClass = 'Media';
-		// $this->autoLayout = false;
-		// $ext = pathinfo($file, PATHINFO_EXTENSION);
+		$this->loadModel('Data');
+		// check file_id empty
+		if( empty($file_id)){
+			return false;
+		}
+
+		//check file exist
+		$file = $this->Data->findByFileId($file_id);
+		if(empty($file)){
+			return false;
+		}
+
+		$this->autoLayout = false;
+		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 		// @todo , xu li path
-		// switch ($ext) {
-		// 	case 'swf':
-		// 		$path = SWF_DATA_DIR.DS.$file;
-		// 		break;
+		switch ($ext) {
+			case 'swf':
+				$path = SWF_DATA_DIR.DS.$file['Data']['path'];
+				break;
 
-		// 	default:
-		// 		$path = '';
-		// 		break;
-		// }
+			default:
+				$path = '';
+				break;
+		}
 
-		// $mineTypes = Configure::read('dataFile');
-		// foreach ($mineTypes as $key => $value) {
-		// 	if( in_array($ext,$value['extension'])){
-		// 		$mineType = $value['mimeType'][$ext];
-		// 		break;
-		// 	}
-		// }
-		$path = '/opt/lampp/htdocs/7maru/app/data/swf/0432184d.swf';
+		$mineTypes = Configure::read('dataFile');
+		foreach ($mineTypes as $key => $value) {
+			if( in_array($ext,$value['extension'])){
+				$mineType = $value['mimeType'][$ext];
+				break;
+			}
+		}
 		$params = array(
             'download'  => false, //no force download
             'extension' => 'ext',
 	        'mimeType'  => array(
 				'swf' => array('flash' => 'application/x-shockwave-flash'),
 				),
-            'path'      => '/opt/lampp/htdocs/7maru/app/data/swf/0432184d.swf'
+            'path'      => $path
         );
 		$this->set($params);
 	}

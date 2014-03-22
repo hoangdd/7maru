@@ -188,7 +188,6 @@ class AdminController extends AppController {
     }
 
     function login() {
-        debug($this->Auth->password('admin123'));
         //check loggedIn();
         if ($this->Auth->loggedIn()) {
             $this->redirect(array(
