@@ -1,6 +1,4 @@
 <?php
-
-
 class Student extends AppModel {
     public $primaryKey = 'student_id';
     public $validate = array(
@@ -18,9 +16,8 @@ class Student extends AppModel {
 		$idString = $data['username'].'student';
     	$data['student_id'] = $this->_generateId($idString);
 
-	    //hash password
-	    
    		$this->data['Student'] = $data;
+        
     	return true;
     }
 }

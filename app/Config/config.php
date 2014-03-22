@@ -75,6 +75,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register', 'checkusername'),
+		'lesson' => array('hotlesson', 'newlesson', 'bestseller')
 	),
 ));
 /*========================End config user roles ====================*/

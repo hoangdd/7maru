@@ -1,9 +1,5 @@
 <?php
-
-App:: uses('AppModel','Model','User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
-
 class TeacherController extends AppController {
-
     public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
     public $helpers = array('Html');    
     public function beforeFilter() {
@@ -607,7 +603,7 @@ class TeacherController extends AppController {
         $mostBoughtArray = $this->Category->find('all',array(            
             'contain' => array(                
                 'LessonCategory' => array(  
-                    'fields'  => array()
+                    'fields'  => array(),
                     'Lesson' => array(
                         'fields' => array(),                       
                         'LessonTransaction' => array(
