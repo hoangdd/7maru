@@ -22,12 +22,14 @@
 style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-ALIGN: center; BORDER-LEFT: #666666 2px solid; PADDING-BOTTOM: 20px; MARGIN: auto; PADDING-LEFT: 20px; PADDING-RIGHT: 20px; DISPLAY: none; FONT-FAMILY: 'trebuchet MS'; BACKGROUND: #f2f2f2; COLOR: #000000; FONT-SIZE: 20px; BORDER-TOP: #666666 2px solid; TOP: 200px; BORDER-RIGHT: #666666 2px solid; PADDING-TOP: 20px; LEFT: 260px" id="SaveTest"></DIV>
 <!--CSS/Style Sheet Part Ending-->
 <!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
-<SCRIPT language="javascript" src="
 <?php 
-	$file = '/7maru/app/webroot/test_store/'.$testfile.'.js';
-	echo $file;
+  $file = $this->Html->url(array(
+    'controller' => 'Data',
+    'action' => 'file',
+    $testfile
+    ));
 ?>
-"></SCRIPT>
+<SCRIPT language="javascript" src="<?php echo $file;?>"></SCRIPT>
 <?php 
 //echo $this->Html->script('fd280371');
 

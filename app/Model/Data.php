@@ -6,7 +6,7 @@ class Data extends AppModel {
 	public function beforeSave($option = array()){
 
 		//generate ids 
-		$data = $this->data['Data']['File'];
+		$data = $this->data['Data'];
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
 		$data['file_id'] = hash('crc32', (string)$idString);
@@ -18,11 +18,11 @@ class Data extends AppModel {
 		if($ret == false) return false; //fail
 
 		$data['path'] = $ret;
-		$data['coma_id'] = $this->data['Data']['File']['coma_id'];
+		$data['coma_id'] = $this->data['Data']['coma_id'];
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
 
-		$this->data['Data']['File'] = $data;
+		$this->data['Data'] = $data;
 	}
 
 	private function __convertAndSave($fid, $tmp, $ext){
@@ -59,7 +59,7 @@ class Data extends AppModel {
 			// debug(TSV_DATA_DIR.DS.$fid.'.'.$ext);
 			if( move_uploaded_file($tmp, TSV_DATA_DIR.DS.$fid.'.'.$ext)){
 				$data = $this->readTsv(TSV_DATA_DIR.DS.$fid.'.'.$ext);
-				$jsFileName = 'test_store/'.$fid.'.js';
+				$jsFileName = HTML_DATA_DIR.DS.$fid.'.js';
 				// debug($jsFileName);
 				$this->__tsvToJs($jsFileName, $data);
 				// return HTML_DATA_DIR.DS.$fid.'.js';

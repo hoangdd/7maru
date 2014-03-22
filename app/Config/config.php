@@ -170,7 +170,16 @@ Configure::write('dataFile', array(
 			'avi' => array('video' => 'video/avi'),
 			),
 		'path' => VIDEO_DATA_DIR,
-		)
+		), 
+	'html' => array(
+		'extension'=> array(
+			'htm', 'html', 'js'
+			),
+		'mimeType' => array(
+			'js' => array('js' => 'application/x-javascript'),
+			),
+		'path' => VIDEO_DATA_DIR,
+		), 
 
 	))	;
 

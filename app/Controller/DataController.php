@@ -37,24 +37,26 @@ class DataController extends AppController {
 				$path = SWF_DATA_DIR.DS.$file['Data']['path'];
 				break;
 
+			case 'js':
+				$path = HTML_DATA_DIR.DS.$file['Data']['path'];
+				break;
+
 			default:
 				$path = '';
 				break;
 		}
-
-		$mineTypes = Configure::read('dataFile');
-		foreach ($mineTypes as $key => $value) {
+		$mimeType = '';
+		$mimeTypes = Configure::read('dataFile');
+		foreach ($mimeTypes as $key => $value) {
 			if( in_array($ext,$value['extension'])){
-				$mineType = $value['mimeType'][$ext];
+				$mimeType = $value['mimeType'][$ext];
 				break;
 			}
 		}
 		$params = array(
             'download'  => false, //no force download
             'extension' => 'ext',
-	        'mimeType'  => array(
-				'swf' => array('flash' => 'application/x-shockwave-flash'),
-				),
+	        'mimeType'  => $mimeType,
             'path'      => $path
         );
 		$this->set($params);

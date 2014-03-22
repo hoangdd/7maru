@@ -109,7 +109,7 @@ class LessonController extends AppController {
 				//Check if image format is supported
 				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
 					$error['test'] = 'Unsupported Test File Format';
-				} else if($_FILES['test']['size'] > 5242880){
+				} else if($_FILES['test']['size'] > 52428800){
 					$error['test'] = 'Test File Too Big';
 				}
 
@@ -130,7 +130,7 @@ class LessonController extends AppController {
 					if($_FILES['document']['name'][$i]){
 						if(!preg_match('/\.(pdf|doc|docx|txt|ppt|pptx|xlsx|xls)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = 'Unsupported Document Format';
-						} else if($_FILES['document']['size'][$i] > 5242880){
+						} else if($_FILES['document']['size'][$i] > 52428800){
 							$error['document'] = 'Document Size Too Big';
 						}
 					}
@@ -178,8 +178,8 @@ class LessonController extends AppController {
 					# code... 
 					if(!(isset($value['error'])&&$value['error']!=0) ){
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];
-						$this->Data->create(array('File' => $value));
-						$this->Data->save();    
+						$this->Data->create(array('Data' => $value));
+						$this->Data->save();
 					} 
 				}
 
@@ -190,7 +190,7 @@ class LessonController extends AppController {
 				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
 					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
 					$testFile['isTest'] = true;
-					$this->Data->create(array('File' => $testFile));
+					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}
 			}
