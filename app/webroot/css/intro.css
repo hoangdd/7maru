@@ -58,7 +58,14 @@
 	margin-bottom: 20px;
 }
 
-
+.lesson-bar{
+	margin:auto;
+	width:70%;
+	overflow: scroll;
+}
+.lesson-bar ul{
+	width: 2000%;
+}
 
 
 

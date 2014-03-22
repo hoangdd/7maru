@@ -288,7 +288,10 @@ nav a:focus {
 	margin-right: 4px;
 	box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
 }
-
+.bk-info button a{
+	color: #fff;
+	text-decoration: none;
+}
 .bk-info button.bk-active,
 .bk-info button:active {
 	box-shadow: 
@@ -317,6 +320,7 @@ nav a:focus {
 .lesson-book .bk-front > div {
 	width: 200px;
 	height: 300px;
+	background-size: cover;
 }
 
 /* Main colors and content */
