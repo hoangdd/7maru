@@ -34,17 +34,15 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->css('bootstrap-theme');
 		echo $this->Html->css('docs');
-        echo $this->Html->css('common');
-        echo $this->Html->css('quiz');
-        echo $this->Html->css('site_styles');
-        
+		echo $this->Html->css('common');
+		echo $this->Html->css('quiz');
+		echo $this->Html->css('site_styles');
+		
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
-        echo $this->Html->script('jquery.gdocsviewer');
-        
-        
+		echo $this->Html->script('jquery.gdocsviewer');
 		
-				
+		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');

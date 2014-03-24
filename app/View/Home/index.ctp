@@ -2,7 +2,7 @@
 /**
 	Controller: Home
 	Action : index
-	#1- Wireframe(12/2/2014 10:00 PM ) @HoangDD
+	@HoangDD
 */
 ?>
 <?php
@@ -134,60 +134,96 @@
 </div>
 <div id='intro-menu'>
 <?php
-	echo $this->element('menu');
+	echo $this->element('menu_intro');
 ?>
 </div>
 <?php
+//-------------------------------------------------TAG--------------------------------------------------------------
 // Page 2
+$tags = array(
+	'HotLesson' => array(
+		'action' => 'HotLesson',
+		'label' => 'Hot',
+		),
+	'NewLesson' => array(
+		'action' => 'NewLesson',
+		'label' => 'New',
+		),
+	'Bestseller' => array(
+		'action' => 'Bestseller',
+		'label' => 'Best seller',
+		),
+	'RecentLesson' => array(
+		'action' => 'RecentLesson',
+		'label' => 'Recent',
+		)
+	)
 ?>	
+<?php echo $this->Html->scriptStart();?>
+var tags = $.parseJSON('<?php echo json_encode($tags);?>');
+var hot_count = 1;
+$(document).ready(function(){
+	$.ajax({
+		'url' : '<?php echo $this->Html->url(array(
+			"controller" => "Lesson", 
+			"action" => "HotLesson",
+			1
+			));?>',
+		complete : function(res){
+			$('#hot-list').html(res.responseText);
+			hot_count++;
+		}
+	});
+	$('.next-button').click(function(){
+		action = $(this).attr('action');
+		switch(action){
+			case 'HotLesson':
+				count = hot_count;
+				break;
+			default:
+				return;
+		}
+		if(count<0) return;
+		$.ajax({
+			'url' : '<?php echo $this->Html->url(array(
+				"controller" => "Lesson", 
+				"action" => "HotLesson",
+				));?>/'+count,
+			complete : function(res){
+				if( res.responseText!=0 ){
+					$('#hot-list').append(res.responseText);
+					count++;
+				}else{
+					count = -1;
+				}
+				//update count
+				switch(action){
+					case 'HotLesson':
+						hot_count = count;
+						break;
+					default:
+						return;
+				}
+			}
+		});
+	});
+});
+<?php echo $this->Html->scriptEnd();?>
 
-<div id='hot' class="page">
-	<div style="margin:auto;width:70%">
-		<?php
-			echo $this->element('lesson_list');
-		?>
-	</div>
-</div>
-
-<?php
-// Page 3
-?>	
-
-<div class="page">
-	<div id='recent' class="page">
-		<div style="margin:auto;width:70%">
-			<?php
-				echo $this->element('lesson_list');
-			?>
+<?php 
+foreach($tags as $tag) :
+?>
+	<hr>
+	<div id='<?php echo $tag['action']?>' class="page">
+		<button class='prev-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-left"></span></button>
+		<button class='next-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-right"></span></button>
+		<div class='lesson-bar' >
+			<ul id ='hot-list' action='<?php echo $tag['action']?>'  class="bk-list clearfix">
+			</ul>
 		</div>
 	</div>
-</div>
 
-
-<?php
-// Page 4
-?>	
-
-<div class="page">
-	<div id='bb' class="page">
-		<div style="margin:auto;width:70%">
-			<?php
-				echo $this->element('lesson_list');
-			?>
-		</div>
-	</div>
-</div>
-
-<?php
-// Page 5
-?>	
-
-<div class="page">
-	<div id='etc' class="page">
-		<div style="margin:auto;width:70%">
-			<?php
-				echo $this->element('lesson_list');
-			?>
-		</div>
-	</div>
-</div>
+<?php 
+	break;
+	endforeach;
+?>

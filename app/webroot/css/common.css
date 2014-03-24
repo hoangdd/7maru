@@ -2,6 +2,9 @@
 *	common.css for entire site
 * 	created by Hoang Dac
 */
+#content{
+    margin-top: 90px;
+}
 .tag_list span{
 	background: url(../img/tag_red.png);
 	margin: 10px;

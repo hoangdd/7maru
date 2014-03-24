@@ -17,8 +17,7 @@
     $('#documentViewer').FlexPaperViewer(
             { config : {
 
-                SWFFile : 'http://localhost/7maru/Data/file/0432184d.swf',
-                // SWFFile : 'http://localhost/7maru/0432184d.swf',
+                SWFFile : '/7maru/Data/file/0432184d',
 
                 Scale : 0.6,
                 ZoomTransition : 'easeOut',
@@ -28,7 +27,7 @@
                 FitWidthOnLoad : false,
                 FullScreenAsMaxWindow : false,
                 ProgressiveLoading : false,
-                MinZoomSize : 0.2,
+                  MinZoomSize : 0.2,
                 MaxZoomSize : 5,
                 SearchMatchAll : false,
                 InitViewMode : 'Portrait',

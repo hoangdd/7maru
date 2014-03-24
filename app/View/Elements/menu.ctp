@@ -1,19 +1,8 @@
-
 <?php
-	$role = !empty($_SESSION['Auth']['User']['role']) ? $_SESSION['Auth']['User']['role'] : 'R4';
-	$page = array(
-		'controller' => strtolower($this->name),
-		'action' => strtolower($this->action),
-		);
-	$isActive = true;
+echo $this->Html->css('menu');
+$role = !empty($_SESSION['Auth']['User']['role']) ? $_SESSION['Auth']['User']['role'] : 'R4';
 ?>
 
-
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-			<a class="navbar-brand" href="#">7Maru</a>
-		</div>
 <?php
 /*
 admin => account, blockuser, changepassword, createadmin, index, ipmanage, login ,notification, statistic, usermanage
@@ -24,334 +13,294 @@ teacher => creatlesson, editprofile, index, lesson, lessonmanage, profile, regis
 user => comment, index
 */
 ?>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<?php 
-		if( $role=='R2' ) :
-		?>
-			<ul class="nav navbar-nav">
-				<?php
-					$option = array(
+<?php
+	echo $this->Html->scriptStart(array('inline' =>true));
+?>
+$(document).ready(function(){
+	var menu = $('.ac_menu');
+	menuChange = function(list, newList){
+		var i = 0;
+		$.when(list.find('li').each(function(){
+			$(this).animate({
+				'margin-top': -60,
+				'opacity' : 0,
+			},
+			200+i*100,
+			function(){
+				$(this).hide();
+			}
+			);
+			i++;
+		})).done(function(){
+			list.hide();
+			menuShow(newList)
+		});
+	};
+	menuShow = function(list){
+		var i = 0;
+		list.show();
+		list.find('li').each(function(){
+			$(this).show();
+			$(this).animate({
+				'margin-top':0,
+				'opacity' : 1,
+			},
+			200+i*100
+			);
+			i++;
+		})
+	};
+
+	$('.ac_menu > ul > li').click(function(){
+		id = $(this).attr('id');
+		list = $(this).parents('ul');
+		if($(this).hasClass('title')){
+			menuChange(list, menu.find('ul.root'));
+		}else{
+			if(typeof id == 'undefined') return;
+			menuChange(list, menu.find('ul[root='+id+']'));
+		}
+	});
+});
+<?php
+	echo $this->Html->scriptEnd();
+?>
+<div id="ac_content" class="ac_content">
+	<h1>
+		<span>Study more</span>
+		7maru
+	</h1>
+	<div class="ac_menu">
+		<?php if($role=='R1') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Home',
 						'action' => 'index'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Home', $option);
-					?>
+					));?>"> <?php echo __('Home');?> </a>
 				</li>
-
-
-				<?php
-					$option = array(
-						'controller' => 'teacher',
-						'action' => 'profile'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Profile', $option);
-					?>
+				<li id = 2>
+					<a href="#"> <?php echo __('Account');?> </a>
 				</li>
-
-
-				<?php
-					$option = array(
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'admin',
+						'action' => 'logout'
+						));?>"> <?php echo __('Logout');?> </a>
+				</li>
+			</ul>
+		<?php endif;?>
+		<?php if($role=='R2') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Home',
+						'action' => 'index'
+						));?>"> <?php echo __('Home');?> </a>
+				</li>
+				<li id = 1 >
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li id = 2 >
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li id = 3 >
+					<a href="#"> <? echo __('Lesson');?> </a>
+				</li>
+				<li >
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Teacher',
+						'action' => 'Statistic'
+						)) ?>"> <? echo __('Statistic');?> </a>
+				</li>
+			</ul>
+			<ul root = 1>
+				<li class='title'>
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller'=>'Login',
+						'action'=>'logout' 
+						));?>"
+					> <?php echo __('Logout');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller' => 'Login',
+						'action' => 'changePassword',
+						));
+					?>"
+					> <?php echo __('Change password');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Delete');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Profile'
+						));?>"> <?php echo __('View');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'EditProfile'
+						));?>"><?php echo __('Edit');?> </a>
+				</li>
+			</ul>
+
+			<ul root = 3>
+				<li class='title'>
+					<a href="#"> <?php echo __('Lesson');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller'=>'Teacher',
 						'action' => 'LessonManage'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Lesson Manage', $option);
-					?>
+						)); ?>"> <?php echo __('Manage');?>  </a>
 				</li>
-
-
-				<?php
-					$option = array(
-						'controller' => 'Teacher',
-						'action' => 'Statistic'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Statistic', $option);
-					?>
-				</li>
-				<?php
-					$option = array(
-						'controller' => 'Login',
-						'action' => 'logout'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Logout', $option);
-					?>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller'=>'Lesson',
+						'action' => 'Create'
+						)); ?>"> <?php echo __('Create');?> </a>
 				</li>
 			</ul>
-		<?php
-		endif;	//	if( $role=='R2' ) :
-		?>
+		<?php endif;?>
 
-		<?php 
-		if( $role=='R3' ) :
-		?>
-			<ul class="nav navbar-nav">
-				<?php
-					$option = array(
+		<?php if($role=='R3') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Home',
 						'action' => 'index'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Home', $option);
-					?>
+					));?>"> <?php echo __('Home');?> </a>
 				</li>
-
-
-				<?php
-					$option = array(
-						'controller' => 'Student',
-						'action' => 'profile'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Profile', $option);
-					?>
+				<li id = 1 >
+					<a href="#"> <?php echo __('Account');?> </a>
 				</li>
-
-
-				<?php
-					$option = array(
-						'controller' => 'Student',
-						'action' => 'BuyLesson'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Buy Lesson', $option);
-					?>
+				<li id = 2 >
+					<a href="#"> <?php echo __('Profile');?> </a>
 				</li>
-
-
-				<?php
-					$option = array(
+				<li id = 3 >
+					<a href="#"> <? echo __('Lesson');?> </a>
+				</li>
+				<li >
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Student',
 						'action' => 'Statistic'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Statistic', $option);
-					?>
-				</li>
-				<?php
-					$option = array(
-						'controller' => 'Login',
-						'action' => 'logout'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Logout', $option);
-					?>
+						)) ?>"> <? echo __('Statistic');?> </a>
 				</li>
 			</ul>
-		<?php
-		endif;	//	if( $role=='R3' ) :
-		?>
+			<ul root = 1>
+				<li class='title'>
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller'=>'Login',
+						'action'=>'logout' 
+						));?>"
+					> <?php echo __('Logout');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller' => 'Login',
+						'action' => 'changePassword',
+						));
+					?>"
+					> <?php echo __('Change password');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Delete');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Profile'
+						));?>"> <?php echo __('View');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'EditProfile'
+						));?>"><?php echo __('Edit');?> </a>
+				</li>
+			</ul>
 
+			<ul root = 3>
+				<li class='title'>
+					<a href="#"> <?php echo __('Lesson');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Manage');?>  </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Recent');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Bought');?> </a>
+				</li>
+			</ul>
+		<?php endif;?>
 
-		<?php 
-		if( $role=='R4' ) :
-		?>
-			<ul class="nav navbar-nav">
-				<?php
-					$option = array(
+		<?php if($role=='R4') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Home',
 						'action' => 'index'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Home', $option);
-					?>
+					));?>"> <?php echo __('Home');?> </a>
 				</li>
-
-				<?php
-					$option = array(
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Login',
 						'action' => 'index'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Login', $option);
-					?>
+						)); ?>"> <?php echo __('Login');?> </a>
 				</li>
-
-			<!-- 	<li>
-					<a href="#">Register</a>
-				</li> -->
-				<?php
-					$option = array(
+				<li id = 2>
+					<a href="#"> <?php echo __('Register');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Register');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Teacher',
-						'action' => 'register'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Teacher', $option);
-					?>
+						'action' => 'Register'
+						));?>"> <?php echo __('Teacher');?> </a>
 				</li>
-				<?php
-					$option = array(
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Student',
-						'action' => 'register'
-					);
-					if( $page['controller'] == strtolower($option['controller'])
-						&& $page['action'] == strtolower($option['action'])
-					){
-						$isActive = true;
-					}else{
-						$isActive = false;
-					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
-					<?php
-					echo $this->Html->link('Student', $option);
-					?>
+						'action' => 'Register'
+						));?>"><?php echo __('Student');?> </a>
 				</li>
-			</ul>	
-		<?php
-		endif;	//	if( $role=='R2' ) :
-		?>
+			</ul>
+		<?php endif;?>
+	</div><!-- ac_menu -->
 
-		<?php //search form ?>
-		<?php
-				echo $this->Form->create(null, array(
-				'controller' => 'search',
-				'url' => array(
-						'controller' => 'Search',
-						'action' => 'index',
-					),
-				'class' => 'navbar-form navbar-right',
-				));
-
-				echo $this->Form->input(
-						'keyword',
-						array(
-							'label' => '',
-							'class' => 'form-control',
-							'placeholder' => __('Enter a keyword'),
-							'div' => array(
-								'style' => 'display:inline-block;margin-right:10px;'
-								),
-						)
-				);
-
-				echo $this->Form->button('Search', array(
-					'class' => 'btn btn-default',
-					'type' => 'Search',
-				 ));
-			echo $this->Form->end();
-		?>
-		</div>
-	</div>
-</nav>
+	
+</div><!-- ac_content -->

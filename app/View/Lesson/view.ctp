@@ -38,8 +38,9 @@ if(isset($data)) :
 					echo '<h1 class="text-center">'.$lesson['title'].'</h1>';
 					echo '<p></p>';
 					//_____________________
-					//ranking by stars                   
+					//ranking by stars       
 					$options = array();
+					$options['coma_id'] = $data['Lesson']['coma_id'];
 					$options['stars'] = $rate;
 					$options['width'] = 30;
 					$options['height'] = 30;
