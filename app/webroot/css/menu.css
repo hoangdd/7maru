@@ -81,6 +81,9 @@
 	margin-top: 0px;
 	display: block;
 }
+.ac_menu > ul.root > li > a:hover{
+	color: yellow;
+}
 .ac_menu > ul > li.title a{
 	color: yellow;
 }
