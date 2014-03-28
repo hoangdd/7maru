@@ -300,7 +300,10 @@ class LessonController extends AppController {
 			unset($data[$key]['Lesson']['author']);
 			unset($data[$key]['0']);
 		}
-		$this->log($data, 'hlog');
+		if(empty($data)){
+			echo '0';
+			die;
+		}
 		$this->set('data', $data);
 	}
 	
@@ -341,12 +344,17 @@ class LessonController extends AppController {
 				$rank = $rank / $count;
 			}			    		
 			$data[$key]['RateLesson'] = $rank;    		
-		}    	
+		} 
+		if(empty($data)){
+			echo '0';
+			die;
+		}
 		$this->set("data",$data);
 		// debug($data);
 	}
 	
 	function RecentLesson($pageIndex) {
+		$this->layout = false;
 		$this->loadModel('Lesson');
 		$this->loadModel('User');
 		$this->loadModel('LessonTransaction');
@@ -396,12 +404,17 @@ class LessonController extends AppController {
 			unset($data[$key]['Lesson']['RateLesson']);  		
 			unset($data[$key]['Lesson']['Author']);
 			unset($data[$key]['LessonTransaction']);
-		}    	   	
+		}
+		if(empty($data)){
+			echo '0';
+			die;
+		}
 		$this->set("data",$data);
 		// debug($data);
 	}
 	
 	function Bestseller() {
+		$this->layout = false;
     	// $data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
 		$page_limit = 4;
 		$pagination = array (				
@@ -412,7 +425,11 @@ class LessonController extends AppController {
 			'limit' => $page_limit
 
 			);
-		
+		$data = array();
+		if(empty($data)){
+			echo '0';
+			die;
+		}
     	// print_r($data);
 		// debug($data);
 	}

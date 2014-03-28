@@ -43,5 +43,4 @@
 			<?php echo $lesson['Lesson']['description'];?>
 		</p>
 	</div>
-			<?php echo '...'; ?>
 </li>

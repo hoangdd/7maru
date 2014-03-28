@@ -6,6 +6,10 @@
 */
 ?>
 <?php
+	echo $this->Html->css('component');
+	echo $this->Html->css('lesson');
+?>
+<?php
 	$roles = array('guest', 'student', 'teacher', 'admin');
 	$sns_link = array(
 		'fb' => 'http://www.facebook.com',
@@ -13,11 +17,55 @@
 		'gp' => 'http://plus.google.com'
 		);
 	$tags = array(
-		'hot' => '#hot',
-		'recent' => '#recent',
-		'best buy' => '#bb',
-		'etc' => '#etc'
-		);
+		'HotLesson' => array(
+			'action' => 'HotLesson',
+			'label' => 'Hot',
+			'page' => 1,
+			'max' => -1,
+			'view' => 1,
+			'url' => $this->Html->url(array(
+				"controller" => "Lesson", 
+				"action" => "HotLesson",
+				)
+			),
+		),
+		'NewLesson' => array(
+			'action' => 'NewLesson',
+			'label' => 'New',
+			'page' => 1,
+			'max' => -1,
+			'view' => 1,
+			'url' => $this->Html->url(array(
+				"controller" => "Lesson", 
+				"action" => "NewLesson",
+				)
+			),
+		),
+		'Bestseller' => array(
+			'action' => 'Bestseller',
+			'label' => 'Best seller',
+			'page' => 1,
+			'max' => -1,
+			'view' => 1,
+			'url' => $this->Html->url(array(
+				"controller" => "Lesson", 
+				"action" => "Bestseller",
+				)
+			),
+		),
+		'RecentLesson' => array(
+			'action' => 'RecentLesson',
+			'label' => 'Recent',
+			'page' => 1,
+			'max' => -1,
+			'view' => 1,
+			'url' => $this->Html->url(array(
+				"controller" => "Lesson", 
+				"action" => "RecentLesson",
+				)
+			),
+		)
+	);
 	$cover = array(
 		'resource/intro.jpg',
 		'resource/intro.jpg',
@@ -38,6 +86,10 @@
 		position: fixed;
 		top: 0px;
 		z-index: 2 !important;
+	}
+	.intro-menu-fixed > nav{
+		top:0px !important;
+		position: fixed !important;
 	}
 </style>
 <script type="text/javascript">
@@ -125,7 +177,7 @@
 	<nav class="cl-effect-5">
 		<?php
 			foreach ($tags as $key => $value) {
-				echo "<a style='height:30px' href='".$value."'><span data-hover='".$key."'>".$key."</span></a>";
+				echo "<a style='height:30px' href='#".$value['action']."'><span data-hover='".$value['label']."'>".$value['label']."</span></a>";
 			}
 		?>
 	</nav>
@@ -140,73 +192,94 @@
 <?php
 //-------------------------------------------------TAG--------------------------------------------------------------
 // Page 2
-$tags = array(
-	'HotLesson' => array(
-		'action' => 'HotLesson',
-		'label' => 'Hot',
-		),
-	'NewLesson' => array(
-		'action' => 'NewLesson',
-		'label' => 'New',
-		),
-	'Bestseller' => array(
-		'action' => 'Bestseller',
-		'label' => 'Best seller',
-		),
-	'RecentLesson' => array(
-		'action' => 'RecentLesson',
-		'label' => 'Recent',
-		)
-	)
+
 ?>	
 <?php echo $this->Html->scriptStart();?>
 var tags = $.parseJSON('<?php echo json_encode($tags);?>');
-var hot_count = 1;
 $(document).ready(function(){
-	$.ajax({
-		'url' : '<?php echo $this->Html->url(array(
-			"controller" => "Lesson", 
-			"action" => "HotLesson",
-			1
-			));?>',
-		complete : function(res){
-			$('#hot-list').html(res.responseText);
-			hot_count++;
+	function firstLoad(){
+		for (var key in tags) {
+			if(typeof key != 'undefined'){
+				tagObject = tags[key];
+				$.ajax({
+					'url' : tagObject.url+'/1',
+					'async' : false, //importain
+					complete : function(res){
+						if( res.responseText != 0 ){
+							$('#'+tagObject.action).find('ul.bk-list').html(res.responseText);
+							tagObject.page++;
+						}else{
+							$('#'+tagObject.action).find('ul.bk-list').html('<?php echo $this->Html->image("no_data.png");?>');
+						}
+					}
+				});
+			}
 		}
-	});
+	}
+	//first loading
+	firstLoad();
+
 	$('.next-button').click(function(){
-		action = $(this).attr('action');
+		var action = $(this).attr('action');
+		var listObject, list;
 		switch(action){
 			case 'HotLesson':
-				count = hot_count;
+				listObject = tags.HotLesson;
+				list = $('#'+listObject.action).find('ul.bk-list')
+				url = listObject.url+'/'+ tags.HotLesson.page;
 				break;
 			default:
 				return;
 		}
-		if(count<0) return;
+		if( listObject.max > 0 && listObject.page >= listObject.max ){
+			//load xong tat ca, xu li slide
+			if(listObject.view == listObject.page) return; //in the end
+			n = 4*listObject.view;
+			child = list.find('li:nth('+n+')');
+			list.animate({'left': list.offset().left-child.offset().left+30}, 600);
+			listObject.view++;
+			return;
+		}
+		//ajax load them trang
 		$.ajax({
-			'url' : '<?php echo $this->Html->url(array(
-				"controller" => "Lesson", 
-				"action" => "HotLesson",
-				));?>/'+count,
+			'url' : url,
 			complete : function(res){
 				if( res.responseText!=0 ){
-					$('#hot-list').append(res.responseText);
-					count++;
+					//append data
+					list.append(res.responseText);
+					n = 4*listObject.view;
+					child = list.find('li:nth('+n+')');
+					list.animate({'left': list.offset().left-child.offset().left+30}, 600);
+					listObject.page++;
+					listObject.view++;
 				}else{
-					count = -1;
-				}
-				//update count
-				switch(action){
-					case 'HotLesson':
-						hot_count = count;
-						break;
-					default:
-						return;
+					//end => set max
+					listObject.max = listObject.page;
 				}
 			}
 		});
 	});
+	
+	$('.prev-button').click(function(){
+		var action = $(this).attr('action');
+		var listObject, list;
+		switch(action){
+			case 'HotLesson':
+				listObject = tags.HotLesson;
+				list = $('#'+listObject.action).find('ul.bk-list')
+				break;
+			default:
+				return;
+		}
+		if( listObject.view > 1){
+			//slide back
+			n = 4*listObject.view-8;
+			if( n < 0 ) return; //at first
+			child = list.find('li:nth('+n+')');
+			list.animate({'left': list.offset().left-child.offset().left+30}, 600);
+			listObject.view--;
+		}
+	})
 });
 <?php echo $this->Html->scriptEnd();?>
 
@@ -215,15 +288,18 @@ foreach($tags as $tag) :
 ?>
 	<hr>
 	<div id='<?php echo $tag['action']?>' class="page">
-		<button class='prev-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-left"></span></button>
-		<button class='next-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-right"></span></button>
-		<div class='lesson-bar' >
-			<ul id ='hot-list' action='<?php echo $tag['action']?>'  class="bk-list clearfix">
-			</ul>
+		<div class='lesson-wrapper'>
+			<a class='control-button left prev-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-left"></span></a>
+
+			<div class='lesson-bar'>
+				<ul action='<?php echo $tag['action']?>'  class="bk-list clearfix">
+				</ul>
+			</div>
+
+			<a class='control-button right next-button' action ='<?php echo $tag['action']?>' ><span class="glyphicon glyphicon-chevron-right"></span></a>
 		</div>
 	</div>
 
 <?php 
-	break;
-	endforeach;
+endforeach;
 ?>
