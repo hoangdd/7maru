@@ -53,6 +53,15 @@ class Data extends AppModel {
 			}
 		}
 
+		//microsoft office > pdf > swf
+		if(in_array($ext, $fileType['microsoftOffiece']['extension'])){
+			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+				 $this->__convertPdfToSwf(DATA_SRC_DIR.DS.$fid.'.'.$ext, SWF_DATA_DIR.DS.$fid.'.swf');
+				// return VIDEO_DATA_DIR.DS.$fid.'.swf';	
+				return $fid.'.swf';	
+			}
+		}
+
 		//tsv file
 		if(in_array($ext, $fileType['tsv']['extension'])){
 			// debug($tmp);
@@ -78,6 +87,16 @@ class Data extends AppModel {
 		return $this->__execute($cmd);
 	}
 
+	private function __convertDocToPdf($src, $output){
+		$command = Configure::read('command');
+		$cmd = sprintf($command['pdf2swf'][0], $src, $output);
+		return $this->__execute($cmd);
+	}
+	private function __convertPptToPdf($src, $output){
+		$command = Configure::read('command');
+		$cmd = sprintf($command['pdf2swf'][0], $src, $output);
+		return $this->__execute($cmd);
+	}
 	public function readTsv($nFileName) {
 
 		$nRow = 1;
