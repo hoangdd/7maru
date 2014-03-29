@@ -54,18 +54,17 @@ $cakeDescription = __d('cake_dev', '7Maru');
 			<?php echo $this->element('menu');?>
 		</div>
 		<div id="content" >
-			<div class="row highlight">
-				<div class="col-md-2">
-				</div>
-				<div class="col-md-8 highlight" style="background-color:white;min-height:500px">
-					<?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				</div>
-				<div class="col-md-2">
-				</div>
+			<div class="content-body">
+			<?php 
+				$flash = $this->Session->flash();
+				if( !empty($flash)){
+					echo '<div class="alert alert-success">'.$flash.'</div>';
+				}
+			?>
+				<?php echo $this->fetch('content'); ?>
 			</div>
-			
 		</div>
+
 		<div id="footer">
 		</div>
 	</div>

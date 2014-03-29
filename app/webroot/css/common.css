@@ -2,8 +2,15 @@
 *	common.css for entire site
 * 	created by Hoang Dac
 */
+/*layout default*/
 #content{
-    margin-top: 90px;
+    padding-top: 100px;
+}
+#content .content-body{
+    margin: auto;
+    width: 70%;
+    padding: 20px;
+    min-height:500px;
 }
 .tag_list span{
 	background: url(../img/tag_red.png);

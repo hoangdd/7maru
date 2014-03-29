@@ -120,7 +120,7 @@ if(isset($data)) :
 												'class' => "list-group-item"
 										)
 									);*/
-									$this->redirect ( '/student/exam?id='.$value['file_id'] );
+									// $this->redirect ( '/student/exam?id='.$value['file_id'] );
 								}
 							}
 						}

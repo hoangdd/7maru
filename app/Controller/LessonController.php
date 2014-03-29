@@ -248,10 +248,10 @@ class LessonController extends AppController {
 	}
 
 	public function viewContent($fid){
-		$files = $this->Data->find('first', array(
+		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
-		// debug($files);
+		$this->set('file', $file);
 	}
 	public function rate(){
 		if($this->request->is('post')){
