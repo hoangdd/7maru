@@ -3,7 +3,7 @@ SWFTools
 
 ----------------
 
-[pdf2swf](#) - pdf2swf
+[pdf2swf](#)
 
 -h , --help                    Print short help message and exit
 
@@ -59,7 +59,7 @@ LibreOffice Writer
 
 ----------------
 
-[lowriter](#) - lowriter
+[lowriter](#)
 
 Options:
 
@@ -175,7 +175,7 @@ LibreOffice Impress
 
 ----------------
 
-[loimpress](#) - loimpress
+[loimpress](#)
 
 
 
