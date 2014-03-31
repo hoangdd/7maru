@@ -954,7 +954,7 @@ class AdminController extends AppController {
             $topTeacher[$index]['User']['buy_num'] = $buy_num;
             unset($topTeacher[$index]['Lesson']);            
         }        
-        $this->set(compact(array('topTeacher','topLesson','topStudent')));
+        $this->set(compact(array('topTeacher','topLesson','topStudent')));  
     }
 
     ///==================
