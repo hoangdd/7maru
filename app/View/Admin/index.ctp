@@ -27,7 +27,7 @@
 		  	<?php  echo $this->Html->link(__('Block User'),array('action' => 'blockUser')) ?>
 		  </li>		  
 		  <li>
-		  	<?php  echo $this->Html->link(__('Report'),array('action' => 'report')) ?>
+		  	<?php  echo $this->Html->link(__('Notification'),array('action' => 'Notification')) ?>
 		  </li>
 		  <li>
 		  	<?php  echo $this->Html->link(__('Statistic'),array('action' => 'statistic')) ?>
