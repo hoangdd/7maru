@@ -270,7 +270,7 @@ class Data extends AppModel {
 					$rec = $start;
 						foreach($value as $keyT => $valueT){
 	
-						if((strcmp($keyT,'content')!=0)&&(strcmp($keyT,'mark')!=0)){
+						if((strcmp($keyT,'content')!=0)&&(strcmp($keyT,'mark')!=0)&&(strcmp($keyT,'markNumber')!=0)){
 						if($i != 0) {
 						$rec .= ',';
 						}

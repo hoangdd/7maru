@@ -23,16 +23,15 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
 <!--CSS/Style Sheet Part Ending-->
 <!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
 <?php 
-  $file = $this->Html->url(array(
-    'controller' => 'Data',
-    'action' => 'file',
-    $testfile
-    ));
+//  $file = $this->Html->url(array(
+  //  'controller' => 'Data',
+    //'action' => 'file',
+    //$testfile
+    //));
+    $file_hidden = $testfile;
 ?>
-<SCRIPT language="javascript" src="<?php echo $file;?>"></SCRIPT>
+<SCRIPT type="text/javascript" src="<?php echo '/7maru/app/webroot/js/test/'.$testfile;?>"></SCRIPT>
 <?php 
-//echo $this->Html->script('fd280371');
-
 echo $this->Html->script('Test_Control');
 ?>
 <SCRIPT language="javascript">

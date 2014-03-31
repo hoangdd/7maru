@@ -87,7 +87,8 @@ define('VIDEO_DATA_DIR', DATA_DIR.DS.'video');
 define('AUDIO_DATA_DIR', DATA_DIR.DS.'audio');
 define('SWF_DATA_DIR', DATA_DIR.DS.'swf');
 define('TSV_DATA_DIR', DATA_DIR.DS.'tsv');
-define('HTML_DATA_DIR', DATA_DIR.DS.'html');
+// define('HTML_DATA_DIR', DATA_DIR.DS.'html');
+define('HTML_DATA_DIR','js/test');
 define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
 

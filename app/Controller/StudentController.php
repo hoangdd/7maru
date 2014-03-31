@@ -13,7 +13,7 @@ class StudentController extends AppController {
 		parent::beforeFilter ();
 
 		$this->Auth->userModel = 'Student';
-		$this->Auth->allow ( 'dotest', 'viewtestresult','beforetest','exam' );
+		$this->Auth->allow ( 'dotest', 'viewtestresult','exam' );
 
 		$this->Auth->allow();//Allow all
 	}
@@ -386,8 +386,9 @@ class StudentController extends AppController {
 		} else {
 			
 			$values = $this->request->data['testfilegettest'];
+			$values = str_replace(".js",".tsv",$values);
 			$this->set('testfilegettest',$values);
-			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values.'.tsv');
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
 			$totques=count($this->request->data['hid']);
 
 			$temp = 0;$mark = 0;
@@ -467,7 +468,7 @@ class StudentController extends AppController {
 		$this->layout = null;
 		$this->set('qid',$this->params['url']['qid']);
 		$values = $this->params['url']['test_id'];
-		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values.'.tsv');
+		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
 		$this->set('finalTest',$finalTest);
 		$this->set('choosedEnd',$this->params['url']['aParam']);
 		$this->set('total',count($finalTest));
@@ -479,22 +480,23 @@ class StudentController extends AppController {
 		print_r($values);*/
 	}
 
-	function Exam($id){
-		$this->set('testfile',$id);
-		/*$this->set('testfile',$this->request->params['pass']['0']);
+	function Exam(){
+// 		$this->set('testfile',$id);
+// 		$this->set('testfile',$this->request->params['pass']['0']);
+		$id = $this->params['url']['id'];
 		$dulieu = $this->Data->find('first', array(
 				'conditions' => array(
 						'Data.file_id' => $id
 				)
 		));
-		debug($dulieu);
 		$str = "";
 		if(count($dulieu) != 0){
-			$this->set('testfile',$dulieu['Data']['file_name']);
+			$this->set('testfile',$dulieu['Data']['path']);
+			
 		} else {
 			$str = "Error test data!!!";
 		}
-		$this->set("warningNotify",$str);*/
+		$this->set("warningNotify",$str);
 	}
 
 	function ChangePassword() {

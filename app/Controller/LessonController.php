@@ -190,6 +190,7 @@ class LessonController extends AppController {
 				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
 					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
 					$testFile['isTest'] = true;
+					echo $testFile;
 					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}

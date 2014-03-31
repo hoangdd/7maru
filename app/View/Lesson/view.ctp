@@ -106,9 +106,9 @@ if(isset($data)) :
 							?>
 							</div>
 							<div class="list-group">
-							<a href="#" class="list-group-item active">Test</a>
+							
 							<?php
-
+							$ii = 1;
 							foreach ($data['File'] as $key => $value) {
 								if($value['isTest']){
 									/*echo $this->Html->link($value['file_name'], array(
@@ -120,7 +120,10 @@ if(isset($data)) :
 												'class' => "list-group-item"
 										)
 									);*/
-									// $this->redirect ( '/student/exam?id='.$value['file_id'] );
+									?>
+									<a href="/7maru/student/exam?id=<?php echo $value['file_id']; ?>";" class="list-group-item active">Test <?php echo $ii; ?></a>
+									<?php
+								$ii++;
 								}
 							}
 						}
