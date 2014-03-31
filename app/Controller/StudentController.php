@@ -268,12 +268,21 @@ class StudentController extends AppController {
 				*   username,firstname,lastname,date_of_birth,address,password,
 				*   user_type,mail,phone_number,profile_picture
 				*/ 
-				if(isset($result['Student']['student_id'])){                   
+				if($result){                   
 					$data['foreign_id'] = $result['Student']['student_id'];
 					$data['user_type'] = 2;
 					$data['profile_picture'] = $profile_pic;
+					$data['content'] = 0;
+					$data['activated'] = 1;
+					$data['approved'] = 0;
 					$this->User->create($data);
-					$this->User->save();                    
+					if ( !$this->User->save()){
+                        $this->Student->delete($result['Student']['teacher_id']);
+                        $this->Session->setFlash(__('Register failure'));                        
+                    }
+                    else{
+                        $this->Session->setFlash(__('Register successful, waiting for approving by admin'));   
+                    }
 				 }
 			  }
 		}

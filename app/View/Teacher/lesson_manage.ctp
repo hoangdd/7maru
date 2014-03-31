@@ -18,7 +18,7 @@
                 <li><a href="#">Separated link</a></li>
                 <li class="divider"></li>
                 <li><a href="#">One more separated link</a></li>
-              </ul>EW44444
+              </ul>
             </li>
           </ul>
           <div class="col-xs-8">

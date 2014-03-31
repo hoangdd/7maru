@@ -31,10 +31,8 @@ class User extends AppModel {
 
 
     public function beforeSave($options = array()) {    
-        		
         //user id
 		$data = $this->data;
-		
         if( !isset($data['User']['user_id'])){
             $idString = $data['User']['username'].'user';
             $data['User']['user_id'] = $this->_generateId($idString);
