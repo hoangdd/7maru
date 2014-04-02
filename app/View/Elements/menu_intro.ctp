@@ -45,7 +45,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Home', $option);
+					echo $this->Html->link(__('Home'), $option);
 					?>
 				</li>
 
@@ -65,7 +65,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Profile', $option);
+					echo $this->Html->link(__('Profile'), $option);
 					?>
 				</li>
 
@@ -85,7 +85,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Lesson Manage', $option);
+					echo $this->Html->link(__('Lesson Manage'), $option);
 					?>
 				</li>
 
@@ -105,7 +105,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Statistic', $option);
+					echo $this->Html->link(__('Statistic'), $option);
 					?>
 				</li>
 				<?php
@@ -123,7 +123,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Logout', $option);
+					echo $this->Html->link(__('Logout'), $option);
 					?>
 				</li>
 			</ul>
@@ -150,7 +150,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Home', $option);
+					echo $this->Html->link(__('Home'), $option);
 					?>
 				</li>
 
@@ -170,7 +170,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Profile', $option);
+					echo $this->Html->link(__('Profile'), $option);
 					?>
 				</li>
 
@@ -190,7 +190,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Buy Lesson', $option);
+					echo $this->Html->link(__('Buy Lesson'), $option);
 					?>
 				</li>
 
@@ -210,7 +210,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Statistic', $option);
+					echo $this->Html->link(__('Statistic'), $option);
 					?>
 				</li>
 				<?php
@@ -228,7 +228,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Logout', $option);
+					echo $this->Html->link(__('Logout'), $option);
 					?>
 				</li>
 			</ul>
@@ -256,7 +256,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Home', $option);
+					echo $this->Html->link(__('Home'), $option);
 					?>
 				</li>
 
@@ -275,7 +275,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Login', $option);
+					echo $this->Html->link(__('Login'), $option);
 					?>
 				</li>
 
@@ -297,7 +297,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Teacher', $option);
+					echo $this->Html->link(__('Teacher'), $option);
 					?>
 				</li>
 				<?php
@@ -315,7 +315,7 @@ user => comment, index
 				?>
 				<li <?php if($isActive) echo "class='active'";?>>
 					<?php
-					echo $this->Html->link('Student', $option);
+					echo $this->Html->link(__('Student'), $option);
 					?>
 				</li>
 			</ul>	
@@ -346,7 +346,7 @@ user => comment, index
 						)
 				);
 
-				echo $this->Form->button('Search', array(
+				echo $this->Form->button(__('Search'), array(
 					'class' => 'btn btn-default',
 					'type' => 'Search',
 				 ));

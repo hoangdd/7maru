@@ -15,7 +15,7 @@ echo $this->Html->css('datepicker');
       })
 </script>
 <div class="col-md-12 highlight" style="background-image: url(/7maru/img/Hd-Background-Wallpapers-2.jpg);background-repeat: no-repeat;background-position: top center;">
-<h1 class="text-center">Student Register</h1>
+<h1 class="text-center"><?php echo __('Student Register') ?></h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
     <form id='register-form'action='register' class="form-horizontal" role="form" method='post' enctype="multipart/form-data">
@@ -23,7 +23,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Username:</label>
+                        <label class="pull-left control-label"><?php echo __('Username').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -47,7 +47,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Password:</label>
+                        <label class="pull-left control-label"><?php echo __('Password').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -69,7 +69,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Retype Password:</label>
+                        <label class="pull-left control-label"><?php echo __('Retype Password').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -91,7 +91,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Email:</label>
+                        <label class="pull-left control-label"><?php echo __('Email').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -113,7 +113,7 @@ echo $this->Html->css('datepicker');
            <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">First name:</label>
+                        <label class="pull-left control-label"><?php echo __('First name').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -135,7 +135,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Last name:</label>
+                        <label class="pull-left control-label"><?php echo __('Last name').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -157,7 +157,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Birthday:</label>
+                        <label class="pull-left control-label"><?php echo __('Birthday').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -170,7 +170,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Address:</label>
+                        <label class="pull-left control-label"><?php echo __('Address').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -183,7 +183,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Gender:</label>
+                        <label class="pull-left control-label"><?php echo __('Gender').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -191,14 +191,14 @@ echo $this->Html->css('datepicker');
                         <div class="radio">
                             <label>
                                 <input name="gender" type="radio" value="1">
-                                Male
+                                <?php echo __('Male') ?>
                             </label>
                         </div>
 
                         <div class="radio">
                             <label>
                                 <input name="gender" type="radio" value="2">
-                                Female
+                                <?php echo __('Female') ?>
                             </label>
                         </div>
                     </div>
@@ -208,7 +208,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Telephone number:</label>
+                        <label class="pull-left control-label"><?php echo __('Telephone number').':' ?></label>
                     </div>
                 </td>
                <td>
@@ -228,7 +228,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Credit Card:</label>
+                        <label class="pull-left control-label"><?php echo __('Credit Card').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -242,17 +242,17 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Verify code:</label>
+                        <label class="pull-left control-label"><?php echo __('Verify code').':' ?></label>
                     </div>
                 </td>
                 <td>
                     <div class="col-md-12">
                         <select name="verifycode_question" class="form-control">
-                            <option>What subject do you like?</option>
-                            <option>What activity do you like?</option>
-                            <option>What do you do in freetime?</option>
-                            <option>How often do read book?</option>
-                            <option>What song do you like?</option>
+                            <option><?php echo __('What subject do you like') ?></option>
+                            <option><?php echo __('What activity do you like') ?></option>
+                            <option><?php echo __('What do you do in freetime') ?></option>
+                            <option><?php echo __('How often do read book') ?></option>
+                            <option><?php echo __('What song do you like') ?></option>
                         </select>
                     </div>
                 </td>
@@ -261,7 +261,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Answers:</label>
+                        <label class="pull-left control-label"><?php echo __('Answers').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -275,7 +275,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Your degree:</label>
+                        <label class="pull-left control-label"><?php echo __('Your degree').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -288,13 +288,13 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label">Upload photo:</label>
+                        <label class="pull-left control-label"><?php echo __('Upload photo').':' ?></label>
                     </div>
                 </td>
                 <td>
                     <div class="col-md-12">
                         <input type="file" class="form-control" name='profile_picture'>
-                        <p class="help-block">Upload your photo to display.</p>
+                        <p class="help-block"><?php echo __('Upload your photo to display') ?></p>
                         <span>
                             <?php
                             if(isset( $error['profile_picture'][0])) echo  $error['profile_picture'][0];
@@ -305,8 +305,8 @@ echo $this->Html->css('datepicker');
             </tr>
         </table>
         <div class="text-center">
-            <button class="btn btn-primary" type="submit">Register</button>
-            <button type="button" class="btn btn-primary">Cancel</button>
+            <button class="btn btn-primary" type="submit"><?php echo __('Register') ?></button>
+            <button type="button" class="btn btn-primary"><?php echo __('Cancel') ?></button>
         </div>         
     </form>
 </div>

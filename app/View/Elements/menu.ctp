@@ -67,7 +67,7 @@ $(document).ready(function(){
 ?>
 <div id="ac_content" class="ac_content">
 	<h1>
-		<span>Study more</span>
+		<span><?php echo __('Study more') ?></span>
 		7maru
 	</h1>
 	<div class="ac_menu">

@@ -15,7 +15,7 @@
 		</div>
 	</div>
 	<div class="input text form-group">
-		<label for="CategoryDescription" class="col-sm-2 control-label">Description</label>
+		<label for="CategoryDescription" class="col-sm-2 control-label"><?php echo __('Description') ?></label>
 		<div class="col-sm-10">
 			<input class="form-control" name="data[Category][description]" type="text" id="CategoryDescription">
 		</div>

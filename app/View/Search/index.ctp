@@ -5,7 +5,7 @@
                 <input class="form-control input-lg" placeholder="Enter Query" type="text" name="string" >
             </div>
             <button type="submit" value="Search" class="btn btn-lg btn-primary">
-            <span class="glyphicon glyphicon-search"></span>  Search
+            <span class="glyphicon glyphicon-search"></span>  <?php echo __('Search') ?>
             </button>
         </div>
         <p></p>
@@ -106,20 +106,20 @@
             <div class="media-body">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                        <h3 class="panel-title"><?php echo __('Lesson Name - Teacher Name') ?></h3>
                     </div>
                     <div class="panel-body">
-                        Description
+                        <?php echo __('Description') ?>
                     </div>
                 </div>
                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <?php echo __('Buy') ?>
                 </button>
                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <?php echo __('Action') ?>
                 </button>
                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <?php echo __('Action') ?>
                 </button>
             </div>
         </div>
@@ -142,14 +142,14 @@
             <div class="media-body">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                        <h3 class="panel-title"><?php echo __('Lesson Name - Teacher Name') ?></h3>
                     </div>
                     <div class="panel-body">
-                        Description
+                        <?php echo __('Description') ?>
                     </div>
                 </div>
                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <?php echo __('Buy') ?>
                 </button>
             </div>
         </div>
@@ -171,14 +171,14 @@
             <div class="media-body">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
+                        <h3 class="panel-title"><?php echo __('Lesson Name - Teacher Name') ?></h3>
                     </div>
                     <div class="panel-body">
-                        Description
+                        <?php echo __('Description') ?>
                     </div>
                 </div>
                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
+                    <span class="glyphicon glyphicon-shopping-cart"></span> <?php echo __('Buy') ?>
                 </button>
             </div>
         </div>

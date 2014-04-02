@@ -7,7 +7,7 @@
 <!-- header -->
 <div id="user_list">
 <h3 style="text-align:center">
-	USER MANAGE
+	<?php echo __('USER MANAGE') ?>
 </h3>
 <!-- table -->
 <div class="">

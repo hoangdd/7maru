@@ -24,14 +24,14 @@
 ?>
 
 <!-- Notification of Admin -->
-<h1 class="text-center">Notification</h1>
+<h1 class="text-center"><?php echo __('Notification') ?></h1>
 <div clas="row">
     <!-- Message public -->
     <div class='col-md-4'>
         <div class="panel panel-danger">
             <!--panel header-->
             <div class="panel-heading">
-                <h3 class="panel-title">Public message</h3>
+                <h3 class="panel-title"><?php echo __('Public message') ?></h3>
             </div>
             
             <!--panel body-->
@@ -42,11 +42,11 @@
                     <p></p>
                     <div class="form-group">
                         <button name="publicpost" type="submit" class="btn btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span> Post
+                        <span class="glyphicon glyphicon-envelope"></span> <?php echo __('Post') ?>
                         </button>
                     
                         <button type="button" class="btn btn-warning" onClick="resetTextareaPublic();">
-                        <span class="glyphicon glyphicon-refresh"></span> Reset
+                        <span class="glyphicon glyphicon-refresh"></span> <?php echo __('Reset') ?>
                         </button>
                         
                     </div>
@@ -60,14 +60,14 @@
         <div class="panel panel-danger">
             <!--panel header-->
             <div class="panel-heading">
-                <h3 class="panel-title">Private message</h3>
+                <h3 class="panel-title"><?php echo __('Private message') ?></h3>
             </div>
             <!--panel body-->
             <div class="panel-body">
                     <div class="text-center">
                          <form class="form-horizontal" role="form">
                           <div class="form-group">
-                              <label class="col-sm-2 control-label">Message: </label>
+                              <label class="col-sm-2 control-label"><?php echo __('Message').':' ?> </label>
                                 <div class="col-sm-10">
                                     <select id="select_message" class="form-control">
                                         <?php
@@ -99,9 +99,9 @@
 
                 <div class="multiselect">
                     <table class="table table-bordered table-hover" id = "user-table">
-                        <th class="danger"><labe>Username</labe></th>
-                        <th class="danger"><labe>Full Name</labe></th>
-                        <th class="danger"><labe><input type="checkbox"/>Check</labe></th>
+                        <th class="danger"><label><?php echo __('Username') ?></label></th>
+                        <th class="danger"><label><?php echo __('Full Name') ?></labe></th>
+                        <th class="danger"><label><input type="checkbox"/><?php echo __('Check') ?></label></th>
                         <?php
                             /*foreach ($user['name'] as $name):
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
@@ -118,11 +118,11 @@
                 <p></p>
                     <div class="form-group">
                         <button id='post-button' name="privatepost" type="submit" class="btn btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span> Post
+                        <span class="glyphicon glyphicon-envelope"></span> <?php echo __('Post') ?>
                         </button>
                     
                         <button type="button" class="btn btn-warning" onClick="resetTextareaPrivate();">
-                        <span class="glyphicon glyphicon-refresh"></span> Reset
+                        <span class="glyphicon glyphicon-refresh"></span> <?php echo __('Reset') ?>
                         </button>
                     </div>
             </div>

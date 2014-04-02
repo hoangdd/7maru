@@ -44,13 +44,13 @@ $total = $total * MONEY_PER_LESSON * TEACHER_PROFIT_PERCENTAGE;
       <div class="row">
             <div class='col-md-12'>                    
 
-              <h2 class='text-center'>From the begin: <?php echo $util->convertDate($begin); ?></h2>                                                                      
+              <h2 class='text-center'><?php echo __('From the begin').':' ?> <?php echo $util->convertDate($begin); ?></h2>                                                                      
               <h1 class='text-center'>
                 <?php echo __("Total of Money").":"; ?>   
                 <span><?php echo $total ?></span>
               </h1>          
               <div class="row">
-              <?php echo "<p class='title'>". __("Top 3 bought lesson: ")."</p>";
+              <?php echo "<p class='title'>". __("Top 3 bought lesson").":"."</p>";
               foreach($top3BoughtLesson as $lesson){                                    
                   echo "<div style='float:left;margin:20px' class='text-center'>";
                 echo $this->Html->image((LESSON_COVER_LINK.$lesson['Lesson']['cover']), array(

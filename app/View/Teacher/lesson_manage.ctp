@@ -1,5 +1,5 @@
 <div class="head-box">
-    <h1>Lesson Manage</h1>
+    <h1><?php echo __('Lesson Manage') ?></h1>
     
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
@@ -34,7 +34,7 @@
 <div class = "lesson-box row">
     <div class="lesson-action col-xs-2 list-group">
         <button type="button" id="addLesson" class="text-center btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-plus"></span> Add
+            <span class="glyphicon glyphicon-plus"></span> <?php echo __('Add') ?>
         </button>
     </div>
 
@@ -85,7 +85,7 @@
                 </div>
                 <div>
                     <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
-                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default">Delete</button>
+                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default"><?php echo __('Delete') ?></button>
                 </div>
             </div>
         <?php }?>
