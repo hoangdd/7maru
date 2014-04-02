@@ -138,7 +138,7 @@ $(document).ready(function(){
 						'action' => 'changePassword',
 						));
 					?>"
-					> <?php echo __('Change password');?> </a>
+					> <?php echo __('Change Password');?> </a>
 				</li>
 				<li>
 					<a href="#"> <?php echo __('Delete');?> </a>

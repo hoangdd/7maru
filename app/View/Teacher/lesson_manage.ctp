@@ -54,11 +54,19 @@
                         ?>
                     </div>
                     <div class="star center-block" style="padding: 5px">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span> 
-                        <span class="glyphicon glyphicon-star"></span>
+                        <?php 
+                        $options = array(
+                            'coma_id' => $value['Lesson']['coma_id'],
+                            'stars' => $value['Lesson']['rate'],
+                            'width' => 20,
+                            'height' => 20,                     
+                            );
+                        $options['rateAllow'] = 0;                      
+                        echo $this->element('star_rank', array(
+                            'options' => $options
+                            )
+                        )
+                        ?>
                     </div>
                     <div class="panel-heading">
                         <h3 class="panel-title"><?php echo $value['Lesson']['title']; ?></h3>
@@ -84,7 +92,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
+                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default"><?php echo __('Edit') ?></button>
                     <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default"><?php echo __('Delete') ?></button>
                 </div>
             </div>

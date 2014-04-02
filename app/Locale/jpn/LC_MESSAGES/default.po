@@ -452,13 +452,52 @@ msgid "Home"
 msgstr "ホーム"
 
 msgid "Study more"
-msgstr "もう勉強します"
+msgstr "勉強しよう"
 
 msgid "Edit Profile"
 msgstr "プロファイルの変更"
 
 msgid "Lesson Manage"
 msgstr "授業管理"
+
+msgid "Lesson Manage"
+msgstr "授業管理"
+
+msgid "Lets try with test"
+msgstr "テストをしてみてください"
+
+msgid "Content of Lesson"
+msgstr "授業の内容"
+
+msgid "Created Date"
+msgstr "作成日"
+
+msgid "rate"
+msgstr "ランク"
+
+msgid "ranker"
+msgstr "ランク人"
+
+msgid "Credit Card Number"
+msgstr "クレジットカード番号"
+
+msgid "Edit"
+msgstr "添削"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "Create New Lesson"
+msgstr "新しい授業を作成"
+
+msgid "Category"
+msgstr "カテゴリ"
+
+msgid "Different Category"
+msgstr "他のカテゴリ"
 
 
 

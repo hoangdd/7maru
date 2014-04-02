@@ -25,8 +25,9 @@ if(isset($data)) :
 			$sum = 0;
 			$rate = 0;
 		}
-	?>
-
+		$lesson['created'] = date_create($lesson['created']); 
+		$lesson['created'] = date_format($lesson['created'],'d-m-Y'); 
+?>
 	<!-- lesson information -->
 	<div class="row">
 		<div class='col-md-3 text-center'>
@@ -55,7 +56,7 @@ if(isset($data)) :
 						'url' => array('controller' => 'teacher', 'action' => 'profile', $user['user_id'])
 						));
 					echo '<p>';
-					echo 'Author : ';
+					echo __('Author'). ': ';
 					echo $this->Html->link($user['firstname'].' '.$user['lastname'],array(
 						'controller' => 'teacher',
 						'action' => 'profile', $user['user_id']
@@ -64,9 +65,9 @@ if(isset($data)) :
 					//______________________
 					//created date
 					echo '<p></p>';
-					echo '<p class="text_center"> Created Date: <br><strong>'.$lesson['created'].'</strong> </p>';
-					echo '<p>'.$sum.' ranker / '.$number_rate.' reader(s)'.'</p>';
-					echo $this->Html->link('Lets try with test!', array(
+					echo '<p class="text_center">'. __('Created Date').': <br><strong>'.$lesson['created'].'</strong> </p>';
+					echo '<p><strong><b>'.$sum.'</b></strong> '.__('rate'). ' ||'.' <strong><b>'.$number_rate.'</b></strong>'.__('ranker').'(s)'.'</p>';
+					echo $this->Html->link(__('Lets try with test'), array(
 						'controller'=>'student',
 						'action'=>'test',
 					),array('class' => 'btn btn-primary btn-lg active'));
@@ -77,7 +78,7 @@ if(isset($data)) :
 			<div class="panel panel-info">
 				<!--panel header-->
 				<div class="panel-heading">
-					<h3 class="panel-title">Content of Lesson</h3>
+					<h3 class="panel-title"><?php echo __('Content of Lesson') ?></h3>
 				</div>
 				<!--panel body-->
 				<div class="panel-body">
@@ -87,7 +88,7 @@ if(isset($data)) :
 						if( isset($data['File']) && !empty($data['File'])){
 							?>
 							<div class="list-group">
-							<a href="#" class="list-group-item active">Document</a>
+							<a href="#" class="list-group-item active"><?php echo __('Document') ?></a>
 							<?php
 							foreach ($data['File'] as $key => $value) {
 								if( !$value['isTest']){

@@ -85,32 +85,32 @@ class LessonController extends AppController {
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(!isset($data['copyright'])){
-				$error['copyright'] = 'Please confirm your copyright';               
+				$error['copyright'] = __('Please confirm your copyright');               
 			}
 			
 			// check if Lesson name is empty
 			if(!$data['name']){
-				$error['name'] = 'Lesson name do not suppose to be empty';
+				$error['name'] = __('Lesson name do not suppose to be empty');
 			}
 			
 			//check if Lesson Description is empty
 			if(ctype_space($data['desc'])){
-				$error['desc'] = 'Lesson Description do not suppose to be empty';
+				$error['desc'] = __('Lesson Description do not suppose to be empty');
 			}
 			if($_FILES['cover-image']['name']){
 				//Check if image format is supported
 				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
-					$error['image'] = 'Unsupported Image Format';
+					$error['image'] = __('Unsupported Image Format');
 				} else if($_FILES['cover-image']['size'] > 2097152){
-					$error['image'] = 'Image Size Too Big';
+					$error['image'] = __('Image Size Too Big');
 				}
 			}
 			if($_FILES['test']['name']){
 				//Check if image format is supported
 				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
-					$error['test'] = 'Unsupported Test File Format';
+					$error['test'] = __('Unsupported Test File Format');
 				} else if($_FILES['test']['size'] > 52428800){
-					$error['test'] = 'Test File Too Big';
+					$error['test'] = __('Test File Too Big');
 				}
 
 				//テストファイルの構造は正しいかどうかをチェックする。
@@ -124,20 +124,20 @@ class LessonController extends AppController {
 				}
 			}
 			// for($i = 0, $len = $);
-			if($_FILES['document']['name'][0]){
+			if(isset($_FILES['document']['name'][0])){
 				//Check if image format is supported
-				for($i = 0, $len = count($_FILES['document']['name']) ; $i < $len; $i++){
+				$len = count($_FILES['document']['name']);
+				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
 						if(!preg_match('/\.(pdf)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = 'Unsupported Document Format';
 						} else if($_FILES['document']['size'][$i] > 52428800){
-							$error['document'] = 'Document Size Too Big';
+							$error['document'] = __('Document Size Too Big');
 						}
 					}
 				}
 				
-			}
-			
+			}			
 			if(count($error)){
 				$this->set('error',$error);
 				// debug($error);
@@ -172,15 +172,17 @@ class LessonController extends AppController {
 							}
 						}
 					}
-				}             
+				}           				
 
 				// save data   
 				foreach ($document as $key => $value) {
 					# code... 
-					if(!(isset($value['error'])&&$value['error']!=0) ){
-						$value['coma_id'] = $lesson['Lesson']['coma_id'];
-						$this->Data->create(array('Data' => $value));
-						$this->Data->save();
+					if(!(isset($value['error']) && $value['error']!=0 ) ){
+						$value['coma_id'] = $lesson['Lesson']['coma_id'];						
+						$this->Data->create($value);
+						if (!$this->Data->save()){
+
+						}
 					} 
 				}
 
@@ -190,12 +192,11 @@ class LessonController extends AppController {
 				$testFile = $_FILES['test'];
 				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
 					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
-					$testFile['isTest'] = true;
-					echo $testFile;
+					$testFile['isTest'] = true;					
 					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}
-				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+				//$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
 		}		
 	}
@@ -216,16 +217,13 @@ class LessonController extends AppController {
 				),
 			'hasMany' => array(
 				'RateLesson' => array(
-					'foreignKey' => 'coma_id',
+					'foreignKey' => 'coma_id',					
+					),
+				'File' => array(
+					'className' => 'Data',
+					'foreignKey' => 'coma_id'
 					)				
 				),
-			));
-		$this->Lesson->User->bindModel(array(
-			'belongsTo' => array(
-				'Teacher' => array(
-					'foreignKey' => 'foreign_id'
-					)
-				)
 			));
 		$this->Lesson->recursive = 2 ;
 		$lesson = $this->Lesson->findByComaId($id);

@@ -56,12 +56,12 @@
         $('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input" onchange = "on_document_input()">');
     }
 </script>
-<h1>Create new Lesson</h1>
+<h1><?php echo __('Create New Lesson') ?></h1>
 <div class="form-wrapper">
     <form class="form-horizontal" method="post" action="create" enctype="multipart/form-data">
 <!--        Category check box-->
         <div class="form-group row">
-            <label class="control-label col-sm-4" for="lesson_type">Category</label>
+            <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Category') ?></label>
             <div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
                 <?php foreach ($categories as $category){ ?>
                     <div class="input-group checkbox-wrapper">
@@ -85,7 +85,7 @@
         </div>
 <!--        Other Category input-->
         <div class="form-group row">
-            <label class="control-label col-sm-4" for="lesson_type">Different Category</label>
+            <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Different Category') ?></label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" id="input_Category" placeholder="Category" name="other_category">
             </div>
@@ -128,9 +128,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Lesson Image') ?></label>
             <div class="col-sm-8">
-                <input type="file" name="cover-image">
-                <?php //echo $this->Form->file('cover-image'); ?>
-                <img src="/7maru/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
+                <input type="file" name="cover-image">                            
             </div>
         </div>
         <div class="form-group row">
@@ -156,7 +154,7 @@
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-lg-6">
-                        <input type="submit" class="btn btn-success btn-lg btn-block" value="Create">
+                        <input type="submit" class="btn btn-success btn-lg btn-block" value="<?php echo __('Create') ?>" >
 <!--                            <span class="glyphicon glyphicon-floppy-disk"></span> -->
                     </div>
                     <div class="col-lg-6">

@@ -6,7 +6,7 @@ class LessonCategory extends AppModel {
         $dataArr = array();
         foreach($categories as $category){
             $saveData = array(
-                'ComaCategory' => array(
+                'LessonCategory' => array(
                     'coma_id' => $lesson_id,
                     'category_id' => $category
                 )

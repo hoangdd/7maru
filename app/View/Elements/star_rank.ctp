@@ -82,6 +82,7 @@ $(document).ready(function(){
 <style>
 .star-div{
 	height: 100%;
+	cursor:pointer;
 	background-size: <?php echo $options['width'].'px '.$options['height'].'px' ?>;
 }
 div#star-container-<?php echo $coma_id ?>{

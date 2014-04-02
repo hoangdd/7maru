@@ -386,12 +386,34 @@ class TeacherController extends AppController {
     }
 
     function LessonManage() {
-
+      $this->Lesson->bindModel(array(
+      'hasMany' => array(
+        'RateLesson' => array(
+            'className' => 'RateLesson',
+            'foreignKey' => 'coma_id'
+            )
+        )
+      )
+      );   
         $lesson = $this->Lesson->find('all', array(
+            'contain' => array(
+                'RateLesson' => array(                    
+                    'fields' => array(      
+                            'AVG(RateLesson.rate) as rate',                                
+                        )
+                    )
+                ),            
             'conditions' => array(
                 'Lesson.author' => $this->Auth->user('user_id')
             )
         ));
+        foreach ($lesson as $index=>$ls):
+            $lesson[$index]['Lesson']['rate'] = 0;
+            if (isset($ls['RateLesson'][0]['RateLesson'][0]['rate'])){
+                $lesson[$index]['Lesson']['rate'] = $ls['RateLesson'][0]['RateLesson'][0]['rate'];
+            }
+            unset($lesson[$index]['RateLesson']);
+        endforeach;        
         $this->set('lesson', $lesson);
    }
    function deleteLesson(){
@@ -403,8 +425,8 @@ class TeacherController extends AppController {
             $this->LessonCategory->deleteAll(array('LessonCategory.coma_id' => $id), false);
             $this->RateLesson->deleteAll(array('RateLesson.coma_id' => $id), false);
             $this->ReportLesson->deleteAll(array('ReportLesson.coma_id' => $id), false);
-            $this->Comment->deleteAll(array('Comment.coma_id' => $id), false);
-            
+            $this->Comment->deleteAll(array('Comment.coma_id' => $id), false);            
+            //$this->Data->deleteAll(array('Data.coma_id' => $id), false);
             if ($this->Lesson->deleteAll(array('coma_id' => $id), false)) {
                 echo "1";
             } else {
