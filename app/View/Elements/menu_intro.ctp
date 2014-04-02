@@ -11,7 +11,6 @@
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
 			<a class="navbar-brand" href="#">7Maru</a>
 		</div>
 <?php

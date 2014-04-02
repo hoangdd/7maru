@@ -286,6 +286,15 @@ msgstr "プロファイル"
 <!-- Student -->
 
 <!-- Lesson -->
+msgid "Hot"
+msgstr "ホット"
+
+msgid "New"
+msgstr "新"
+
+msgid "Best"
+msgstr "最上"
+
 msgid "Recent"
 msgstr "最近"
 

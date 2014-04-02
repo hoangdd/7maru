@@ -10,62 +10,188 @@
 	echo $this->Html->css('lesson');
 ?>
 <?php
-	$roles = array('guest', 'student', 'teacher', 'admin');
+	$role = $user['role'];
 	$sns_link = array(
 		'fb' => 'http://www.facebook.com',
 		'tw' => 'http://www.twitter.com',
 		'gp' => 'http://plus.google.com'
 		);
-	$tags = array(
-		'HotLesson' => array(
-			'action' => 'HotLesson',
-			'label' => 'Hot',
-			'page' => 1,
-			'max' => -1,
-			'view' => 1,
-			'url' => $this->Html->url(array(
-				"controller" => "Lesson", 
-				"action" => "HotLesson",
+	switch ($role) {
+		case 'R1':
+		// Admin...
+		$tags = array(
+			'HotLesson' => array(
+				'action' => 'HotLesson',
+				'label' => __('Hot'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "HotLesson",
+					)
+				),
+				),
+			'NewLesson' => array(
+				'action' => 'NewLesson',
+				'label' => __('New'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "NewLesson",
+					)
+				),
+				),
+			'Bestseller' => array(
+				'action' => 'Bestseller',
+				'label' => __('Best'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "Bestseller",
+					)
+				),
+				),
+			);
+		break;
+
+		case 'R2':
+		// teacher...
+		$tags = array(
+			'RecentLesson' => array(
+				'action' => 'RecentLesson',
+				'label' => __('Recent'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "RecentLesson",
+					)
+				),
 				)
-			),
-		),
-		'NewLesson' => array(
-			'action' => 'NewLesson',
-			'label' => 'New',
-			'page' => 1,
-			'max' => -1,
-			'view' => 1,
-			'url' => $this->Html->url(array(
-				"controller" => "Lesson", 
-				"action" => "NewLesson",
+			);
+		break;
+
+		case 'R3':
+		// student...
+		$tags = array(
+			'HotLesson' => array(
+				'action' => 'HotLesson',
+				'label' => __('Hot'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "HotLesson",
+					)
+				),
+				),
+			'NewLesson' => array(
+				'action' => 'NewLesson',
+				'label' => __('New'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "NewLesson",
+					)
+				),
+				),
+			'Bestseller' => array(
+				'action' => 'Bestseller',
+				'label' => __('Best'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "Bestseller",
+					)
+				),
+				),
+			'RecentLesson' => array(
+				'action' => 'RecentLesson',
+				'label' => __('Recent'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "RecentLesson",
+					)
+				),
 				)
-			),
-		),
-		'Bestseller' => array(
-			'action' => 'Bestseller',
-			'label' => 'Best seller',
-			'page' => 1,
-			'max' => -1,
-			'view' => 1,
-			'url' => $this->Html->url(array(
-				"controller" => "Lesson", 
-				"action" => "Bestseller",
+			);
+		break;
+
+		case 'R4':
+		// guest...
+		$tags = array(
+			'HotLesson' => array(
+				'action' => 'HotLesson',
+				'label' => __('Hot'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "HotLesson",
+					)
+				),
+				),
+			'NewLesson' => array(
+				'action' => 'NewLesson',
+				'label' => __('New'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "NewLesson",
+					)
+				),
+				),
+			'Bestseller' => array(
+				'action' => 'Bestseller',
+				'label' => __('Best'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "Bestseller",
+					)
+				),
+				),
+			'RecentLesson' => array(
+				'action' => 'RecentLesson',
+				'label' => __('Recent'),
+				'page' => 1,
+				'max' => -1,
+				'view' => 1,
+				'url' => $this->Html->url(array(
+					"controller" => "Lesson", 
+					"action" => "RecentLesson",
+					)
+				),
 				)
-			),
-		),
-		'RecentLesson' => array(
-			'action' => 'RecentLesson',
-			'label' => 'Recent',
-			'page' => 1,
-			'max' => -1,
-			'view' => 1,
-			'url' => $this->Html->url(array(
-				"controller" => "Lesson", 
-				"action" => "RecentLesson",
-				)
-			),
-		)
-	);
+			);
+		break;
+
+		default:
+					// code...
+		$tags = array(
+			);
+		break;
+		}
+			
 	$cover = array(
 		'resource/intro.jpg',
 		'resource/intro.jpg',
@@ -77,21 +203,6 @@
 <?php
 // Page 1
 ?>
-
-<style type="text/css">
-	.nav-inverse nav a span{
-		color: gray;
-	}
-	.intro-menu-fixed{
-		position: fixed;
-		top: 0px;
-		z-index: 2 !important;
-	}
-	.intro-menu-fixed > nav{
-		top:0px !important;
-		position: fixed !important;
-	}
-</style>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(window).scroll(function(){
@@ -103,7 +214,7 @@
 				$('.page:first').removeClass('nav-inverse');
 			}
 
-			if(narbottom>page1bottom+350){
+			if( narbottom > page1bottom + 350 ){
 				$('#intro-menu').addClass('intro-menu-fixed');
 			}else{
 				$('#intro-menu').removeClass('intro-menu-fixed');
@@ -222,18 +333,18 @@ $(document).ready(function(){
 	$('.next-button').click(function(){
 		var action = $(this).attr('action');
 		var listObject, list;
-		switch(action){
-			case 'HotLesson':
-				listObject = tags.HotLesson;
-				list = $('#'+listObject.action).find('ul.bk-list')
-				url = listObject.url+'/'+ tags.HotLesson.page;
-				break;
-			default:
-				return;
-		}
+
+		//get current state
+		listObject = tags[action];
+		list = $('#'+listObject.action).find('ul.bk-list');
+		url = listObject.url+'/'+ listObject.page;
+
+
+
+
 		if( listObject.max > 0 && listObject.page >= listObject.max ){
 			//load xong tat ca, xu li slide
-			if(listObject.view == listObject.page) return; //in the end
+			if(listObject.view >= listObject.page - 1) return; //in the end
 			n = 4*listObject.view;
 			child = list.find('li:nth('+n+')');
 			list.animate({'left': list.offset().left-child.offset().left+30}, 600);
@@ -254,6 +365,7 @@ $(document).ready(function(){
 					listObject.view++;
 				}else{
 					//end => set max
+					console.log('het cmnr roi');
 					listObject.max = listObject.page;
 				}
 			}
@@ -263,14 +375,10 @@ $(document).ready(function(){
 	$('.prev-button').click(function(){
 		var action = $(this).attr('action');
 		var listObject, list;
-		switch(action){
-			case 'HotLesson':
-				listObject = tags.HotLesson;
-				list = $('#'+listObject.action).find('ul.bk-list')
-				break;
-			default:
-				return;
-		}
+		//get current state
+		listObject = tags[action];
+		list = $('#'+listObject.action).find('ul.bk-list');
+		
 		if( listObject.view > 1){
 			//slide back
 			n = 4*listObject.view-8;

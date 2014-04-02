@@ -45,7 +45,7 @@ Configure::write('userRoles', array(
 	'R2' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => '*',
+		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson'),
 		'login' => '*',
 		'reference' => '*',
 		'search' => '*',
@@ -58,7 +58,7 @@ Configure::write('userRoles', array(
 	'R3' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('comment', 'index', 'view', 'buy'),
+		'lesson' => array('index','view' , 'comment', 'rate', 'viewcontent', 'hotlesson', 'newlesson', 'bestseller', 'recentlesson', 'buy'),
 		'login' => '*',
 		'reference' => array('index', 'view'), 
 		'search' => '*',
@@ -75,7 +75,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register', 'checkusername'),
-		'lesson' => array('hotlesson', 'newlesson', 'bestseller')
+		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson')
 	),
 ));
 /*========================End config user roles ====================*/

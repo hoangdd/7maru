@@ -15,6 +15,18 @@
 	display: block;
 	margin-bottom: 12vh;
 }
+.nav-inverse nav a span{
+	color: gray;
+}
+.intro-menu-fixed{
+	position: fixed;
+	top: 0px;
+	z-index: 2 !important;
+}
+.intro-menu-fixed > nav{
+	top:0px !important;
+	position: fixed !important;
+}
 #bk-list{
 	margin-top: 100px;
 }
@@ -95,7 +107,3 @@
 .control-button.right{
 	right: -20px;
 }
-
-
-
-
