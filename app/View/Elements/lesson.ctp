@@ -6,19 +6,22 @@
 	<div class="bk-info">
 		<span>
 			<?php
-				echo $this->element('star_rank', array(
-					'options' => array(
+				$options = array(
 						'coma_id' => $lesson['Lesson']['coma_id'],
 						'stars' => $lesson['RateLesson'],
 						'width' => 20,
-						'height' => 20
-						)
-					))
-			?>
+						'height' => 20,						
+				);
+				$options['rateAllow'] = 0;						
+				echo $this->element('star_rank', array(
+					'options' => $options
+					)
+				)				
+			?>			
 		</span>
 		<br>
-		<button>
-			<a href='#'><?php echo __('Buy') ?></a>
+		<button class = 'buy-button' id='buy-button-<?php echo $lesson['Lesson']['coma_id'] ?>' >
+			<?php echo __('Buy') ?>
 		</button>
 		<button>
 			<?php
@@ -32,7 +35,7 @@
 
 		<h3>
 			<span>
-				<?php echo $lesson['Lesson']['Author']['firstname'].' '.$lesson['Lesson']['Author']['lastname']?>
+				<?php echo $lesson['Author']['firstname'].' '.$lesson['Author']['lastname']?>
 			</span>
 			<span>
 				<?php echo $lesson['Lesson']['title']; ?>

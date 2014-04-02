@@ -303,3 +303,28 @@ foreach($tags as $tag) :
 <?php 
 endforeach;
 ?>
+
+<script>
+	$(document).ready(function(){
+		$(".buy-button").click(function(){			
+			var r = confirm("<?php echo __('Confirm') ?>");
+			var id = $(this).attr('id');
+			var coma_id = id.slice(11);
+			var result = false;
+			if (r == true){  				  		
+					$.get(
+						"<?php echo $this->Html->url(array('controller' => 'Lesson','action' => 'buy')) ?>" + "/" +  coma_id,
+						function(data){							
+							if (data.trim() === "1"){
+								alert("<?php echo __('Transaction successfully') ?>");							
+								result = true;
+							}							
+						}
+					);
+				if (result){
+					//deactive button
+				}
+	  		}	  		
+  		})
+	});
+</script>

@@ -1,7 +1,19 @@
 <?php
 echo $this->Html->css('common');
 echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
+echo $this->Html->script(array('chartapi','bootstrap-datepicker'));
+echo $this->Html->css('datepicker');
 ?>
+<script type="text/javascript">
+      // Load the Visualization API and the piechart package.      
+      //======show datepicker
+      $(document).ready(function(){         
+            $("#dp").datepicker({
+                  format: "dd-mm-yyyy",                  
+            });
+            $("#dp").datepicker('set','today');            
+      })
+</script>
 
 <div class="col-md-12 highlight" style="background-image: url(/7maru/img/new-background-test.jpg);background-repeat: repeat;background-position: top center; background-size: contain;">
 <h1 class="text-center">Teacher Register</h1>
@@ -150,8 +162,9 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                     </div>
                 </td>
                 <td>
-                    <div class="col-md-12">
-                        <input type="date" name='date_of_birth' class="form-control" placeholder="Enter your birthday">
+                    <div class="col-md-12 date">
+                        <input name='date_of_birth' class="form-control" id="dp" readonly=""/>
+                       
                     </div>
                 </td>
             </tr>
@@ -179,14 +192,14 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                     <div class="col-md-12">
                         <div class="radio">
                             <label>
-                                <input name="gender_select" type="radio" value="1">
+                                <input name="gender" type="radio" value="1">
                                 Male
                             </label>
                         </div>
 
                         <div class="radio">
                             <label>
-                                <input name="gender_select" type="radio" value="2">
+                                <input name="gender" type="radio" value="2">
                                 Female
                             </label>
                         </div>

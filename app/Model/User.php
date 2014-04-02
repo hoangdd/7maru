@@ -8,12 +8,12 @@ class User extends AppModel {
     public $validate = array(
         'username' => array(
             'required' => true,
-            'rule' => 'alphaNumeric',
+            'rule' => '/^[A-Za-z]\w+$/',
             'message' => 'A username is required'
         ),
         'password' => array(
             'required' => true,
-            'rule' => 'alphaNumeric',
+            'rule' => '/^\w+$/',
             'message' => 'A password is required'
         )
     );

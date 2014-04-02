@@ -49,7 +49,7 @@
                             echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
                                 'width' => '140px',
                                 'height' => '140px',
-                                'url' => '/lesson/view'.$value['Lesson']['coma_id']
+                                'url' => '/lesson/view/'.$value['Lesson']['coma_id']
                                 ));
                         ?>
                     </div>
@@ -133,7 +133,7 @@ $(document).on('click','#addLesson',function(){
 
 $(document).on('click','#editLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'lesson/edit';
+    location.href = link + 'lesson/edit/'+$('#editLesson').attr('name');
 
 });
 function hide_lesson_with(key){

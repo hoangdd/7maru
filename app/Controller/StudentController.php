@@ -271,13 +271,13 @@ class StudentController extends AppController {
 				if($result){                   
 					$data['foreign_id'] = $result['Student']['student_id'];
 					$data['user_type'] = 2;
-					$data['profile_picture'] = $profile_pic;
+					$data['profile_picture'] = $profile_pic;					
 					$data['content'] = 0;
 					$data['activated'] = 1;
 					$data['approved'] = 0;
 					$this->User->create($data);
 					if ( !$this->User->save()){
-                        $this->Student->delete($result['Student']['teacher_id']);
+                        $this->Student->delete($result['Student']['student_id']);
                         $this->Session->setFlash(__('Register failure'));                        
                     }
                     else{

@@ -58,7 +58,7 @@ Configure::write('userRoles', array(
 	'R3' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('comment', 'index', 'view'),
+		'lesson' => array('comment', 'index', 'view', 'buy'),
 		'login' => '*',
 		'reference' => array('index', 'view'), 
 		'search' => '*',

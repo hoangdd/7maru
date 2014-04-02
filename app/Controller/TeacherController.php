@@ -240,6 +240,11 @@ class TeacherController extends AppController {
                     $error['profile_picture'][0] = 'Unsupported image file';
                 }
             }
+
+            if (!empty($data['date_of_birth'])){
+                $data['date_of_birth'] =  date_create($data['date_of_birth']);        
+                $data['date_of_birth'] = date_format($data['date_of_birth'],'Y-m-d');        
+            }
             //====================================
             //先生のデーだをセーブ
             /*
@@ -263,27 +268,21 @@ class TeacherController extends AppController {
                  *   user_type,mail,phone_number,profile_picture
                  */
                 //自動にteacher_idを作られる
-                if (isset($result['Teacher']['teacher_id'])) {
-                    $data_user = array(
-                        'foreign_id' => $result['Teacher']['teacher_id'],
-                        'username' => $data['username'],
-                        'password' => $data['password'],
-                        'firstname' => $data['firstname'],
-                        'lastname' => $data['lastname'],                        
-                        'address' => $data['address'],
-                        'verifycode_question' => $data['verifycode_question'],
-                        'original_verifycode_question' => $data['verifycode_question'],
-                        'verifycode_answer' => $data['verifycode_answer'],
-                        'original_verifycode_answer' => $data['verifycode_answer'],
-                        'mail' => $data['mail'],
-                        'phone_number' => $data['phone_number'],
-                        'date_of_birth' => $data['date_of_birth'],
-                        'user_type' => 1,
-                        'profile_picture' => $profile_pic,
-                    );
-
-                    $this->User->create($data_user);
-                    $this->User->save();
+                if (isset($result['Teacher']['teacher_id'])) {                    
+                    $data['foreign_id'] = $result['Teacher']['teacher_id'];
+                    $data['profile_picture'] = $profile_pic;
+                    $data['user_type'] = 1;                  
+                    $data['approved'] = 0;
+                    $data['activated'] = 1;
+                    $data['content'] = 0;
+                    $this->User->create($data);  
+                    if ( !$this->User->save()){
+                        $this->Teacher->delete($result['Teacher']['teacher_id']);
+                        $this->Session->setFlash(__('Register failure'));                        
+                    }
+                    else{
+                        $this->Session->setFlash(__('Register successful, waiting for approving by admin'));   
+                    }
                 }
             }
         }
@@ -490,7 +489,7 @@ class TeacherController extends AppController {
 	}
 
 	
-	function  EditLession() {
+	function  EditLesson() {
 	
 	}
     function getDataStatistic($begin = null,$end = null){                        

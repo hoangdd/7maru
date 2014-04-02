@@ -26,11 +26,11 @@ $containerWidth = $options['width'] * $__MAX_RANK;
 $containerHeight = $options['height'];
 $brightStarWidth = 100*$options['stars'] / $__MAX_RANK;
 $coma_id = $options['coma_id'];
-$action = 'null';
+$action = $this->Html->url(array('contronller' => 'lesson','action' => 'rate'));
 $user_id = 'null';
 if(isset($options['action']) && isset($options['user_id'])){
 	$action = $options['action'];
-	$user_id = $options['user_id'];
+	$user_id = $options['user_id'];	
 }
 	//=======================	
 ?>
@@ -49,7 +49,7 @@ $(document).ready(function(){
 	if (rateAllow){
 		$("#star-container-"+coma_id).mousemove(function(e){
 			var mouseReLeftPos = (e.pageX - $(this).offset().left );
-			var rate = 100 * mouseReLeftPos / containerWidth;				
+			var rate = 100 * Math.round(5 * mouseReLeftPos / containerWidth) / 5;				
 			$("#bright-star-div-"+coma_id).width(rate + "%");	
 		});	
 		$("#star-container-"+coma_id).mouseleave(function(e){		
@@ -57,25 +57,22 @@ $(document).ready(function(){
 		})
 		$("#star-container-"+coma_id).click(function(e){
 			var mouseReLeftPos = (e.pageX - $(this).offset().left );
-			var rate = 100 * mouseReLeftPos / containerWidth;				
-			brightStarWidth = rate;		
+			var rate = 100 * Math.round(5 * mouseReLeftPos / containerWidth) / 5;	
+			brightStarWidth = rate;						
 			$("#bright-star-div-"+coma_id).width(rate + "%");
 
 		// ajax
-
-		if(action != 'null' && user_id != 'null'){
 			$.post(
 				action, 
 				{
 					'coma_id': coma_id,
 					'user_id': user_id,
-					'rate': Math.round(rate*5/100)
+					'rate': Math.round(rate / 20)
 				},
 				function(error, res){
 					res;
 				}
 				);
-		}	
 	})
 	}
 	//==========================

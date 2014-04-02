@@ -79,7 +79,7 @@ class LessonController extends AppController {
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
-			$data = $this->request->data;
+			$data = $this->request->data;			
 			// debug($data);
 			// debug($_FILES);
 			$error = array(); //error that return to client;
@@ -128,7 +128,7 @@ class LessonController extends AppController {
 				//Check if image format is supported
 				for($i = 0, $len = count($_FILES['document']['name']) ; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf|doc|docx|txt|ppt|pptx|xlsx|xls)$/',$_FILES['document']['name'][$i])){
+						if(!preg_match('/\.(pdf)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = 'Unsupported Document Format';
 						} else if($_FILES['document']['size'][$i] > 52428800){
 							$error['document'] = 'Document Size Too Big';
@@ -155,8 +155,9 @@ class LessonController extends AppController {
 					);
 				$lesson = $this->Lesson->save($saveData);
 				// save Lesson Category
-				if($lesson && isset($data['category'])){
+				if($lesson && isset($data['category'])){					
 					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);
+					$this->Session->setFlash(__('Create lesson successfully'));
 				}
 				
 				// Save Lesson files
@@ -194,8 +195,9 @@ class LessonController extends AppController {
 					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}
-			}
-		}
+				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+			}			
+		}		
 	}
 	
 	function Edit(){
@@ -215,11 +217,7 @@ class LessonController extends AppController {
 			'hasMany' => array(
 				'RateLesson' => array(
 					'foreignKey' => 'coma_id',
-					),
-				'File' => array(
-					'foreignKey' => 'coma_id',
-					'order' => array('File.type'),
-					)
+					)				
 				),
 			));
 		$this->Lesson->User->bindModel(array(
@@ -256,8 +254,7 @@ class LessonController extends AppController {
 	}
 	public function rate(){
 		if($this->request->is('post')){
-			$data = $this->request->data;
-			debug($data);
+			$data = $this->request->data;			
 			$this->RateLesson->rate_Lesson($data['coma_id'], $data['user_id'], $data['rate']);
 		}
 	}
@@ -297,7 +294,7 @@ class LessonController extends AppController {
 		$data = $this->RateLesson->find ('all',$options);
 		foreach($data as $key=>$value){
 			$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
-			$data[$key]['author'] = $data[$key]['Lesson']['author'];
+			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
 			unset($data[$key]['Lesson']['author']);
 			unset($data[$key]['0']);
 		}
@@ -344,7 +341,7 @@ class LessonController extends AppController {
 			if ($count != 0) {
 				$rank = $rank / $count;
 			}			    		
-			$data[$key]['RateLesson'] = $rank;    		
+			$data[$key]['RateLesson'] = $rank;  				
 		} 
 		if(empty($data)){
 			echo '0';
@@ -435,4 +432,23 @@ class LessonController extends AppController {
 		// debug($data);
 	}
 
+	function buy($coma_id = null){
+		if ($coma_id === null)
+			return;
+		$this->layout = null;
+		$this->loadModel('ComaTransaction');
+		$data = array(
+			'coma_id' => $coma_id,
+			'student_id' => $this->Auth->user('user_id')
+		);
+		$this->ComaTransaction->create($data);
+		if ($this->ComaTransaction->save()){
+			$result = 1;
+		}
+		else $result = 0;
+		$this->set('result',$result);
+	}
+
 }
+
+?>

@@ -49,7 +49,7 @@ if(isset($data)) :
 					));
 					//Show author
 					echo '<p></p>';
-					echo $this->Html->image("profile.jpg", array(
+					echo $this->Html->image(IMAGE_PROFILE_LINK.$user['profile_picture'], array(
 						'alt' => 'profile',
 						'class' => 'img-rounded mini_profile',                
 						'url' => array('controller' => 'teacher', 'action' => 'profile', $user['user_id'])
