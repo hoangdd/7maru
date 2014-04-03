@@ -13,9 +13,9 @@ class StudentController extends AppController {
 		parent::beforeFilter ();
 
 		$this->Auth->userModel = 'Student';
-		$this->Auth->allow ( 'dotest', 'viewtestresult','exam' );
+// 		$this->Auth->allow ( 'dotest', 'viewtestresult','exam' );
 
-		$this->Auth->allow();//Allow all
+// 		$this->Auth->allow();//Allow all
 	}
 	
 	function index(){
