@@ -60,7 +60,7 @@
        'class' => 'btn btn-lg btn-warning btn-block',
        'style' => 'margin-bottom:20px'
        ); 
-     echo "<div class='col-md-6 col-sm-offset-3 text-center'>";
+     echo "<div class='col-md-6 col-sm-offset-3 text-center' id='div_buy_view'>";
      if (!$lesson['buy_status']){ 
       $options['id']  = 'buy-button';
       $options['label'] = __('Buy');
@@ -209,6 +209,7 @@
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
                 result = true;
+                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'view',$lesson['coma_id']),$options)."'"; ?>)
               }             
             }
           );
