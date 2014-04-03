@@ -53,11 +53,15 @@ if(isset($data)) :
 					));
 					//Show author
 					echo '<p></p>';
+					if(isset($user['user_id'])){
+					if(isset($user['profile_picture']))
 					echo $this->Html->image(IMAGE_PROFILE_LINK.$user['profile_picture'], array(
 						'alt' => 'profile',
 						'class' => 'img-rounded mini_profile',                
 						'url' => array('controller' => 'teacher', 'action' => 'profile', $user['user_id'])
 						));
+					else echo __('写真がない');
+						
 					echo '<p>';
 					echo __('Author'). ': ';
 					echo $this->Html->link($user['firstname'].' '.$user['lastname'],array(
@@ -65,6 +69,7 @@ if(isset($data)) :
 						'action' => 'profile', $user['user_id']
 						));
 					echo '</p>';  
+					}
 					//______________________
 					//created date
 					echo '<p></p>';
