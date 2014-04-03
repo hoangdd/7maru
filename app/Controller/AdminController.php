@@ -25,11 +25,11 @@ class AdminController extends AppController {
                 )
             ),
             'loginAction' => array(
-                'controller' => 'Admin',
+                'controller' => 'admin',
                 'action' => 'login',
             ),
             'loginRedirect' => array(
-                'controller' => 'Admin',
+                'controller' => 'admin',
                 'action' => 'index'
             ),
             'authError' => 'You don\'t have permission to view this page',
@@ -201,11 +201,12 @@ class AdminController extends AppController {
             // debug($this->Admin->hashPassword($data));die;
             if ($this->Auth->login()) {
                 // Login success
-                $this->Session->write('Auth.User.role', 'R1');
+                $this->Session->write('Auth.User.role', 'R1');                
                 $this->Session->setFlash(__("Login success"));
+                $this->redirect('index');
             } else {
                 // Login fail
-                $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');
+                $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');                
             }
         }
     }
@@ -954,7 +955,7 @@ class AdminController extends AppController {
             $topTeacher[$index]['User']['buy_num'] = $buy_num;
             unset($topTeacher[$index]['Lesson']);            
         }        
-        $this->set(compact(array('topTeacher','topLesson','topStudent')));
+        $this->set(compact(array('topTeacher','topLesson','topStudent')));  
     }
 
     ///==================

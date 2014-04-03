@@ -17,24 +17,24 @@ $this->Paginator->options(array(
                     <tr>
 
                         <th class='text-center' style="width:10%">
-                            No.
+                            <?php echo __('No') ?>
                         </th>
 
                         <th class='' style="width:25%">
-                            Name
+                            <?php echo __('Name') ?>
                         </th>
 
                         <th class='text-center' style="width:20%">
-                            Username
+                            <?php echo __('Username') ?>
                         </th>
                         <th class='text-center' style="width:15%">
-                            Comment
+                            <?php echo __('Comment') ?>
                         </th>
                         <th class='text-center' style="width:15%">
-                            Block
+                            <?php echo __('Block') ?>
                         </th>
                         <th class='text-center' style="width:15%">
-                            Destroy
+                            <?php echo __('Destroy') ?>
                         </th>
                     </tr>
                 </thead>
@@ -62,7 +62,7 @@ $this->Paginator->options(array(
                             </td>
 
                             <td class='text-center'>
-                                <a href='#'>Destroy</a>
+                                <a href='#'><?php echo __('Destroy') ?></a>
                             </td>
                         </tr>
                         <?php

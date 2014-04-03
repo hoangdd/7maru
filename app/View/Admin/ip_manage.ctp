@@ -6,7 +6,7 @@
 
 <!-- header -->
 <h3 style="text-align:center">
-	IP Adress Manage
+	<?php echo __('IP Adress Manage') ?>
 </h3>
 <!-- table -->
 <div class="">
@@ -16,19 +16,19 @@
 			<tr>
 
 				<th class='no-col' style="width:10%">
-					No.
+					<?php echo __('No') ?>
 				</th>
 
 				<th class='ip-col' style="width:60%">
-					IP address
+					<?php echo __('IP address') ?>
 				</th>
 
 				<th class='del-ip-col' style="width:15%">
-					Delete IP address
+					<?php echo __('Delete IP address') ?>
 				</th>
 
 				<th class='edit-ip-col' style="width:15%">
-					Edit IP address
+					<?php echo __('Edit IP address') ?>
 				</th>
 			</tr>
 		</thead>

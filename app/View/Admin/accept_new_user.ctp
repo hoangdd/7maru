@@ -7,7 +7,7 @@ $this->Paginator->options(array(
 	<!-- header -->
 	<div id="user_list">
 		<h3 style="text-align:center">
-			Accept New User
+			<?php echo __('Accept New User') ?>
 		</h3>
 		<!-- table -->
 		<div class="">
@@ -17,22 +17,22 @@ $this->Paginator->options(array(
 					<tr>
 
 						<th class='text-center' style="width:5%">
-							No.
+							<?php echo __('No') ?>
 						</th>
 
 						<th class='' style="width:10%">
-							Name
+							<?php echo __('Name') ?>
 						</th>
 
 						<th class='text-center' style="width:10%">
-							Username					
+							<?php echo __('Username') ?>
 						</th>
 
 						<th class='text-center' style="width:5%">
-							Type
+							<?php echo __('Type') ?>
 						</th>
 						<th class='text-center' style="width:15%">
-							Date of birth
+							<?php echo __('Date of birth') ?>
 						</th>
 						<th class='text-center' style="width:25%">
 							<?php echo __('Created Account Time'); ?>

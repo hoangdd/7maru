@@ -44,7 +44,7 @@ $total = $total * MONEY_PER_LESSON * (1 - TEACHER_PROFIT_PERCENTAGE);
       <div class="row">
             <div class='col-md-12'>                    
 
-              <h2 class='text-center'>From the begin: <?php echo $util->convertDate($begin); ?></h2>                                                                      
+              <h2 class='text-center'><?php echo __('From the begin').':' ?> <?php echo $util->convertDate($begin); ?></h2>                                                                      
               <h1 class='text-center'>
                 <?php echo __("Total of Money").":"; ?>   
                 <span><?php echo $total ?></span>
@@ -132,7 +132,7 @@ $total = $total * MONEY_PER_LESSON * (1 - TEACHER_PROFIT_PERCENTAGE);
                   </div>
                   <div class='col-md-2'>
                     <button id = "load_button" type="button" class="btn btn-warning">
-                      <span class="glyphicon glyphicon-repeat"></span> Load
+                      <span class="glyphicon glyphicon-repeat"></span> <?php echo __('Load') ?>
                     </button>
 
                   </div>

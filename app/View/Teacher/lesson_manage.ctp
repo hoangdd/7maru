@@ -1,5 +1,5 @@
 <div class="head-box">
-    <h1>Lesson Manage</h1>
+    <h1><?php echo __('Lesson Manage') ?></h1>
     
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
@@ -18,7 +18,7 @@
                 <li><a href="#">Separated link</a></li>
                 <li class="divider"></li>
                 <li><a href="#">One more separated link</a></li>
-              </ul>EW44444
+              </ul>
             </li>
           </ul>
           <div class="col-xs-8">
@@ -34,7 +34,7 @@
 <div class = "lesson-box row">
     <div class="lesson-action col-xs-2 list-group">
         <button type="button" id="addLesson" class="text-center btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-plus"></span> Add
+            <span class="glyphicon glyphicon-plus"></span> <?php echo __('Add') ?>
         </button>
     </div>
 
@@ -49,16 +49,24 @@
                             echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
                                 'width' => '140px',
                                 'height' => '140px',
-                                'url' => '/lesson/view'.$value['Lesson']['coma_id']
+                                'url' => '/lesson/view/'.$value['Lesson']['coma_id']
                                 ));
                         ?>
                     </div>
                     <div class="star center-block" style="padding: 5px">
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span>
-                        <span class="glyphicon glyphicon-star"></span> 
-                        <span class="glyphicon glyphicon-star"></span>
+                        <?php 
+                        $options = array(
+                            'coma_id' => $value['Lesson']['coma_id'],
+                            'stars' => $value['Lesson']['rate'],
+                            'width' => 20,
+                            'height' => 20,                     
+                            );
+                        $options['rateAllow'] = 0;                      
+                        echo $this->element('star_rank', array(
+                            'options' => $options
+                            )
+                        )
+                        ?>
                     </div>
                     <div class="panel-heading">
                         <h3 class="panel-title"><?php echo $value['Lesson']['title']; ?></h3>
@@ -84,8 +92,8 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default">Edit</button>
-                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default">Delete</button>
+                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default"><?php echo __('Edit') ?></button>
+                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default"><?php echo __('Delete') ?></button>
                 </div>
             </div>
         <?php }?>
@@ -133,7 +141,7 @@ $(document).on('click','#addLesson',function(){
 
 $(document).on('click','#editLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'lesson/edit';
+    location.href = link + 'lesson/edit/'+$('#editLesson').attr('name');
 
 });
 function hide_lesson_with(key){

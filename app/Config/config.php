@@ -15,6 +15,9 @@ define('MONEY_PER_LESSON',20000);
 define('TEACHER_PROFIT_PERCENTAGE',0.6);
 define ('TYPE_CREDIT_CARD' , 18);
 define ('TYPE_BANK_ACCOUNT', 54);
+define ('LIMIT_LEARN_DAY' , 7);
+define ('DEFAULT_COVER_IMAGE', LESSON_COVER_LINK.DS.'default_book.jpg');
+define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
 /*========================Config user roles ====================*/
 
 /*
@@ -45,7 +48,7 @@ Configure::write('userRoles', array(
 	'R2' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => '*',
+		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson'),
 		'login' => '*',
 		'reference' => '*',
 		'search' => '*',
@@ -58,7 +61,7 @@ Configure::write('userRoles', array(
 	'R3' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('comment', 'index', 'view'),
+		'lesson' => array('index','view' , 'comment', 'rate', 'viewcontent', 'hotlesson', 'newlesson', 'bestseller', 'recentlesson', 'buy'),
 		'login' => '*',
 		'reference' => array('index', 'view'), 
 		'search' => '*',
@@ -75,7 +78,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register', 'checkusername'),
-		'lesson' => array('hotlesson', 'newlesson', 'bestseller')
+		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson')
 	),
 ));
 /*========================End config user roles ====================*/
@@ -87,8 +90,8 @@ define('VIDEO_DATA_DIR', DATA_DIR.DS.'video');
 define('AUDIO_DATA_DIR', DATA_DIR.DS.'audio');
 define('SWF_DATA_DIR', DATA_DIR.DS.'swf');
 define('TSV_DATA_DIR', DATA_DIR.DS.'tsv');
-// define('HTML_DATA_DIR', DATA_DIR.DS.'html');
-define('HTML_DATA_DIR','js/test');
+define('HTML_DATA_DIR', DATA_DIR.DS.'html');
+//define('HTML_DATA_DIR','js/test');
 define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
 

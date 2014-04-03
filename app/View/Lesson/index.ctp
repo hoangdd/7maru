@@ -8,36 +8,6 @@
 	//================
 	// sample variable for lesson data		
   echo $this->Html->css('common');
-  // $lesson = array(
-  //   'description' => 'The lesson will support you about women. The more detail, it supplies a list of very interested video which will show you everything about women\'sbeauty, the most naturally excited beauty.',		
-  //   'authorId' => '34wsdf',
-  //   'title' => 'Victoria Secret',
-  //   'image' => 'Victoria.jpeg',
-  //   'tags' => array('math','18+'),
-  //   'stars' => 2.5,
-  //   'reader' => 4,
-  //   'ranker' => 3,
-  //   'buy_status' => 1,
-  //   'created_date' => '2013/12/1',
-  //   'materials' => array(),
-  //   'tests' => array(
-  //     )
-  //   );
-  $teacher = array(
-    'image' => 'profile.jpg',
-    'name' => 'agaraki yui',            
-    'id' => 'afdf'
-    );
-  $recomendLesson = array(
-    array(
-     'name' => 'manh tren',
-     'id' => 'asdfd'
-     ),
-    array(
-     'name' => 'manh duoi',
-     'id' => 'dgfg'
-     )
-    );
 
   $lesson['created_date'] = preg_split("/ /", $lesson['created']);
   $lesson['created_date'] = $lesson['created_date'][0];
@@ -46,18 +16,28 @@
   ?>
 
   <!-- lesson information -->
-  <div class='row'>
-   <div class='col-md-4 text-center left-col'>
+  <div class='row' style = 'border: 1px solid rgba(86,61,124,.2)'>
+   <div class='col-md-3 text-center left-col'>
      <!-- Left col: Image and ranking-->
-     <?php                 
-     echo $this->Html->image($lesson['image'],array(
+     <?php                      
+     if ($lesson['cover'] == null || $lesson['cover'] == ''){
+        $cover = DEFAULT_COVER_IMAGE;
+     }
+     else{
+        $cover = LESSON_COVER_LINK.$lesson['cover'];
+     }
+     echo $this->Html->image($cover,array(
       'class' => 'img-rounded img-responsive',        
+      'style' => 'margin:auto'
       )); 
-     echo '<h1>'.$lesson['name'].'</h1>';
+     echo "<h2 style = 'color:red'>".$lesson['name'].'</h2>';
      echo '<p></p>';
     			//_____________________
     			//ranking by stars                   
      $options = array();
+     $options['rateAllow'] = 0;
+     if ($user['user_type'] == 2)
+        $options['rateAllow'] = 1;
      $options['stars'] =   $lesson['stars'];      
      $options['width'] = 30;
      $options['height'] = 30;
@@ -72,27 +52,30 @@
     			//______________________
     			//created date
      echo '<p></p>';
-     echo '<p class="text_center"> Created Date: <strong>'.$lesson['created_date'].'</strong> </p>';
-     echo '<p>'.$lesson['ranker'].' ranker / '.$lesson['viewed'].' viewed'.'</p>';
+     echo '<p class="text_center">'. __('Created Date').': <br><strong>'.$lesson['created'].'</strong> </p>';
+          echo '<p><strong><b>'.$lesson['stars'].'</b></strong> '.__('rate'). ' ||'.' <strong><b>'.$lesson['ranker'].'</b></strong>'.__('ranker').'(s)'.'</p>';
   
     			// [buy] button
-     if ($lesson['buy_status']){
-      echo $this->Form->create('Buy',array(
-       'url' => array(
-         'controller' => 'student',
-         'action' => 'buy_lesson'
-         )
-       )); 
-      $options = array(
-       'label' => 'Buy',
-       'div' => array(
-         'class' => 'col-md-6 col-sm-offset-3 text-center',
-         'style' => 'margin-bottom:10px'
-         ),
-       'class' => 'btn btn-lg btn-warning btn-block'
-       );	
-       echo $this->Form->submit('Buy',$options);	              
+     $options = array(            
+       'class' => 'btn btn-lg btn-warning btn-block',
+       'style' => 'margin-bottom:20px'
+       ); 
+     echo "<div class='col-md-6 col-sm-offset-3 text-center'>";
+     if (!$lesson['buy_status']){ 
+      $options['id']  = 'buy-button';
+      $options['label'] = __('Buy');
+      echo $this->Form->button(__('Buy'),$options);	              
     }
+    else{
+      echo $this->Html->link(__('View'), array(
+            'controller' => 'Lesson',
+            'action' => 'view',
+            $lesson['coma_id']
+          ),
+        $options
+      );
+    }
+    echo "</div>";
     ?>    
   </div>
   <div class='col-md-8'>
@@ -101,16 +84,22 @@
    <!-- author info -->
    <div class='row'>                     
     <div class="col-md-3 text-center">
-     <?php     		            
-     echo $this->Html->image("profile.jpg", array(
-      'alt' => 'profile',
+     <?php     		                
+     if ($author['profile_picture'] == null || $author['profile_picture'] === ''){
+        $author_profile = DEFAULT_PROFILE_IMAGE;
+     }
+     else{
+        $author_profile = IMAGE_PROFILE_LINK.DS.$author['profile_picture'];
+     }
+     echo $this->Html->image($author_profile, array(
+      'alt' => __('Profile'),
       'class' => 'img-rounded mini_profile',                
-      'url' => array('controller' => 'teacher', 'action' => 'profile', $teacher['id'])
+      'url' => array('controller' => 'teacher', 'action' => 'profile', $author['user_id'])
       ));
      echo '<p>';
-     echo $this->Html->link($teacher['name'],array(
+     echo $this->Html->link($author['firstname'].$author['lastname'],array(
       'controller' => 'teacher',
-      'action' => 'profile', $teacher['id']
+      'action' => 'profile', $author['user_id']
       ));
      echo '</p>';                
      ?>
@@ -120,26 +109,113 @@
 
  <!-- Lesson content detail info -->
  <div class="row">
-   <div class='description col-md-11'>
+   <div class='description col-md-12'>
     <h4 class='text-muted'>Lesson description: </h4>    		
     <p class='content'><?php echo $lesson['description'] ?></p>
   </div>
 </div>
 <div class="row">
-  <div class='tag_list'>
-   <?php 
-   foreach ($lesson['tags'] as $tags):
-     echo '<span>'.$tags.'</span>';					
-   endforeach;
-   ?>
+    <div class='tag_list'>
+     <?php 
+     foreach ($lesson['tags'] as $tags):
+       echo '<span>'.$tags.'</span>';					
+     endforeach;
+     ?>
+   </div>
  </div>
+ <div class = 'row'>
+      <div class="panel-body">
+          <!-- content of lesson -->
+          <div>
+              <?php 
+              if( isset($file) && !empty($file)){
+                ?>
+                <div class="list-group"> 
+                <a class="list-group-item active"><?php echo __('Document') ?></a>               
+                <ul class="list-group">
+                <?php
+                foreach ($file as $key => $value) {
+                  if( !$value['isTest']){
+                    echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";                     
+                  }
+                }
+                ?>
+              </ul>
+                </div>
+                <div class="list-group">
+                  <a class="list-group-item active"><?php echo __('Test') ?></a>
+                  <?php       
+                  foreach ($file as $key => $value) {
+                    if($value['isTest']){
+                     echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";                      
+                  }                  
+                }
+                echo "</div>";
+                }
+              ?>              
+                
+        </div>
+    </div>
 </div>
 </div>
 </div>
 <!-- --> 
 
 <!-- recommendation ( waitting for slide list) -->
-<div class='row recommend-wrapper'>
-
-  <h3 style='margin-left:10px;'> Relative lesson </h3>
+<div class='row recommend-wrapper panel panel-info'>
+  <div class="panel-heading">
+          <h2 class="panel-title"><?php echo __('Relative lesson') ?></h2>
+        </div>  
+  <div>
+    <div class='panel-body'>
+  <?php 
+  foreach ($relativeLesson as $l):
+    echo "<div class='text-center' style = 'float:left'>";
+      if ($l['Lesson']['cover'] == null || $l['Lesson']['cover'] == ''){
+          $cover = DEFAULT_COVER_IMAGE;
+       }
+       else{
+          $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];
+       }
+       echo $this->Html->image($cover,array(
+        'class' => 'img-rounded img-responsive',
+        'style' => 'height: 150px',
+        'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id'])
+        )); 
+       echo $this->Html->link($l['Lesson']['name'],array(
+        'controller' => 'lesson', 
+        'action' => 'index',
+        $l['Lesson']['coma_id']
+        ),
+        array('style' => 'font-size: large')
+       );       
+       echo "</div>";
+     endforeach;
+     ?>
+   </div>
 </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#buy-button").click(function(){      
+      var r = confirm("<?php echo __('Confirm') ?>");      
+      var coma_id = <?php echo $lesson['coma_id'] ?>;
+      var result = false;
+      if (r == true){               
+          $.get(
+            "<?php echo $this->Html->url(array('controller' => 'Lesson','action' => 'buy')) ?>" + "/" +  coma_id,
+            function(data){             
+              if (data.trim() === "1"){
+                alert("<?php echo __('Transaction successfully') ?>");              
+                result = true;
+              }             
+            }
+          );
+        if (result){
+          //deactive button
+        }
+        }       
+      })
+  });
+</script>
