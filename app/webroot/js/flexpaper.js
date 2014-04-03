@@ -119,10 +119,12 @@ window.FlexPaperViewerEmbedding = window.$f = function(id, args) {
 };
 
 function translateUrlByDocument(url,document){
+	
     return (url!=null && url.indexOf('{doc}') > 0 ? url.replace("{doc}", document):null);
 }
 
 function translateUrlByFormat(url,format){
+	
     if(url.indexOf("{") == 0 && format != "swf"){ // loading in split file mode
         url = url.substring(1,url.lastIndexOf(","));
         url = url.replace("[*,0]","{page}")
@@ -174,6 +176,7 @@ function translateUrlByFormat(url,format){
 
     // simple extend
     function extend(to, from) {
+    	
         if (from) {
             for (var key in from) {
                 if (from.hasOwnProperty(key)) {
@@ -203,15 +206,19 @@ function translateUrlByFormat(url,format){
     window.flashembed = function(root, opts, conf) {
         // root must be found / loaded
         if (typeof root == 'string') {
+        	
             root = document.getElementById(root.replace("#", ""));
         }
 
         // not found
         if (!root) { return; }
 
-        root.onclick = function(){return false;}
+        root.onclick = function(){
+        	
+        	return false;}
 
         if (typeof opts == 'string') {
+        	
             opts = {src: opts};
         }
 
