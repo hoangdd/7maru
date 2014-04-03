@@ -75,7 +75,7 @@ $(document).ready(function(){
 			<ul class='root'>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
-						'controller' => 'admin',
+						'controller' => 'home',
 						'action' => 'index'
 					));?>"> <?php echo __('Home');?> </a>
 				</li>

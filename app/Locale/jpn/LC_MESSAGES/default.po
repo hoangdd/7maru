@@ -261,6 +261,11 @@ msgid "Reference Manage"
 msgstr "資料管理"
 
 <!-- IP Manage -->
+msgid "IP Address"
+msgstr "IP アドレス"
+
+msgid "Manage"
+msgstr "管理"
 
 <!-- Login -->
 msgid "Login success"

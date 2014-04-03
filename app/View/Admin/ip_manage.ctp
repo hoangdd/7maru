@@ -6,7 +6,7 @@
 
 <!-- header -->
 <h3 style="text-align:center">
-	<?php echo __('IP Adress Manage') ?>
+	<?php echo __('IP Address').' '.__('Manage') ?>
 </h3>
 <!-- table -->
 <div class="">
@@ -20,15 +20,15 @@
 				</th>
 
 				<th class='ip-col' style="width:60%">
-					<?php echo __('IP address') ?>
+					<?php echo __('IP Address') ?>
 				</th>
 
 				<th class='del-ip-col' style="width:15%">
-					<?php echo __('Delete IP address') ?>
+					<?php echo __('Delete').' '.__('IP Address') ?>
 				</th>
 
 				<th class='edit-ip-col' style="width:15%">
-					<?php echo __('Edit IP address') ?>
+					<?php echo __('Edit').' '.__('IP Address') ?>
 				</th>
 			</tr>
 		</thead>
@@ -60,13 +60,13 @@
 
 				<td class='del-ip-col'>";
 			//echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
-			echo "<a href=".$this->here."?mod=delete&ip=".$data[$numb]['AdminIp']['ip'].">Delete</a>";
+			echo "<a href=".$this->here."?mod=delete&ip=".$data[$numb]['AdminIp']['ip'].">".__('Delete')."</a>";
 			
 			echo "</td>
 
 				<td class='edit-ip-col'>";
 			//echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
-			echo "<a href=".$this->here."?mod=edit&ip=".$data[$numb]['AdminIp']['ip'].">Edit</a>";
+			echo "<a href=".$this->here."?mod=edit&ip=".$data[$numb]['AdminIp']['ip'].">".__('Edit')."</a>";
 			echo "
 				</td>
 			</tr>
@@ -135,13 +135,13 @@
 	<ul class="pagination">
 
 	  <li>
-	  	<?php echo $this->Paginator->prev('<< ' . __('previous', true), array(), null, array('class'=>'disabled'));?>
+	  	<?php echo $this->Paginator->prev('<< ' . __('previous'), array(), null, array('class'=>'disabled'));?>
 	  </li>
 	  <li>
-	  	<?php echo $this->Paginator->numbers();?>
+	  	<?php echo $this->Paginator->numbers(array('separator' => ''));?>
 	  </li>
 	  <li>
-	  	<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
+	  	<?php echo $this->Paginator->next(__('next') . ' >>', array(), null, array('class' => 'disabled'));?>
 	  </li>
 	  
 	</ul>

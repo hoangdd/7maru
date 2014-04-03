@@ -30,17 +30,17 @@ class AdminController extends AppController {
             ),
             'loginRedirect' => array(
                 'controller' => 'admin',
-                'action' => 'index'
+                'action' => 'acceptNewUser'
             ),
             'authError' => 'You don\'t have permission to view this page',
         ),
         'Paginator',
         'RequestHandler'
     );
+    public $layout = 'admin';
 
     // public $components = array('Paginator','RequestHandler');
-    function index() {
-        
+    function index() {        
     }
 
     public function beforeFilter() {
@@ -50,6 +50,7 @@ class AdminController extends AppController {
     }
 
     function CreateAdmin() {
+        $this->layout= null;
         $error = array();
         $user_re_ex = '/^[A-Za-z]\w+$/';
         $pass_re_ex = '/^\w+$/';
@@ -186,10 +187,11 @@ class AdminController extends AppController {
 
     function login() {
         //check loggedIn();
+        $this->layout='default';
         if ($this->Auth->loggedIn()) {
             $this->redirect(array(
                 'controller' => 'admin',
-                'action' => 'index',
+                'action' => 'acceptNewUser',
             ));
         }
         if ($this->request->is('post')) {
@@ -200,7 +202,7 @@ class AdminController extends AppController {
                 // Login success
                 $this->Session->write('Auth.User.role', 'R1');                
                 $this->Session->setFlash(__("Login success"));
-                $this->redirect('index');
+                $this->redirect('acceptNewUser');
             } else {
                 // Login fail
                 $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');                
@@ -293,7 +295,7 @@ class AdminController extends AppController {
                     $this->Session->setFlash('The user has been saved');
                     $this->redirect(array(
                         'controller' => 'Admin',
-                        'action' => 'index',
+                        'action' => 'acceptNewUser',
                         ));
                 } else {
                     $this->Session->setFlash('The password could not be saved. Please, try again.');
