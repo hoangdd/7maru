@@ -8,6 +8,13 @@ msgstr "順番"
 msgid "Name'"
 msgstr "ネーム"
 
+msgid "Forbidden error"
+msgstr "禁じられた エラー"
+
+msgid "Relative lesson"
+msgstr "相対授業"
+
+
 msgid "Type"
 msgstr "タイプ"
 
@@ -77,6 +84,11 @@ msgstr "ステータス"
 
 msgid "Test Result"
 msgstr "テスト結果"
+
+msgid "Test"
+msgstr "テスト"
+
+
 
 msgid "Student Register"
 msgstr "学生の登録"

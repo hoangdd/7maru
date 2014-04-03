@@ -15,6 +15,9 @@ define('MONEY_PER_LESSON',20000);
 define('TEACHER_PROFIT_PERCENTAGE',0.6);
 define ('TYPE_CREDIT_CARD' , 18);
 define ('TYPE_BANK_ACCOUNT', 54);
+define ('LIMIT_LEARN_DAY' , 7);
+define ('DEFAULT_COVER_IMAGE', LESSON_COVER_LINK.DS.'default_book.jpg');
+define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
 /*========================Config user roles ====================*/
 
 /*

@@ -33,7 +33,7 @@ if(isset($data)) :
 		<div class='col-md-3 text-center'>
 			<!-- Left col: Image and ranhking and vote stars-->
 			<?php
-					echo $this->Html->image('data/cover/'.$lesson['cover'],array('class' => 'img-rounded small_photo')); 
+					echo $this->Html->image(LESSON_COVER_LINK.$lesson['cover'],array('class' => 'img-rounded small_photo')); 
 					echo '<p></p>';
 					//Show title
 					echo '<h1 class="text-center">'.$lesson['title'].'</h1>';
@@ -66,11 +66,7 @@ if(isset($data)) :
 					//created date
 					echo '<p></p>';
 					echo '<p class="text_center">'. __('Created Date').': <br><strong>'.$lesson['created'].'</strong> </p>';
-					echo '<p><strong><b>'.$sum.'</b></strong> '.__('rate'). ' ||'.' <strong><b>'.$number_rate.'</b></strong>'.__('ranker').'(s)'.'</p>';
-					echo $this->Html->link(__('Lets try with test'), array(
-						'controller'=>'student',
-						'action'=>'test',
-					),array('class' => 'btn btn-primary btn-lg active'));
+					echo '<p><strong><b>'.$sum.'</b></strong> '.__('rate'). ' ||'.' <strong><b>'.$number_rate.'</b></strong>'.__('ranker').'(s)'.'</p>';			
 					
 			?>
 		</div>
@@ -108,11 +104,10 @@ if(isset($data)) :
 							</div>
 							<div class="list-group">
 							
-							<?php
-							$ii = 1;
+							<?php				
 							foreach ($data['File'] as $key => $value) {
 								if($value['isTest']){
-									/*echo $this->Html->link($value['file_name'], array(
+									echo $this->Html->link("Test".$key, array(
 											'controller' => 'Student',
 											'action' => 'Exam',
 											$value['file_id']
@@ -120,11 +115,7 @@ if(isset($data)) :
 										array(
 												'class' => "list-group-item"
 										)
-									);*/
-									?>
-									<a href="/7maru/student/exam?id=<?php echo $value['file_id']; ?>";" class="list-group-item active">Test <?php echo $ii; ?></a>
-									<?php
-								$ii++;
+									);															
 								}
 							}
 						}

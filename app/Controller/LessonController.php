@@ -23,28 +23,28 @@ class LessonController extends AppController {
 	*/
 	function index($id = null){
 		App::uses('Utilities', 'Lib');
-		$util = new Utilities();
-		$this->set('util',$util);
+		$util = new Utilities();		;
 		if($id){
 			//授業の見られる数を1回を増加する。
 
-			$this->Lesson->increaseView($id);
+			//$this->Lesson->increaseView($id);
 
 			// データベースから、授業の情報を取得
-			$lesson = $this->Lesson->findByComaId ($id);
-			debug($lesson);
-			$lesson = $lesson['Lesson'];
-			
-			// 授業のイメージリンクを準備する。
-			$lesson['image'] = '/'.FILL_CHARACTER.'/img/data/cover';
-			if($lesson['cover']){
-				$subfix = preg_split('/\./', $lesson['cover']);
-				$subfix = $subfix[count($subfix)-1];
-			} else {
-				$subfix = '';
-			}
-			$lesson['image'] .= '/'.$lesson['coma_id'].'.'.$subfix;
-			
+			$this->Lesson->bindModel(array(			
+			'hasMany' => array(				
+				'File' => array(
+					'className' => 'Data',
+					'foreignKey' => 'coma_id'
+					)				
+				),
+			));			
+			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));						
+			$file = $lesson['File'];
+			$lesson = $lesson['Lesson'];			
+			$lesson['created'] = $util->convertDate($lesson['created'],'d-m-Y');
+			$this->loadModel('User');
+			$author = $this->User->findByUserId($lesson['author']);
+			$author = $author['User'];		
 			//授業の評価された数を準備する。
 			$lesson['ranker'] = $this->RateLesson->get_rate_num($lesson['coma_id']);
 			
@@ -56,26 +56,52 @@ class LessonController extends AppController {
 			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
 			$user = $this->Auth->user();
 			// debug($user);
-			if($user && $this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-				$lesson['buy_status'] = 1;
-			} else {
-				$lesson['buy_status'] = 0;
-			}
+			$lesson['buy_status'] = 1;
+			if ($user['user_type'] == 2){
+				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+					$lesson['buy_status'] = 0;
+				}
+			}			
 			
 			//　授業のカテゴリを全部GET
 			
-			$tags = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
-			$tags = $this->Category->get_all_category_name($tags);
+			$tagsId = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
+			$tags= $this->Category->get_all_category_name($tagsId);
 			$lesson['tags'] = $tags;
-			
-
+			//get relative lesson
+			$this->loadModel('LessonCategory');
+			$this->LessonCategory->bindModel(array(
+				'belongsTo' => array(
+						'Lesson' => array(
+							'foreignKey' => 'coma_id'
+						)
+					)
+				)
+			);
+			$relativeLesson = array();
+			//foreach ($tags as $tag):				
+				$relativeLesson = $this->LessonCategory->find('all',array(
+					'contain' => array(						
+						'Lesson' => array(
+							'fields' => array('cover','name','coma_id')							
+						)
+					),
+					'conditions' => array(						
+						'category_id' => $tagsId,
+						'LessonCategory.coma_id <>' => $id
+					),
+					'fields' => array('id'),
+					'recursive' => 2
+				));				
+			//endforeach;							
 			$this->set('lesson',$lesson);
 			$this->set('user',$this->Auth->user());
-
-			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);
-			debug($lesson);
+			$this->set('author', $author);
+			$this->set('file', $file);
+			$this->set('relativeLesson',$relativeLesson);
+			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);			
 		} else {
-			throw new NotFoundException();
+			$this->Session->setFlash(__('Forbidden error'));
 		}
 	}
 
@@ -156,7 +182,7 @@ class LessonController extends AppController {
 						'author' => $this->Auth->user('user_id'),
 						'cover' => $_FILES['cover-image']
 						)
-					);
+					);				
 				$lesson = $this->Lesson->save($saveData);
 				// save Lesson Category
 				if($lesson && isset($data['category'])){					
@@ -205,14 +231,37 @@ class LessonController extends AppController {
 		}		
 	}
 	
-	function Edit(){
-
+	function Edit()
+{
 	}
 
 	function Destroy(){
 		
 	}
 	function View($id){
+		//=======================================
+		//check permisson
+		//check student 
+		$user = $this->Auth->user();
+		if ($user['user_type'] == 2){			
+			if (!$this->LessonTransaction->had_active_transaction($user['user_id'],$id)){
+				$this->Session->setFlash(__('Forbidden error'));
+				return;
+			}
+		}
+		//check teacher
+		else{
+			$conditions = array(
+					'coma_id' => $id,
+					'author' => $user['user_id']
+				);
+			$result = $this->Lesson->find('first',array('conditions' => $conditions));
+			if (!$result){
+				$this->Session->setFlash(__('Forbidden error'));
+				return;
+			}
+		}
+		//=======================================
 		$this->Lesson->bindModel(array(
 			'belongsTo' =>array(
 				'User' => array(
@@ -535,19 +584,23 @@ class LessonController extends AppController {
 	}
 
 	function buy($coma_id = null){
-		if ($coma_id === null)
-			return;
-		$this->layout = null;
-		$this->loadModel('ComaTransaction');
-		$data = array(
-			'coma_id' => $coma_id,
-			'student_id' => $this->Auth->user('user_id')
-		);
-		$this->ComaTransaction->create($data);
-		if ($this->ComaTransaction->save()){
-			$result = 1;
+		$result = 0;
+		$this->layout = null;		
+		if ($this->Auth->loggedIn()){			
+			if ($this->Auth->user('user_type') == 2){				
+				if ($coma_id != null){
+					$this->loadModel('ComaTransaction');
+					$data = array(
+						'coma_id' => $coma_id,
+						'student_id' => $this->Auth->user('user_id')
+					);					
+					$this->ComaTransaction->create($data);
+					if ($this->ComaTransaction->save()){
+						$result = 1;
+					}																	
+				}
+			}
 		}
-		else $result = 0;
 		$this->set('result',$result);
 	}
 }

@@ -27,7 +27,7 @@
 			<?php
 				echo $this->Html->link(__('View'), array(
 						'controller' => 'Lesson',
-						'action' => 'View',
+						'action' => 'Index',
 						$lesson['Lesson']['coma_id']
 					))
 			?>

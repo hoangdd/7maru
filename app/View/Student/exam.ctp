@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>EXAMINATION</title><link rel="shortcut icon" href="/7maru/app/webroot/anything/favicon.png" type="image/x-icon" />
+<title><?php __('EXAMINATION') ?></title><link rel="shortcut icon" href="/7maru/app/webroot/anything/favicon.png" type="image/x-icon" />
 <STYLE type=text/css>
 @font-face {
 	font-family:Ankit;
@@ -30,7 +30,7 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
     //));
     $file_hidden = $testfile;
 ?>
-<SCRIPT type="text/javascript" src="<?php echo '/7maru/app/webroot/js/test/'.$testfile;?>"></SCRIPT>
+<SCRIPT type="text/javascript" src="<?php echo HTML_DATA_DIR.DS.$testfile;?>"></SCRIPT>
 <?php 
 echo $this->Html->script('Test_Control');
 ?>

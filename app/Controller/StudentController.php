@@ -489,10 +489,12 @@ class StudentController extends AppController {
 		print_r($values);*/
 	}
 
-	function Exam(){
+	function Exam($id = null){
 // 		$this->set('testfile',$id);
-// 		$this->set('testfile',$this->request->params['pass']['0']);
-		$id = $this->params['url']['id'];
+// 		$this->set('testfile',$this->request->params['pass']['0']);		
+		if ($id == null){
+			return;
+		}
 		$dulieu = $this->Data->find('first', array(
 				'conditions' => array(
 						'Data.file_id' => $id

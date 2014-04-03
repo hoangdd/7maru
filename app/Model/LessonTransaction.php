@@ -8,11 +8,16 @@ class LessonTransaction extends AppModel {
     */
     public $primaryKey =  'transaction_id';
     public function had_active_transaction($user_id, $coma_id){
-        $transaction = $this->query("Select * from 7maru_coma_transactions WHERE coma_id = '$coma_id' AND student_id = '$user_id'");
-        if($transaction){
-        	return true;
-        	//@TODO Kiem tra xem da het thoi gian hoc hay chua????s
+        $conditions = array(
+            'coma_id' => $coma_id,
+            'student_id' => $user_id,
+            'ADDDATE(created,INTERVAL '.LIMIT_LEARN_DAY.' DAY) >= NOW()'
+            );
+        $result = $this->find('first',array('conditions' => $conditions));
+        if (!$result){
+            return false;
         }
+        return true;
     }
 
 }
