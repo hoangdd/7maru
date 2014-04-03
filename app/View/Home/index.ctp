@@ -288,6 +288,7 @@
 	<nav class="cl-effect-5">
 		<?php
 			foreach ($tags as $key => $value) {
+			if(isset($value['action'])&&isset($value['label']))
 				echo "<a style='height:30px' href='#".$value['action']."'><span data-hover='".$value['label']."'>".$value['label']."</span></a>";
 			}
 		?>

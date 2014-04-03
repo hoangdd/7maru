@@ -35,15 +35,28 @@
 
 		<h3>
 			<span>
-				<?php echo $lesson['Author']['firstname'].' '.$lesson['Author']['lastname']?>
+				<?php
+				if(isset($lesson['Author']['firstname']) && isset($lesson['Author']['lastname']))
+					echo $lesson['Author']['firstname'].' '.$lesson['Author']['lastname'];
+				else if(isset($lesson['Author']['firstname'])) echo $lesson['Author']['firstname'];
+				else if(isset($lesson['Author']['lastname'])) echo $lesson['Author']['lastname'];
+				else echo 'Undefined Author';
+				?>
 			</span>
 			<span>
-				<?php echo $lesson['Lesson']['title']; ?>
+				<?php
+				if(isset($lesson['Lesson']['title'])) 
+					echo $lesson['Lesson']['title']; 
+				else echo 'No Title';
+				?>
 			</span>
 			
 		</h3>
 		<p>
-			<?php echo $lesson['Lesson']['description'];?>
+			<?php
+			if(isset($lesson['Lesson']['description'])) 
+				echo $lesson['Lesson']['description'];
+			?>
 		</p>
 	</div>
 </li>
