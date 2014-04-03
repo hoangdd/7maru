@@ -33,7 +33,10 @@ if(isset($data)) :
 		<div class='col-md-3 text-center'>
 			<!-- Left col: Image and ranhking and vote stars-->
 			<?php
-					echo $this->Html->image(LESSON_COVER_LINK.$lesson['cover'],array('class' => 'img-rounded small_photo')); 
+					$cover = DEFAULT_COVER_IMAGE;
+					if ( $lesson['cover'] != null || $lesson['cover'] != '')
+						$cover = LESSON_COVER_LINK.$lesson['cover'];
+					echo $this->Html->image($cover,array('class' => 'img-rounded small_photo')); 
 					echo '<p></p>';
 					//Show title
 					echo '<h1 class="text-center">'.$lesson['title'].'</h1>';

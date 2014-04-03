@@ -60,7 +60,7 @@
        'class' => 'btn btn-lg btn-warning btn-block',
        'style' => 'margin-bottom:20px'
        ); 
-     echo "<div class='col-md-6 col-sm-offset-3 text-center'>";
+     echo "<div class='col-md-6 col-sm-offset-3 text-center' id='div_buy_view'>";
      if (!$lesson['buy_status']){ 
       $options['id']  = 'buy-button';
       $options['label'] = __('Buy');
@@ -110,7 +110,7 @@
  <!-- Lesson content detail info -->
  <div class="row">
    <div class='description col-md-12'>
-    <h4 class='text-muted'>Lesson description: </h4>    		
+    <h4 class='text-muted'><?php echo __('Lesson description').':' ?> </h4>    		
     <p class='content'><?php echo $lesson['description'] ?></p>
   </div>
 </div>
@@ -178,8 +178,7 @@
           $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];
        }
        echo $this->Html->image($cover,array(
-        'class' => 'img-rounded img-responsive',
-        'style' => 'height: 150px',
+        'class' => 'img-rounded img-responsive mini_profile',        
         'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id'])
         )); 
        echo $this->Html->link($l['Lesson']['name'],array(
@@ -209,6 +208,7 @@
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
                 result = true;
+                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'view',$lesson['coma_id']),$options)."'"; ?>)
               }             
             }
           );

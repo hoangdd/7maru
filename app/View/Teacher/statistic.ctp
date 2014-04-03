@@ -132,7 +132,7 @@ $total = $total * MONEY_PER_LESSON * TEACHER_PROFIT_PERCENTAGE;
                   </div>
                   <div class='col-md-2'>
                     <button id = "load_button" type="button" class="btn btn-warning">
-                      <span class="glyphicon glyphicon-repeat"></span> Load
+                      <span class="glyphicon glyphicon-repeat"></span> <?php echo __('Load') ?>
                     </button>
 
                   </div>

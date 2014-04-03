@@ -75,17 +75,9 @@ $(document).ready(function(){
 			<ul class='root'>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
-						'controller' => 'Home',
+						'controller' => 'admin',
 						'action' => 'index'
 					));?>"> <?php echo __('Home');?> </a>
-				</li>
-				<li id = 2>
-					<a href="#"> <?php echo __('Account');?> </a>
-				</li>
-			</ul>
-			<ul root = 2>
-				<li class='title'>
-					<a href="#"> <?php echo __('Account');?> </a>
 				</li>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
@@ -93,7 +85,7 @@ $(document).ready(function(){
 						'action' => 'logout'
 						));?>"> <?php echo __('Logout');?> </a>
 				</li>
-			</ul>
+			</ul>			
 		<?php endif;?>
 		<?php if($role=='R2') :?>
 			<ul class='root'>

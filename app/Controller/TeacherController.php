@@ -350,7 +350,7 @@ class TeacherController extends AppController {
 				$data['User']['user_id'] = $this->Auth->user('user_id');				
                 $teacherData = $data['User']['bank_account'];
                 unset($data['User']['bank_account']);  		
-				$result = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));				
+				$result = $this->User->save($data,true,array('mail','firstname','lastname','phone_number','profile_picture'));				
                 if ($result){
                     $teacherData = array(
                             'Teacher' => array(
@@ -361,7 +361,7 @@ class TeacherController extends AppController {
                         );
                     if ($this->Teacher->save($teacherData)){                    
                         $this->Session->setFlash(__('Edit successful'));
- //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                        $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
                     }
                 }               
 			}        

@@ -29,12 +29,12 @@
                 'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
       ));
         echo "<br><br>";
-        echo $this->Html->link(__('Lesson Manage'),
-            'Managelessons',array(
-                'class'=>'btn btn-primary btn-lg',
-                'role'=>'button',
-                'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
-            ));
+        // echo $this->Html->link(__('Lesson Manage'),
+        //   'Managelessons',array(
+        //     'class'=>'btn btn-primary btn-lg',
+        //     'role'=>'button',
+        //     'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
+        //     ));
     ?>
 	</div>
 </div>

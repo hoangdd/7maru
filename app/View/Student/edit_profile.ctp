@@ -1,23 +1,12 @@
 <?php
 echo $this->Html->css('common');
 echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
-echo $this->Html->script(array('chartapi','bootstrap-datepicker'));
-echo $this->Html->css('datepicker');
 ?>
-<script type="text/javascript">
-      // Load the Visualization API and the piechart package.      
-      //======show datepicker
-      $(document).ready(function(){         
-            $("#dp").datepicker({
-                  format: "dd-mm-yyyy",                  
-            });
-            $("#dp").datepicker('set','today');            
-      })
-</script>
+
 <div class="row">
     <div class="col-md-3">
         <?php        
-        if($userData['profile_picture'] == null) $image = 'default_profile.jpg';
+        if($userData['profile_picture'] == null) $image = DEFAULT_PROFILE_IMAGE;
         else $image = IMAGE_PROFILE_LINK.$userData['profile_picture'];
         echo $this->Html->image($image,array(            
          'width'=>'180px',
@@ -59,15 +48,7 @@ echo $this->Html->css('datepicker');
                 <input name="lastname" type="text" class="form-control" id="inputEmail3" placeholder="Last Name" value=<?php echo "'".$userData['lastname']  ."'" ?>>
 
                 </div>
-             </div>
-             <div class="form-group">
-                <label class="col-sm-3 control-label"><?php echo __('Birthday').':' ?></label>
-                 <div class="col-md-6">
-
-                        <input name="date_of_birth" type="date" class="form-control" placeholder="Birthday" value=<?php echo "'".$userData['date_of_birth']  ."'" ?>>
-
-                 </div>
-             </div>
+             </div>      
              <div class="form-group">
                 <label class="col-sm-3 control-label"><?php echo __('Email').':' ?> </label>
                 <div class="col-sm-6">
