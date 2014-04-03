@@ -45,11 +45,8 @@ class AdminController extends AppController {
 
     public function beforeFilter() {
         // parent::beforeFilter ();
-        $this->Auth->userModel = 'Admin';
-        $this->Auth->allow('login', 'logout', 'ip_manage', 'account', 'index');
-        $this->Auth->allow('login', 'logout');
-        $this->Auth->allow('CreateAdmin');
-        $this->Auth->allow('Notification');
+        $this->Auth->userModel = 'Admin';        
+        $this->Auth->allow('login', 'logout');     
     }
 
     function CreateAdmin() {
@@ -191,7 +188,7 @@ class AdminController extends AppController {
         //check loggedIn();
         if ($this->Auth->loggedIn()) {
             $this->redirect(array(
-                'controller' => 'home',
+                'controller' => 'admin',
                 'action' => 'index',
             ));
         }
@@ -214,8 +211,8 @@ class AdminController extends AppController {
     function logout() {
         $this->Auth->logout();
         $this->redirect(array(
-            'controller' => 'Home',
-            'action' => 'index'
+            'controller' => 'admin',
+            'action' => 'login'
         ));
     }
 

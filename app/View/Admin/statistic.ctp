@@ -50,7 +50,7 @@ $total = $total * MONEY_PER_LESSON * (1 - TEACHER_PROFIT_PERCENTAGE);
                 <span><?php echo $total ?></span>
               </h1>          
               <div class="row">
-              <?php echo "<p class='title'>". __("Top 3 bought lesson: ")."</p>";
+              <?php echo "<p class='title'>". __("Top 3 bought lesson")."</p>";
               foreach($top3BoughtLesson as $lesson){                                    
                   echo "<div style='float:left;margin:20px' class='text-center'>";
                 echo $this->Html->image((LESSON_COVER_LINK.$lesson['Lesson']['cover']), array(

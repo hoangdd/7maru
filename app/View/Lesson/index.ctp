@@ -110,7 +110,7 @@
  <!-- Lesson content detail info -->
  <div class="row">
    <div class='description col-md-12'>
-    <h4 class='text-muted'>Lesson description: </h4>    		
+    <h4 class='text-muted'><?php echo __('Lesson description').':' ?> </h4>    		
     <p class='content'><?php echo $lesson['description'] ?></p>
   </div>
 </div>
@@ -178,8 +178,7 @@
           $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];
        }
        echo $this->Html->image($cover,array(
-        'class' => 'img-rounded img-responsive',
-        'style' => 'height: 150px',
+        'class' => 'img-rounded img-responsive mini_profile',        
         'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id'])
         )); 
        echo $this->Html->link($l['Lesson']['name'],array(
