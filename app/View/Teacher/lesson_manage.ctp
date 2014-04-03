@@ -46,11 +46,13 @@
                 <div class="pull-left col-xs-3">
                     <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
                         <?php
+                        	if(isset($value['Lesson']['coma_id']))
                             echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
                                 'width' => '140px',
                                 'height' => '140px',
                                 'url' => '/lesson/view/'.$value['Lesson']['coma_id']
                                 ));
+                             else echo 'No Images';
                         ?>
                     </div>
                     <div class="star center-block" style="padding: 5px">
