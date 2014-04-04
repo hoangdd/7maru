@@ -1,62 +1,9 @@
 <?php
 	// @hoangdd - Comment layout
 ?>
-<style type="text/css">
-	.comment-area{
-		min-height: 200px;
 
-		/*debug mode*/
-		border: solid 1px black;
-	}
-	.comment-area .comment{
-		min-height: 100px;
-		margin: 10px;
-
-		/*debug mode*/
-		border: solid 1px black;
-	}
-	.comment > .commentator-info{
-		text-align: center;
-		width: 100px;
-		/*debug mode*/
-		border: solid 1px black;
-		// background-color: blue;
-	}
-	.commentator-info >.image-profile{
-		width: 75px;
-		height: 75px;
-	}
-	.commentator-info > a{
-		display: block;
-		text-decoration: none;
-		width: 75px;
-		overflow: hidden;
-	}
-	.comment .comment-content{
-
-		/*debug mode*/
-		border: solid 1px black;
-	}
-	.comment-content > textarea{
-		width: 100%;
-		display: none;
-	}
-	.comment-content > .action {
-		margin-bottom: 50px;
-	}
-	.comment-content > .action > span{
-		float: right;
-		margin: 10px;
-	}
-	.comment-content > .action  .save-button,
-	.comment-content > .action .create-button,
-	.comment-content > .action .cancel-button,
-	.comment-content > .action .cancel-edit-button {
-		display: none;
-	}
-</style>
 <?php
-
+	echo $this->Html->css('comment');
 	//default <=> option
 
 	$width = isset($width) ? $width : '100%';
@@ -213,7 +160,7 @@ var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
 	if(isset($comma_id) || !empty($comments)) :
 ?>
 	<div class = 'comment-area' style="width:<?php echo $width;?>">
-		<div>
+		<div style="text-align:center;margin:20px">
 			<a href="#" class="create-button"> <?php echo __('Insert new comment');?></a>
 		</div>
 		<?php 
@@ -246,6 +193,5 @@ var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
 <?php 
 	endif;
 	// end -> if(isset($comma_id) || !empty($comments)) :
-
-	debug($comments);
+	// debug($comments);
 ?>
