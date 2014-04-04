@@ -56,7 +56,19 @@ class Data extends AppModel {
 		//microsoft office > pdf > swf
 		if(in_array($ext, $fileType['microsoftOffiece']['extension'])){
 			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
-				 $this->__convertPdfToSwf(DATA_SRC_DIR.DS.$fid.'.'.$ext, SWF_DATA_DIR.DS.$fid.'.swf');
+				//pdf src file
+				$msfile = DATA_SRC_DIR.DS.$fid.'.'.$ext;
+				$pdffile = DATA_SRC_DIR.DS.$fid.'.pdf';
+
+				if( $ext == 'doc' || $ext == 'docx'){
+					//doc file
+					$this->__convertDocToPdf($msfile, $pdffile);
+
+				}else if( $ext == 'ppt' || $ext == 'pptx'){
+					//powerpoint file
+					$this->__convertPptToPdf($msfile, $pdffile);
+				}
+				$this->__convertPdfToSwf($pdffile, SWF_DATA_DIR.DS.$fid.'.swf');
 				// return VIDEO_DATA_DIR.DS.$fid.'.swf';	
 				return $fid.'.swf';	
 			}
@@ -89,13 +101,28 @@ class Data extends AppModel {
 
 	private function __convertDocToPdf($src, $output){
 		$command = Configure::read('command');
-		$cmd = sprintf($command['pdf2swf'][0], $src, $output);
-		return $this->__execute($cmd);
+		$cmd = sprintf($command['doc2pdf'][0], $src);
+		$currentpath = $this->__execute('pwd');
+		$this->__execute($cmd);
+
+		//copy and rename
+		$info = pathinfo($src);
+		$newfile = $currentpath.DS.$info['filename'].".pdf";
+		$this->__execute('cp '.$newfile.' '.$output);
+		// $this->__execute('rm '.$newfile);
+		return $output;
 	}
 	private function __convertPptToPdf($src, $output){
 		$command = Configure::read('command');
-		$cmd = sprintf($command['pdf2swf'][0], $src, $output);
-		return $this->__execute($cmd);
+		$cmd = sprintf($command['ppt2pdf'][0], $src);
+		$this->__execute($cmd);
+
+		//copy and rename
+		$info = pathinfo($src);
+		$newfile = $info['dirname(path)'].DS.$info['filename'].".pdf";
+		$this->__execute('cp '.$newfile.' '.$output);
+		$this->__execute('rm '.$newfile);
+		return $output;
 	}
 	public function readTsv($nFileName) {
 
@@ -330,6 +357,11 @@ class Data extends AppModel {
 		$command = escapeshellcmd($command);
 
 		// execute convert program
-		return exec($command);
+		$logFile = 'call_service';
+		$this->log('_____________________________________________', $logFile);
+		$this->log($command, $logFile);
+		$ret = exec($command);
+		$this->log($ret, $logFile);
+		return $ret;
 	}
 }
