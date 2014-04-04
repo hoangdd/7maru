@@ -1,3 +1,6 @@
+<?php
+	//@hoangdd
+?>
 <li class='lesson-book'>
 	<div class="bk-book book bk-bookdefault">
 		<div class="bk-front" style="background-image: url(<?php echo '/7maru/app/webroot/img/'.LESSON_COVER_LINK.$lesson['Lesson']['cover'];?>);	">
