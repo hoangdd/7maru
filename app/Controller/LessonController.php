@@ -119,14 +119,14 @@ class LessonController extends AppController {
 			}
 			
 			// check if Lesson name is empty
-			if(!$data['name']){
+			if(empty($data['name'])){
 				$error['name'] = __('Lesson name do not suppose to be empty');
 			}
 			
 			//check if Lesson Description is empty
-			if(ctype_space($data['desc'])){
+			if(empty($data['desc']) || ctype_space($data['desc'])){				
 				$error['desc'] = __('Lesson Description do not suppose to be empty');
-			}			
+			}				
 			if(!empty($_FILES['cover-image']['name'])){
 				//Check if image format is supported
 				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
