@@ -115,6 +115,7 @@
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Document') ?></label>
             <div class="col-sm-8" id = "document-input-wrapper">
                 <input type="file" name="document[]" class = 'document-input' onchange = "on_document_input()">
+                <?php if(isset($error) && isset($error['document']))echo "<div class='text-danger'>".$error['document']."</div>"; ?>
                 <!-- <input type="file" name="document[]" id='document'> -->
             </div>
         </div>
@@ -123,12 +124,14 @@
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Test File') ?></label>
             <div class="col-sm-8">
                 <input type="file" name="test">
+                <?php if(isset($error) && isset($error['test']))echo "<div class='text-danger'>".$error['test']."</div>"; ?>
             </div>
         </div>
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Lesson Image') ?></label>
             <div class="col-sm-8">
-                <input type="file" name="cover-image">                            
+                <input type="file" name="cover-image">   
+                <?php if(isset($error) && isset($error['image']))echo "<div class='text-danger'>".$error['image']."</div>"; ?>                         
             </div>
         </div>
         <div class="form-group row">
