@@ -19,6 +19,8 @@
 	width: 100px;
 	margin-right: 20px;
 	background-color: white;
+	font-size: 18px;
+	padding: 5px;
 	/*debug mode*/
 	border: solid 1px white;
 }
