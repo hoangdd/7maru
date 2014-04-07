@@ -1,0 +1,62 @@
+.comment-area{
+	color: white;
+	min-height: 200px;
+	background-color: #e4e4e4;
+	font-family: 'PT Sans Narrow', Arial, sans-serif;
+	/*debug mode*/
+	border: solid 1px white;
+}
+.comment-area .comment{
+	min-height: 100px;
+	background-color: #47a3da;
+	margin: 10px;
+	/*debug mode*/
+	border: solid 1px white;
+	border-bottom: 0px;
+}
+.comment > .commentator-info{
+	text-align: center;
+	width: 100px;
+	margin-right: 20px;
+	background-color: white;
+	font-size: 18px;
+	padding: 5px;
+	/*debug mode*/
+	border: solid 1px white;
+}
+.commentator-info >.image-profile{
+	width: 75px;
+	height: 75px;
+}
+.commentator-info > a{
+	display: block;
+	text-decoration: none;
+	width: 75px;
+	overflow: hidden;
+}
+.comment .comment-content{
+	/*debug mode*/
+	font-size: 16px;
+	border: solid 1px white;
+	border-bottom: 0px;
+	margin-bottom: 50px;
+	padding: 5px;
+}
+.comment-content > textarea{
+	width: 100%;
+	display: none;
+}
+.comment-content > .action {
+	font-size: 12px;
+	color: black;
+}
+.comment-content > .action > span{
+	float: right;
+	margin: 10px;
+}
+.comment-content > .action  .save-button,
+.comment-content > .action .create-button,
+.comment-content > .action .cancel-button,
+.comment-content > .action .cancel-edit-button {
+	display: none;
+}

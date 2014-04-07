@@ -193,9 +193,12 @@ Configure::write('command', array(
 		),
 
 	'doc2pdf' => array(
+		'lowriter --convert-to pdf %s'
+		// 'unoconv %s'
 		),
 
 	'ppt2pdf' => array(
+		' loimpress --convert-to pdf:writer_pdf_Export %s'
 		),
 
 	));
