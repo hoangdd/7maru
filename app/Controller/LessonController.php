@@ -102,19 +102,19 @@ class LessonController extends AppController {
 			// $teacher = $this->Teacher->findByTeacherId($lesson['Lesson']['author']);			
 		} else {
 			$this->Session->setFlash(__('Forbidden error'));
-		}
+		}	
 	}
 
 	function Create(){
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
-			$data = $this->request->data;			
+			$data = $this->request->data;					
 			// debug($data);
 			// debug($_FILES);
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
-			if(!isset($data['copyright'])){
+			if(empty($data['copyright'])){
 				$error['copyright'] = __('Please confirm your copyright');               
 			}
 			
@@ -126,20 +126,20 @@ class LessonController extends AppController {
 			//check if Lesson Description is empty
 			if(ctype_space($data['desc'])){
 				$error['desc'] = __('Lesson Description do not suppose to be empty');
-			}
-			if($_FILES['cover-image']['name']){
+			}			
+			if(!empty($_FILES['cover-image']['name'])){
 				//Check if image format is supported
 				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
 					$error['image'] = __('Unsupported Image Format');
-				} else if($_FILES['cover-image']['size'] > 2097152){
+				} else if($_FILES['cover-image']['size'] > MAX_COVER_SIZE*UNIT_SIZE){
 					$error['image'] = __('Image Size Too Big');
 				}
 			}
-			if($_FILES['test']['name']){
+			if(!empty($_FILES['test']['name'])){
 				//Check if image format is supported
 				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
 					$error['test'] = __('Unsupported Test File Format');
-				} else if($_FILES['test']['size'] > 52428800){
+				} else if($_FILES['test']['size'] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 					$error['test'] = __('Test File Too Big');
 				}
 
@@ -154,27 +154,27 @@ class LessonController extends AppController {
 				}
 			}
 			// for($i = 0, $len = $);
-			if(isset($_FILES['document']['name'][0])){
+			if(!empty($_FILES['document']['name'][0])){
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
 						if(!preg_match('/\.(pdf)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = 'Unsupported Document Format';
-						} else if($_FILES['document']['size'][$i] > 52428800){
+						} else if($_FILES['document']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
 						}
 					}
 				}
 				
-			}			
+			}				
 			if(count($error)){
 				$this->set('error',$error);
 				// debug($error);
-				$this->set('data',$data);
+				$this->set('data',$data);				
 			}else{
 				// Save Lesson Information
-				$this->Lesson->create();
+				$this->Lesson->create();		
 				$saveData = array(
 					'Lesson'=> array(
 						'name'=> $data['name'],
@@ -183,10 +183,10 @@ class LessonController extends AppController {
 						'cover' => $_FILES['cover-image']
 						)
 					);				
-				$lesson = $this->Lesson->save($saveData);
+				$lesson = $this->Lesson->save($saveData);				
 				// save Lesson Category
-				if($lesson && isset($data['category'])){					
-					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);
+				if($lesson && !empty($data['category'])){					
+					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);					
 					$this->Session->setFlash(__('Create lesson successfully'));
 				}
 				
@@ -206,7 +206,6 @@ class LessonController extends AppController {
 
 				// save data   
 				foreach ($document as $key => $value) {
-					# code... 
 					if(!(isset($value['error']) && $value['error']!=0 ) ){
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];						
 						$this->Data->create($value);

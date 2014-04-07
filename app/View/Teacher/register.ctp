@@ -16,7 +16,7 @@ echo $this->Html->css('datepicker');
 </script>
 
 <div class="col-md-12 highlight" style="background-image: url(/7maru/img/new-background-test.jpg);background-repeat: repeat;background-position: top center; background-size: contain;">
-<h1 class="text-center"><?php echo__('Teacher Register') ?></h1>
+<h1 class="text-center"><?php echo __('Teacher Register') ?></h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
     <form id='register-form' class="form-horizontal" role="form" action="register" method="POST" enctype="multipart/form-data">

@@ -4,7 +4,7 @@ class TeacherController extends AppController {
     public $helpers = array('Html');    
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow(); //Allow all
+        $this->Auth->allow('register','login'); //Allow all
     }
 
     function index() {

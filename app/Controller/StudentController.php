@@ -13,6 +13,7 @@ class StudentController extends AppController {
 		parent::beforeFilter ();
 
 		$this->Auth->userModel = 'Student';
+		$this->Auth->allow('register','login');
 // 		$this->Auth->allow ( 'dotest', 'viewtestresult','exam' );
 
 // 		$this->Auth->allow();//Allow all
@@ -45,26 +46,26 @@ class StudentController extends AppController {
 			$check_user = true;
 			
 			if (!isset($data ['username'])) {
-				$error['username'][0] = 'Username is equal null.';
+				$error['username'][0] = __('Username is equal null.');
 				$check_user = false;
 			}
 			
 			if (empty($data['username'])){
-				$error['username'][1] = 'Username is empty.';
+				$error['username'][1] = __('Username is empty.');
 				$check_user = false;
 			} else {
 				if (!preg_match($user_re_ex,$data['username'])){
-					$error['username'][2] = 'Username is not match form.';
+					$error['username'][2] = __('Username is not match form.');
 					$check_user = false;
 				}
 				
 				if (strlen($data['username'])< 6){
-					$error['username'][3] = 'Username is too short.';
+					$error['username'][3] = __('Username is too short.');
 					$check_user = false;
 				}
 				
 				if (strlen($data['username'])> 30){
-					$error['username'][4] = 'Username is too long.';
+					$error['username'][4] = __('Username is too long.');
 					$check_user = false;
 				}
 				
@@ -77,7 +78,7 @@ class StudentController extends AppController {
 					// chua ton tai
 					// $error['username'] ='Username chua ton tai!';
 				} else {
-					$error ['username'] [5] = 'Username is exist.';
+					$error ['username'] [5] = __('Username is exist.');
 					$check_user = false;
 				}
 			}
@@ -92,26 +93,26 @@ class StudentController extends AppController {
 				4:  too long
 			*/
 			if (!isset($data['password'])){
-				$error['password'][0] = 'Password is equal null.';
+				$error['password'][0] = __('Password is equal null.');
 				$check_user = false;
 			}
 			
 			if (empty($data['password'])) {
-				$error['password'][1] = 'Password is empty.';
+				$error['password'][1] = __('Password is empty.');
 				$check_user = false;
 			} else {
 				if (!preg_match($pass_re_ex,$data['password'])) {
-					$error['password'][2] = 'Password is not match form.';
+					$error['password'][2] = __('Password is not match form.');
 					$check_user = false;
 				}
 				
 				if (strlen($data['password']) < 8) {
-					$error['password'][3] = 'Password is too short.';
+					$error['password'][3] = __('Password is too short.');
 					$check_user = false;
 				}
 				
 				if (strlen($data['password']) > 30) {
-					$error['password'][4] = 'Password is too long.';
+					$error['password'][4] = __('Password is too long.');
 					$check_user = false;
 				}
 			}
@@ -123,16 +124,16 @@ class StudentController extends AppController {
 				2:  not match with password
 			*/
 			if (!isset($data['retypepassword'])){
-				$error['retypepassword'][0] = 'Password is equal null.';
+				$error['retypepassword'][0] = __('Password is equal null.');
 				$check_user = false;
 			}
 			
 			if (empty($data ['retypepassword'] )) {
-				$error ['retypepassword'][1] = 'Password is empty.';
+				$error ['retypepassword'][1] = __('Password is empty.');
 				$check_user = false;
 			} else {
 				if (strcmp($data['retypepassword'],$data['password'] )!= 0) {
-					$error['retypepassword'][2] = 'Password and RetypePassword are not equal.';
+					$error['retypepassword'][2] = __('Password and RetypePassword are not equal.');
 					$check_user = false;
 				}
 			}
@@ -144,40 +145,40 @@ class StudentController extends AppController {
 				2:  too long
 			*/
 			if (! isset ( $data ['firstname'] )) {
-				$error ['firstname'] [0] = 'First name is equal null.';
+				$error ['firstname'] [0] = __('First name is equal null.');
 				$check_user = false;
 			}
 			
 			if (empty ( $data ['firstname'] )) {
-				$error ['firstname'] [1] = 'First name is empty.';
+				$error ['firstname'] [1] = __('First name is empty.');
 				$check_user = false;
 			} else {
 				
 				if (strlen ( $data ['firstname'] ) > 30) {
-					$error ['firstname'] [2] = 'First name is too long.';
+					$error ['firstname'] [2] = __('First name is too long.');
 					$check_user = false;
 				}
 			}
 			// ==================================
 			if (! isset ( $data ['lastname'] )) {
-				$error ['lastname'] [0] = 'Last name is equal null.';
+				$error ['lastname'] [0] = __('Last name is equal null.');
 				$check_user = false;
 			}
 			
 			if (empty ( $data ['lastname'] )) {
-				$error ['lastname'] [1] = 'Last name is empty.';
+				$error ['lastname'] [1] = __('Last name is empty.');
 				$check_user = false;
 			} else {
 				
 				if (strlen ( $data ['lastname'] ) > 30) {
-					$error ['lastname'] [2] = 'Last name is too long.';
+					$error ['lastname'] [2] = __('Last name is too long.');
 					$check_user = false;
 				}
 			}
 			
 			 //verifycode_answerをチェック：
 			if(!isset($data['verifycode_answer'])){
-				$error['verifycode_answer'][0] ='Answer of verifycode is equal null.';
+				$error['verifycode_answer'][0] =_(_'Answer of verifycode is equal null.';
 				$check_user = false;
 			}
 			
@@ -502,7 +503,7 @@ class StudentController extends AppController {
 						'Data.file_id' => $id
 				)
 		));
-		$str = "";
+		$str = "";''
 		if(count($dulieu) != 0){
 		        $this->set('testID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);

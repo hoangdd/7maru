@@ -18,6 +18,9 @@ define ('TYPE_BANK_ACCOUNT', 54);
 define ('LIMIT_LEARN_DAY' , 7);
 define ('DEFAULT_COVER_IMAGE', LESSON_COVER_LINK.DS.'default_book.jpg');
 define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
+define('MAX_COVER_SIZE' ,2);
+define('UNIT_SIZE',1024*1024);
+define('MAX_TEST_FILE_SIZE',5);
 /*========================Config user roles ====================*/
 
 /*
