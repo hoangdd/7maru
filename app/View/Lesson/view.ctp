@@ -117,8 +117,8 @@ if(isset($data)) :
 								if($value['isTest']){
 									echo $this->Html->link("Test".$key, array(
 											'controller' => 'Student',
-											'action' => 'Exam',
-											$value['file_id']
+											'action' => 'Exam?id='.$value['file_id']
+											
 										),
 										array(
 												'class' => "list-group-item"

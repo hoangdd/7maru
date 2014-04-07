@@ -30,11 +30,6 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
     //));
     $file_hidden = $testfile;
 ?>
-<?php echo $this->Html->url(array(
-        'controller' => 'Data', 
-        'action' => 'file',
-        $testID
-));?>
 <SCRIPT type="text/javascript" src="<?php echo $this->Html->url(array(
         'controller' => 'Data', 
         'action' => 'file',

@@ -504,7 +504,7 @@ class StudentController extends AppController {
 		));
 		$str = "";
 		if(count($dulieu) != 0){
-		        $this->set('testID',$id);
+		        $this->set('tesID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);
 			
 		} else {
