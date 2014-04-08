@@ -3,9 +3,10 @@
  	text-align: center;
  }	
 </style>
+
 <!-- header -->
 <h3 style="text-align:center">
-	IP Adress Manage
+	<?php echo __('IP Address').' '.__('Manage') ?>
 </h3>
 <!-- table -->
 <div class="">
@@ -15,203 +16,108 @@
 			<tr>
 
 				<th class='no-col' style="width:10%">
-					No.
+					<?php echo __('No') ?>
 				</th>
 
 				<th class='ip-col' style="width:60%">
-					IP address
+					<?php echo __('IP Address') ?>
 				</th>
 
 				<th class='del-ip-col' style="width:15%">
-					Delete IP address
+					<?php echo __('Delete').' '.__('IP Address') ?>
 				</th>
 
 				<th class='edit-ip-col' style="width:15%">
-					Edit IP address
+					<?php echo __('Edit').' '.__('IP Address') ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td class='no-col'>
-					1
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
+			<?php 
+			//$array_item = $array_list['2'];
+			echo $this->Form->create('AdminIp',
+		  		array( 'url' => array('controller' => 'Admin', 'action' => 'ipManage')
+		  			)
+		  			);
+		  		 
+			
+			$i = ($this->Paginator->current($model = null)-1)*3+1;
+			//foreach($array_item as $value){
+			foreach($data as $numb => $value) {
+			echo"<tr>
+				<td class='no-col'>";
+			echo $this->Form->input('AdminIp.IpId', array(
+					    	'type' => 'text',
+					    	'class' => 'form-control',
+					    	'value' => $i,
+					    	'label' => false,
+					    	'readonly' => 'readonly'
+							));
+			echo "</td>
+				<td class='ip-col'>"
+					.$data[$numb]['AdminIp']['ip'].
+				"</td>
 
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
+				<td class='del-ip-col'>";
+			//echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
+			echo "<a href=".$this->here."?mod=delete&ip=".$data[$numb]['AdminIp']['ip'].">".__('Delete')."</a>";
+			
+			echo "</td>
 
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
+				<td class='edit-ip-col'>";
+			//echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
+			echo "<a href=".$this->here."?mod=edit&ip=".$data[$numb]['AdminIp']['ip'].">".__('Edit')."</a>";
+			echo "
 				</td>
 			</tr>
+			";
+			$i++;
+			}
+			?>
+			
 			<tr>
-				<td class='no-col'>
-					2
+			<td class='del-ip-col'>
+					
 				</td>
 				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
+					<?php 
+						echo $this->Form->input('AdminIp.Ipinput', array(
+					    	'type' => 'text',
+					    	'class' => 'form-control',
+					    	'placeholder' => 'IP address',
+					    	'label' => false,
+					    	'value' => $enter
+							));
+							?> 
+					
 
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
 				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
 				<td class='no-col'>
-					3
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					4
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					5
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					6
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					7
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					8
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					9
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-
-			<tr>
-				<td class='no-col'>
-					10
-				</td>
-				<td class='ip-col'>
-					xxx.xxx.xxx.xxx
-				</td>
-
-				<td class='del-ip-col'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='edit-ip-col'>
-					<a href="#">Edit</a>
-				</td>
-			</tr>
-			<tr>
-				<td class='no-col'>
-					<button type="button" class="btn btn-default">
-					  <span class="glyphicon glyphicon-plus"></span>Add
+					
+					<?php
+						//$options = array(
+						  //  'label' => 'サブメット',
+						    //'class' => 'btn btn-default',
+						//);
+							//echo $this->Form->end($options);
+							?>
+					<?php echo $this->Form->submit('サブメット', 
+						array('name' => 'add','class' => 'btn btn-default')); ?>
+					  
 					</button>
 				</td>
-				<td class='ip-col'>
-					<input type="text" class="form-control" placeholder="Add new IP address">
-
-				</td>
+				
 
 				<td class='del-ip-col'>
+					<?php 
+						if($modFlag == 1) {
+							echo $this->Form->input('AdminIp.Hidden', array(
+					    	'type' => 'hidden',
+					    	'value' => $enter
+							));
+							}
+							?>
+						
 					
 				</td>
 
@@ -219,7 +125,7 @@
 					
 				</td>
 			</tr>
-
+		<?php echo $this->Form->end(); ?>
 		</tbody>
 	</table>
 </div>
@@ -227,13 +133,18 @@
 <!-- paginate -->
 <div class='text-center'>
 	<ul class="pagination">
-	  <li><a href="#">&laquo;</a></li>
-	  <li><a href="#">1</a></li>
-	  <li><a href="#">2</a></li>
-	  <li><a href="#">3</a></li>
-	  <li><a href="#">4</a></li>
-	  <li><a href="#">5</a></li>
-	  <li><a href="#">&raquo;</a></li>
+
+	  <li>
+	  	<?php echo $this->Paginator->prev('<< ' . __('previous'), array(), null, array('class'=>'disabled'));?>
+	  </li>
+	  <li>
+	  	<?php echo $this->Paginator->numbers(array('separator' => ''));?>
+	  </li>
+	  <li>
+	  	<?php echo $this->Paginator->next(__('next') . ' >>', array(), null, array('class' => 'disabled'));?>
+	  </li>
+	  
 	</ul>
 
 </div>
+

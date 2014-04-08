@@ -1,87 +1,298 @@
-
 <?php
-  $user = array(
-    'type' => 'student',
-   );
-  $page = array(
-    'controller' => $this->name,
-    'action' => $this->action
-    );
-  $menu = array(
-    'student' => array(
-        'Home' => $this->Html->url(array(
-          'controller' => 'Student',
-          'action' => 'index'
-          )),
-        'Profile' => $this->Html->url(array(
-          'controller' => 'Student',
-          'action' => 'Profile'
-          )),
-        'Buy Lesson' => $this->Html->url(array(
-          'controller' => 'Student',
-          'action' => 'BuyLesson'
-          ))
-      ),
-    'teacher' => array(
-      'Home' => '#',
-      'Profile' => '#',
-      'Lesson Manage' => '#',
-      'Create Lesson' => '#'
-
-      )
-    );
+echo $this->Html->css('menu');
+$role = !empty($_SESSION['Auth']['User']['role']) ? $_SESSION['Auth']['User']['role'] : 'R4';
 ?>
 
+<?php
+/*
+admin => account, blockuser, changepassword, createadmin, index, ipmanage, login ,notification, statistic, usermanage
+reference => edit, index, new, view
+search => index
+student => buylesson, dotest, editprofile, index, profile, register, statistic, test, viewresult
+teacher => creatlesson, editprofile, index, lesson, lessonmanage, profile, register, statistic
+user => comment, index
+*/
+?>
+<?php
+	echo $this->Html->scriptStart(array('inline' =>true));
+?>
+$(document).ready(function(){
+	var menu = $('.ac_menu');
+	menuChange = function(list, newList){
+		var i = 0;
+		$.when(list.find('li').each(function(){
+			$(this).animate({
+				'margin-top': -60,
+				'opacity' : 0,
+			},
+			200+i*100,
+			function(){
+				$(this).hide();
+			}
+			);
+			i++;
+		})).done(function(){
+			list.hide();
+			menuShow(newList)
+		});
+	};
+	menuShow = function(list){
+		var i = 0;
+		list.show();
+		list.find('li').each(function(){
+			$(this).show();
+			$(this).animate({
+				'margin-top':0,
+				'opacity' : 1,
+			},
+			200+i*100
+			);
+			i++;
+		})
+	};
 
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-      <a class="navbar-brand" href="#">7Maru</a>
-    </div>
+	$('.ac_menu > ul > li').click(function(){
+		id = $(this).attr('id');
+		list = $(this).parents('ul');
+		if($(this).hasClass('title')){
+			menuChange(list, menu.find('ul.root'));
+		}else{
+			if(typeof id == 'undefined') return;
+			menuChange(list, menu.find('ul[root='+id+']'));
+		}
+	});
+});
+<?php
+	echo $this->Html->scriptEnd();
+?>
+<div id="ac_content" class="ac_content">
+	<h1>
+		<span><?php echo __('Study more') ?></span>
+		7maru
+	</h1>
+	<div class="ac_menu">
+		<?php if($role=='R1') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'home',
+						'action' => 'index'
+					));?>"> <?php echo __('Home');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'admin',
+						'action' => 'logout'
+						));?>"> <?php echo __('Logout');?> </a>
+				</li>
+			</ul>			
+		<?php endif;?>
+		<?php if($role=='R2') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Home',
+						'action' => 'index'
+						));?>"> <?php echo __('Home');?> </a>
+				</li>
+				<li id = 1 >
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li id = 2 >
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li id = 3 >
+					<a href="#"> <? echo __('Lesson');?> </a>
+				</li>
+				<li >
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Statistic'
+						)) ?>"> <? echo __('Statistic');?> </a>
+				</li>
+			</ul>
+			<ul root = 1>
+				<li class='title'>
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller'=>'Login',
+						'action'=>'logout' 
+						));?>"
+					> <?php echo __('Logout');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller' => 'Login',
+						'action' => 'changePassword',
+						));
+					?>"
+					> <?php echo __('Change Password');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Delete');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Profile'
+						));?>"> <?php echo __('View');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'EditProfile'
+						));?>"><?php echo __('Edit');?> </a>
+				</li>
+			</ul>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <?php
-        $current_url = $this->Html->url(array(
-          'controller' => $page['controller'],
-          'action' => $page['action']
-          ));
-          foreach ($menu[$user['type']] as $key => $value) {
-            # code...
-            if($current_url == $value){
-              echo "<li class='active'><a href=".$value.">".__($key)."</a></li>";
-            }else{
-              echo "<li><a href=".$value.">".__($key)."</a></li>";
-            }
-          }
-        ?>
-      </ul>
-      <?php
-          echo $this->Form->create(null, array(
-          'controller' => 'search',
-          'action' => 'index',
-          'class' => 'navbar-form navbar-right',
-          ));
+			<ul root = 3>
+				<li class='title'>
+					<a href="#"> <?php echo __('Lesson');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller'=>'Teacher',
+						'action' => 'LessonManage'
+						)); ?>"> <?php echo __('Manage');?>  </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller'=>'Lesson',
+						'action' => 'Create'
+						)); ?>"> <?php echo __('Create');?> </a>
+				</li>
+			</ul>
+		<?php endif;?>
 
-          echo $this->Form->input(
-              'keyword',
-              array(
-                'label' => '',
-                'class' => 'form-control',
-                'placeholder' => __('Enter a keyword'),
-                'div' => array(
-                  'style' => 'display:inline-block;margin-right:10px;'
-                  ),
-              )
-          );
+		<?php if($role=='R3') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Home',
+						'action' => 'index'
+					));?>"> <?php echo __('Home');?> </a>
+				</li>
+				<li id = 1 >
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li id = 2 >
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li id = 3 >
+					<a href="#"> <? echo __('Lesson');?> </a>
+				</li>
+				<li >
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Student',
+						'action' => 'Statistic'
+						)) ?>"> <? echo __('Statistic');?> </a>
+				</li>
+			</ul>
+			<ul root = 1>
+				<li class='title'>
+					<a href="#"> <?php echo __('Account');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller'=>'Login',
+						'action'=>'logout' 
+						));?>"
+					> <?php echo __('Logout');?> </a>
+				</li>
+				<li>
+					<a 
+					href="<?php echo $this->Html->url(array(
+						'controller' => 'Login',
+						'action' => 'changePassword',
+						));
+					?>"
+					> <?php echo __('Change password');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Delete');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Profile');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Profile'
+						));?>"> <?php echo __('View');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'EditProfile'
+						));?>"><?php echo __('Edit');?> </a>
+				</li>
+			</ul>
 
-          echo $this->Form->button('Search', array(
-            'class' => 'btn btn-default',
-            'type' => 'Search',
-           ));
-        echo $this->Form->end();
-      ?>
-    </div>
-  </div>
-</nav>
+			<ul root = 3>
+				<li class='title'>
+					<a href="#"> <?php echo __('Lesson');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Manage');?>  </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Recent');?> </a>
+				</li>
+				<li>
+					<a href="#"> <?php echo __('Bought');?> </a>
+				</li>
+			</ul>
+		<?php endif;?>
+
+		<?php if($role=='R4') :?>
+			<ul class='root'>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Home',
+						'action' => 'index'
+					));?>"> <?php echo __('Home');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Login',
+						'action' => 'index'
+						)); ?>"> <?php echo __('Login');?> </a>
+				</li>
+				<li id = 2>
+					<a href="#"> <?php echo __('Register');?> </a>
+				</li>
+			</ul>
+			<ul root = 2>
+				<li class='title'>
+					<a href="#"> <?php echo __('Register');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Teacher',
+						'action' => 'Register'
+						));?>"> <?php echo __('Teacher');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'Student',
+						'action' => 'Register'
+						));?>"><?php echo __('Student');?> </a>
+				</li>
+			</ul>
+		<?php endif;?>
+	</div><!-- ac_menu -->
+
+	
+</div><!-- ac_content -->

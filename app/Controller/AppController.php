@@ -30,8 +30,9 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
 class AppController extends Controller {
-         public $components = array(
+    public $components = array(
         'Session',
         'DebugKit.Toolbar',
         'Auth' => array(
@@ -58,6 +59,45 @@ class AppController extends Controller {
             ),
             'authError' => 'You don\'t have permission to view this page',
         ),
-
     );
+     public function beforeFilter() {
+        parent::beforeFilter();
+        if(!$this->__permission()){
+            echo '403 Forbidden error.';
+            // die;
+        }
+    }
+    private function __permission($user_role = null, $current_controller = null){
+        $role = isset($user_role) ? $user_role : $this->Auth->user('role');
+
+        if( !is_array($current_controller)){
+            $current_controller = array();
+        }
+        $controller = array_merge($current_controller, array(
+            'controller' => $this->name,
+            'action' => $this->action,
+        ));
+
+        //string to lowwer
+        $controller['controller'] = strtolower($controller['controller']);
+        $controller['action'] = strtolower($controller['action']);
+
+        if( empty($role)) $role = 'R4'; //guest
+
+        $userRolesData = Configure::read('userRoles');
+        $userRoles = $userRolesData[$role];
+
+        if( empty($userRoles) ) return false; //invalid role;
+
+        if( isset($userRoles['*']) && $userRoles['*']=='*') return true;
+
+        if( empty($userRoles[$controller['controller']]) ) return false;
+
+        if( $userRoles[$controller['controller']]=='*' ) return true;
+
+        if( in_array($controller['action'], $userRoles[$controller['controller']]) )
+            return true;
+
+        return false;
+    }
 }

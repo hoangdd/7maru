@@ -1,6 +1,6 @@
 <?php
 class Admin extends AppModel {
-  public $primarykey = 'admin_id';
+  public $primaryKey = 'admin_id';
   public $validate = array(
       'username' => array(
           'required' => true,

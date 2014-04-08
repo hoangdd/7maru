@@ -23,6 +23,8 @@ nav a {
 	font-weight: 400;
 	text-shadow: 0 0 1px rgba(255,255,255,0.3);
 	font-size: 1.35em;
+	white-space: nowrap;
+	text-align: center;
 }
 
 nav a:hover,
@@ -235,6 +237,7 @@ nav a:focus {
 	-webkit-perspective: 1800px;
 	-moz-perspective: 1800px;
 	perspective: 1800px;
+	background-color: #e4e4e4;
 }
 
 .lesson-book:last-child {
@@ -247,7 +250,7 @@ nav a:focus {
 	height: auto;
     max-height: 200px;
     overflow: hidden;
-
+    padding:10px;
 }
 
 .bk-info h3 {
@@ -288,7 +291,10 @@ nav a:focus {
 	margin-right: 4px;
 	box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
 }
-
+.bk-info button a{
+	color: #fff;
+	text-decoration: none;
+}
 .bk-info button.bk-active,
 .bk-info button:active {
 	box-shadow: 
@@ -317,6 +323,7 @@ nav a:focus {
 .lesson-book .bk-front > div {
 	width: 200px;
 	height: 300px;
+	background-size: cover;
 }
 
 /* Main colors and content */

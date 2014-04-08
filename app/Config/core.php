@@ -53,7 +53,7 @@
 		'level' => E_ALL & ~E_DEPRECATED,
 		'trace' => true
 	));
-
+	Configure::write('Config.language', 'jpn');
 /**
  * Configure the Exception handler used for uncaught exceptions. By default,
  * ErrorHandler::handleException() is used. It will display a HTML page for the exception, and
@@ -267,7 +267,7 @@
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+	date_default_timezone_set('Asia/Bangkok');
 
 /**
  * `Config.timezone` is available in which you can set users' timezone string.
@@ -383,3 +383,6 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+
+include(APP . 'Config' . DS . 'config.php');

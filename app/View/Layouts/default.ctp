@@ -34,12 +34,15 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->css('bootstrap');
 		echo $this->Html->css('bootstrap-theme');
 		echo $this->Html->css('docs');
-        echo $this->Html->css('common');
-        
+		echo $this->Html->css('common');
+		echo $this->Html->css('quiz');
+		echo $this->Html->css('site_styles');
+		
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
-        echo $this->Html->script('jquery.gdocsviewer');
-
+		echo $this->Html->script('jquery.gdocsviewer');
+		
+		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
@@ -50,19 +53,18 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		<div id="header">
 			<?php echo $this->element('menu');?>
 		</div>
-		<div id="content">
-			<div class="row highlight">
-				<div class="col-md-2">
-				</div>
-				<div class="col-md-8 highlight" style="background-color:white">
-					<?php echo $this->Session->flash(); ?>
-					<?php echo $this->fetch('content'); ?>
-				</div>
-				<div class="col-md-2">
-				</div>
+		<div id="content" >
+			<div class="content-body">
+			<?php 
+				$flash = $this->Session->flash();
+				if( !empty($flash)){
+					echo '<div class="alert alert-success">'.$flash.'</div>';
+				}
+			?>
+				<?php echo $this->fetch('content'); ?>
 			</div>
-			
 		</div>
+
 		<div id="footer">
 		</div>
 	</div>

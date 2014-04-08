@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'PT Sans Narrow';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans Narrow'), local('PTSans-Narrow'), url(../fonts/themes.googleusercontent.com/UyYrYy3ltEffJV9QueSi4RdbPw3QSf9R-kE0EsQUn2A.woff) format('woff');
+}
+@font-face {
+  font-family: 'PT Sans Narrow';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Narrow Bold'), local('PTSans-NarrowBold'), url(../fonts/themes.googleusercontent.com/Q_pTky3Sc3ubRibGToTAYiylde52zikAzebNtJS89aM.woff) format('woff');
+}
+.ac_content {
+	position:fixed;
+	z-index: 3;
+	height:90px;
+	width:100%;
+	top:0%;
+	margin-bottom:100px;
+	left:0px;
+	color: #fff;
+	font-family: 'PT Sans Narrow', Arial, sans-serif;
+	text-transform: uppercase;
+}
+.ac_content a{
+	color:#fff;
+	text-decoration:none;
+}
+/*brand*/
+.ac_content h1{
+	position: absolute;
+	z-index: 4;
+	top:-40px;
+	background:transparent url(../img/bg_menu.png) repeat top left;
+	display:block;
+	float:left;
+	width:150px;
+	height:50px;
+	padding:20px;
+	font-size:36px;
+	font-weight:bold;
+	line-height:20px;
+	margin-right:1px;
+	color: #fff;
+}
+.ac_content h1 span{
+	display:block;
+	font-weight:normal;
+	font-size:14px;
+	line-height: 40px;
+	color: #fff;
+	font-family: 'PT Sans Narrow', Arial, sans-serif;
+	text-transform: uppercase;
+}
+
+/*menu*/
+.ac_menu{
+	background:transparent url(../img/bg_menu.png) repeat top left;
+	float:left;
+	position:relative;
+	height:90px;
+	width: 100%;
+}
+.ac_menu > ul{
+	display: none;
+	float:right;
+	margin-right: 100px;
+}
+.ac_menu > ul.root{
+	display: block;
+}
+.ac_menu > ul > li{
+	float:left;
+	margin-top: -60px;
+	position:relative;
+	height:90px;
+	overflow:hidden;
+	display: none;
+}
+.ac_menu > ul.root > li{
+	margin-top: 0px;
+	display: block;
+}
+.ac_menu > ul.root > li > a:hover{
+	color: yellow;
+}
+.ac_menu > ul > li.title a{
+	color: yellow;
+}
+.ac_menu > ul > li a{
+	margin-top: 0px; 
+	opacity: 1;
+	display:block;
+	height:90px;
+	padding:0px 10px;
+	text-align:center;
+	line-height:90px;
+	outline:none;
+	font-size:18px;
+	font-weight:bold;
+	text-shadow:1px 1px 1px #000;
+}
+
+/*close back button*/
+span.back-button{
+	opacity:0.4;
+}
+span.back-button:hover{
+	opacity:1.0;
+}

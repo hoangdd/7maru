@@ -1,5 +1,5 @@
 <div class="head-box">
-    <h1>Lession Manage</h1>
+    <h1><?php echo __('Lesson Manage') ?></h1>
     
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
@@ -23,120 +23,137 @@
           </ul>
           <div class="col-xs-8">
               <form class="navbar-form">
-                    <input type="text" class="form-control " placeholder="Search">
+                    <input type="text" class="form-control " id = "search-input" placeholder="Search">
               </form>
           </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>     
 </div>
+
 <div class = "lesson-box row">
     <div class="lesson-action col-xs-2 list-group">
-        <div class="action-icon text-center">
-            <span class="glyphicon glyphicon-plus"></span>
-        </div>
-        <div class="action-icon">
-            <span class="glyphicon glyphicon-trash"></span>
-        </div>
-        <div class="action-icon">
-            <span class="glyphicon glyphicon-pencil"></span>
-        </div>
+        <button type="button" id="addLesson" class="text-center btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-plus"></span> <?php echo __('Add') ?>
+        </button>
     </div>
-    <div class="lesson-list col-xs-9 list-group">
-        <div class="media list-group-item">
-            <div class="pull-left col-xs-3">
-                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
-                    <a href="">
-                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
-                    </a>
-                </div>
-                <div class="star center-block" style="padding: 5px">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </div>
-            </div>
-            <div class="media-body">
-                <div class="panel panel-info">
+
+    <div class="lesson-list col-xs-10 list-group">
+        <?php 
+        foreach ($lesson as $value) {?>
+
+            <div class="media list-group-item lesson" lessonid ="<?php echo $value['Lesson']['coma_id']; ?>" >
+                <div class="pull-left col-xs-3">
+                    <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
+                        <?php
+                        	if(isset($value['Lesson']['coma_id']))
+                            echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
+                                'width' => '140px',
+                                'height' => '140px',
+                                'url' => '/lesson/view/'.$value['Lesson']['coma_id']
+                                ));
+                             else echo 'No Images';
+                        ?>
+                    </div>
+                    <div class="star center-block" style="padding: 5px">
+                        <?php 
+                        $options = array(
+                            'coma_id' => $value['Lesson']['coma_id'],
+                            'stars' => $value['Lesson']['rate'],
+                            'width' => 20,
+                            'height' => 20,                     
+                            );
+                        $options['rateAllow'] = 0;                      
+                        echo $this->element('star_rank', array(
+                            'options' => $options
+                            )
+                        )
+                        ?>
+                    </div>
                     <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
-                    </div>
-                    <div class="panel-body">
-                        Description
+                        <h3 class="panel-title"><?php echo $value['Lesson']['title']; ?></h3>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
-                </button>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
-                </button>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Action
-                </button>
-            </div>
-        </div>
-        
-        <div class="media list-group-item">
-            <div class="pull-left col-xs-3">
-                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
-                    <a href="">
-                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
-                    </a>
+                <div class="media-body">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h2 class="panel-title"><a href= <?php echo "'../lesson/view/".$value['Lesson']['coma_id']."'" ;?> >
+                                <strong>
+                                    <?php 
+                                    echo $value['Lesson']["name"]; 
+                                    ?>
+                                </strong>
+                                </a>
+                            </h2>
+                        </div>
+                        <div class="panel-body">
+                            <?php 
+                            echo ($value['Lesson']['description']);
+                            ?>
+                        </div>
+                    </div>
                 </div>
-                <div class="star center-block" style="padding: 5px">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
+                <div>
+                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default"><?php echo __('Edit') ?></button>
+                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default"><?php echo __('Delete') ?></button>
                 </div>
             </div>
-            <div class="media-body">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
-                    </div>
-                    <div class="panel-body">
-                        Description
-                    </div>
-                </div>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
-                </button>
-            </div>
-        </div>
-        <div class="media list-group-item">
-            <div class="pull-left col-xs-3">
-                <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
-                    <a href="">
-                        <img src="/img/profile.jpg" height="140" width="140" alt="Lesson Image" class="img-thumbnail">
-                    </a>
-                </div>
-                <div class="star center-block" style="padding: 5px">
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                    <span class="glyphicon glyphicon-star"></span>
-                </div>
-            </div>
-            <div class="media-body">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Lesson Name - Teacher Name</h3>
-                    </div>
-                    <div class="panel-body">
-                        Description
-                    </div>
-                </div>
-                <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy
-                </button>
-            </div>
-        </div>
-        
+        <?php }?>
     </div>
+
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.delete-btn').click(function(){
+        if(confirm("Are your sure about deleting this lesson ?!")){
+
+            var id = $(this).attr('name');
+            $.ajax({
+            url : "deleteLesson",
+            data : {id : id},
+            type : 'post',
+            dataType : 'text',
+            complete : function(data){
+                console.log(data);
+                if (data.responseText == 1) {
+                    $('.lesson[lessonid='+id+']').fadeOut();
+                    alert('Deletion success');
+                }else{
+                    alert('can not  delete');
+                }
+            },
+            /*error : function(){
+                
+            }*/
+        })
+   }
+
+    })
+    $('#search-input').on('input',function(e){
+        hide_lesson_with($(this).val());
+    });
+});
+
+$(document).on('click','#addLesson',function(){
+    var link = "<?php echo Router::url('/',true)?>" ;
+    location.href = link + 'lesson/create';
+
+});
+
+$(document).on('click','#editLesson',function(){
+    var link = "<?php echo Router::url('/',true)?>" ;
+    location.href = link + 'lesson/edit/'+$('#editLesson').attr('name');
+
+});
+function hide_lesson_with(key){
+    $('.lesson').each(function(wrapper){
+        var text = this.innerText.replace('Edit','').replace('Delete','');
+        if(text.indexOf(key) == -1){
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+}
+</script>

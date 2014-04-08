@@ -10,5 +10,11 @@ class HomeController extends AppController {
 
 	function index(){
 		$this->layout = "intro";
+		$user = $this->Auth->User();
+		if(empty($user)){
+			//not login
+			$user = array('role' => 'R4');
+		}
+		$this->set('user', $user);
 	}
 }

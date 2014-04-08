@@ -1,95 +1,74 @@
+<?php 
+	$this->Paginator->options(array(
+         'update' => '#user_list',
+         'evalScripts' => true
+         ));
+?>
 <!-- header -->
+<div id="user_list">
 <h3 style="text-align:center">
-	USER MANAGE
+	<?php echo __('USER MANAGE') ?>
 </h3>
 <!-- table -->
 <div class="">
 	<table class="table table-striped table-bordered">
 
 		<thead>
-
-
 			<tr>
 
-				<th class='text-center' style="width:5%">
-					No.
-				</th>
-
-				<th class='' style="width:30%">
-					Name
+				<th class='text-center' style="width:20%">
+					<?php echo __('No.') ?>
 				</th>
 
 				<th class='text-center' style="width:10%">
-					Username
+					<?php echo __('Name') ?>
+				</th>
+
+				<th class='text-center' style="width:10%">
+					<?php echo __('Username') ?>
 				</th>
 
 				<th class='text-center' style="width:5%">
-					Type
+					<?php echo __('Type') ?>
 				</th>
-				<th class='text-center' style="width:10%">
-					Date of birth
+				<th class='text-center' style="width:15%">
+					<?php echo __('Date of birth') ?>
 				</th>
-				<th class='text-center' style="width:10%">
-					Created Account Time
-				</th>
-				<th class='text-center' style="width:5%">
-					Edit
+				<th class='text-center' style="width:20%">
+					<?php echo __('Created Account Time') ?>
 				</th>
 				<th class='text-center' style="width:5%">
-					Destroy
+					<?php echo __('Edit') ?>
 				</th>
-				<th class='text-center' style="width:10%">
-					Reset password
+				<th class='text-center' style="width:5%">
+					<?php echo __('Destroy') ?>
 				</th>
-				<th class='text-center' style="width:10%">
-					Verify code
+				<th class='text-center' style="width:5%">
+					<?php echo __('Reset password') ?>
+				</th>
+				<th class='text-center' style="width:5%">
+					<?php echo __('Verify code') ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php 
+			<?php 			
 				$i=1;
+				$td = "<td class='text-center'>";
+				$close = "</td>";
 				foreach($data as $user):
-			?>
-			<tr>				
-				<td class='text-center'>
-					<?php echo $i++; ?>
-				</td>
-				<td class='text-center'>
-					<?php echo $user['User']['lastname'].$user['User']['firstname'] ?>
-				</td>
-
-				<td class='text-center'>
-					<?php echo $user['User']['username'] ?>
-				</td>
-
-				<td class='text-center'>
-					<?php echo $user['User']['user_type'] ?>
-				</td>
-				<td class='text-center'>
-					<?php echo $user['User']['date_of_birth'] ?>
-				</td>
-
-				<td class='text-center'>
-					<?php echo $user['User']['created'] ?>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Edit</a>
-				</td>
-				<td class='text-center'>
-					<a href="#">Delete</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#">Reset</a>
-				</td>
-
-				<td class='text-center'>
-					<a href="#"></a>
-				</td>
-			</tr>
-			<?php
+					echo "<tr>";
+					echo $td.$i++."</td>";										
+					echo $td.$user['User']['lastname'].$user['User']['firstname'].$close;				
+					echo $td.$user['User']['username'].$close;								
+					echo $td.$user['User']['user_type'].$close;								
+					echo $td.$user['User']['date_of_birth'].$close;				
+					echo $td.$user['User']['created'].$close;				
+					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'editUserProfile',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
+					echo "</tr>";			
 				endforeach;
 			?>
 		</tbody>
@@ -97,15 +76,16 @@
 </div>
 
 <!-- paginate -->
-<div class='text-center'>
+<div class='text-center'>	
 	<ul class="pagination">
-	  <li><a href="#">&laquo;</a></li>
-	  <li><a href="#">1</a></li>
-	  <li><a href="#">2</a></li>
-	  <li><a href="#">3</a></li>
-	  <li><a href="#">4</a></li>
-	  <li><a href="#">5</a></li>
-	  <li><a href="#">&raquo;</a></li>
+		<?php 
+		echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
+		echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
+		echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
+		?>	 
 	</ul>
-
+<?php
+?>
 </div>
+</div>
+<?php echo $this->Js->writeBuffer(); ?>
