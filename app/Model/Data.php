@@ -16,12 +16,10 @@ class Data extends AppModel {
 
 		$ret = $this->__convertAndSave($data['file_id'], $data['tmp_name'], $fileinfo['extension']);
 		if($ret == false) return false; //fail
-
 		$data['path'] = $ret;
 		$data['coma_id'] = $this->data['Data']['coma_id'];
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
-
 		$this->data['Data'] = $data;
 	}
 

@@ -418,7 +418,6 @@ class TeacherController extends AppController {
    }
    function deleteLesson(){
         if ($this->request->is('ajax')) {
-
             $id = $this->request->data['id'];
             $this->LessonTransaction->deleteAll(array('LessonTransaction.coma_id' => $id), false);
             $this->LessonReference->deleteAll(array('LessonReference.coma_id' => $id), false);
