@@ -47,10 +47,10 @@
                     <div class="img" title = "Lesson Name" data-toggle="tooltip" data-placement="left">
                         <?php
                         	if(isset($value['Lesson']['coma_id']))
-                            echo $this->Html->image('data/cover/'.$value['Lesson']['cover'],array(
+                            echo $this->Html->image('data/cover/'.$value['Lesson']['cover'], array(
                                 'width' => '140px',
                                 'height' => '140px',
-                                'url' => '/lesson/view/'.$value['Lesson']['coma_id']
+                                'url' => array('controller' => 'Lesson' ,'action' => 'index',$value['Lesson']['coma_id'])
                                 ));
                              else echo 'No Images';
                         ?>
@@ -77,13 +77,8 @@
                 <div class="media-body">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <h2 class="panel-title"><a href= <?php echo "'../lesson/view/".$value['Lesson']['coma_id']."'" ;?> >
-                                <strong>
-                                    <?php 
-                                    echo $value['Lesson']["name"]; 
-                                    ?>
-                                </strong>
-                                </a>
+                            <h2 class="panel-title">
+                                <?php echo $this->Html->link($value['Lesson']["name"],array('controller' => 'lesson','action' => 'index',$value['Lesson']['coma_id'])) ?>
                             </h2>
                         </div>
                         <div class="panel-body">

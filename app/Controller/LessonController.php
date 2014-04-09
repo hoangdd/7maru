@@ -109,9 +109,7 @@ class LessonController extends AppController {
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
-			$data = $this->request->data;					
-			// debug($data);
-			// debug($_FILES);
+			$data = $this->request->data;						
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(empty($data['copyright'])){

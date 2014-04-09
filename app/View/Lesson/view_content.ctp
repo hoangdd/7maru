@@ -1,10 +1,9 @@
 <?php
 	echo $this->Html->script('jquery');
 	echo $this->Html->css('flexpaper');
-	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer'));	
+	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv'));	
 ?>
-<div id="player" class="flexpaper_viewer" style="width:770px;height:500px"></div>
-
+<div id="player" class="flexpaper_viewer" style="width:770px;height:500px"></div>	
 <?php 
 	if ($file['Data']['type'] == 'pdf'){		
 ?>
@@ -50,9 +49,13 @@
 ?>
 	<script type="text/javascript">
 		jwplayer("player").setup({	
-			file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
-			type:<?php echo "'".$file['Data']['type']."'" ?>
-		});
+		file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
+		type:<?php echo "'".$file['Data']['type']."'" ?>,
+		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
+		primary:'flash',
+		startparam: "starttime"
+
+	});
 	</script>
 <?php 
 	}
