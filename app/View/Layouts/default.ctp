@@ -32,7 +32,7 @@ $cakeDescription = __d('cake_dev', '7Maru');
 
 		// echo $this->Html->css('cake.generic');
 		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'docs', 'common'));
-		echo $this->Html->script(array('jquery','bootstrap','jquery.gdocsviewer'));
+		echo $this->Html->script(array('jquery.js','bootstrap.js','jquery.gdocsviewer.js'));
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

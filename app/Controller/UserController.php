@@ -8,6 +8,7 @@ class UserController extends AppController {
 	}
 	function Comment() {
 		// comment test
+		die;
 		$this->loadModel('Comment');
 		$this->loadModel('User');
 		$this->Comment->bindModel(array(
@@ -25,16 +26,16 @@ class UserController extends AppController {
 		if($this->request->is('ajax')){
 			$this->loadModel('Comment');
 			$user_id = $this->Auth->user('user_id');
-			$comma_id = $this->request->data['comma_id'];
+			$file_id = $this->request->data['file_id'];
 			$content = $this->request->data['content'];
-			if( empty($user_id) || empty($comma_id) || empty($content)){
+			if( empty($user_id) || empty($file_id) || empty($content)){
 				//invalid
 				echo '0';
 				die;
 			}
 			$this->Comment->create(array(
 				'user_id' => $user_id,
-				'comma_id' => $comma_id,
+				'file_id' => $file_id,
 				'content' => $content
 				));
 			$ret = $this->Comment->save();

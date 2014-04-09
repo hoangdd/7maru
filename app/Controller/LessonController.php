@@ -298,10 +298,29 @@ class LessonController extends AppController {
 	}
 
 	public function viewContent($fid){
+		
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
+
 		$this->set('file', $file);
+
+		//get comments
+		$this->loadModel('Comment');
+		$this->loadModel('User');
+		$this->Comment->bindModel(array(
+			'belongsTo' => array(
+					'User' => array(
+						'foreignKey' => 'user_id',
+					)
+				)
+			));
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+					'file_id' => $fid
+				)
+			));
+		$this->set('comments',$comments);
 	}
 	public function rate(){
 		if($this->request->is('post')){

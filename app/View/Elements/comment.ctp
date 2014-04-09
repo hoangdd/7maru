@@ -4,14 +4,16 @@
 
 <?php
 	echo $this->Html->css('comment');
+	if(empty($file_id)) die;
 	//default <=> option
-
 	$width = isset($width) ? $width : '100%';
-	// $comma_id default -> null
+	// $file_id default -> null
 	$current_user = AuthComponent::user();
 ?>
+
+<?php if(isset($file_id)) : ?>
 <?php echo $this->Html->scriptStart();?>
-var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
+var file_id = <?php echo '"'.$file_id.'"'; ?>;
  $(document).ready(function(){
  	$(document).delegate('.comment a' , 'click', function(e){
  		e.preventDefault();
@@ -131,9 +133,8 @@ var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
  				'action' => 'createComment'
  				));?>",
  			'type' : 'post',
- 			'data' : {'comma_id':comma_id,'content':content},
+ 			'data' : {'file_id':file_id,'content':content},
  			complete: function(res){
- 				console.log(res);
  				if(res.responseText == 0){
  					alert("<?php echo __('Had error! Please try again later')?>");
  				}else{
@@ -156,35 +157,34 @@ var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
  	});
  })
 <?php echo $this->Html->scriptEnd();?>
-<?
-	if(isset($comma_id) || !empty($comments)) :
-?>
 	<div class = 'comment-area' style="width:<?php echo $width;?>">
 		<div style="text-align:center;margin:20px">
 			<a href="#" class="create-button"> <?php echo __('Insert new comment');?></a>
 		</div>
 		<?php 
-		foreach ($comments as $key => $value) : 
-			$user = $value['User'];
-			$comment = $value['Comment'];
+		if(!empty($comments)) :
+			foreach ($comments as $key => $value) : 
+				$user = $value['User'];
+				$comment = $value['Comment'];
 
-			// > User da bi xoa, hoac khong ton tai
-			if( !isset($user['user_id']) || empty ($user['user_id']))
-				continue;
+				// > User da bi xoa, hoac khong ton tai
+				if( !isset($user['user_id']) || empty ($user['user_id']))
+					continue;
 
-			echo $this->element('comment_element', array(
-				'user' => $user,
-				'comment' => $comment,
-			));
-		endforeach;
+				echo $this->element('comment_element', array(
+					'user' => $user,
+					'comment' => $comment,
+				));
+			endforeach;
+			endif; //if(!empty($comments)) :
 		?>
 		<div class = 'comment new-comment'>
 			<textarea style="width:100%" placeholder='<?php echo __("Insert your comment here");?>'></textarea>
 			<div class='comment-content'>
 				<div class="action">
 					<span>
-						<a class='create-button' href="#"><?php echo __('Save');?></a>
-						<a class='cancel-button' href="#"><?php echo __('Cancel');?></a>
+						<a  style='color:white' class='create-button' href="#"><?php echo __('Save');?></a>
+						<a  style='color:white' class='cancel-button' href="#"><?php echo __('Cancel');?></a>
 					</span>
 				</div>
 			</div>
@@ -192,6 +192,6 @@ var comma_id = <?php echo($comments[0]['Comment']['coma_id']) ?>;
 	</div>
 <?php 
 	endif;
-	// end -> if(isset($comma_id) || !empty($comments)) :
+	// end -> if(isset($file_id)) 
 	// debug($comments);
 ?>

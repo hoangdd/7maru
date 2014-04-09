@@ -3,15 +3,14 @@
 	echo $this->Html->css('flexpaper');
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer'));	
 ?>
+<div id="player" class="flexpaper_viewer" style="width:770px;height:500px"></div>
+
 <?php 
 	if ($file['Data']['type'] == 'pdf'){		
 ?>
-<div style="/*position:absolute;left:10px;top:10px*/;">
-<div id="documentViewer" class="flexpaper_viewer" style="width:770px;height:500px"></div>
-
 <script type="text/javascript">
 	var startDocument = "Paper";
-	$('#documentViewer').FlexPaperViewer(
+	$('#player').FlexPaperViewer(
 			{ config : {
 
 				SWFFile : "<?php echo $this->Html->url(array(
@@ -46,20 +45,26 @@
 	);
 </script>
 
-</div>
-
 <?php 
 	} else{
 ?>
-?>
-	<div id="container">loading </div>
 	<script type="text/javascript">
-		jwplayer("container").setup({	
-		file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
-		type:<?php echo "'".$file['Data']['type']."'" ?>
-
-	});
+		jwplayer("player").setup({	
+			file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
+			type:<?php echo "'".$file['Data']['type']."'" ?>
+		});
 	</script>
 <?php 
 	}
 ?>
+
+<div>
+	<?php
+		$option = array(
+			'width' => '480px', 
+			'file_id' => $file['Data']['file_id'],
+			'comments' => !empty($comments) ? $comments : array(),
+		);
+		echo $this->element('comment', $option);
+	?>
+</div>
