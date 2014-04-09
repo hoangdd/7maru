@@ -3,8 +3,12 @@
 ?>
 <li class='lesson-book'>
 	<div class="bk-book book bk-bookdefault">
-		<div class="bk-front" style="background-image: url(<?php echo '/7maru/app/webroot/img/'.LESSON_COVER_LINK.$lesson['Lesson']['cover'];?>);	">
-		</div>
+		<?php if( !empty($lesson['Lesson']['cover'])) :?>
+
+			<div class="bk-front" style="background-image: url(<?php echo '/7maru/app/webroot/img/'.LESSON_COVER_LINK.$lesson['Lesson']['cover'];?>);	"></div>
+		<?php else : ?>
+			<div class="bk-front" style="background-image: url('/7maru/img/default_book.jpg');"></div>
+		<?php endif; ?>
 	</div>
 	<div class="bk-info">
 		<span>

@@ -315,7 +315,7 @@ $(document).ready(function(){
 				tagObject = tags[key];
 				$.ajax({
 					'url' : tagObject.url+'/1',
-					'async' : false, //importain
+					'async' : false, //important,
 					complete : function(res){
 						if( res.responseText != 0 ){
 							$('#'+tagObject.action).find('ul.bk-list').html(res.responseText);

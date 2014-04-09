@@ -1,19 +1,16 @@
 <?php
+	echo $this->Html->script('jquery');
 	echo $this->Html->css('flexpaper');
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer'));	
-	?>
+?>
 <?php 
 	if ($file['Data']['type'] == 'pdf'){		
 ?>
 <div style="/*position:absolute;left:10px;top:10px*/;">
 <div id="documentViewer" class="flexpaper_viewer" style="width:770px;height:500px"></div>
-<script type="text/javascript">	
-	function getDocumentUrl(document){
-		// return "php/services/view.php?doc={doc}&format={format}&page={page}".replace("{doc}",document);
-	}
 
+<script type="text/javascript">
 	var startDocument = "Paper";
-
 	$('#documentViewer').FlexPaperViewer(
 			{ config : {
 
@@ -23,7 +20,6 @@
 							$file['Data']['file_id']
 						)
 					);?>",
-
 				Scale : 0.6,
 				ZoomTransition : 'easeOut',
 				ZoomTime : 0.5,
@@ -38,7 +34,6 @@
 				InitViewMode : 'Portrait',
 				RenderingOrder : 'flash,html',
 				StartAtPage : '',
-				UIConfig : "http://localhost/7maru/js/UI_Zine.xml",
 
 				ViewModeToolsVisible : true,
 				ZoomToolsVisible : true,
