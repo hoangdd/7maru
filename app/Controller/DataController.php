@@ -17,11 +17,6 @@ class DataController extends AppController {
 	public function file($file_id=null){
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
-		// check file_id empty
-		if( empty($file_id)){
-			return false;
-		}
-
 		//check file exist
 		$file = $this->Data->findByFileId($file_id);
 		if(empty($file)){
@@ -46,6 +41,9 @@ class DataController extends AppController {
 			case 'mp4':
 				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
 				break;
+			case 'flv':
+				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
+				break;
 			default:
 				$path = '';
 				break;
@@ -62,6 +60,7 @@ class DataController extends AppController {
             'download'  => false, //no force download
             'extension' => 'ext',	      
             'path'      => $path,
+            'mimeType' => $mimeType,
             'cache' => true
         );        
 		$this->set($params);

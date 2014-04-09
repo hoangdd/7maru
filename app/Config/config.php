@@ -21,7 +21,7 @@ define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
 define('MAX_COVER_SIZE' ,2);
 define('UNIT_SIZE',1024*1024);
 define('MAX_TEST_FILE_SIZE',5);
-define('MAX_DOCUMENT_FILE_SIZE',6*1024);
+define('MAX_DOCUMENT_FILE_SIZE',60*1024);
 /*========================Config user roles ====================*/
 
 /*
@@ -178,7 +178,8 @@ Configure::write('dataFile', array(
 			),
 		'mimeType' => array(
 			'avi' => array('video' => 'video/avi'),
-			'mp4' => array('video' => 'video/mp4')
+			'mp4' => array('video' => 'video/mp4'),
+			'flv' => array('video' => 'video/flv')
 			),
 		'path' => VIDEO_DATA_DIR,
 		), 

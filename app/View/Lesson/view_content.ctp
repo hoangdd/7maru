@@ -3,7 +3,7 @@
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer'));	
 	?>
 <?php 
-	if ($file['Data']['type'] == 'pdf'){
+	if ($file['Data']['type'] == 'pdf'){		
 ?>
 <div style="/*position:absolute;left:10px;top:10px*/;">
 <div id="documentViewer" class="flexpaper_viewer" style="width:770px;height:500px"></div>
@@ -54,20 +54,15 @@
 </div>
 
 <?php 
-	}else
+	} else{
 ?>
-
-<?php 
-	{
 ?>
 	<div id="container">loading </div>
 	<script type="text/javascript">
-		jwplayer("container").setup({
-		flashplayer: "http://localhost/7maru/js/jwplayer/player.swf",
-		// file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,	
-		file: "http://localhost/7maru/Data/file/60662ae9",
-		height: 270,
-		width: 480
+		jwplayer("container").setup({	
+		file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
+		type:<?php echo "'".$file['Data']['type']."'" ?>
+
 	});
 	</script>
 <?php 
