@@ -52,8 +52,8 @@
 		file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
 		type:<?php echo "'".$file['Data']['type']."'" ?>,
 		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
-		primary:'flash',
-		startparam: "starttime"
+		primary:"flash",
+		startparam: "starttime",
 
 	});
 	</script>
