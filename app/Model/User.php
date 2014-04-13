@@ -70,7 +70,7 @@ class User extends AppModel {
             move_uploaded_file($data['User']['profile_picture']['tmp_name'],$file_url );
             $data['User']['profile_picture'] = $data['User']['user_id'].'.'.$ext;
 			
-        }else unset($data['User']['profile_picture']);                   			
+        }else $data['User']['profile_picture'] = DEFAULT_PROFILE_IMAGE;                   			
 		$this->data = $data;
         return true;
     }

@@ -229,7 +229,7 @@ class TeacherController extends AppController {
                 }
             }
             //====================================
-            //自己のイメージをチェック：
+            //自己のイメージをチェック：            
             if (!empty($_FILES['profile_picture'])) {
                 $configs = Configure::read('srcFile');
                 $img_exts = $configs['image']['extension'];

@@ -19,13 +19,8 @@
   <div class='row' style = 'border: 1px solid rgba(86,61,124,.2)'>
    <div class='col-md-3 text-center left-col'>
      <!-- Left col: Image and ranking-->
-     <?php                      
-     if ($lesson['cover'] == null || $lesson['cover'] == ''){
-        $cover = DEFAULT_COVER_IMAGE;
-     }
-     else{
-        $cover = LESSON_COVER_LINK.$lesson['cover'];
-     }
+     <?php                           
+      $cover = LESSON_COVER_LINK.$lesson['cover'];
      echo $this->Html->image($cover,array(
       'class' => 'img-rounded img-responsive',        
       'style' => 'margin:auto'
@@ -132,7 +127,7 @@
                 ?>
                 <div class="list-group"> 
                 <a class="list-group-item active"><?php echo __('Document') ?></a>               
-                <ul class="list-group">
+                <ul class="list-group" id="list_file">
                 <?php
                 foreach ($file as $key => $value) {
                   if( !$value['isTest']){
@@ -158,6 +153,7 @@
                 </div>
                 <div class="list-group">
                   <a class="list-group-item active"><?php echo __('Test') ?></a>
+                  <ul class="list-group" id="list_test_file">
                   <?php       
                   foreach ($file as $key => $value) {
                     if($value['isTest']){
@@ -176,7 +172,7 @@
                     }  
                   }                  
                 }
-                echo "</div>";
+                echo "</ul></div>";
               }
               ?>              
                 
@@ -233,8 +229,8 @@
             function(data){             
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
-                result = true;
-                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'view',$lesson['coma_id']),$options)."'"; ?>)
+                result = true;                                
+                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'index',$lesson['coma_id']),$options)."'"; ?>);
               }             
             }
           );

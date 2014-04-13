@@ -238,7 +238,7 @@ class StudentController extends AppController {
 					$error ['phone_number'] [1] = 'Phone number is too long.';
 				}
 			}
-			 //自己のイメージをチェック：
+			 //自己のイメージをチェック：				
 			if( !empty($_FILES['profile_picture'])){
 				$config = Configure::read('srcFile');
 				$img_exts = $config['image']['extension'];
@@ -247,6 +247,9 @@ class StudentController extends AppController {
 				if( !in_array($ext, $img_exts) ){
 				  $error['profile_picture'][0] ='Unsupported image file';  
 				}				
+			}
+			else{
+
 			}
 			//====================================
 
