@@ -2,6 +2,8 @@
 	$current_user = AuthComponent::user();
 ?>
 
+
+<?php if(!empty($comment)) : ?>
 <div class='comment' comment_id = <?php echo $comment['comment_id']?>>
 	<div class ='commentator-info'>
 		<?php 
@@ -31,3 +33,4 @@
 		</div>
 	</div>
 </div>
+<?php endif;?>

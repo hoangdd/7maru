@@ -2610,20 +2610,17 @@ class Model extends Object implements CakeEventListener {
 	protected function _deleteDependent($id, $cascade) {
 		if ($cascade !== true) {
 			return;
-		}
-
+		}		
 		if (!empty($this->__backAssociation)) {
 			$savedAssociations = $this->__backAssociation;
 			$this->__backAssociation = array();
 		}
-
 		foreach (array_merge($this->hasMany, $this->hasOne) as $assoc => $data) {
 			if ($data['dependent'] !== true) {
 				continue;
 			}
 
 			$Model = $this->{$assoc};
-
 			if ($data['foreignKey'] === false && $data['conditions'] && in_array($this->name, $Model->getAssociated('belongsTo'))) {
 				$Model->recursive = 0;
 				$conditions = array($this->escapeField(null, $this->name) => $id);
@@ -2725,7 +2722,6 @@ class Model extends Object implements CakeEventListener {
 			$this->id = $_id;
 			return $result;
 		}
-
 		foreach ($ids as $id) {
 			$this->_deleteLinks($id);
 			if ($cascade) {

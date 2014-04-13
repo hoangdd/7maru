@@ -15,20 +15,13 @@ class DataController extends AppController {
 
 	}
 	public function file($file_id=null){
-
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
-		// check file_id empty
-		if( empty($file_id)){
-			return false;
-		}
-
 		//check file exist
 		$file = $this->Data->findByFileId($file_id);
 		if(empty($file)){
 			return false;
 		}
-
 		$this->autoLayout = false;
 		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 		// @todo , xu li path
@@ -36,11 +29,21 @@ class DataController extends AppController {
 			case 'swf':
 				$path = SWF_DATA_DIR.DS.$file['Data']['path'];
 				break;
-
 			case 'js':
 				$path = HTML_DATA_DIR.DS.$file['Data']['path'];
 				break;
-
+			case 'mp3':
+				$path = AUDIO_DATA_DIR.DS.$file['Data']['path'];
+				break;
+			case 'ogg':
+				$path = AUDIO_DATA_DIR.DS.$file['Data']['path'];
+				break;
+			case 'mp4':
+				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
+				break;
+			case 'flv':
+				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
+				break;
 			default:
 				$path = '';
 				break;
@@ -55,10 +58,12 @@ class DataController extends AppController {
 		}
 		$params = array(
             'download'  => false, //no force download
-            'extension' => 'ext',
-	        'mimeType'  => $mimeType,
-            'path'      => $path
-        );
+            'extension' => $ext,	      
+            'path'      => $path,
+            'mimeType' => $mimeType,
+            'cache' => false
+        );   
+        //debug($params);
 		$this->set($params);
 	}
 }

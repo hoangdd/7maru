@@ -223,7 +223,8 @@ INSERT INTO `7maru_coma_transactions` (`transaction_id`, `coma_id`, `student_id`
 CREATE TABLE IF NOT EXISTS `7maru_comments` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` char(20) DEFAULT NULL,
-  `coma_id` char(20) DEFAULT NULL,
+  -- `coma_id` char(20) DEFAULT NULL,
+  `file_id` char(20) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `content` text NOT NULL,

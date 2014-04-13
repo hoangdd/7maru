@@ -62,9 +62,9 @@ class AppController extends Controller {
     );
      public function beforeFilter() {
         parent::beforeFilter();
-        if(!$this->__permission()){
+        if(!$this->__permission()){            
             echo '403 Forbidden error.';
-            // die;
+            die;
         }
     }
     private function __permission($user_role = null, $current_controller = null){
@@ -86,7 +86,6 @@ class AppController extends Controller {
 
         $userRolesData = Configure::read('userRoles');
         $userRoles = $userRolesData[$role];
-
         if( empty($userRoles) ) return false; //invalid role;
 
         if( isset($userRoles['*']) && $userRoles['*']=='*') return true;

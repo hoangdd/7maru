@@ -54,7 +54,7 @@ msgstr "記述"
 msgid "Reset password"
 msgstr "パスワードがれセット"
 
-msgid "Verify code"
+msgid "verify code"
 msgstr "Verify コード"
 
 <!-- ACCOUNT -->
@@ -108,9 +108,6 @@ msgstr "買った日"
 
 msgid "Username"
 msgstr "ユーザ名"
-
-msgid "Credit card number"
-msgstr "クレジットカード番号"
 
 msgid "Credit card"
 msgstr "クレジットカード番号"
@@ -344,7 +341,7 @@ msgid "First Name"
 msgstr "名刺"
 
 msgid "Last Name"
-msgstr ""
+msgstr "名前"
 
 msgid "Birthday"
 msgstr "誕生日"
@@ -352,7 +349,7 @@ msgstr "誕生日"
 msgid "Email"
 msgstr "Eメール"
 
-msgid "Addresss"
+msgid "Address"
 msgstr "地所"
 
 msgid "Phone Number"
@@ -531,5 +528,11 @@ msgstr "カテゴリ"
 msgid "Different Category"
 msgstr "他のカテゴリ"
 
+msgid "Your school"
+msgstr "学校"
 
+msgid "Introduce yourself"
+msgstr "自己紹介"
 
+msgid "Teacher Register"
+msgstr "先生の登録"

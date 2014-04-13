@@ -11,14 +11,15 @@ echo $this->Html->css('datepicker');
             $("#dp").datepicker({
                   format: "dd-mm-yyyy",                  
             });
-            $("#dp").datepicker('set','today');            
+            $("#dp").datepicker('set','today');         
       })
 </script>
+
 <div class="col-md-12 highlight" style="background-image: url(/7maru/img/Hd-Background-Wallpapers-2.jpg);background-repeat: no-repeat;background-position: top center;">
 <h1 class="text-center"><?php echo __('Student Register') ?></h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form id='register-form'action='register' class="form-horizontal" role="form" method='post' enctype="multipart/form-data">
+    <form id='register-form' action='register' class="form-horizontal" role="form" method='post' enctype="multipart/form-data">
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -113,7 +114,7 @@ echo $this->Html->css('datepicker');
            <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label"><?php echo __('First name').':' ?></label>
+                        <label class="pull-left control-label"><?php echo __('First Name').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -135,7 +136,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label"><?php echo __('Last name').':' ?></label>
+                        <label class="pull-left control-label"><?php echo __('Last Name').':' ?></label>
                     </div>
                 </td>
                 <td>
@@ -228,12 +229,12 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label"><?php echo __('Credit Card').':' ?></label>
+                        <label class="pull-left control-label"><?php echo __('Credit card').':' ?></label>
                     </div>
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='credit_account' class="form-control" placeholder="Enter credit account">
+                        <input type="text" id='credit_account' name='credit_account' class="form-control" placeholder="Enter credit account">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -242,7 +243,7 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label"><?php echo __('Verify code').':' ?></label>
+                        <label class="pull-left control-label"><?php echo __('verify code').':' ?></label>
                     </div>
                 </td>
                 <td>

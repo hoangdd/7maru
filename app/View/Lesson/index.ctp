@@ -136,7 +136,21 @@
                 <?php
                 foreach ($file as $key => $value) {
                   if( !$value['isTest']){
-                    echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";                     
+                    if (!$lesson['buy_status']){
+                      echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";     
+                    } 
+                    else{
+                      echo $this->Html->link($value['file_name'], 
+                    array(
+                      'controller' => 'Lesson',
+                      'action' => 'viewContent',
+                      $value['file_id']
+                      ),
+                    array(
+                      'class' => "list-group-item"
+                      )
+                  );
+                    }               
                   }
                 }
                 ?>
@@ -147,11 +161,23 @@
                   <?php       
                   foreach ($file as $key => $value) {
                     if($value['isTest']){
-                     echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";                      
+                     if (!$lesson['buy_status']){
+                       echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";       
+                     }
+                     else{
+                      echo $this->Html->link("Test".$key, array(
+                        'controller' => 'Student',
+                        'action' => 'Exam?id='.$value['file_id']                        
+                        ),
+                      array(
+                        'class' => "list-group-item"
+                        )
+                      );    
+                    }  
                   }                  
                 }
                 echo "</div>";
-                }
+              }
               ?>              
                 
         </div>

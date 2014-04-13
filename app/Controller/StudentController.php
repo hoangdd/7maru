@@ -178,7 +178,7 @@ class StudentController extends AppController {
 			
 			 //verifycode_answerをチェック：
 			if(!isset($data['verifycode_answer'])){
-				$error['verifycode_answer'][0] =_(_'Answer of verifycode is equal null.';
+				$error['verifycode_answer'][0] =__('Answer of verifycode is equal null.');
 				$check_user = false;
 			}
 			
@@ -503,7 +503,7 @@ class StudentController extends AppController {
 						'Data.file_id' => $id
 				)
 		));
-		$str = "";''
+		$str = "";
 		if(count($dulieu) != 0){
 		        $this->set('testID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);

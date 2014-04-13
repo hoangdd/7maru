@@ -1,0 +1,503 @@
+<!-- ADMIN -->
+msgid "Accept New User"
+msgstr "新しいユーザを認証"
+
+msgid "No"
+msgstr "順番"
+
+msgid "Name'"
+msgstr "ネーム"
+
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Date of birth"
+msgstr "誕生日"
+
+msgid "Created Account Time"
+msgstr "作成時"
+
+msgid "Accept"
+msgstr "認証"
+
+msgid "Money management"
+msgstr "課金管理"
+
+msgid "Choose month"
+msgstr "月を選ぶ"
+
+msgid "Money"
+msgstr "課金"
+
+msgid "Reference Manage"
+msgstr "書類の管理"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Violation"
+msgstr "範囲"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Description"
+msgstr "記述"
+
+msgid "Reset password"
+msgstr "パスワードがれセット"
+
+msgid "Verify code"
+msgstr "Verify コード"
+
+<!-- ACCOUNT -->
+msgid "Real name"
+msgstr "名前"
+
+msgid "Birthday"
+msgstr "誕生日"
+
+msgid "Living"
+msgstr "地所"
+
+msgid "Telephone number"
+msgstr "電話番号"
+
+msgid "Regitration Date"
+msgstr "登録時"
+
+msgid "Bank Account"
+msgstr "銀行口座"
+
+msgid "Subject"
+msgstr "サブジェット"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Test Result"
+msgstr "テスト結果"
+
+msgid "Student Register"
+msgstr "学生の登録"
+
+
+msgid "Account"
+msgstr "アカウント"
+
+msgid "Choose month"
+msgstr "月を選択する"
+
+msgid "Money management"
+msgstr "収集管理"
+
+msgid "Purchased date"
+msgstr "買った日"
+
+msgid "Username"
+msgstr "ユーザ名"
+
+msgid "Credit card number"
+msgstr "クレジットカード番号"
+
+msgid "Credit card"
+msgstr "クレジットカード番号"
+
+msgid "Upload photo"
+msgstr "イメージがアップロード"
+
+msgid "Upload your photo to display"
+msgstr "イメージがアップロード"
+
+msgid "Phone Number"
+msgstr "電話番号"
+
+msgid "Export successfully"
+msgstr "出力が完成します"
+
+msgid "Error was happended while exporting file"
+msgstr "ファイルを出力する時、エラーがあります"
+
+
+
+msgid "From the begin"
+msgstr "最初から"
+
+msgid "Total of Money"
+msgstr "課金総計"
+
+msgid "Top 3 bought lesson: "
+msgstr "もっとも買った授業: "
+
+msgid "Buy"
+msgstr "商売"
+
+msgid "Rate point"
+msgstr "ランク"
+
+msgid "Top 3 favourite lesson"
+msgstr "もっとも好きな授業"
+
+msgid "Statistic by time"
+msgstr "時間で総計"
+msgid "Statistic"
+msgstr "総計"
+
+msgid "From"
+msgstr "から"
+
+msgid "To"
+msgstr "まで"
+
+msgid "Load"
+msgstr "ロード"
+
+msgid "Sale category"
+msgstr "商売カテゴリ"
+
+msgid "Favourite category"
+msgstr "好きカテゴリ"
+
+msgid "USER MANAGE"
+msgstr "ユーザ管理"
+
+
+<!-- Violation report -->
+msgid "VIOLATION REPORT"
+msgstr "違反報告"
+
+msgid "No."
+msgstr "番号"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Comment"
+msgstr "コメント"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Destroy"
+msgstr "削除"
+
+<!-- Change Password -->
+msgid "Admin Change Password"
+msgstr "管理者のパースワードの変更"
+
+msgid "Change Password"
+msgstr "パースワードの変更"
+
+msgid "Current Password"
+msgstr "現在パースワード"
+
+msgid "New Password"
+msgstr "新しいパースワード"
+
+msgid "Confirm Password"
+msgstr "確認パースワード"
+
+msgid "Change"
+msgstr "変更"
+
+<!-- Create Admin -->
+msgid "Create another admin"
+msgstr "他の管理者の増加"
+
+msgid "Password"
+msgstr "パースワード"
+
+msgid "Retype Password"
+msgstr "確認パースワード"
+
+msgid "Register"
+msgstr "登録"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+<!-- admin home -->
+msgid "ADMIN HOMEPAGE"
+msgstr "管理者のホームページ"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "HomePage"
+msgstr "ホームページ"
+
+msgid "Contact"
+msgstr ""
+
+msgid "Block User"
+msgstr "ユーザの防ぐ"
+
+msgid "Report"
+msgstr "違反報告"
+
+msgid "Statistic"
+msgstr "統計"
+
+msgid "IP Manage"
+msgstr "IP管理"
+
+msgid "User Manage"
+msgstr "ユーザ管理"
+
+msgid "Reference Manage"
+msgstr "資料管理"
+
+<!-- IP Manage -->
+
+<!-- Login -->
+msgid "Login success"
+msgstr "ログインできます"
+
+msgid "Username or password is incorrect"
+msgstr "ユーザ名またパスワードが間違います"
+
+msgid "Login success"
+msgstr "ログインできます"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+<!-- Teacher --> 
+msgid "Register failure"
+msgstr "登録できません"
+
+msgid "Register successful, waiting for approving by admin"
+msgstr "登録できます。アドミンが認証することがお待ちください"
+
+msgid "Change Profile"
+msgstr "プロファイルの変更"
+
+msgid "View"
+msgstr "見る"
+
+msgid "Manage"
+msgstr "管理"
+
+msgid "Create"
+msgstr "作成"
+
+msgid "Profile"
+msgstr "プロファイル"
+<!-- Student -->
+
+<!-- Lesson -->
+msgid "Recent"
+msgstr "最近"
+
+msgid "Bought"
+msgstr "商売"
+
+msgid "Enter a keyword"
+msgstr "キーワードを入力します"
+
+msgid "Connect us"
+msgstr "連絡します"
+
+msgid "This Category already Created!!!"
+msgstr "そのカテゴリが存在しました"
+
+msgid "Successfully Created"
+msgstr "カテゴリが作成しました"
+
+msgid "Edit successful"
+msgstr "添削できます"
+
+msgid "Create lesson successfully"
+msgstr "授業を作成できます"
+
+msgid "Verifycode is incorrect"
+msgstr "確認コードが間違います"
+
+msgid "First Name"
+msgstr "名刺"
+
+msgid "Last Name"
+msgstr ""
+
+msgid "Birthday"
+msgstr "誕生日"
+
+msgid "Email"
+msgstr "Eメール"
+
+msgid "Addresss"
+msgstr "地所"
+
+msgid "Phone Number"
+msgstr "電話番号"
+
+msgid "Upload photo"
+msgstr "アップロードイメージ"
+
+msgid "Upload your photo to display"
+msgstr "ディスプレイのようにアップロードイメージ"
+
+msgid "Save"
+msgstr "記憶"
+
+msgid "ADMIN HOMEPAGE"
+msgstr "アドミンホームページ"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Lesson"
+msgstr "授業"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Transaction successfully"
+msgstr "買うことができました"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Lesson"
+msgstr "授業"
+
+msgid "Submit"
+msgstr "サブミット"
+
+msgid "Lesson Name"
+msgstr "授業ネーム"
+
+msgid "Document"
+msgstr "ドキュメント"
+
+msgid "Test File"
+msgstr "テストファイル"
+
+msgid "Lesson Image"
+msgstr "授業のイメージ"
+
+msgid "Test File Format"
+msgstr "テストファイルフォーマット"
+
+msgid "Download Here"
+msgstr "ダウンロード"
+
+msgid "Copyright"
+msgstr "コピーライト"
+
+msgid "Answer this question"
+msgstr "質問を答えます"
+
+msgid "Please wait at least 5s to continue!"
+msgstr "5秒でお待ちください"
+
+msgid "Copyright"
+msgstr "コピーライト"
+
+msgid "Gender"
+msgstr "性別"
+
+msgid "Male"
+msgstr "男性"
+
+msgid "Female"
+msgstr "女性"
+
+msgid "Copyright"
+msgstr "コピーライト"
+
+msgid "What subject do you like"
+msgstr "どんなサブジェットがすきですか"
+
+msgid "What activity do you like"
+msgstr "どんな活動がすきですか"
+
+
+msgid "How often do read book"
+msgstr "どんな本が好きですか"
+
+
+msgid "What song do you like"
+msgstr "どんな歌が好きですか"
+
+msgid "Answers"
+msgstr "解答"
+
+msgid "Your degree"
+msgstr "学級"
+
+msgid "Copyright"
+msgstr "コピーライト"
+
+msgid "Teacher"
+msgstr "先生"
+
+msgid "Student"
+msgstr "学生"
+
+msgid "Login"
+msgstr "ログイン"
+
+
+msgid "Logout"
+msgstr "ログアウト"
+
+msgid "Profile"
+msgstr "プロファイル"
+
+msgid "Buy Lesson"
+msgstr "買った授業"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Study more"
+msgstr "勉強しよう"
+
+msgid "Edit Profile"
+msgstr "プロファイルの変更"
+
+msgid "Lesson Manage"
+msgstr "授業管理"
+
+msgid "Lesson Manage"
+msgstr "授業管理"
+
+msgid "Lets try with test"
+msgstr "テストをしてみてください"
+
+msgid "Content of Lesson"
+msgstr "授業の内容"
+
+msgid "Created Date"
+msgstr "作成日"
+
+msgid "rate"
+msgstr "ランク"
+
+msgid "ranker"
+msgstr "ランク人"
+
+msgid "Credit Card Number"
+msgstr "クレジットカード番号"
+
+msgid "Edit"
+msgstr "添削"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "Create New Lesson"
+msgstr "新しい授業を作成"
+
+msgid "Category"
+msgstr "カテゴリ"
+
+msgid "Different Category"
+msgstr "ほかのカテゴリ"
+
+
+

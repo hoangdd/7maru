@@ -2,7 +2,12 @@
 class Data extends AppModel {
 	public $useTable = 'files';
 	public $primaryKey  = 'file_id';
-
+	public $hasMany = array(
+		'Comment' => array(
+			'foreignKey' => 'file_id',
+			'dependent' => true
+			)             
+		);
 	public function beforeSave($option = array()){
 
 		//generate ids 
@@ -16,12 +21,10 @@ class Data extends AppModel {
 
 		$ret = $this->__convertAndSave($data['file_id'], $data['tmp_name'], $fileinfo['extension']);
 		if($ret == false) return false; //fail
-
 		$data['path'] = $ret;
 		$data['coma_id'] = $this->data['Data']['coma_id'];
 		$data['file_name'] = $fileinfo['filename'];
 		$data['type'] = $fileinfo['extension'];
-
 		$this->data['Data'] = $data;
 	}
 

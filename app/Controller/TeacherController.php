@@ -417,23 +417,15 @@ class TeacherController extends AppController {
         $this->set('lesson', $lesson);
    }
    function deleteLesson(){
-        if ($this->request->is('ajax')) {
-
-            $id = $this->request->data['id'];
-            $this->LessonTransaction->deleteAll(array('LessonTransaction.coma_id' => $id), false);
-            $this->LessonReference->deleteAll(array('LessonReference.coma_id' => $id), false);
-            $this->LessonCategory->deleteAll(array('LessonCategory.coma_id' => $id), false);
-            $this->RateLesson->deleteAll(array('RateLesson.coma_id' => $id), false);
-            $this->ReportLesson->deleteAll(array('ReportLesson.coma_id' => $id), false);
-            $this->Comment->deleteAll(array('Comment.coma_id' => $id), false);            
-            //$this->Data->deleteAll(array('Data.coma_id' => $id), false);
-            if ($this->Lesson->deleteAll(array('coma_id' => $id), false)) {
+        if ($this->request->is('ajax')) {            
+            $id = $this->request->data['id'];            
+            if ($this->Lesson->delete($id, true)) {
                 echo "1";
             } else {
                 echo "0";
             }
-            die;
-        }
+            die;            
+       }
    }
 
     function Statistic() {

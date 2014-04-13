@@ -21,6 +21,7 @@ define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
 define('MAX_COVER_SIZE' ,2);
 define('UNIT_SIZE',1024*1024);
 define('MAX_TEST_FILE_SIZE',5);
+define('MAX_DOCUMENT_FILE_SIZE',60*1024);
 /*========================Config user roles ====================*/
 
 /*
@@ -51,12 +52,13 @@ Configure::write('userRoles', array(
 	'R2' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson'),
+		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson','viewcontent'),
 		'login' => '*',
 		'reference' => '*',
 		'search' => '*',
 		'user' => '*',
 		'teacher' => '*',
+		'data' => '*',	
 		'student' => array('index', 'profile')
 		),
 
@@ -120,7 +122,7 @@ Configure::write('srcFile', array(
 
 	'audio' => array(
 		'extension'=> array(
-			'wav', 'mp3'
+			'wav', 'mp3', 'ogg'
 			),
 
 		),
@@ -165,7 +167,8 @@ Configure::write('dataFile', array(
 			),
 		'mimeType' => array(
 			'wav' => array('audio' => 'audio/wav'),
-			'mp3' => array('audio' => 'audio/mpeg3'),
+			'mp3' => array('audio' => 'audio/mpeg'),
+			'ogg' => array('audio' => 'audio/ogg')
 			),
 		'path' => AUDIO_DATA_DIR,
 		),
@@ -175,6 +178,8 @@ Configure::write('dataFile', array(
 			),
 		'mimeType' => array(
 			'avi' => array('video' => 'video/avi'),
+			'mp4' => array('video' => 'video/mp4'),
+			'flv' => array('video' => 'video/flv')
 			),
 		'path' => VIDEO_DATA_DIR,
 		), 

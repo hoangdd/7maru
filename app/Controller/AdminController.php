@@ -935,7 +935,7 @@ class AdminController extends AppController {
             'contain' => array(                                  
                 'Lesson' => array(             
                     'fields' => array(),
-                    'LessonTransaction' => array(
+                    'LessoPnTransaction' => array(
                             'fields' => array('transaction_id')
                         )
                     )                

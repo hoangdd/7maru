@@ -16,14 +16,8 @@
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('bootstrap');
-		echo $this->Html->css('bootstrap-theme');
-		echo $this->Html->css('intro');
-		echo $this->Html->css('component');
-		echo $this->Html->css('normalize');
-
-		echo $this->Html->script('jquery');
-		echo $this->Html->script('bootstrap');
+		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'intro', 'component', 'normalize'));
+		echo $this->Html->script(array('jquery', 'bootstrap'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

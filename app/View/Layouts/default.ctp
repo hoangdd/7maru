@@ -31,17 +31,8 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		echo $this->Html->meta('icon');
 
 		// echo $this->Html->css('cake.generic');
-		echo $this->Html->css('bootstrap');
-		echo $this->Html->css('bootstrap-theme');
-		echo $this->Html->css('docs');
-		echo $this->Html->css('common');
-		echo $this->Html->css('quiz');
-		echo $this->Html->css('site_styles');
-		
-		echo $this->Html->script('jquery');
-		echo $this->Html->script('bootstrap');
-		echo $this->Html->script('jquery.gdocsviewer');
-		
+		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'docs', 'common'));
+		echo $this->Html->script(array('jquery.js','bootstrap.js','jquery.gdocsviewer.js'));
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

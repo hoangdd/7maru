@@ -109,9 +109,7 @@ class LessonController extends AppController {
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
-			$data = $this->request->data;					
-			// debug($data);
-			// debug($_FILES);
+			$data = $this->request->data;						
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(empty($data['copyright'])){
@@ -135,6 +133,7 @@ class LessonController extends AppController {
 					$error['image'] = __('Image Size Too Big');
 				}
 			}
+
 			if(!empty($_FILES['test']['name'])){
 				//Check if image format is supported
 				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
@@ -153,21 +152,21 @@ class LessonController extends AppController {
 					$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
 				}
 			}
-			// for($i = 0, $len = $);
+			// for($i = 0, $len = $);			
 			if(!empty($_FILES['document']['name'][0])){
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf)$/',$_FILES['document']['name'][$i])){
+						if(!preg_match('/\.(pdf|mp3|mp4)$/',$_FILES['document']['name'][$i])){							
 							$error['document'] = 'Unsupported Document Format';
-						} else if($_FILES['document']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
+						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
-						}
+						}						
 					}
 				}
 				
-			}				
+			}			
 			if(count($error)){
 				$this->set('error',$error);
 				// debug($error);
@@ -305,10 +304,29 @@ class LessonController extends AppController {
 	}
 
 	public function viewContent($fid){
+		
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
+
 		$this->set('file', $file);
+
+		//get comments
+		$this->loadModel('Comment');
+		$this->loadModel('User');
+		$this->Comment->bindModel(array(
+			'belongsTo' => array(
+					'User' => array(
+						'foreignKey' => 'user_id',
+					)
+				)
+			));
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+					'file_id' => $fid
+				)
+			));
+		$this->set('comments',$comments);
 	}
 	public function rate(){
 		if($this->request->is('post')){
