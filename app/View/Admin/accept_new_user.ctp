@@ -15,7 +15,6 @@ $this->Paginator->options(array(
 
 				<thead>
 					<tr>
-
 						<th class='text-center' style="width:5%">
 							<?php echo __('No') ?>
 						</th>
@@ -28,7 +27,7 @@ $this->Paginator->options(array(
 							<?php echo __('Username') ?>
 						</th>
 
-						<th class='text-center' style="width:5%">
+						<th class='text-center' style="width:10	%">
 							<?php echo __('Type') ?>
 						</th>
 						<th class='text-center' style="width:15%">
@@ -36,6 +35,9 @@ $this->Paginator->options(array(
 						</th>
 						<th class='text-center' style="width:25%">
 							<?php echo __('Created Account Time'); ?>
+						</th>
+						<th class='text-center' style="width:25%">
+							<?php echo __('Profile'); ?>
 						</th>
 						<th class='text-center' style="width:5%">
 							<?php echo __('Accept'); ?>
@@ -48,13 +50,20 @@ $this->Paginator->options(array(
 					$td = "<td class='text-center'>";
 					$close = "</td>";
 					foreach($data as $user):
+						if ($user['User']['user_type'] == 1){ 
+							$type = 'Teacher';
+						}
+						else{
+							$type = 'Student';	
+						}
 						echo "<tr class='item' itemid='".$user['User']['user_id']."'>";
 						echo $td.$i++."</td>";										
 						echo $td.$user['User']['lastname'].$user['User']['firstname'].$close;				
-						echo $td.$user['User']['username'].$close;								
-						echo $td.$user['User']['user_type'].$close;
+						echo $td.$user['User']['username'].$close;						
+						echo $td.__($type).$close;
 						echo $td.$user['User']['date_of_birth'].$close;				
-						echo $td.$user['User']['created'].$close;				
+						echo $td.$user['User']['created'].$close;										
+						echo $td.$this->Html->link(__('View'),array('controller' => $type,'action' => 'Profile',$user['User']['user_id'])).$close;
 						echo $td."<button type='button' id='acceptUser' name='".$user['User']['user_id']."' class='text-center accept-btn btn btn-default'>OK</button>".$close;
 						echo "</tr>";			
 					endforeach;

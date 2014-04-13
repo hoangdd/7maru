@@ -53,8 +53,8 @@ $(document).ready(function(){
 			 			strToAppend += "<tr>";		 			
 			 			strToAppend+= "<td>" + student[i]['info']['username']+"</td>";
 			 			strToAppend+= "<td>"+student[i]['info']['lastname']+student[i]['info']['firstname']+"</td>";
-			 			strToAppend+= "<td>"+TYPE_CREDIT_CARD+"</td>";
-			 			strToAppend+= "<td>"+student[i]['count']*MONEY_PER_LESSON+"</td>";
+			 			strToAppend+= "<td>"+"<?php echo TYPE_CREDIT_CARD ?>"+"</td>";
+			 			strToAppend+= "<td>"+student[i]['count']*<?php echo MONEY_PER_LESSON ?>+"</td>";
 			 			strToAppend+= "<td>"+student[i]['info']['Student']['credit_account']+"</td>"; 					 			
 			 			strToAppend+= "</tr>";
 			 		};	 		
@@ -62,8 +62,8 @@ $(document).ready(function(){
 			 			strToAppend += "<tr>";		 			
 			 			strToAppend+= "<td>" + teacher[i]['info']['username']+"</td>";
 			 			strToAppend+= "<td>"+teacher[i]['info']['lastname']+teacher[i]['info']['firstname']+"</td>";
-			 			strToAppend+= "<td>"+TYPE_BANK_ACCOUNT+"</td>";
-			 			strToAppend+= "<td>"+teacher[i]['count']*MONEY_PER_LESSON*TEACHER_PROFIT_PERCENTAGE*+"</td>";
+			 			strToAppend+= "<td>"+"<?php echo TYPE_BANK_ACCOUNT ?>"+"</td>";
+			 			strToAppend+= "<td>"+teacher[i]['count']*<?php echo MONEY_PER_LESSON ?>*<?php echo TEACHER_PROFIT_PERCENTAGE?>+"</td>";
 			 			strToAppend+= "<td>"+teacher[i]['info']['Teacher']['bank_account']+"</td>"; 			
 			 			strToAppend+= "</tr>";
 			 		}

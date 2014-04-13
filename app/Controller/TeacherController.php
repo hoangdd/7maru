@@ -310,14 +310,23 @@ class TeacherController extends AppController {
         die;
     }
 
-    function Profile() {
+    function Profile($id = null) {
         if ($this->Auth->loggedIn()) {
-            $pid = $this->Auth->User('user_id');
-            $data = $this->User->find('first', array(
-                'conditions' => array(
-                    'User.user_id' => $pid,
+            if ($this->Auth->User('admin_id') && $id!= null){
+                $data = $this->User->find('first', array(
+                    'conditions' => array(
+                    'User.user_id' => $id,
                 )
-            ));            
+            )); 
+            }
+            else{               
+                $pid=$this->Auth->User('user_id');
+                $data = $this->Auth;
+            }
+            if (!$data){
+                $this->Session->setFlash(__('Forbidden error'));
+            }
+        $this->set("data",$data);
             $this->set("data", $data);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];

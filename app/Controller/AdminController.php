@@ -32,7 +32,10 @@ class AdminController extends AppController {
                 'controller' => 'admin',
                 'action' => 'acceptNewUser'
             ),
-            'authError' => 'You don\'t have permission to view this page',
+            'logoutRedirect' => array(
+                'controller' => 'admin',
+                'action' => 'login'
+            )            
         ),
         'Paginator',
         'RequestHandler'
@@ -50,7 +53,6 @@ class AdminController extends AppController {
     }
 
     function CreateAdmin() {
-        $this->layout= null;
         $error = array();
         $user_re_ex = '/^[A-Za-z]\w+$/';
         $pass_re_ex = '/^\w+$/';
@@ -158,7 +160,10 @@ class AdminController extends AppController {
             );
             if ($check_admin == true) {
                 $this->Admin->create($data_admin);
-                $this->Admin->save();
+                if ($this->Admin->save()){
+                    $this->Session->setFlash(__('Create Admin Successfully'));
+                    $this->redirect('userManage');
+                }
             }
         }
         $this->set('error', $error);
@@ -197,9 +202,14 @@ class AdminController extends AppController {
         if ($this->request->is('post')) {
             $data = $this->request->data ['Admin'];
             $this->request->data ['Admin'] ['password'] = (string) ($data ['username'] . $data ['password']);
-            // debug($this->Admin->hashPassword($data));die;
+            $clientIp = $this->request->clientIp();            
             if ($this->Auth->login()) {
-                // Login success
+                // Login success                
+                $result = $this->AdminIp->find('all',array('conditions' => array('ip' => $clientIp)));
+                if (!$result){
+                    $this->Session->setFlash(__("Login with invalid IP"));
+                    $this->logout();
+                }                
                 $this->Session->write('Auth.User.role', 'R1');                
                 $this->Session->setFlash(__("Login success"));
                 $this->redirect('acceptNewUser');
@@ -211,11 +221,7 @@ class AdminController extends AppController {
     }
 
     function logout() {
-        $this->Auth->logout();
-        $this->redirect(array(
-            'controller' => 'admin',
-            'action' => 'login'
-        ));
+        $this->redirect($this->Auth->logout());        
     }
 
     function changePassword() {
@@ -388,8 +394,7 @@ class AdminController extends AppController {
             'belongsTo' => array(
                 'User' => array(
                     'className' => 'User',
-                    'foreignKey' => 'student_id',
-                    'order' => 'LessonTransaction.created DESC'
+                    'foreignKey' => 'student_id',                   
                 //'conditions' => array('LessonTransaction.student_id = User.user_id')
                 ),
                 'Lesson' => array(
@@ -409,7 +414,7 @@ class AdminController extends AppController {
             			)
             		)
             	), true);
-            $this->LessonTransaction->Lesson->Author->bindModel(array(
+            $this->Lesson->Author->bindModel(array(
             	'belongsTo' => array(
             		'Teacher' => array(
             			'className' => 'Teacher', 
@@ -418,7 +423,7 @@ class AdminController extends AppController {
             			)
             		)
             	),true)  ;                  
-            $this->LessonTransaction->User->bindModel(array(
+            $this->User->bindModel(array(
              'belongsTo' => array(
                 'Student' => array(
                     'className' => 'Student',
@@ -426,7 +431,7 @@ class AdminController extends AppController {
                     )
              	)
              ), true);            
-            $data = $this->LessonTransaction->find('all',array('conditions' => $conditions,'recursive' => 3));                    
+            $data = $this->LessonTransaction->find('all',array('conditions' => $conditions,'recursive' => 3, 'order' => 'LessonTransaction.created DESC'));                    
             $student = array();
             $teacher = array();            
             //get student and teacher account record monthly
@@ -448,7 +453,7 @@ class AdminController extends AppController {
             		++$teacher[$dt['Lesson']['Author']['user_id']]['count'];
             	}
             endforeach;            
-            $accountData = array('teacher' => $teacher,'student' => $student);            
+            $accountData = array('teacher' => $teacher,'student' => $student);                        
             $accountData['month'] = $month;
             $accountData['year'] = $year;
             $this->set('data',$accountData);         
@@ -699,10 +704,10 @@ class AdminController extends AppController {
 
     function formatToWriteAccountFile($data) {
         $_SERER_CODE = "ELS-UBT-GWK54M78";
-        $_STUDENT_PAY_MONEY = 20000;
-    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*60/100;    
+        $_STUDENT_PAY_MONEY = MONEY_PER_LESSON;
+    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*TEACHER_PROFIT_PERCENTAGE;    
     	$teacher = $data['teacher'];
-    	$student = $data['student'];
+    	$student = $data['student'];        
         $today = getdate();    
         if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];        
         $tab = "    ";
@@ -710,16 +715,16 @@ class AdminController extends AppController {
         $row = array();
         $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$this->Auth->user('admin_id'),$this->Auth->user('username'));
         $i = 1;
-        $money = 20000;
+        $money = MONEY_PER_LESSON;
         foreach ($student as $dt):
-            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_STUDENT_PAY_MONEY, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['credit_account']);
+            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_STUDENT_PAY_MONEY, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['Student']['credit_account']);
             $i++;
         endforeach;
         foreach ($teacher as $dt):
-            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_TEACHER_PROFIT, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['bank_account']);
+            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_TEACHER_PROFIT, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['Teacher']['bank_account']);
             $i++;
         endforeach;
-        $end = array("END__END__END" . $dateOfTran['year'] . $dateOfTran['mon']);
+        $end = array("END__END__END" . $data['year'] . $data['month']);
         $row[$i++] = $end;
         $str = "";
         $tab = "\t";
@@ -741,7 +746,7 @@ class AdminController extends AppController {
             $data = $this->request->data;
             $str = $this->formatToWriteAccountFile($data);
             //Write to file 
-            $this->set('str', $str);
+            die;
         }
     }
 

@@ -4,9 +4,9 @@
 			<li id='acceptNewUser'>
 		  	<?php  echo $this->Html->link(__('Accept New User'),array('action' => 'acceptNewUser')) ?>
 		  </li>		  
-		  <li id= 'blockUser'>
+<!-- 		  <li id= 'blockUser'>
 		  	<?php  echo $this->Html->link(__('Block User'),array('action' => 'blockUser')) ?>
-		  </li>				  
+		  </li>				   -->
 		  <li id= 'Notification'>
 		  	<?php  echo $this->Html->link(__('Notification'),array('action' => 'Notification')) ?>
 		  </li>
@@ -25,6 +25,9 @@
 		  <li id= 'ReferenceManage'>
 		  	<?php  echo $this->Html->link(__('Reference Manage'),array('action' => 'ReferenceManage')) ?>		
 		  </li>		 
+		  <li id = 'Account'>
+		  		<?php  echo $this->Html->link(__('Account'),array('action' => 'Account')) ?>	
+		  </li>
 		</ul>
 	</ol>
 </div>
