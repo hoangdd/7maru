@@ -2,7 +2,12 @@
 class Data extends AppModel {
 	public $useTable = 'files';
 	public $primaryKey  = 'file_id';
-
+	public $hasMany = array(
+		'Comment' => array(
+			'foreignKey' => 'file_id',
+			'dependent' => true
+			)             
+		);
 	public function beforeSave($option = array()){
 
 		//generate ids 

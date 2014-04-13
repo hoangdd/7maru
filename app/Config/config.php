@@ -58,7 +58,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'user' => '*',
 		'teacher' => '*',
-		'data' => '*',
+		'data' => '*',	
 		'student' => array('index', 'profile')
 		),
 

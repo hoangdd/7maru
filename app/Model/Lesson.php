@@ -4,7 +4,32 @@ class Lesson extends AppModel {
 	public $useTable = 'comas';
     
 	public $primaryKey = 'coma_id';
-
+	public $hasMany = array(
+		'Data' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+		'LessonTransaction' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+		'ReportLesson' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+		'RateLesson' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+		'LessonCategory' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+		'LessonReference' => array(
+			'foreignKey' => 'coma_id',
+			'dependent' => true
+		),
+	);
 	public function increaseView($coma_id){
         $lesson = $this->read(null,$coma_id);
         $this->set('viewed',$lesson['Lesson']['viewed']+1);

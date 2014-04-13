@@ -58,11 +58,12 @@ class DataController extends AppController {
 		}
 		$params = array(
             'download'  => false, //no force download
-            'extension' => 'ext',	      
+            'extension' => $ext,	      
             'path'      => $path,
             'mimeType' => $mimeType,
-            'cache' => true
-        );        
+            'cache' => false
+        );   
+        //debug($params);
 		$this->set($params);
 	}
 }
