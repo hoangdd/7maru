@@ -11,13 +11,7 @@
 	var startDocument = "Paper";
 	$('#player').FlexPaperViewer(
 			{ config : {
-
-				SWFFile : "<?php echo $this->Html->url(array(
-							'controller' => 'Data',
-							'action' => 'file',
-							$file['Data']['file_id']
-						)
-					);?>",
+				SWFFile : <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
 				Scale : 0.6,
 				ZoomTransition : 'easeOut',
 				ZoomTime : 0.5,
@@ -32,7 +26,6 @@
 				InitViewMode : 'Portrait',
 				RenderingOrder : 'flash,html',
 				StartAtPage : '',
-
 				ViewModeToolsVisible : true,
 				ZoomToolsVisible : true,
 				NavToolsVisible : true,
@@ -54,7 +47,6 @@
 		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
 		primary:"flash",
 		startparam: "starttime",
-
 	});
 	</script>
 <?php 
@@ -63,9 +55,37 @@
 
 <?php //playlist ?>
 <div>
-	
+	<ul>
+		<?php 
+			if( !empty($list)) :
+				foreach ($list as $key => $value) :
+					
+		?>
+			<li>
+				<?php
+					if( !isset($value['Data']['isTest']) || $value['Data']['isTest'] != true){
+						echo $this->Html->link($value['Data']['file_name'], array(
+							'controller' => 'Lesson',
+							'action' => 'viewContent',
+							$value['Data']['file_id']
+						), array());	
+					}else{
+						echo $this->Html->link($value['Data']['file_name'], array(
+							'controller' => 'Student',
+							'action' => 'DoTest',
+							$value['Data']['file_id']
+						), array());
+					}
+					
+				?>
+			</li>
+		
+		<?php
+				endforeach;
+			endif;
+		?>
+	</ul>
 </div>
-
 <?php //comment ?>
 <div>
 	<?php

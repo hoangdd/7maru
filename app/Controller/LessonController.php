@@ -303,6 +303,14 @@ class LessonController extends AppController {
 
 		$this->set('file', $file);
 
+		//play list
+		$list = $this->Data->find('all', array(
+			'conditions' => array(
+				'coma_id' => $file['Data']['coma_id']
+				),
+			'order' => array('Data.isTest')
+			));
+		$this->set('list', $list);
 		//get comments
 		$this->loadModel('Comment');
 		$this->loadModel('User');
@@ -319,6 +327,8 @@ class LessonController extends AppController {
 				)
 			));
 		$this->set('comments',$comments);
+
+
 	}
 	public function rate(){
 		if($this->request->is('post')){

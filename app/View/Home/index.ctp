@@ -216,7 +216,7 @@
 					'width' : '0px',
 					'margin-top' : '120px',
 				},
-				400,
+				200,
 				function(){
 
 				});
@@ -226,7 +226,7 @@
 					'width' : 'auto',
 					'margin-top' : '30px',
 				},
-				400,
+				200,
 				function(){
 
 				});

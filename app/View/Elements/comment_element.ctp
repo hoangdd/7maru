@@ -4,21 +4,30 @@
 
 
 <?php if(!empty($comment)) : ?>
+<hr>
 <div class='comment' comment_id = <?php echo $comment['comment_id']?>>
-	<div class ='commentator-info'>
-		<?php 
-		echo $this->Html->image(IMAGE_PROFILE_LINK.$user['profile_picture'], array(
-			'class' => 'image-profile'
-			));
-		echo $this->Html->link($user['username'],'#',  array());
-		?>
+	<div>
+		<div class ='commentator-info'>
+			<?php 
+			echo $this->Html->image(IMAGE_PROFILE_LINK.$user['profile_picture'], array(
+				'class' => 'image-profile',
+				));
+			echo '<b>'.$this->Html->link($user['username'],'#',  array()).'</b>';
+			?>
+		</div>
+		<div class='comment-content'>
+			<p><?php echo $comment['content'];?></p>
+			<textarea placeholder='<?php echo __("Insert your new comment content here");?>'><?php echo $comment['content'];?></textarea>
+		</div>
 	</div>
-	<div class='comment-content'>
-		<!-- Khong duoc enter, de so sanh noi dung -->
-		<p><?php echo $comment['content'];?></p>
-		<textarea placeholder='<?php echo __("Insert your new comment content here");?>'><?php echo $comment['content'];?></textarea>
+	<div>
+		<div >
+		</div>
 		<div class="action">
-			<span>
+				<hr>
+				<span class="created-time">
+					<?php echo $comment['created'];?>
+				</span>
 				<?php if($current_user['user_id'] == $user['user_id']) :?>
 					<!-- my comment -->
 					<a class='edit-button' href="#"><?php echo __('Edit');?></a>
@@ -28,8 +37,7 @@
 				<?php else : ?>
 					<!-- other's comment -->
 				<?php endif;?>
-				<?php echo $comment['created'];?>
-			</span>
+			
 		</div>
 	</div>
 </div>
