@@ -306,7 +306,8 @@ class LessonController extends AppController {
 			'conditions' => array(
 				'coma_id' => $file['Data']['coma_id']
 				),
-			'order' => array('Data.isTest')
+			'order' => array('Data.isTest'),
+			'recursive' => 0
 			));
 		$this->set('list', $list);
 		//get comments

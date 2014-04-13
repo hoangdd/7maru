@@ -3,7 +3,12 @@
 	echo $this->Html->css('flexpaper');
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv'));	
 ?>
-<div id="player" class="flexpaper_viewer" style="width:770px;height:500px"></div>	
+<?php 
+	echo $this->element('playlist', array('current' => $file['Data']['file_id'],'list' => $list));
+?>
+<div class="player-wrapper">
+	<div id="player" class="flexpaper_viewer"></div>	
+</div>
 <?php 
 	if ($file['Data']['type'] == 'pdf'){		
 ?>
@@ -47,53 +52,20 @@
 		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
 		primary:"flash",
 		startparam: "starttime",
+		width: '100%',
 	});
 	</script>
 <?php 
 	}
 ?>
 
-<?php //playlist ?>
-<div>
-	<ul>
-		<?php 
-			if( !empty($list)) :
-				foreach ($list as $key => $value) :
-					
-		?>
-			<li>
-				<?php
-					if( !isset($value['Data']['isTest']) || $value['Data']['isTest'] != true){
-						echo $this->Html->link($value['Data']['file_name'], array(
-							'controller' => 'Lesson',
-							'action' => 'viewContent',
-							$value['Data']['file_id']
-						), array());	
-					}else{
-						echo $this->Html->link($value['Data']['file_name'], array(
-							'controller' => 'Student',
-							'action' => 'DoTest',
-							$value['Data']['file_id']
-						), array());
-					}
-					
-				?>
-			</li>
-		
-		<?php
-				endforeach;
-			endif;
-		?>
-	</ul>
-</div>
+
 <?php //comment ?>
-<div>
-	<?php
-		$option = array(
-			'width' => '480px', 
-			'file_id' => $file['Data']['file_id'],
-			'comments' => !empty($comments) ? $comments : array(),
-		);
-		echo $this->element('comment', $option);
-	?>
-</div>
+<?php
+	$option = array(
+		'width' => '100%', 
+		'file_id' => $file['Data']['file_id'],
+		'comments' => !empty($comments) ? $comments : array(),
+	);
+	echo $this->element('comment', $option);
+?>
