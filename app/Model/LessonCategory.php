@@ -3,17 +3,22 @@
 class LessonCategory extends AppModel {
     public $useTable = 'coma_categories';
     public function saveLessonCategory($lesson_id, $categories){
-        $dataArr = array();
-        foreach($categories as $category){
-            $saveData = array(
-                'LessonCategory' => array(
-                    'coma_id' => $lesson_id,
-                    'category_id' => $category
-                )
-            );
-            $dataArr[] = $saveData;
+        if($lesson_id == null || count($categories) == 0){
+
+        } else {
+            $dataArr = array();
+            foreach($categories as $category){
+                $saveData = array(
+                    'LessonCategory' => array(
+                        'coma_id' => $lesson_id,
+                        'category_id' => $category
+                    )
+                );
+                $dataArr[] = $saveData;
+            }
+            $this->saveMany($dataArr);    
         }
-        $this->saveMany($dataArr);
+        
     }
     public function get_Lesson_categories($coma_id){
         $tags = array();

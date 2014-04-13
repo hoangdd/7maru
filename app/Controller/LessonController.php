@@ -230,8 +230,16 @@ class LessonController extends AppController {
 		}		
 	}
 	
-	function Edit()
-{
+	function Edit($id)
+	{
+		$lesson = $this->Lesson->findByComaId($id);
+		if(!$lesson){
+			//throw 404
+			throw new NotFoundException();
+		} else {
+			debug($lesson);
+			$categories = $this->LessonCategory->get_Lesson_categories($id);
+		}
 	}
 
 	function Destroy(){
