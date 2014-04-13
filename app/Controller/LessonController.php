@@ -295,14 +295,12 @@ class LessonController extends AppController {
 	private function check_Document_File(){
 	}
 
-	public function viewContent($fid){
-		
+	public function viewContent($fid = null){
+		if (!$fid) die;
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
-
 		$this->set('file', $file);
-
 		//play list
 		$list = $this->Data->find('all', array(
 			'conditions' => array(
