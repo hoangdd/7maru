@@ -308,7 +308,8 @@ class StudentController extends AppController {
 			}
 			else{				
 				$pid=$this->Auth->User('user_id');
-				$data = $this->Auth;
+				$data = array();
+				$data['User'] = $this->Auth->User();				
 			}
 			if (!$data){
 				$this->Session->setFlash(__('Forbidden error'));

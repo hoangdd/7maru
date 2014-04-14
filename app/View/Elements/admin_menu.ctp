@@ -35,8 +35,7 @@
 <script>
 $(document).ready(function(){
 	var action = <?php echo "'".$this->request->params['action']."'"?>;
-	$("#"+action).addClass('active');	
-	console.log(action);
+	$("#"+action).addClass('active');		
 
 })
 </script>

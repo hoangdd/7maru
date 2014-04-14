@@ -3,8 +3,7 @@
 <div class="col-md-3">
 	
 	<?php
-	if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
-        else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];
+  else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];
    echo $this->Html->image($image, array(
 	'width' => '180px',
 	'class' => 'img-rounded',
@@ -16,7 +15,11 @@
 		<?php
     echo "<br>";
     echo $this->Html->link(__('Edit Profile'),
-      'EditProfile',array(
+      array(
+          'controller' => 'Student',
+          'action' = 'EditProfile'          
+        ),
+      array(
         'class'=>'btn btn-primary btn-lg',
         'role'=>'button',
         'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'

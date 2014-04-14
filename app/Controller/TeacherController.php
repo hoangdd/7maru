@@ -321,12 +321,12 @@ class TeacherController extends AppController {
             }
             else{               
                 $pid=$this->Auth->User('user_id');
-                $data = $this->Auth;
+                $data = array();                
+                $data['User'] = $this->Auth->User();                
             }
             if (!$data){
                 $this->Session->setFlash(__('Forbidden error'));
-            }
-        $this->set("data",$data);
+            }        
             $this->set("data", $data);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
@@ -381,7 +381,7 @@ class TeacherController extends AppController {
                             'Teacher.teacher_id' => $this->Auth->User('foreign_id')
                             )
                         )
-                );                           
+                );                 
                 $userData = $this->User->find('first',
                     array(
                         'conditions' => array(
@@ -428,12 +428,7 @@ class TeacherController extends AppController {
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            
-            if ($this->Lesson->delete($id, true)) {
-                echo "1";
-            } else {
-                echo "0";
-            }
-            die;            
+            $this->Lesson->delete($id);            
        }
    }
 

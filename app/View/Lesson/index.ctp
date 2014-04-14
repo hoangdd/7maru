@@ -62,10 +62,16 @@
       echo $this->Form->button(__('Buy'),$options);	              
     }
     else{
+       foreach ($file as $key => $value):
+          if (!$value['isTest']){
+            $firstComaId = $value['file_id'];
+            break;
+          }
+        endforeach;
       echo $this->Html->link(__('View'), array(
             'controller' => 'Lesson',
-            'action' => 'view',
-            $lesson['coma_id']
+            'action' => 'viewContent',
+            $firstComaId
           ),
         $options
       );
@@ -192,7 +198,7 @@
     <div class='panel-body'>
   <?php 
   foreach ($relativeLesson as $l):
-    echo "<div class='text-center' style = 'float:left'>";
+    echo "<div class='text-center' style = 'float:left;margin-left:10px;'>";
       if ($l['Lesson']['cover'] == null || $l['Lesson']['cover'] == ''){
           $cover = DEFAULT_COVER_IMAGE;
        }
@@ -201,7 +207,7 @@
        }
        echo $this->Html->image($cover,array(
         'class' => 'img-rounded img-responsive mini_profile',        
-        'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id'])
+        'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id']),        
         )); 
        echo $this->Html->link($l['Lesson']['name'],array(
         'controller' => 'lesson', 
@@ -229,15 +235,15 @@
             function(data){             
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
-                result = true;                                
-                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'index',$lesson['coma_id']),$options)."'"; ?>);
+                result = true;                
               }             
             }
           );
         if (result){
-          //deactive button
+          //reload page
+          location.reload();
         }
-        }       
+      }       
       })
   });
 </script>

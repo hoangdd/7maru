@@ -3,8 +3,7 @@
 <div class="col-md-3">
 
 	<?php    
-  if(!isset($data['User']['profile_picture'])) $image = 'default_profile.jpg';
-  else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];   
+    $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];   
    echo $this->Html->image($image, array(	
 
 	'width' => '180px',
@@ -15,7 +14,7 @@
 	<br>
 	<br>
 	<div>
-		<a href="EditProfile" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Edit Profile') ?></a>
+		<a href="<?php echo $this->Html->url(array('controller' => 'Teacher', 'action' => 'EditProfile')) ?>" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Edit Profile') ?></a>
 		<br><br>
 		<a href="Statistic" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Statistic') ?></a>
 		<br><br>

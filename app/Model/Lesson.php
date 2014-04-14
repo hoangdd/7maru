@@ -30,6 +30,15 @@ class Lesson extends AppModel {
 			'dependent' => true
 		),
 	);
+	public function deleteLesson($id){        
+            $id = $this->request->data['id'];            
+            if ($this->Lesson->delete($id, true)) {
+                echo "1";
+            } else {
+                echo "0";
+            }
+            die;                   
+   }
 	public function increaseView($coma_id){
         $lesson = $this->read(null,$coma_id);
         $this->set('viewed',$lesson['Lesson']['viewed']+1);
@@ -54,5 +63,17 @@ class Lesson extends AppModel {
 			$data['cover'] = DEFAULT_COVER_IMAGE;
 		}
 		$this->data['Lesson'] = $data;
+	}
+
+	public function beforeFind($query)
+	{		
+		if (isset($_SESSION['Auth']['User'])){
+			if ($_SESSION['Auth']['User']['role'] !== 'R1'){
+				$query['conditions']['Lesson.is_block'] = 0;				
+			}
+		}else{
+			$query['conditions']['Lesson.is_block'] = 0;											
+		}			
+		return $query;
 	}
 }

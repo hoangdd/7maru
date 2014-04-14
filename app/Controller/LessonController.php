@@ -379,6 +379,10 @@ class LessonController extends AppController {
 		//$this->Paginator->settings = $pagination;
 		$data = $this->RateLesson->find ('all',$options);
 		foreach($data as $key=>$value){
+			if ($data[$key]['Lesson']['is_block'] == 1){
+				unset($data[$key]);
+				continue;
+			}
 			$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
 			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
 			unset($data[$key]['Lesson']['Author']);
@@ -414,10 +418,10 @@ class LessonController extends AppController {
 			'limit' => $page_limit,    			
 			'offset' => ($pageIndex-1) * $page_limit,
 			'order' => array('Lesson.created' => 'DESC'),    			
-			'group' => 'Lesson.coma_id'    			
+			'group' => 'Lesson.coma_id',
+			'is_block' => 0
 			);
-
-		$data = $this->Lesson->find ( 'all',$options);
+		$data = $this->Lesson->find ( 'all',$options);		
 		foreach($data as $key=>$lesson){
 			$rank = 0;$count = 0;
 			foreach($lesson['RateLesson'] as $le){    			
@@ -486,6 +490,10 @@ class LessonController extends AppController {
 				);    	
 			$data = $this->LessonTransaction->find ( 'all',$options); 
 			foreach($data as $key=>$lesson){
+				if ($lesson['Lesson']['is_block'] == 1){
+					unset($data[$key]);
+					continue;
+				}
 				$rank = 0;$count = 0;
 				foreach($lesson['Lesson']['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -516,6 +524,7 @@ class LessonController extends AppController {
 			$data = $this->Lesson->find('all', array(
 				'conditions' => array(
 					'author' => $user['user_id'],
+					'is_block' =>  0
 					),
 				'order' => array(
 					'created', 
@@ -572,7 +581,8 @@ class LessonController extends AppController {
 				));
 			$data = $this->Lesson->find('all', array(
 					'conditions' => array(
-							'coma_id' => $list_coma_id
+							'coma_id' => $list_coma_id,
+							'is_block' => 0
 						)
 				));
 

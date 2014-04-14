@@ -3,12 +3,10 @@
 ?>
 <li class='lesson-book'>
 	<div class="bk-book book bk-bookdefault">
-		<?php if( !empty($lesson['Lesson']['cover'])) :?>
-
-			<div class="bk-front" style="background-image: url(<?php echo '/7maru/app/webroot/img/'.LESSON_COVER_LINK.$lesson['Lesson']['cover'];?>);	"></div>
-		<?php else : ?>
-			<div class="bk-front" style="background-image: url('/7maru/img/default_book.jpg');"></div>
-		<?php endif; ?>
+		<a href= "/7maru/lesson/index/<?php echo $lesson['Lesson']['coma_id'] ?>" >
+			<div class="bk-front" style="background-image: url(<?php echo '/7maru/app/webroot/img/'.LESSON_COVER_LINK.$lesson['Lesson']['cover'];?>);	">				
+			</div>		
+		</a>
 	</div>
 	<div class="bk-info">
 		<span>
@@ -47,14 +45,14 @@
 					echo $lesson['Author']['firstname'].' '.$lesson['Author']['lastname'];
 				else if(isset($lesson['Author']['firstname'])) echo $lesson['Author']['firstname'];
 				else if(isset($lesson['Author']['lastname'])) echo $lesson['Author']['lastname'];
-				else echo 'Undefined Author';
+				else echo __('Undefined Author');
 				?>
 			</span>
 			<span>
 				<?php
-				if(isset($lesson['Lesson']['title'])) 
-					echo $lesson['Lesson']['title']; 
-				else echo 'No Title';
+				if(isset($lesson['Lesson']['name'])) 
+					echo $lesson['Lesson']['name']; 
+				else echo __('No Title');
 				?>
 			</span>
 			

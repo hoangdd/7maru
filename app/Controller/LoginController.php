@@ -130,8 +130,7 @@ class LoginController extends AppController {
                 }
             }    
         }
-    }   
-        else{echo "OKKOKOKOKOOK" ;}     
+    }    
     }
 
     function changePassword() {
