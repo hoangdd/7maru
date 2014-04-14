@@ -7,7 +7,7 @@ class LoginController extends AppController {
     public $uses = array('User');      
     public $components = array(
         'Session',
-        'DebugKit.Toolbar',
+        'DebugKit.Toolbar',        
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
@@ -46,45 +46,69 @@ class LoginController extends AppController {
     }
     function index() {
 
-        //check loggedIn();
+        //check loggedIn();                
         if($this->Auth->loggedIn()){
             $this->redirect(array(
                 'controller' => 'home',
                 'action' => 'index',
                 ));
-        }        
-        if ($this->request->is('post')) {             
+        }  
+        if ($this->request->is('post')) {
+            //$clientIp = $this->request[]               
+            $isCheckIp = true;   
+            if (!isset($_SESSION['isValidIp'])){
+                $_SESSION['isValidIp'] = true;
+            }                
 			if (isset($this->request->data['User'])){
-            $data = $this->request->data['User'];
-            if (isset($_SESSION['countFail'])){
-                if ($_SESSION['countFail'] >= 3){
+                $data = $this->request->data['User'];
+                $clientIp = $this->request->clientIp();                        
+                if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= 3) ) || !$_SESSION['isValidIp'] ) {                     
                 //check verifycode and password
-					$answer = "";$question ="";	
-					if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
-						$answer = $this->Auth->password($this->request->data['User']['username'].$this->request->data['answer'].FILL_CHARACTER);
-						$question = $this->Auth->password($this->request->data['User']['username'].$this->request->data['question'].FILL_CHARACTER);                             					
-                        $result = $this->User->find('all',
-                          array(
-                             'conditions' => array(
-                                'username' => $data['username'],
-                                'verifycode_answer' => $answer,
-                                'verifycode_question' => $question
-                                )));
-                        if ( ($result == null) || empty($result)){                        
-                            ++$_SESSION['countFail'];
-                            $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-                            return;
-                        }
-                    }                    
-                    ++$_SESSION['countFail'];
-                 }
+                   $answer = "";$question ="";	   
+                   if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
+                    $username = $data['username'];
+                    $answer = $this->Auth->password($username.$this->request->data['answer'].FILL_CHARACTER);
+                    $question = $this->Auth->password($username.$this->request->data['question'].FILL_CHARACTER);                             					
+                    $result = $this->User->find('all',
+                      array(
+                       'conditions' => array(
+                        'username' => $username,
+                        'verifycode_answer' => $answer,
+                        'verifycode_question' => $question
+                        )));                                                  
+                    if ( ($result == null) || empty($result)){                        
+                        ++$_SESSION['countFail'];
+                        $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
+                        return;
+                    }
+                    $isCheckIp = false;                          
+                    $_SESSION['isValidIp'] = true;
+                }                                        
+                ++$_SESSION['countFail'];                                                      
             }                         
-            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);                                 
-            if ($this->Auth->login()) {
+            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
+            if ($this->Auth->login()) {   
+                //check IP                
                 // Login success                 
-                $userType = $this->Auth->user('user_type');
-                if( $userType==1 || $userType=='1'){    
-                    $this->Session->write('Auth.User.role', 'R2');
+                $userType = $this->Auth->user('user_type');                
+                if( $userType==1 || $userType=='1'){
+                    //check IP
+                    // if not confirm successfully verifycode 
+                    $login_ip = $this->Auth->user('login_ip');
+                    if (empty($login_ip)){                      
+                        $isCheckIp = false;
+                    }                    
+                    if ($isCheckIp){
+                        if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
+                            $_SESSION['isValidIp'] = false;
+                            $this->Session->setFlash(__('Login with invalid IP'));
+                            $this->logout();
+                        }               
+                    }     
+                    $this->Session->write('Auth.User.role', 'R2');                                        
+                    //update ip
+                    $this->User->id = $this->Auth->user('user_id');
+                    $this->User->saveField('login_ip', $clientIp);
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
@@ -105,8 +129,9 @@ class LoginController extends AppController {
                     ++$_SESSION['countFail'];                    
                 }
             }    
-			}
-		}
+        }
+    }   
+        else{echo "OKKOKOKOKOOK" ;}     
     }
 
     function changePassword() {
@@ -203,5 +228,9 @@ class LoginController extends AppController {
     
     function logout() {
         $this->redirect($this->Auth->logout());
+    }
+
+    private function _isValidIp($orgIp, $newIp){
+        return ($orgIp == $newIp);
     }
 }

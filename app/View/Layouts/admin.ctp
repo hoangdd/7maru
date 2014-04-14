@@ -55,7 +55,7 @@ $cakeDescription = __d('cake_dev', '7Maru');
 		</div>
 		<div id="content" style='border:1px solid #ddd'>
 			<?php echo $this->element('admin_menu') ?>
-			<div class="content-body" style= "float:left">
+			<div class="content-body" style= "float:left; width: 80%">
 			<?php 
 				$flash = $this->Session->flash();
 				if( !empty($flash)){

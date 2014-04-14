@@ -142,6 +142,9 @@ msgstr "もっとも買った授業"
 msgid "Buy"
 msgstr "商売"
 
+msgid "Destroy"
+msgstr "削除"
+
 msgid "Rate point"
 msgstr "ランク"
 
@@ -187,9 +190,6 @@ msgstr "コメント"
 
 msgid "Block"
 msgstr "ブロック"
-
-msgid "Destroy"
-msgstr "削除"
 
 <!-- Change Password -->
 msgid "Admin Change Password"

@@ -1,28 +1,31 @@
 .comment-area{
-	color: white;
 	min-height: 200px;
-	background-color: #e4e4e4;
 	font-family: 'PT Sans Narrow', Arial, sans-serif;
-	/*debug mode*/
-	border: solid 1px white;
+	padding: 7px;
+	border: 1px solid #cdcecf;
+}
+.comment-area .header{
+	color: blue;
+	margin:20px;
+	text-align:center;
+	text-transform: uppercase;
+}
+.comment-area .header div{
+	font-size: 20px;
 }
 .comment-area .comment{
 	min-height: 100px;
-	background-color: #47a3da;
-	margin: 10px;
+	background-color: white;
+	/*margin-bottom: 10px;*/
 	/*debug mode*/
-	border: solid 1px white;
 	border-bottom: 0px;
 }
-.comment > .commentator-info{
+.comment .commentator-info{
 	text-align: center;
 	width: 100px;
 	margin-right: 20px;
-	background-color: white;
 	font-size: 18px;
-	padding: 5px;
-	/*debug mode*/
-	border: solid 1px white;
+	/*padding: 5px;*/
 }
 .commentator-info >.image-profile{
 	width: 75px;
@@ -31,32 +34,64 @@
 .commentator-info > a{
 	display: block;
 	text-decoration: none;
-	width: 75px;
 	overflow: hidden;
 }
+.comment {
+	display: table;
+	width: 100%;
+}
+.comment > div{
+	display: table-row;
+}
+.comment > div > div {
+	display: table-cell;
+	padding: 5px;
+	width: auto;
+}
 .comment .comment-content{
-	/*debug mode*/
 	font-size: 16px;
-	border: solid 1px white;
-	border-bottom: 0px;
-	margin-bottom: 50px;
+	padding: 5px;
+	border-left: 1px solid #cdcecf;
+	vertical-align: top;
+}
+.comment-content p{
+	background-color: white;
+	color: black;
+	border-radius: 1px;
 	padding: 5px;
 }
-.comment-content > textarea{
+.comment textarea{
+	border: 1px solid #cdcecf;
 	width: 100%;
 	display: none;
 }
-.comment-content > .action {
+.comment-area .action {
+	font-size: 14px;
+	text-align: right;
+	border-left: 1px solid #cdcecf;
+}
+.comment-area .action > a{
+	padding-right: 20px;
+}
+.comment .created-time{
 	font-size: 12px;
-	color: black;
+	color: #898f9c;
+	float: left;
 }
-.comment-content > .action > span{
-	float: right;
-	margin: 10px;
-}
-.comment-content > .action  .save-button,
-.comment-content > .action .create-button,
-.comment-content > .action .cancel-button,
-.comment-content > .action .cancel-edit-button {
+.comment-area .action  .save-button,
+.comment-area .action .create-button,
+.comment-area .action .cancel-button,
+.comment-area .action .cancel-edit-button {
 	display: none;
+}
+.comment-area hr{
+	margin: 2px;
+}
+.new-comment{
+	min-height: 100px;
+}
+.new-comment textarea{
+	margin-top: 20px;
+	width: 100%;
+	border: 1px solid #cdcecf;
 }

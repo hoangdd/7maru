@@ -14,6 +14,16 @@
     min-height:500px;
     background-color: white;
 }
+.player-wrapper{
+    background-color: black;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+#player{
+    width: 100%;
+    background-color: black;
+    margin-bottom: 20px;
+}
 .tag_list span{
 	background: url(../img/tag_red.png);
 	margin: 10px;

@@ -238,7 +238,7 @@ class StudentController extends AppController {
 					$error ['phone_number'] [1] = 'Phone number is too long.';
 				}
 			}
-			 //自己のイメージをチェック：
+			 //自己のイメージをチェック：				
 			if( !empty($_FILES['profile_picture'])){
 				$config = Configure::read('srcFile');
 				$img_exts = $config['image']['extension'];
@@ -247,6 +247,9 @@ class StudentController extends AppController {
 				if( !in_array($ext, $img_exts) ){
 				  $error['profile_picture'][0] ='Unsupported image file';  
 				}				
+			}
+			else{
+
 			}
 			//====================================
 
@@ -291,17 +294,25 @@ class StudentController extends AppController {
 		$this->set('error', $error);
 	}
 
-	function Profile(){
+	function Profile($id = null){
 		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
 			// $data=$this->User->query($sql);
 
-		if($this->Auth->loggedIn()){
-			$pid=$this->Auth->User('user_id');
-			$data = $this->User->find('first', array(
-			'conditions' => array(
-				'User.user_id' => $pid,
+		if($this->Auth->loggedIn()){			
+			if ($this->Auth->User('admin_id') && $id!= null){
+				$data = $this->User->find('first', array(
+					'conditions' => array(
+					'User.user_id' => $id,
 				)
-			));
+			));	
+			}
+			else{				
+				$pid=$this->Auth->User('user_id');
+				$data = $this->Auth;
+			}
+			if (!$data){
+				$this->Session->setFlash(__('Forbidden error'));
+			}
 		$this->set("data",$data);
 		if($data['User']['user_type']==2){
 			$a=$data['User']['foreign_id'];

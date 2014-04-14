@@ -51,9 +51,8 @@ class Lesson extends AppModel {
 			$data['cover'] = $filename.'.'.$ext;
 			$this->data['Lesson'] = $data;
 		}else{
-			unset($data['cover']);
+			$data['cover'] = DEFAULT_COVER_IMAGE;
 		}
-
 		$this->data['Lesson'] = $data;
 	}
 }

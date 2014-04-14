@@ -16,8 +16,8 @@ define('TEACHER_PROFIT_PERCENTAGE',0.6);
 define ('TYPE_CREDIT_CARD' , 18);
 define ('TYPE_BANK_ACCOUNT', 54);
 define ('LIMIT_LEARN_DAY' , 7);
-define ('DEFAULT_COVER_IMAGE', LESSON_COVER_LINK.DS.'default_book.jpg');
-define ('DEFAULT_PROFILE_IMAGE', IMAGE_PROFILE_LINK.'default_avatar.jpg');
+define ('DEFAULT_COVER_IMAGE', 'default_cover.jpg');
+define ('DEFAULT_PROFILE_IMAGE', 'default_avatar.jpg');
 define('MAX_COVER_SIZE' ,2);
 define('UNIT_SIZE',1024*1024);
 define('MAX_TEST_FILE_SIZE',5);
@@ -46,7 +46,8 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('index', 'profile', 'statistic'),
 		'teacher' => array('index', 'profile', 'statistic'),
-		'user' => array('index')
+		'user' => array('index'),
+		'cakeerror' => '*'
 	),
 	// teacher
 	'R2' => array(
@@ -73,7 +74,9 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => '*',
 		'teacher' => array('index', 'profile'),
-		'user' => '*'
+		'user' => '*',
+		'data' => '*',
+		'cakeerror'	=> '*'
 		),
 
 	//guest
@@ -84,7 +87,8 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register', 'checkusername'),
-		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson')
+		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson'),
+		'cakeerror' => '*'
 	),
 ));
 /*========================End config user roles ====================*/

@@ -16,7 +16,7 @@
 		<thead>
 			<tr>
 
-				<th class='text-center' style="width:20%">
+				<th class='text-center' style="width:5%">
 					<?php echo __('No.') ?>
 				</th>
 
@@ -28,13 +28,13 @@
 					<?php echo __('Username') ?>
 				</th>
 
-				<th class='text-center' style="width:5%">
+				<th class='text-center' style="width:6%">
 					<?php echo __('Type') ?>
 				</th>
-				<th class='text-center' style="width:15%">
+				<th class='text-center' style="width:10%">
 					<?php echo __('Date of birth') ?>
 				</th>
-				<th class='text-center' style="width:20%">
+				<th class='text-center' style="width:15%">
 					<?php echo __('Created Account Time') ?>
 				</th>
 				<th class='text-center' style="width:5%">
@@ -43,11 +43,11 @@
 				<th class='text-center' style="width:5%">
 					<?php echo __('Destroy') ?>
 				</th>
-				<th class='text-center' style="width:5%">
-					<?php echo __('Reset password') ?>
+				<th class='text-center' style="width:10%">
+					<?php echo __('Password') ?>
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Verify code') ?>
+					<?php echo __('verify code') ?>
 				</th>
 			</tr>
 		</thead>

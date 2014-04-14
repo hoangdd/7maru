@@ -21,7 +21,11 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 
  	$('.create-button').click(function(e){
  		e.preventDefault();
- 		$('.new-comment').find('textarea').focus();
+		$('html body').animate({
+			'scrollTop': $('.new-comment').offset().top
+		},400,function(){
+	 		$('.new-comment').find('textarea').focus();
+		});
  	});
 
  	$(document).delegate('.edit-button', 'click', function(){
@@ -107,6 +111,8 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
  				if(res.responseText == 1){
  					alert("<?php echo __('Comment is deleted')?>");
  					$(comment).fadeOut(1000);
+ 					//remove <hr> tag
+ 					$(comment).next().fadeOut(1000);
  				}else{
  					alert("<?php echo __('Had error! Please try again later')?>");
  				}
@@ -138,10 +144,11 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
  				if(res.responseText == 0){
  					alert("<?php echo __('Had error! Please try again later')?>");
  				}else{
- 					$('.new-comment').before(res.responseText);
+ 					// truoc ('.new-comment') co 1 <hr>
+ 					$('.new-comment').prev().before(res.responseText);
  					//animate
- 					$('.new-comment').prev().hide();
- 					$('.new-comment').prev().fadeIn(1000);
+ 					$('.new-comment').prev().prev().hide();
+ 					$('.new-comment').prev().prev().fadeIn(1000);
 
  					$('.new-comment textarea').val('');
  					$('.new-comment textarea').keyup();
@@ -158,7 +165,8 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
  })
 <?php echo $this->Html->scriptEnd();?>
 	<div class = 'comment-area' style="width:<?php echo $width;?>">
-		<div style="text-align:center;margin:20px">
+		<div class='header'>
+			<div><?php echo __('Comment');?></div>
 			<a href="#" class="create-button"> <?php echo __('Insert new comment');?></a>
 		</div>
 		<?php 
@@ -170,7 +178,6 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 				// > User da bi xoa, hoac khong ton tai
 				if( !isset($user['user_id']) || empty ($user['user_id']))
 					continue;
-
 				echo $this->element('comment_element', array(
 					'user' => $user,
 					'comment' => $comment,
@@ -178,14 +185,13 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 			endforeach;
 			endif; //if(!empty($comments)) :
 		?>
-		<div class = 'comment new-comment'>
-			<textarea style="width:100%" placeholder='<?php echo __("Insert your comment here");?>'></textarea>
-			<div class='comment-content'>
+		<hr>
+		<div class = 'new-comment'>
+			<textarea placeholder='<?php echo __("Insert your comment here");?>'></textarea>
+			<div>
 				<div class="action">
-					<span>
-						<a  style='color:white' class='create-button' href="#"><?php echo __('Save');?></a>
-						<a  style='color:white' class='cancel-button' href="#"><?php echo __('Cancel');?></a>
-					</span>
+					<a class='create-button' href="#"><?php echo __('Save');?></a>
+					<a class='cancel-button' href="#"><?php echo __('Cancel');?></a>
 				</div>
 			</div>
 		</div>

@@ -304,14 +304,21 @@ class LessonController extends AppController {
 	private function check_Document_File(){
 	}
 
-	public function viewContent($fid){
-		
+	public function viewContent($fid = null){
+		if (!$fid) die;
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
-
 		$this->set('file', $file);
-
+		//play list
+		$list = $this->Data->find('all', array(
+			'conditions' => array(
+				'coma_id' => $file['Data']['coma_id']
+				),
+			'order' => array('Data.isTest'),
+			'recursive' => 0
+			));
+		$this->set('list', $list);
 		//get comments
 		$this->loadModel('Comment');
 		$this->loadModel('User');
@@ -328,6 +335,8 @@ class LessonController extends AppController {
 				)
 			));
 		$this->set('comments',$comments);
+
+
 	}
 	public function rate(){
 		if($this->request->is('post')){

@@ -15,10 +15,11 @@
 		</div>
 		
 		<?php  
-			if (isset($_SESSION['countFail'])){
+			if ( ( isset($_SESSION['countFail']) && $_SESSION['countFail'] >= 3 ) || (isset($_SESSION['isValidIp']) && !$_SESSION['isValidIp']) ){
 				if ($_SESSION['countFail'] >= 3){
 					//isBlock
-					echo "<script>isBlock =". $_SESSION['countFail']."</script>"
+					echo "<script>isBlock =". $_SESSION['countFail']."</script>";
+				}			
 					//echo input verifycode	
 			?>		
 		<p></p>
@@ -33,23 +34,21 @@
 		 <input name="answer" type="text" class="form-control" placeholder="<?php echo __('Answer this question') ?>" />
 		 <p></p>
 		<?php
-				echo $this->Session->flash('verifycode');
-		
-				}
+				echo $this->Session->flash('verifycode');			
 			}
 
 		?>
-		<button type="submit" class="btn btn-default"><?php echo __('Submit') ?></button>
+		<button type="submit" class="btn btn-default"><?php echo __('Login') ?></button>
 	</form>
-	<div class="login_form_label_field">
-			<a rel="nofollow" href=""><?php echo __('Forgot your password')."?" ?></a>
+	<!-- <div class="login_form_label_field">
+			<a rel="nofollow" href=""><?php echo __('Forgot your password')."?" ?></a>`
 		</div>
 		<div class="checkbox">
 			<label>
 				<input type="checkbox" name='remember'> <?php echo __('Remember me').'?' ?>
 			</label>
 		</div>
-</div>
+</div> -->
 <div id="overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;background-color:green;opacity:0.5;" >
 	<strong style="position:absolute;top:50%;left:50%;font-size:larger"></strong>
 </div>

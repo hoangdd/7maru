@@ -1,0 +1,36 @@
+#playlist{
+	position: relative;
+}
+#playlist .element{
+	padding: 5px;
+	display: none;
+	border-bottom: solid 1px #cdcecf;
+	margin-bottom: 4px;
+}
+#playlist .element.current{
+	display: block;
+}
+#playlist .element.active{
+	background-color: #cdcecf;
+}
+#playlist .element.active a{
+	color: white;
+}
+#playlist a{
+	/*color: white;*/
+	font-weight: bold;
+}
+#playlist hr{
+	margin: 0px;
+}
+#list-button{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	transition: 0.6s;
+}
+#list-button.reverse{
+	transition: 0.6s;
+	-ms-transform:rotate(180deg);
+	-webkit-transform:rotate(180deg);	
+}

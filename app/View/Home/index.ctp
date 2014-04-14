@@ -216,7 +216,7 @@
 					'width' : '0px',
 					'margin-top' : '120px',
 				},
-				400,
+				200,
 				function(){
 
 				});
@@ -226,7 +226,7 @@
 					'width' : 'auto',
 					'margin-top' : '30px',
 				},
-				400,
+				200,
 				function(){
 
 				});
@@ -264,18 +264,12 @@
 		  <div class="carousel-inner">
 		    <div class="item active">
 		      <?php echo $this->Html->image('resource/intro.jpg');?>
-		      <div class="carousel-caption">
-		      </div>
 		    </div>
 		    <div class="item">
 		      <?php echo $this->Html->image('resource/intro2.jpg');?>
-		      <div class="carousel-caption">
-		      </div>
 		    </div>
 		    <div class="item">
 		      <?php echo $this->Html->image('resource/intro.jpg');?>
-		      <div class="carousel-caption">
-		      </div>
 		    </div>
 		  </div>
 

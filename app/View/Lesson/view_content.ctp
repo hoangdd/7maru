@@ -3,7 +3,12 @@
 	echo $this->Html->css('flexpaper');
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv'));	
 ?>
-<div id="player" class="flexpaper_viewer" style="width:770px;height:500px"></div>	
+<?php 
+	echo $this->element('playlist', array('current' => $file['Data']['file_id'],'list' => $list));
+?>
+<div class="player-wrapper">
+	<div id="player" class="flexpaper_viewer"></div>	
+</div>
 <?php 
 	if ($file['Data']['type'] == 'pdf'){		
 ?>
@@ -11,13 +16,7 @@
 	var startDocument = "Paper";
 	$('#player').FlexPaperViewer(
 			{ config : {
-
-				SWFFile : "<?php echo $this->Html->url(array(
-							'controller' => 'Data',
-							'action' => 'file',
-							$file['Data']['file_id']
-						)
-					);?>",
+				SWFFile : <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
 				Scale : 0.6,
 				ZoomTransition : 'easeOut',
 				ZoomTime : 0.5,
@@ -32,7 +31,6 @@
 				InitViewMode : 'Portrait',
 				RenderingOrder : 'flash,html',
 				StartAtPage : '',
-
 				ViewModeToolsVisible : true,
 				ZoomToolsVisible : true,
 				NavToolsVisible : true,
@@ -54,26 +52,20 @@
 		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
 		primary:"flash",
 		startparam: "starttime",
-
+		width: '100%',
 	});
 	</script>
 <?php 
 	}
 ?>
 
-<?php //playlist ?>
-<div>
-	
-</div>
 
 <?php //comment ?>
-<div>
-	<?php
-		$option = array(
-			'width' => '480px', 
-			'file_id' => $file['Data']['file_id'],
-			'comments' => !empty($comments) ? $comments : array(),
-		);
-		echo $this->element('comment', $option);
-	?>
-</div>
+<?php
+	$option = array(
+		'width' => '100%', 
+		'file_id' => $file['Data']['file_id'],
+		'comments' => !empty($comments) ? $comments : array(),
+	);
+	echo $this->element('comment', $option);
+?>
