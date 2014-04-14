@@ -179,7 +179,8 @@ class LessonController extends AppController {
 						'name'=> $data['name'],
 						'description'=> $data['desc'],
 						'author' => $this->Auth->user('user_id'),
-						'cover' => $_FILES['cover-image']
+						'cover' => $_FILES['cover-image'],
+						'title' => $data['title']
 						)
 					);				
 				$lesson = $this->Lesson->save($saveData);				

@@ -100,6 +100,14 @@
             </div>
             
         </div>
+        <div class='form-group row <?php if(isset($error) && isset($error['name']))echo "has-error"; ?>'>
+            <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Title') ?></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" placeholder="Enter Title" name="title" <?php if(isset($data) && isset($data['title']) && $data['title']) echo 'value ="'.$data['title'].'"'; ?> >
+                <?php if(isset($error) && isset($error['title']))echo "<div class='text-danger'>".$error['title']."</div>"; ?>
+            </div>
+            
+        </div>
 <!--        Lesson Description-->          
         <div class="form-group row <?php if(isset($error) && isset($error['desc']))echo "has-error"; ?>">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Description') ?></label>

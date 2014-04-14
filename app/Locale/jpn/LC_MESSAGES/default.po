@@ -391,6 +391,9 @@ msgstr "サブミット"
 msgid "Lesson Name"
 msgstr "授業ネーム"
 
+msgid "Title"
+msgstr "タイトル"
+
 msgid "Document"
 msgstr "ドキュメント"
 
