@@ -44,8 +44,8 @@ Configure::write('userRoles', array(
 		'file' => '*',
 		'lesson' => array('index', 'comment','view'),
 		'search' => '*',
-		'student' => array('index', 'profile', 'statistic'),
-		'teacher' => array('index', 'profile', 'statistic'),
+		'student' => array('index', 'profile', 'editprofile'),
+		'teacher' => array('index', 'profile', 'editprofile'),
 		'user' => array('index'),
 		'cakeerror' => '*'
 	),
@@ -59,8 +59,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'user' => '*',
 		'teacher' => '*',
-		'data' => '*',	
-		'student' => array('index', 'profile'),
+		'data' => '*',			
 		'cakeerror' => '*'
 		),
 
@@ -73,7 +72,7 @@ Configure::write('userRoles', array(
 		'reference' => array('index', 'view'), 
 		'search' => '*',
 		'student' => '*',
-		'teacher' => array('index', 'profile'),
+		'teacher' => array('profile'),
 		'user' => '*',
 		'data' => '*',
 		'cakeerror'	=> '*'
@@ -87,7 +86,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('profile', 'register'),
 		'teacher' => array('profile', 'register', 'checkusername'),
-		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson'),
+		'lesson' => array('hotlesson', 'newlesson', 'bestseller', 'recentlesson','index'),
 		'cakeerror' => '*'
 	),
 ));

@@ -56,12 +56,15 @@ class LessonController extends AppController {
 			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
 			$user = $this->Auth->user();
 			// debug($user);
-			$lesson['buy_status'] = 1;
+			$lesson['buy_status'] = 0;			
 			if ($user['user_type'] == 2){
-				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-					$lesson['buy_status'] = 0;
+				if($this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+					$lesson['buy_status'] = 1;
 				}
-			}			
+			}
+			else if ($user['user_type'] == 1){
+				$lesson['buy_status'] = 1;
+			}
 			
 			//　授業のカテゴリを全部GET
 			
@@ -83,7 +86,8 @@ class LessonController extends AppController {
 				$relativeLesson = $this->LessonCategory->find('all',array(
 					'contain' => array(						
 						'Lesson' => array(
-							'fields' => array('cover','name','coma_id')							
+							'fields' => array('cover','name','coma_id'),
+							'conditions' => array('is_block' => 0)
 						)
 					),
 					'conditions' => array(						
@@ -225,7 +229,7 @@ class LessonController extends AppController {
 					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}
-				//$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
 		}		
 	}

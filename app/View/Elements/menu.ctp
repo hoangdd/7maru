@@ -228,13 +228,13 @@ $(document).ready(function(){
 				</li>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
-						'controller' => 'Teacher',
+						'controller' => 'Student',
 						'action' => 'Profile'
 						));?>"> <?php echo __('View');?> </a>
 				</li>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
-						'controller' => 'Teacher',
+						'controller' => 'Student',
 						'action' => 'EditProfile'
 						));?>"><?php echo __('Edit');?> </a>
 				</li>

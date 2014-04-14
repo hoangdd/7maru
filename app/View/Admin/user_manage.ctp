@@ -64,7 +64,9 @@
 					echo $td.$user['User']['user_type'].$close;								
 					echo $td.$user['User']['date_of_birth'].$close;				
 					echo $td.$user['User']['created'].$close;				
-					echo $td.$this->Html->link('Edit',array('controller' => 'admin','action' => 'editUserProfile',$user['User']['user_id'])).$close;
+					$type = $user['User']['user_type'] == 1 ? 'Teacher': 'Student';
+
+					echo $td.$this->Html->link('Edit',array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
