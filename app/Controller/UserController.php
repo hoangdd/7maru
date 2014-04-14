@@ -8,6 +8,8 @@ class UserController extends AppController {
 	}
 	function Comment() {
 		// comment test
+		$this->loadModel('Log');
+		debug(Log::saveLog(2));
 		die;
 		$this->loadModel('Comment');
 		$this->loadModel('User');
