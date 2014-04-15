@@ -439,8 +439,6 @@ class TeacherController extends AppController {
             unset($lesson[$index]['RateLesson']);
         endforeach;        
         $this->set('lesson', $lesson);
-        debug($lesson);
-        die;
    }
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
