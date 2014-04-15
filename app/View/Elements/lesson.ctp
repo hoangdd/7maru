@@ -24,10 +24,13 @@
 				)				
 			?>			
 		</span>
-		<br>
+		<br>	
+		<div class ='text-center'>	
+		<?php if ($lesson['Lesson']['is_show_buy_button']): ?>
 		<button class = 'buy-button' id='buy-button-<?php echo $lesson['Lesson']['coma_id'] ?>' >
 			<?php echo __('Buy') ?>
 		</button>
+		<?php endif; ?>
 		<button>
 			<?php
 				echo $this->Html->link(__('View'), array(
@@ -36,8 +39,8 @@
 						$lesson['Lesson']['coma_id']
 					))
 			?>
-		</button>
-
+		</button>	
+	</div>
 		<h3>
 			<span>
 				<?php

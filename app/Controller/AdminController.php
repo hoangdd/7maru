@@ -631,22 +631,25 @@ class AdminController extends AppController {
     }
 
     function check_notification() {
+        $this->layout = false;
         $this->loadModel('Notification');
         if ($this->request->is('post')) {
             // lay du lieu gui len
             $id_array = $this->request->data['ids'];
 
             // chuyen sau thanh mang
-            $data = $this->request->data;
-            $data_private = array();
+            $data = $this->request->data;            
+            $data_private = array();            
             foreach ($id_array as $user_id):
                 $record = array('Notification' => array('user_id' => $user_id, 'content' => $data['privatepost']));
                 $data_private[] = $record;
             endforeach;
             if (isset($data_private)) {
-                // $this->Notification->create($data_private);                
+                // $this->Notification->create($data_private);                                
                 if ($this->Notification->saveMany($data_private))
-                    echo "Send complete!";
+                    echo "1";
+                else
+                    echo "0";
             }
         }
         die;

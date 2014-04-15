@@ -5,7 +5,7 @@
 		'controller' => strtolower($this->name),
 		'action' => strtolower($this->action),
 		);
-	$isActive = true;
+	$isActive = true;	
 ?>
 
 
@@ -107,6 +107,31 @@ user => comment, index
 					echo $this->Html->link(__('Statistic'), $option);
 					?>
 				</li>
+
+				<!-- Notify -->
+				<?php
+					$option = array(
+						'controller' => 'user',
+						'action' => 'notify'						
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'"; ?> >
+					<?php
+						$title = __('Notify');
+						if ($notify_num > 0){
+							$title = $title . "<span class='badge'>".$notify_num."</span>";
+						}
+					echo $this->Html->link($title, $option,array('escape' => false));					
+					?>
+				</li> 
+				
 				<?php
 					$option = array(
 						'controller' => 'Login',
@@ -124,7 +149,7 @@ user => comment, index
 					<?php
 					echo $this->Html->link(__('Logout'), $option);
 					?>
-				</li>
+				</li>				
 			</ul>
 		<?php
 		endif;	//	if( $role=='R2' ) :
@@ -212,6 +237,29 @@ user => comment, index
 					echo $this->Html->link(__('Statistic'), $option);
 					?>
 				</li>
+				<!-- Notify -->
+				<?php
+					$option = array(
+						'controller' => 'user',
+						'action' => 'notify'						
+					);
+					if( $page['controller'] == strtolower($option['controller'])
+						&& $page['action'] == strtolower($option['action'])
+					){
+						$isActive = true;
+					}else{
+						$isActive = false;
+					}
+				?>
+				<li <?php if($isActive) echo "class='active'";?>>
+					<?php
+						$title = __('Notify');
+						if ($notify_num > 0){
+							$title = $title . "<span class='badge'>".$notify_num."</span>";
+						}
+					echo $this->Html->link($title, $option,array('escape' => false));					
+					?>
+				</li>
 				<?php
 					$option = array(
 						'controller' => 'Login',
@@ -230,6 +278,7 @@ user => comment, index
 					echo $this->Html->link(__('Logout'), $option);
 					?>
 				</li>
+				
 			</ul>
 		<?php
 		endif;	//	if( $role=='R3' ) :

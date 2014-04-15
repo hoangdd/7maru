@@ -308,7 +308,7 @@
 </div>
 <div id='intro-menu'>
 <?php
-	echo $this->element('menu_intro');
+	echo $this->element('menu_intro',array('notify_num' => $user['notify_num']));
 ?>
 </div>
 <?php

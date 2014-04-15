@@ -148,8 +148,12 @@
                 'type':'post', //method
                 'data':{ids:ids,privatepost:privatepost},
                 complete : function(res){
-                    // du lieu tra ve tu controller
-                    alert(res.responseText);
+                    // du lieu tra ve tu controller                      
+                    if (res.responseText.trim() === '1' )
+                        alert("<?php echo __('Successfully') ?>");
+                    else{
+                        alert("<?php echo __('Error') ?>");
+                    }
                 }
             })
         });

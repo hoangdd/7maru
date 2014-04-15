@@ -355,7 +355,13 @@ class LessonController extends AppController {
 	}
 	
 	function HotLesson($pageIndex = 1, $page_limit = 4) {
+		$user = $this->Auth->User();
+		$role = $user['role'];
 
+		if( empty($user)|| empty($role)){
+			// R4, chua login
+			$role = 'R4';
+		}
 		$this->layout = null;
 		$this->loadModel('Lesson');
 		$this->loadModel('User');
@@ -389,22 +395,34 @@ class LessonController extends AppController {
 		//$this->Paginator->settings = $pagination;
 		$data = $this->RateLesson->find ('all',$options);
 		foreach($data as $key=>$value){			
+			// check show buy button or not
+			$isShowBuyButton = false;
+			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$value['Lesson']['coma_id'])){
+				$isShowBuyButton = true;
+			}				
+			$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;
 			$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
-			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];		
 			unset($data[$key]['Lesson']['Author']);
 			unset($data[$key]['0']);
 		}
 		if(empty($data)){
 			echo '0';
 			die;
-		}
-		$this->log($data,'hlog');
+		}		
 		$this->set('data', $data);
 		// debug($data);
 	}
 	
 	function NewLesson($pageIndex = 1, $page_limit = 4) {
-		$this->layout = null;
+		$user = $this->Auth->User();
+		$role = $user['role'];
+
+		if( empty($user)|| empty($role)){
+			// R4, chua login
+			$role = 'R4';
+		}
+		$this->layout = false;
 		$this->loadModel('Lesson');
 		$this->loadModel('User');
 		$this->loadModel('RateLesson');    	
@@ -430,7 +448,12 @@ class LessonController extends AppController {
 				);    	
 			$data = $this->Lesson->find ( 'all',$options); 
 			//debug($data);
-			foreach($data as $key=>$lesson){			
+			foreach($data as $key=>$lesson){
+				$isShowBuyButton = false;
+				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+					$isShowBuyButton = true;
+				}				
+				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
 				$rank = 0;$count = 0;
 				foreach($lesson['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -515,6 +538,11 @@ class LessonController extends AppController {
 				'offset' => ($pageIndex-1) * $page_limit,
 			));
 			foreach($data as $key=>$lesson){
+				$isShowBuyButton = false;
+				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+					$isShowBuyButton = true;
+				}				
+				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
 				$rank = 0;$count = 0;
 				foreach($lesson['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -554,6 +582,11 @@ class LessonController extends AppController {
 				));
 
 			foreach($data as $key=>$lesson){
+				$isShowBuyButton = false;
+				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+					$isShowBuyButton = true;
+				}				
+				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
 				$rank = 0;$count = 0;
 				foreach($lesson['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -574,6 +607,14 @@ class LessonController extends AppController {
 	}
 	function Bestseller($pageIndex = 1, $page_limit = 4) {
 		 $this->layout = false;
+		 $user = $this->Auth->User();
+		$role = $user['role'];
+
+		if( empty($user)|| empty($role)){
+			// R4, chua login
+			$role = 'R4';
+		}
+
   //   	// $data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
 		// $page_limit = 4;
 		// $pagination = array (				
@@ -592,16 +633,29 @@ class LessonController extends AppController {
 		 		)
 		 	)
 		 ));
+		 $this->Lesson->bindModel(array(
+		 	'belongsTo' => array(
+		 		'Author' => array(
+		 			'className' => 'User',
+		 			'foreignKey' => 'author'
+		 		)
+		 	)
+		 ));
 		$options = array (
 			'limit' => $page_limit, 
 			'offset' => ($pageIndex-1) * $page_limit,			
 			'group' => 'LessonTransaction.coma_id',
 			'order' => 'COUNT(transaction_id) DESC',
 			'conditions' =>array('Lesson.is_block' => 0),
-			'recursive' => 2
+			'recursive' => 3
 			);
-		$data = $this->LessonTransaction->find('all',$options);
+		$data = $this->LessonTransaction->find('all',$options);		
 		foreach($data as $key=>$lesson){
+				$isShowBuyButton = false;
+				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+					$isShowBuyButton = true;
+				}				
+				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
 				$rank = 0;$count = 0;
 				foreach($lesson['Lesson']['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -610,10 +664,11 @@ class LessonController extends AppController {
 				if ($count != 0) {
 					$rank = $rank / $count;
 				}			    		
-				$data[$key]['RateLesson'] = $rank;				
+				$data[$key]['RateLesson'] = $rank;
+				$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
 				unset($data[$key]['Lesson']['RateLesson']);  		
 				unset($data[$key]['LessonTransaction']);
-			}	
+			}			
 		if(empty($data)){
 			$data = 0;
 		}

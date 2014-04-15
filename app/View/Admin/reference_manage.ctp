@@ -63,7 +63,7 @@
                         }
                         else{
                             link.html(<?php echo "'".__('Block')."'"; ?>);
-                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'blockLesson'))."'"; ?> + '/'+link.attr('coma_id'));
+                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'blockLesson'))."'"; ?> + '/'+link.attr('coma_id')   );
                             link.attr('link_type','block_link');                           
                         }
                     }

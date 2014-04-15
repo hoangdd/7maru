@@ -95,4 +95,56 @@ class UserController extends AppController {
 		}
 		die;
 	}
+
+	function notify(){
+		if ($this->Auth->loggedIn()){
+			$this->loadModel('Notification');
+			$userId = $this->Auth->user('user_id');
+			$notifies = $this->Notification->find('all',array(
+				'conditions' => array(
+						'user_id' => $userId						
+					),
+				'order' => 'created DESC'
+			));
+			$this->set(compact('notifies'));
+		}
+		else{
+			$this->Session->setFlash(__('Error'));
+			$this->redirect(array('controller' => 'home','action' => 'index'));
+		}
+	}
+
+	function changeStateNotify($notify_id = null){
+		if ($notify_id == null){
+			return;
+		}
+		$this->loadModel('Notification');
+		$this->Notification->id = $notify_id;
+		$result = $this->Notification->saveField('viewed',1);
+		if ($result){
+			echo "1";
+		}
+		else
+			echo "0";
+		die;
+	}
+
+	function getContentNotify($notify_id = null){
+		if ($notify_id == null){
+			return;
+		}
+		$this->loadModel('Notification');
+		$notify = $this->Notification->find('first',array(
+				'conditions' => array(
+						'user_id' => $userId						
+					),
+				'fields' => array('content')
+			));
+		if ($notify){
+			echo $notify['Notification']['content'];
+		}
+		else
+			echo "0";
+		die;
+	}
 }
