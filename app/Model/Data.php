@@ -363,7 +363,7 @@ class Data extends AppModel {
 		$logFile = 'call_service';
 		$this->log('_____________________________________________', $logFile);
 		$this->log($command, $logFile);
-		$ret = exec($command);
+		$ret = exec($command.' 2>&1');
 		$this->log($ret, $logFile);
 		return $ret;
 	}
