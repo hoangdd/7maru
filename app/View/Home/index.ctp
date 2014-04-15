@@ -168,19 +168,7 @@
 					"controller" => "Lesson", 
 					"action" => "Bestseller",
 					)
-				),
-				),
-			'RecentLesson' => array(
-				'action' => 'RecentLesson',
-				'label' => __('Recent'),
-				'page' => 1,
-				'max' => -1,
-				'view' => 1,
-				'url' => $this->Html->url(array(
-					"controller" => "Lesson", 
-					"action" => "RecentLesson",
-					)
-				),
+				),				
 				)
 			);
 		break;
