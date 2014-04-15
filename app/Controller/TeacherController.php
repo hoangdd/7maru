@@ -443,8 +443,13 @@ class TeacherController extends AppController {
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            
-            $this->Lesson->delete($id);            
+            if($this->Lesson->delete($id)){
+                echo '1';
+                die;
+            }
        }
+       echo '0';
+       die;
    }
 
     function Statistic() {

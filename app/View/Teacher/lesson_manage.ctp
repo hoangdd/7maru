@@ -32,7 +32,7 @@
 </div>
 
 <div class = "lesson-box row">
-    <div class="lesson-action col-xs-2 list-group">
+    <div class="lesson-action col-xs-2">
         <button type="button" id="addLesson" class="text-center btn btn-default btn-lg">
             <span class="glyphicon glyphicon-plus"></span> <?php echo __('Add') ?>
         </button>
@@ -49,7 +49,7 @@
                         	if(isset($value['Lesson']['coma_id']))
                             echo $this->Html->image('data/cover/'.$value['Lesson']['cover'], array(
                                 'width' => '140px',
-                                'height' => '140px',
+                                'height' => '200px',
                                 'url' => array('controller' => 'Lesson' ,'action' => 'index',$value['Lesson']['coma_id'])
                                 ));
                              else echo 'No Images';
@@ -110,7 +110,6 @@ $(document).ready(function(){
             type : 'post',
             dataType : 'text',
             complete : function(data){
-                console.log(data);
                 if (data.responseText == 1) {
                     $('.lesson[lessonid='+id+']').fadeOut();
                     alert('Deletion success');
