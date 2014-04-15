@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit" id="editLesson" name="<?php echo $value['Lesson']['coma_id']; ?>" class="edit-btn btn btn-default"><?php echo __('Edit') ?></button>
+                    <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="editLesson edit-btn btn btn-default"><?php echo __('Edit') ?></button>
                     <button type="submit" name="<?php echo $value['Lesson']['coma_id']; ?>" class="delete-btn btn btn-default"><?php echo __('Delete') ?></button>
                 </div>
             </div>
@@ -136,10 +136,9 @@ $(document).on('click','#addLesson',function(){
 
 });
 
-$(document).on('click','#editLesson',function(){
+$(document).on('click','.editLesson',function(){
     var link = "<?php echo Router::url('/',true)?>" ;
-    location.href = link + 'lesson/edit/'+$('#editLesson').attr('name');
-
+    location.href = link + 'lesson/edit/'+$(this).attr('name');
 });
 function hide_lesson_with(key){
     $('.lesson').each(function(wrapper){

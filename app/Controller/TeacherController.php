@@ -439,6 +439,8 @@ class TeacherController extends AppController {
             unset($lesson[$index]['RateLesson']);
         endforeach;        
         $this->set('lesson', $lesson);
+        debug($lesson);
+        die;
    }
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
@@ -521,10 +523,6 @@ class TeacherController extends AppController {
 	function ChangePassword(){
 	}
 
-	
-	function  EditLesson() {
-	
-	}
     function getDataStatistic($begin = null,$end = null){                        
         ///<summary>
         ///get period 
