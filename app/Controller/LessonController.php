@@ -232,13 +232,18 @@ class LessonController extends AppController {
 	
 	function Edit($id)
 	{
+		$this->Lesson->recursive = 2 ;
 		$lesson = $this->Lesson->findByComaId($id);
 		if(!$lesson){
 			//throw 404
 			throw new NotFoundException();
 		} else {
 			debug($lesson);
-			$categories = $this->LessonCategory->get_Lesson_categories($id);
+			$categories =  $this->Category->find('all');
+			$this->set('categories',$categories);
+			$this->set('data',$lesson['Lesson']);
+			$this->set('LessonCategory', $lesson['LessonCategory']);
+			$this->set('lesson',$lesson);	
 		}
 	}
 

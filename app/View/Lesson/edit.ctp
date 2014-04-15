@@ -1,4 +1,16 @@
 <script>
+
+    checkedCategory = [
+        <?php 
+            if(isset($LessonCategory) && $LessonCategory && count($LessonCategory)){
+                echo $LessonCategory[0]['category_id'];
+                for($i = 1; $i < count($LessonCategory) ; $i++){
+                    echo ", ".$LessonCategory[$i]['category_id'];
+                }
+            }
+        ?>
+    ];
+
     window.onload = function(){
         // other tag process, add new files input
         $('#input_Category').on('input',function(e){
@@ -14,6 +26,26 @@
                 hide_result_Checkbox_with($(this).parent().parent().find('label').text());
             }
         });
+
+        if(checkedCategory.length!=0){
+            for(var i = 0; i < checkedCategory.length; i++){
+                var t = document.querySelector(".input-group-addon input[value='" + checkedCategory[i] + "']");
+                if(t != null){
+                    t.checked = true;
+                }    
+            }
+
+            $('.checkbox-wrapper').find('input').each(function(){
+                if(this.checked){
+                    show_result_Checkbox_with($(this).parent().parent().find('label').text());
+                } else {
+                    hide_result_Checkbox_with($(this).parent().parent().find('label').text());
+                }
+            });
+        }
+
+        t = document.querySelector("#description_textarea");
+        t.value = t.value.trim();
 
     }
     function on_document_input(){
@@ -53,12 +85,12 @@
         })
     }
     function add_new_document_input(){
-        $('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input" onchange = "on_document_input()">');
+        $('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input form-control" onchange = "on_document_input()">');
     }
 </script>
 <h1><?php echo __('Create New Lesson') ?></h1>
 <div class="form-wrapper">
-    <form class="form-horizontal" method="post" action="create" enctype="multipart/form-data">
+    <form class="form-horizontal" method="post" action=<?php echo "'".$this->Html->url(array('controller' => 'Lesson','action' => 'Edit',$data['coma_id'] ))."'"; ?> enctype="multipart/form-data">
 <!--        Category check box-->
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Category') ?></label>
@@ -104,8 +136,8 @@
         <div class="form-group row <?php if(isset($error) && isset($error['desc']))echo "has-error"; ?>">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Description') ?></label>
             <div class="col-sm-8">
-                <textarea class="form-control" rows="3" name="desc" >
-                    <?php if(isset($data) && isset($data['desc']) && $data['desc']) echo $data['desc']; ?>
+                <textarea class="form-control" rows="3" name="desc" id = "description_textarea">
+                    <?php if(isset($data) && isset($data['description']) && $data['description']) echo $data['description']; ?>
                 </textarea>
                 <?php if(isset($error) && isset($error['desc']))echo "<div class='text-danger'>".$error['desc']."</div>"; ?>
             </div>
@@ -114,7 +146,27 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Document') ?></label>
             <div class="col-sm-8" id = "document-input-wrapper">
-                <input type="file" name="document[]" class = 'document-input' onchange = "on_document_input()">
+                <div class = "list-group-item row ">
+                    <?php
+                        foreach ($lesson['Data'] as $key => $value) {
+                            if( !$value['isTest']){
+                                echo $this->Html->link($value['file_name'], 
+                                    array(
+                                        'controller' => 'Lesson',
+                                        'action' => 'viewContent',
+                                        $value['file_id']
+                                        ),
+                                    array(
+                                        'class' => "btn btn-link"
+                                        )
+                                );
+                            }
+                        }
+
+                    ?>
+                    <button class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+                <input type="file" name="document[]" class = 'form-control  document-input' onchange = "on_document_input()">
                 <?php if(isset($error) && isset($error['document']))echo "<div class='text-danger'>".$error['document']."</div>"; ?>
                 <!-- <input type="file" name="document[]" id='document'> -->
             </div>
@@ -123,14 +175,14 @@
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Test File') ?></label>
             <div class="col-sm-8">
-                <input type="file" name="test">
+                <input type="file" name="test" class = "form-control">
                 <?php if(isset($error) && isset($error['test']))echo "<div class='text-danger'>".$error['test']."</div>"; ?>
             </div>
         </div>
         <div class="form-group row">
             <label class="control-label col-sm-4" for="lesson_type"><?php echo __('Lesson Image') ?></label>
             <div class="col-sm-8">
-                <input type="file" name="cover-image">   
+                <input type="file" name="cover-image" class = "form-control">   
                 <?php if(isset($error) && isset($error['image']))echo "<div class='text-danger'>".$error['image']."</div>"; ?>                         
             </div>
         </div>
