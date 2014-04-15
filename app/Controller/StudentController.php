@@ -248,9 +248,10 @@ class StudentController extends AppController {
 				  $error['profile_picture'][0] ='Unsupported image file';  
 				}				
 			}
-			else{
-
-			}
+			if (!empty($data['date_of_birth'])){
+                $data['date_of_birth'] =  date_create($data['date_of_birth']);        
+                $data['date_of_birth'] = date_format($data['date_of_birth'],'Y-m-d');        
+            }
 			//====================================
 
 			//学生のデーだをセーブ
@@ -276,7 +277,7 @@ class StudentController extends AppController {
 					$data['foreign_id'] = $result['Student']['student_id'];
 					$data['user_type'] = 2;
 					$data['profile_picture'] = $profile_pic;					
-					$data['content'] = 0;
+					$data['comment'] = 0;
 					$data['activated'] = 1;
 					$data['approved'] = 0;
 					$this->User->create($data);
@@ -286,6 +287,7 @@ class StudentController extends AppController {
                     }
                     else{
                         $this->Session->setFlash(__('Register successful, waiting for approving by admin'));   
+                        $this->redirect(array('controller' => 'Login','action' => 'index'));
                     }
 				 }
 			  }
@@ -300,16 +302,16 @@ class StudentController extends AppController {
 
 		if($this->Auth->loggedIn()){			
 			if ($this->Auth->User('admin_id') && $id!= null){
-				$data = $this->User->find('first', array(
-					'conditions' => array(
-					'User.user_id' => $id,
-				)
-			));	
-			}
-			else{				
-				$pid=$this->Auth->User('user_id');
-				$data = $this->Auth;
-			}
+                $pid = $id;        
+            }
+            else{               
+                $pid=$this->Auth->User('user_id');                            
+            }
+            $data = $this->User->find('first', array(
+                    'conditions' => array(
+                    'User.user_id' => $pid,
+                )
+            ));
 			if (!$data){
 				$this->Session->setFlash(__('Forbidden error'));
 			}
@@ -344,26 +346,50 @@ class StudentController extends AppController {
 		
 	}
 
-	function EditProfile() {	
-		if ($this->Auth->loggedIn()) {
+	function EditProfile( $id = null) {	
+		if ($this->Auth->loggedIn()) {						
+			if ($this->Auth->user('role') === "R1"){
+				if ($id != null){					
+					$pid = $id;
+				}
+				else{
+					$this->Session->setFlash(__('Forbidden error'));
+					die;
+				}
+			}
+			else{
+				$pid = $this->Auth->User('user_id');
+			} 
+			$userData = $this->User->find('first',
+				array(
+					'conditions' => array(
+						'User.user_id' => $pid
+						)
+					)
+				);  				
 			if ($this->request->is('post')) {               
-				$pid = $this->Auth->User('user_id');                
+				$fields = array('mail','firstname','lastname','phone_number','address','date_of_birth');
+				if ($_FILES['profile_picture']['error'] == 0){
+                    $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+                    array_push($fields,'profile_picture');
+                } 
 				$this->request->data['profile_picture'] = $_FILES['profile_picture'];
 				$data = $this->User->create($this->request->data);
-				$data['User']['user_id'] = $this->Auth->user('user_id');
+				$data['User']['user_id'] = $pid;
 				$studentData = $data['User']['credit_account'];
 				unset($data['credit_account']);
-				$result = $this->User->save($data,true,array('mail','firstname','lastname','date_of_birth','phone_number','profile_picture'));				
+				$result = $this->User->save($data,true,$fields);				
 				if ($result){
 					$studentData = array(
 						'Student' => array(
 							'credit_account' => $studentData,
-							'student_id' => $this->Auth->user('foreign_id'),
-							'username' => $this->Auth->user('username')
+							'student_id' => $userData['User']['foreign_id'],
+							'username' => $userData['User']['username']
 						)
 					);
 					if ($this->Student->save($studentData)){
 						$this->Session->setFlash(__('Edit successful'));
+						$this->redirect(array('controller' => 'Student', 'action' => 'profile',$id));
 					}
 				   // $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
 				}
@@ -373,18 +399,10 @@ class StudentController extends AppController {
 			$studentData = $this->Student->find('first',
 				array(
 					'conditions' => array(
-						'Student.student_id' => $this->Auth->User('foreign_id')
+						'Student.student_id' => $userData['User']['foreign_id']
 						)
 					)
-			);            
-			$this->loadModel('User');
-			$userData = $this->User->find('first',
-				array(
-					'conditions' => array(
-						'User.user_id' => $this->Auth->User('user_id')
-						)
-					)
-				);                
+			);            			              
 			$this->set('studentData',$studentData['Student']);
 			$this->set('userData',$userData['User']);                            
 	}

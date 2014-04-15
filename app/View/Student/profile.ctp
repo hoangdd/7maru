@@ -3,8 +3,7 @@
 <div class="col-md-3">
 	
 	<?php
-	if($data['User']['profile_picture'] == null) $image = 'default_profile.jpg';
-        else $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];
+  $image = IMAGE_PROFILE_LINK.$data['User']['profile_picture'];
    echo $this->Html->image($image, array(
 	'width' => '180px',
 	'class' => 'img-rounded',
@@ -12,23 +11,44 @@
 	)); 
 	?>
 	
-	<div>
+	<div>       
 		<?php
-    echo "<br>";
-    echo $this->Html->link(__('Edit Profile'),
-      'EditProfile',array(
-        'class'=>'btn btn-primary btn-lg',
-        'role'=>'button',
-        'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
-      ));
-    echo "<br><br>";
-    echo $this->Html->link(__('Statistic'),
-      'Statistic',array(
-        'class'=>'btn btn-primary btn-lg',
-        'role'=>'button',
-                'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
-      ));
+    $role = $_SESSION['Auth']['User']['role'];
+      if ( $role === 'R3'){
+        echo "<br>";
+        echo $this->Html->link(__('Edit Profile'),
+          array(
+            'controller' => 'Student',
+            'action' => 'EditProfile'          
+            ),
+          array(
+            'class'=>'btn btn-primary btn-lg',
+            'role'=>'button',
+            'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
+            ));
         echo "<br><br>";
+        echo $this->Html->link(__('Statistic'),
+          'Statistic',array(
+            'class'=>'btn btn-primary btn-lg',
+            'role'=>'button',
+            'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
+            ));
+        echo "<br><br>";
+      }
+      else if ($role === 'R1'){
+        echo $this->Html->link(__('Edit Profile'),
+          array(
+            'controller' => 'Student',
+            'action' => 'EditProfile',
+            $data['User']['user_id']
+            ),
+          array(
+            'class'=>'btn btn-primary btn-lg',
+            'role'=>'button',
+            'style'=>'width:180px;height:30px;font-size:14px;text-align:center;padding: 6px;'
+            ));
+        echo "<br><br>";
+      }
         // echo $this->Html->link(__('Lesson Manage'),
         //   'Managelessons',array(
         //     'class'=>'btn btn-primary btn-lg',
@@ -50,7 +70,10 @@
       <dt><?php echo __('Birthday').':' ?></dt>
       <dd><?php echo $data['User']['date_of_birth'];?></dd>
       <br>
-      <dt><?php echo __('Living').':' ?></dt>
+      <dt><?php echo __('Mail').':' ?></dt>
+      <dd><?php echo $data['User']['mail'];?></dd>
+      <br>
+      <dt><?php echo __('Adress').':' ?></dt>
       <dd><?php echo $data['User']['address'];?></dd>
       <br>
       <dt><?php echo __('Telephone number').':' ?></dt>
@@ -63,7 +86,7 @@
       <dd><?php echo $data1['Student']['credit_account'];?></dd>
       <br>
       </dl>
-      
+  <!--     
       <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
             <table class="table">
                  <tr><td>STT</td><td><?php echo __('Lesson') ?></td><td><?php echo __('Subject') ?></td><td><?php echo __('Status') ?></td></tr>
@@ -75,7 +98,7 @@
                  ?>
             </table>
       </div>
-      <br>
+      <br> -->
       <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#CCFF66;width:600px;border-radius:25px;">
            <h4 style="font-family:”Times New Roman”;"><b><?php echo __('Test Result').':' ?></b></h4>
            <ul class="list-styled">

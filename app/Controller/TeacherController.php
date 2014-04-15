@@ -274,7 +274,7 @@ class TeacherController extends AppController {
                     $data['user_type'] = 1;                  
                     $data['approved'] = 0;
                     $data['activated'] = 1;
-                    $data['content'] = 0;
+                    $data['comment'] = 0;
                     $this->User->create($data);  
                     if ( !$this->User->save()){
                         $this->Teacher->delete($result['Teacher']['teacher_id']);
@@ -313,20 +313,19 @@ class TeacherController extends AppController {
     function Profile($id = null) {
         if ($this->Auth->loggedIn()) {
             if ($this->Auth->User('admin_id') && $id!= null){
-                $data = $this->User->find('first', array(
-                    'conditions' => array(
-                    'User.user_id' => $id,
-                )
-            )); 
+                $pid = $id;        
             }
             else{               
-                $pid=$this->Auth->User('user_id');
-                $data = $this->Auth;
+                $pid=$this->Auth->User('user_id');                            
             }
+            $data = $this->User->find('first', array(
+                    'conditions' => array(
+                    'User.user_id' => $pid,
+                )
+            ));
             if (!$data){
                 $this->Session->setFlash(__('Forbidden error'));
-            }
-        $this->set("data",$data);
+            }        
             $this->set("data", $data);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
@@ -350,45 +349,61 @@ class TeacherController extends AppController {
 
 
 
-    function EditProfile() {
-        if ($this->Auth->loggedIn()) {            
-            if ($this->request->is('post')) {               
-                $pid = $this->Auth->User('user_id');                
-                $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+    function EditProfile($id = null) {
+        if ($this->Auth->loggedIn()) {               
+            if ($this->Auth->user('role') === "R1"){
+                    if ($id != null){
+                        $pid = $id;
+                    }
+                    else{
+                        $this->Session->setFlash(__('Forbidden error'));
+                        die;
+                    }
+                }
+            else{
+                    $pid = $this->Auth->User('user_id');                    
+                } 
+            $userData = $this->User->find('first',
+                    array(
+                        'conditions' => array(
+                            'User.user_id' => $pid
+                            )
+                        )
+                    );     
+            if ($this->request->is('post')) {                                                                                            
+                $fields = array('mail','firstname','lastname','phone_number','address','date_of_birth');
+                if ($_FILES['profile_picture']['error'] == 0){
+                    $this->request->data['profile_picture'] = $_FILES['profile_picture'];
+                    array_push($fields,'profile_picture');
+                }                
                 $data = $this->User->create($this->request->data);
-				$data['User']['user_id'] = $this->Auth->user('user_id');				
+				$data['User']['user_id'] = $pid;				
                 $teacherData = $data['User']['bank_account'];
                 unset($data['User']['bank_account']);  		
-				$result = $this->User->save($data,true,array('mail','firstname','lastname','phone_number','profile_picture'));				
+				$result = $this->User->save($data,true,$fields);            
                 if ($result){
                     $teacherData = array(
                             'Teacher' => array(
-                                'teacher_id' => $this->Auth->User('foreign_id'),
+                                'teacher_id' => $userData['User']['foreign_id'],
                                 'bank_account' => $teacherData,
-								'username' => $this->Auth->user('username')
+								'username' => $userData['User']['username']
                                 )
                         );
                     if ($this->Teacher->save($teacherData)){                    
                         $this->Session->setFlash(__('Edit successful'));
-                        $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+                        $this->redirect(array('controller' => 'Teacher', 'action' => 'profile',$id));
                     }
                 }               
 			}        
-                //get data                 
+                //get data                            
                 $teacherData = $this->Teacher->find('first',
                     array(
                         'conditions' => array(
-                            'Teacher.teacher_id' => $this->Auth->User('foreign_id')
+                            'Teacher.teacher_id' => $userData['User']['foreign_id']
                             )
                         )
-                );                           
-                $userData = $this->User->find('first',
-                    array(
-                        'conditions' => array(
-                            'User.user_id' => $this->Auth->User('user_id')
-                            )
-                        )
-                    );                
+                );                 
+                               
                 $this->set('teacherData',$teacherData['Teacher']);
                 $this->set('userData',$userData['User']);                            
         }
@@ -428,12 +443,7 @@ class TeacherController extends AppController {
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            
-            if ($this->Lesson->delete($id, true)) {
-                echo "1";
-            } else {
-                echo "0";
-            }
-            die;            
+            $this->Lesson->delete($id);            
        }
    }
 

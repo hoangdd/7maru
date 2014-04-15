@@ -5,36 +5,38 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 
 <div class="row">
     <div class="col-md-3">
-        <?php        
-        if($userData['profile_picture'] == null) $image = DEFAULT_PROFILE_IMAGE;
-        else $image = IMAGE_PROFILE_LINK.$userData['profile_picture'];
+        <?php              
+        $image = IMAGE_PROFILE_LINK.$userData['profile_picture'];
         echo $this->Html->image($image,array(            
-         'width'=>'180px',
-         'class' => 'img-rounded',
-         'style' => 'text-align:center;'
-         ));
+           'width'=>'180px',
+           'class' => 'img-rounded',
+           'style' => 'text-align:center;'
+           ));
         echo "<br><br>";
-        echo "<div class='text-center'>";
-        echo $this->Html->link('Statistic',
-         'Statistic',array(
-            'class'=>'btn btn-primary',
-            'role'=>'button',
-            'style'=>'font-size:14px;margin:auto;width:80%'
-            ));
-        echo "<p></p></div><div class='text-center'>";        
-        echo $this->Html->link('ChangePassword',
-         array('controller' => 'Login','action' => 'changePassword'),array(
-            'class'=>'btn btn-primary',
-            'role'=>'button',
-             'style'=>'font-size:14px;margin:auto;width:80%'
-            ));
-        echo "</div>";
+        $role = $_SESSION['Auth']['User']['role'];
+        if ($role === 'R3'){
+            echo "<div class='text-center'>";
+            echo $this->Html->link('Statistic',
+               'Statistic',array(
+                'class'=>'btn btn-primary',
+                'role'=>'button',
+                'style'=>'font-size:14px;margin:auto;width:80%'
+                ));
+            echo "<p></p></div><div class='text-center'>";        
+            echo $this->Html->link('ChangePassword',
+               array('controller' => 'Login','action' => 'changePassword'),array(
+                'class'=>'btn btn-primary',
+                'role'=>'button',
+                'style'=>'font-size:14px;margin:auto;width:80%'
+                ));
+            echo "</div>";        
+        }   
         ?>
     </div>
     <div class="col-md-9" style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#99FF00;width:600px;border-radius:25px;">
         <h1 style="text-align:center;font-family:”Times New Roman”;"><?php echo __('Change Profile') ?></h1>
         <br>
-        <form name='Student' method="POST" action=<?php echo "'".$this->Html->url(array('controller' => 'Student','action' => 'EditProfile'))."'" ?>  class="form-horizontal" enctype="multipart/form-data" role="form">
+        <form name='Student' method="POST" action=""  class="form-horizontal" enctype="multipart/form-data" role="form">
              <div class="form-group" style="text-align:center;">
                 <label class="col-sm-3 control-label"><?php echo __('First Name').':' ?></label>
                 <div class="col-sm-6">
@@ -48,7 +50,15 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 <input name="lastname" type="text" class="form-control" id="inputEmail3" placeholder="Last Name" value=<?php echo "'".$userData['lastname']  ."'" ?>>
 
                 </div>
-             </div>      
+             </div> 
+              <div class="form-group">
+                <label class="col-sm-3 control-label"><?php echo __('Birthday').':' ?></label>
+                 <div class="col-md-6">
+
+                        <input name="date_of_birth" type="date" class="form-control" placeholder="Birthday" value=<?php echo "'".$userData['date_of_birth']  ."'" ?>>
+
+                 </div>
+             </div>   
              <div class="form-group">
                 <label class="col-sm-3 control-label"><?php echo __('Email').':' ?> </label>
                 <div class="col-sm-6">

@@ -57,15 +57,23 @@
        ); 
      echo "<div class='col-md-6 col-sm-offset-3 text-center' id='div_buy_view'>";
      if (!$lesson['buy_status']){ 
-      $options['id']  = 'buy-button';
-      $options['label'] = __('Buy');
-      echo $this->Form->button(__('Buy'),$options);	              
+      if (isset($_SESSION['Auth']['User'])){
+        $options['id']  = 'buy-button';
+        $options['label'] = __('Buy');
+        echo $this->Form->button(__('Buy'),$options);	              
+      }
     }
     else{
+       foreach ($file as $key => $value):
+          if (!$value['isTest']){
+            $firstComaId = $value['file_id'];
+            break;
+          }
+        endforeach;
       echo $this->Html->link(__('View'), array(
             'controller' => 'Lesson',
-            'action' => 'view',
-            $lesson['coma_id']
+            'action' => 'viewContent',
+            $firstComaId
           ),
         $options
       );
@@ -79,13 +87,8 @@
    <!-- author info -->
    <div class='row'>                     
     <div class="col-md-3 text-center">
-     <?php     		                
-     if ($author['profile_picture'] == null || $author['profile_picture'] === ''){
-        $author_profile = DEFAULT_PROFILE_IMAGE;
-     }
-     else{
-        $author_profile = IMAGE_PROFILE_LINK.DS.$author['profile_picture'];
-     }
+     <?php     		                  
+        $author_profile = IMAGE_PROFILE_LINK.DS.$author['profile_picture'];     
      echo $this->Html->image($author_profile, array(
       'alt' => __('Profile'),
       'class' => 'img-rounded mini_profile',                
@@ -192,16 +195,12 @@
     <div class='panel-body'>
   <?php 
   foreach ($relativeLesson as $l):
-    echo "<div class='text-center' style = 'float:left'>";
-      if ($l['Lesson']['cover'] == null || $l['Lesson']['cover'] == ''){
-          $cover = DEFAULT_COVER_IMAGE;
-       }
-       else{
-          $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];
-       }
+    if (empty($l['Lesson']['coma_id'])) continue;
+    echo "<div class='text-center' style = 'float:left;margin-left:10px;'>";    
+          $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];      
        echo $this->Html->image($cover,array(
         'class' => 'img-rounded img-responsive mini_profile',        
-        'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id'])
+        'url' => array('controller' => 'lesson', 'action' => 'index',$l['Lesson']['coma_id']),        
         )); 
        echo $this->Html->link($l['Lesson']['name'],array(
         'controller' => 'lesson', 
@@ -229,15 +228,15 @@
             function(data){             
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
-                result = true;                                
-                $("#div_buy_view").html(<?php echo "'".$this->Html->link(__('View'), array('controller' => 'Lesson','action' => 'index',$lesson['coma_id']),$options)."'"; ?>);
+                result = true;                
               }             
             }
           );
         if (result){
-          //deactive button
+          //reload page
+          location.reload();
         }
-        }       
+      }       
       })
   });
 </script>

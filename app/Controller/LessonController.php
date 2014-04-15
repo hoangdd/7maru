@@ -56,12 +56,15 @@ class LessonController extends AppController {
 			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
 			$user = $this->Auth->user();
 			// debug($user);
-			$lesson['buy_status'] = 1;
+			$lesson['buy_status'] = 0;			
 			if ($user['user_type'] == 2){
-				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-					$lesson['buy_status'] = 0;
+				if($this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+					$lesson['buy_status'] = 1;
 				}
-			}			
+			}
+			else if ($user['user_type'] == 1){
+				$lesson['buy_status'] = 1;
+			}
 			
 			//　授業のカテゴリを全部GET
 			
@@ -83,7 +86,8 @@ class LessonController extends AppController {
 				$relativeLesson = $this->LessonCategory->find('all',array(
 					'contain' => array(						
 						'Lesson' => array(
-							'fields' => array('cover','name','coma_id')							
+							'fields' => array('cover','name','coma_id'),
+							'conditions' => array('is_block' => 0)
 						)
 					),
 					'conditions' => array(						
@@ -225,7 +229,7 @@ class LessonController extends AppController {
 					$this->Data->create(array('Data' => $testFile));
 					$this->Data->save();    
 				}
-				//$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
 		}		
 	}
@@ -384,6 +388,10 @@ class LessonController extends AppController {
 		//$this->Paginator->settings = $pagination;
 		$data = $this->RateLesson->find ('all',$options);
 		foreach($data as $key=>$value){
+			if ($data[$key]['Lesson']['is_block'] == 1){
+				unset($data[$key]);
+				continue;
+			}
 			$data[$key]['RateLesson'] = $data[$key]['0']['RateLesson'];
 			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
 			unset($data[$key]['Lesson']['Author']);
@@ -419,10 +427,10 @@ class LessonController extends AppController {
 			'limit' => $page_limit,    			
 			'offset' => ($pageIndex-1) * $page_limit,
 			'order' => array('Lesson.created' => 'DESC'),    			
-			'group' => 'Lesson.coma_id'    			
+			'group' => 'Lesson.coma_id',
+			'is_block' => 0
 			);
-
-		$data = $this->Lesson->find ( 'all',$options);
+		$data = $this->Lesson->find ( 'all',$options);		
 		foreach($data as $key=>$lesson){
 			$rank = 0;$count = 0;
 			foreach($lesson['RateLesson'] as $le){    			
@@ -491,6 +499,10 @@ class LessonController extends AppController {
 				);    	
 			$data = $this->LessonTransaction->find ( 'all',$options); 
 			foreach($data as $key=>$lesson){
+				if ($lesson['Lesson']['is_block'] == 1){
+					unset($data[$key]);
+					continue;
+				}
 				$rank = 0;$count = 0;
 				foreach($lesson['Lesson']['RateLesson'] as $le){    			
 					$rank =  $rank + $le['rate'];
@@ -521,6 +533,7 @@ class LessonController extends AppController {
 			$data = $this->Lesson->find('all', array(
 				'conditions' => array(
 					'author' => $user['user_id'],
+					'is_block' =>  0
 					),
 				'order' => array(
 					'created', 
@@ -577,7 +590,8 @@ class LessonController extends AppController {
 				));
 			$data = $this->Lesson->find('all', array(
 					'conditions' => array(
-							'coma_id' => $list_coma_id
+							'coma_id' => $list_coma_id,
+							'is_block' => 0
 						)
 				));
 

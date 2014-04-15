@@ -655,19 +655,9 @@ class AdminController extends AppController {
     function ReferenceManage(){
 
        $this->loadModel('Lesson');
-       $this->loadModel('LessonReference');
-       $this->loadModel('User');
-         $this->LessonReference->bindModel(array(
-             'belongsTo' => array(
-                 'Lesson' => array(
-                    'className' => 'Lesson',
-                     'foreignKey' => 'coma_id',
-                     //'conditions' => array('LessonTransaction.coma_id = Coma.coma_id')
-                  )
-             )
-         ), true);        
-             
-         $this->LessonReference->Lesson->bindModel(array(
+       //$this->loadModel('LessonReference');
+       $this->loadModel('User');         
+         $this->Lesson->bindModel(array(
              'belongsTo' => array(
                'Author' => array(
                    'className' => 'User',
@@ -677,17 +667,8 @@ class AdminController extends AppController {
              )
          ), true);
 
-        $data = $this->LessonReference->find('all',array('recursive' => 3));
-        
-        $reference = array();
-        $i=0;
-        foreach ($data as $dt ) {
-            $reference[$i]['name']  =   $dt['LessonReference']['name'];
-            $reference[$i]['author']=   $dt['Lesson']['Author']['firstname'].' '.$dt['Lesson']['Author']['lastname'];
-            $reference[$i]['date']  =   $dt['LessonReference']['created'];
-            $i++;
-        }
-        $this->set('reference',$reference);
+        $data = $this->Lesson->find('all',array('recursive' => 2));              
+        $this->set('reference',$data);
 
        /*$paginate = array (
            'limit' => 10,
@@ -960,6 +941,59 @@ class AdminController extends AppController {
             unset($topTeacher[$index]['Lesson']);            
         }        
         $this->set(compact(array('topTeacher','topLesson','topStudent')));  
+    }
+
+    function blockLesson($coma_id = null){
+        if ($coma_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Lesson');
+            $this->Lesson->id = $coma_id;            
+            $result = $this->Lesson->saveField('is_block',1);
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
+    }
+
+    function unBlockLesson($coma_id = null){
+        if ($coma_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Lesson');
+            $this->Lesson->id = $coma_id;            
+            $result = $this->Lesson->saveField('is_block',0);
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
+    }
+
+    function deleteLesson($coma_id = null){
+        if ($coma_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Lesson');
+            $result = $this->Lesson->delete($coma_id);
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
     }
 
     ///==================
