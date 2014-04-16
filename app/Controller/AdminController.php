@@ -7,7 +7,10 @@ class AdminController extends AppController {
         'Admin',
         'AdminIp',
         'Notification',
-        'Category'
+        'Category',
+    	'IpOfAdmin',
+    	'AdminLevel'
+    		
     );
     public $components = array(
         'Auth' => array(
@@ -149,6 +152,21 @@ class AdminController extends AppController {
                     $check_admin = false;
                 }
             }
+            if (!isset($data ['Admin'] ['ip'])) {
+            	$error ['ip'] [0] = 'ip is equal null.';
+            	$check_admin = false;
+            }
+            
+            if (empty($data ['Admin'] ['ip'])) {
+            	$error ['ip'] [1] = 'IP is empty.';
+            	$check_admin = false;
+            } else {
+            	 if (!filter_var($data['Admin']['ip'], FILTER_VALIDATE_IP)) {
+            		$error ['ip'] [2] = 'IP is not correct';
+            		$check_admin = false;
+            	}
+            }
+            
 
             // save data of user
             /*
@@ -156,13 +174,34 @@ class AdminController extends AppController {
              */
             $data_admin = array(
                 'username' => $data ['Admin'] ['username'],
-                'password' => $data ['Admin'] ['password']
+                'password' => $data ['Admin'] ['password'],
+            		
             );
             if ($check_admin == true) {
                 $this->Admin->create($data_admin);
                 if ($this->Admin->save()){
+                	$data_admin_ip = array(
+                		'ip' => $data['Admin']['ip']
+                	);
+                	$this->AdminIp->create($data_admin_ip);
+                	$this->AdminIp->save();
+                	$data_ipOfAdmin = array (
+                		'admin_id'	=> $this->Admin->getLastInsertId(),
+                		'ip_id' => $this->AdminIp->getLastInsertId()
+                	);
+                	print_r($data_ipOfAdmin);
+                	$this->IpOfAdmin->save($data_ipOfAdmin);
+                	print_r($this->Auth->user());
+                	$aa = $this->Auth->User();
+                	$data_admin_admin = array(
+                		'admin_super' => 
+                			$aa['admin_id'],
+                		'admin_sub' => $this->Admin->getLastInsertId()
+                	);
+                	$this->AdminLevel->create($data_admin_admin);
+                	$this->AdminLevel->save();
                     $this->Session->setFlash(__('Create Admin Successfully'));
-                    $this->redirect('userManage');
+//                     $this->redirect('userManage');
                 }
             }
         }

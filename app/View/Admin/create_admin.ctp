@@ -88,6 +88,35 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
+            
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('IP');
+                            ?>
+                            :
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-12 <?php if(isset($error['ip'])) echo "has-error has-feedback"?>">
+                        <input type="text"  name='Admin[ip]' 
+                               class="form-control changecolor" 
+                               placeholder="Enter IP">
+                        <?php
+                             if(isset($error['ip'])&& is_array($error['ip'])){
+                                foreach($error['ip'] as $ip):
+                                        echo $ip;
+                                        echo '<br/>';
+                                endforeach;
+                            }
+                        ?>
+                    </div>
+                </td>
+            </tr>
+            
         </table>
         <div class="text-center">
             <button class="btn btn-primary" type="submit">
