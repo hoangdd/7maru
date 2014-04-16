@@ -73,12 +73,12 @@ class AdminController extends AppController {
                 $error ['username'] [1] = 'Username is empty.';
                 $check_admin = false;
             } else {
-                if (!preg_match($user_re_ex, $data ['Admin'] ['username'])) {
-                    $error ['username'] [2] = 'Username is not match form.';
-                    $check_admin = false;
-                }
+                // if (!preg_match($user_re_ex, $data ['Admin'] ['username'])) {
+                //     $error ['username'] [2] = 'Username is not match form.';
+                //     $check_admin = false;
+                // }
 
-                if (strlen($data ['Admin'] ['username']) < 6) {
+                if (strlen($data ['Admin'] ['username']) < 2) {
                     $error ['username'] [3] = 'Username is too short.';
                     $check_admin = false;
                 }
@@ -121,7 +121,7 @@ class AdminController extends AppController {
                     $check_admin = false;
                 }
 
-                if (strlen($data ['Admin'] ['password']) < 8) {
+                if (strlen($data ['Admin'] ['password']) < 2) {
                     $error ['password'] [3] = 'Password is too short.';
                     $check_admin = false;
                 }
@@ -153,16 +153,12 @@ class AdminController extends AppController {
             // save data of user
             /*
              * username,password
-             */
-            $data_admin = array(
-                'username' => $data ['Admin'] ['username'],
-                'password' => $data ['Admin'] ['password']
-            );
+             */            
             if ($check_admin == true) {
-                $this->Admin->create($data_admin);
-                if ($this->Admin->save()){
+                //$this->Admin->create($data);
+                if ($this->Admin->save($data)){
                     $this->Session->setFlash(__('Create Admin Successfully'));
-                    $this->redirect('userManage');
+                    $this->redirect('adminManage');
                 }
             }
         }
@@ -433,24 +429,25 @@ class AdminController extends AppController {
              ), true);            
             $data = $this->LessonTransaction->find('all',array('conditions' => $conditions,'recursive' => 3, 'order' => 'LessonTransaction.created DESC'));                    
             $student = array();
-            $teacher = array();            
+            $teacher = array();                        
             //get student and teacher account record monthly
             foreach($data as $dt):
+                $rate = $dt['LessonTransaction']['rate'];
             	if (!isset($student[$dt['User']['user_id']])){
             		$student[$dt['User']['user_id']] = array();
-            		$student[$dt['User']['user_id']]['count'] = 1;
+            		$student[$dt['User']['user_id']]['money'] = $dt['LessonTransaction']['money'] *(100 - $rate)/100;
             		$student[$dt['User']['user_id']]['info'] = $dt['User'];
             	}
             	else{
-            		++$student[$dt['User']['user_id']]['count'];
+            		$student[$dt['User']['user_id']]['money'] = $student[$dt['User']['user_id']]['money']+ $dt['LessonTransaction']['money'] *(100 - $rate)/100;
             	}
             	if (!isset($teacher[$dt['Lesson']['Author']['user_id']])){
             		$teacher[$dt['Lesson']['Author']['user_id']] = array();
-            		$teacher[$dt['Lesson']['Author']['user_id']]['count'] = 1;
+            		$teacher[$dt['Lesson']['Author']['user_id']]['money'] = $dt['LessonTransaction']['money'] *$rate /100;
             		$teacher[$dt['Lesson']['Author']['user_id']]['info'] = $dt['Lesson']['Author'];
             	}
             	else{
-            		++$teacher[$dt['Lesson']['Author']['user_id']]['count'];
+            		$teacher[$dt['Lesson']['Author']['user_id']]['money'] += $dt['LessonTransaction']['money']*$rate/100 ;
             	}
             endforeach;            
             $accountData = array('teacher' => $teacher,'student' => $student);                        
@@ -688,8 +685,8 @@ class AdminController extends AppController {
 
     function formatToWriteAccountFile($data) {
         $_SERER_CODE = "ELS-UBT-GWK54M78";
-        $_STUDENT_PAY_MONEY = MONEY_PER_LESSON;
-    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*TEACHER_PROFIT_PERCENTAGE;    
+        $_STUDENT_PAY_MONEY = Configure::read('customizeConfig.money_per_lesson');
+    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*Configure::read('customizeConfig.teacher_profilt_percentage');    
     	$teacher = $data['teacher'];
     	$student = $data['student'];        
         $today = getdate();    
@@ -699,7 +696,7 @@ class AdminController extends AppController {
         $row = array();
         $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$this->Auth->user('admin_id'),$this->Auth->user('username'));
         $i = 1;
-        $money = MONEY_PER_LESSON;
+        $money = $_STUDENT_PAY_MONEY;
         foreach ($student as $dt):
             $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_STUDENT_PAY_MONEY, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['Student']['credit_account']);
             $i++;
@@ -999,6 +996,157 @@ class AdminController extends AppController {
         }
     }
 
+    function changeConfig(){
+        $this->loadModel('Config');
+        if ($this->request->is('post')){
+            $configs = $this->request->data;                        
+            //format data array
+            $data = array();
+            $index = 0;
+            foreach ($configs as $key=>$value):
+                $data[$index]['Config']['config_id'] = $key;
+                $data[$index]['Config']['value'] = $value;
+                $index++;
+            endforeach;        
+            $fieldList = array('value');                    
+            if ($this->Config->saveMany($data,array('fields' => $fieldList) ) ){
+                $this->Session->setFlash(__('Successfully'));
+            }
+            $data = $configs;
+        }
+        if (!isset($data) || empty($data) ){
+            $data = $this->Config->find('all',array('fields' => array('config_id','value')));
+            //format data
+            $dataToShow = array();
+            foreach ($data as $d):
+                $dataToShow[$d['Config']['config_id']] = $d['Config']['value'];
+            endforeach;   
+            $data = $dataToShow;         
+        }
+        $this->set(compact('data'));
+    }
+    
+    function adminManage(){
+        $paginate = array (
+            'limit' => 5,
+            'fields' => array (  
+                'admin_id',
+                'first_name',
+                'last_name',
+                'username'                
+                )            
+            );
+        $this->Paginator->settings = $paginate;
+        // $this->Paginator->options(array(
+        // 'update' => '#content',
+        // 'evalScripts' => true
+        // ));
+        $data = $this->Paginator->paginate ( 'Admin' );
+        $this->set ( 'data', $data );
+    }
+
+    function deleteAdmin($id = null){
+        if ($id === null){
+            echo "0";
+            die;
+        }
+        $result = $this->Admin->delete($id);
+        if ($result){
+            echo "1";
+        }
+        else{
+            echo "0";
+        }
+        die;
+    }
+
+    function editAdmin($id = null){
+        if ($id == null){
+            return;
+        }
+        $error = array();
+        $user_re_ex = '/^[A-Za-z]\w+$/';
+        $pass_re_ex = '/^\w+$/';
+        // If has data
+        if ($this->request->isPost()) {
+            $data = $this->request->data;            
+            /*
+             * Check username: 0: null 1: empty 2: not match form 3: min short 4: max long 5: is used
+             */
+            $check_admin = true;
+
+            if (!isset($data ['Admin'] ['username'])) {
+                $error ['username'] [0] = 'Username is equal null.';
+                $check_admin = false;
+            }
+
+            if (empty($data ['Admin'] ['username'])) {
+                $error ['username'] [1] = 'Username is empty.';
+                $check_admin = false;
+            } else {
+                // if (!preg_match($user_re_ex, $data ['Admin'] ['username'])) {
+                //     $error ['username'] [2] = 'Username is not match form.';
+                //     $check_admin = false;
+                // }
+
+                if (strlen($data ['Admin'] ['username']) < 2) {
+                    $error ['username'] [3] = 'Username is too short.';
+                    $check_admin = false;
+                }
+
+                if (strlen($data ['Admin'] ['username']) > 30) {
+                    $error ['username'] [4] = 'Username is too long.';
+                    $check_admin = false;
+                }               
+            }
+            // =================================
+
+            /*
+             * Check password: 0: null 1: empty 2: not match form 3: min short 4: max long
+            */            
+
+            // save data of user
+            /*
+             * username,password
+             */            
+            if ($check_admin == true) {
+                //$this->Admin->create($data);
+                //$this->Admin->id = $id; 
+                $data['Admin']['admin_id'] = $id;
+                $fields = array('first_name','last_name');                
+                if ($this->Admin->save($data,array('fieldList' => $fields))){
+                    $this->Session->setFlash(__('Edit Admin Successfully'));
+                    $this->redirect('adminManage');
+                }
+                else{
+                    $this->Session->setFlash(__('Error'));
+                }
+            }            
+        }
+        else{            
+            $data = $this->Admin->findByAdminId($id);         
+        }
+        $this->set(compact('data'));
+        $this->set('error', $error);            
+    }  
+
+    function changePasswordAdmin($id = null){
+        if ($id === null){
+            return;
+        }
+        $data = $this->Admin->findByAdminId($id);
+        $username = $data['Admin']['username'];
+        $this->set(compact('username'));
+        if ($this->request->is('post')){
+            $data = $this->request->data;
+            $this->Admin->id = $id;
+            if ($this->Admin->save($data))
+                $this->Session->setFlash(__('Successfully'));
+            else{ 
+                $this->Session->setFlash(__('Error'));
+            }
+        }
+    }
     ///==================
     /// end code by @dac
     ///==================

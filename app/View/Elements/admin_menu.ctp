@@ -28,6 +28,13 @@
 		  <li id = 'Account'>
 		  		<?php  echo $this->Html->link(__('Account'),array('action' => 'Account')) ?>	
 		  </li>
+		  <li id = 'changeConfig'>
+		  		<?php  echo $this->Html->link(__('Configuration'),array('action' => 'changeConfig')) ?>	
+		  </li>
+		  <li id = 'adminManage'>
+		  		<?php  echo $this->Html->link(__('ADMIN MANAGE'),array('action' => 'adminManage')) ?>	
+		  </li>
+		  		 
 		</ul>
 	</ol>
 </div>

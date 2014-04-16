@@ -88,6 +88,41 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
+
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('First Name');
+                            ?>
+                        :</label>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-12">
+                        <input type="text" name='Admin[first_name]' class="form-control changecolor" placeholder="Enter First Name">                        
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="pull-left control-label">
+                            <?php
+                                echo __('Last Name');
+                            ?>
+                        :</label>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-md-12">
+                        <input type="text" name='Admin[last_name]' class="form-control changecolor" placeholder="Enter Last Name">                        
+                    </div>
+                </td>
+            </tr>
+
         </table>
         <div class="text-center">
             <button class="btn btn-primary" type="submit">

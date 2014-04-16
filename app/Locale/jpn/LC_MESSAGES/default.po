@@ -367,6 +367,12 @@ msgstr "記憶"
 msgid "ADMIN HOMEPAGE"
 msgstr "アドミンホームページ"
 
+msgid "ADMIN MANAGE"
+msgstr "アドミン管理"
+
+msgid "Edit Admin"
+msgstr "アドミン添削"
+
 msgid "Search"
 msgstr "検索"
 
@@ -539,3 +545,28 @@ msgstr "自己紹介"
 
 msgid "Teacher Register"
 msgstr "先生の登録"
+
+msgid "backup_period"
+msgstr "自動バックアップ時刻"
+
+msgid "block_time"
+msgstr "ロック時間"
+
+msgid "error_login_times"
+msgstr "ログイン誤り回数"
+
+msgid "limit_learn_day"
+msgstr "受講可能時間"
+
+msgid "limit_session_time"
+msgstr "自動セション終了時間"
+
+msgid "money_per_lesson"
+msgstr "１回の受講料"
+
+msgid "teacher_profit_percentage"
+msgstr "報酬％"
+
+msgid "Configuration"
+msgstr "設定"
+

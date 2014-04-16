@@ -821,7 +821,9 @@ class LessonController extends AppController {
 					$this->loadModel('ComaTransaction');
 					$data = array(
 						'coma_id' => $coma_id,
-						'student_id' => $this->Auth->user('user_id')
+						'student_id' => $this->Auth->user('user_id'),
+						'money' => Configure::read('customizeConfig.money_per_lesson'),
+						'rate' => Configure::read('customizeConfig.teacher_profit_percentage')
 					);					
 					$this->ComaTransaction->create($data);
 					if ($this->ComaTransaction->save()){

@@ -11,17 +11,15 @@ define('IMAGE_PROFILE_DIR', WWW_ROOT.'img'.DS.'data'.DS.'avatar');
 define('LESSON_COVER_DIR', WWW_ROOT.'img'.DS.'data'.DS.'cover');
 define('LESSON_COVER_LINK', "data/cover/");
 define('IMAGE_PROFILE_LINK',"data/avatar/");
-define('MONEY_PER_LESSON',20000);
-define('TEACHER_PROFIT_PERCENTAGE',0.6);
 define ('TYPE_CREDIT_CARD' , 18);
 define ('TYPE_BANK_ACCOUNT', 54);
-define ('LIMIT_LEARN_DAY' , 7);
 define ('DEFAULT_COVER_IMAGE', 'default_cover.jpg');
 define ('DEFAULT_PROFILE_IMAGE', 'default_avatar.jpg');
 define('MAX_COVER_SIZE' ,2);
 define('UNIT_SIZE',1024*1024);
 define('MAX_TEST_FILE_SIZE',5);
 define('MAX_DOCUMENT_FILE_SIZE',60*1024);
+
 /*========================Config user roles ====================*/
 
 /*

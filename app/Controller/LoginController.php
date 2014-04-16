@@ -45,7 +45,7 @@ class LoginController extends AppController {
         $this->Auth->allow('Home/index');
     }
     function index() {
-
+        $errorLoginTimes = Configure::read('customizeConfig.error_login_times');
         //check loggedIn();                
         if($this->Auth->loggedIn()){
             $this->redirect(array(
@@ -62,7 +62,7 @@ class LoginController extends AppController {
 			if (isset($this->request->data['User'])){
                 $data = $this->request->data['User'];
                 $clientIp = $this->request->clientIp();                        
-                if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= 3) ) || !$_SESSION['isValidIp'] ) {                     
+                if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= $errorLoginTimes) ) || !$_SESSION['isValidIp'] ) {                     
                 //check verifycode and password
                    $answer = "";$question ="";	   
                    if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){

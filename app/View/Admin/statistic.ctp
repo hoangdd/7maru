@@ -15,7 +15,7 @@ $count = count($dataToChart['Money']);
 for ($i = 1; $i< $count; $i++ ){
   $total = $total + $dataToChart['Money'][$i][1];
 }
-$total = $total * MONEY_PER_LESSON * (1 - TEACHER_PROFIT_PERCENTAGE);
+$total = $total * Configure::read('customizeConfig.money_per_lesson') * (1 - Configure::read('customizeConfig.teacher_profit_percentage')/100);
 //====================
 ?>
 <!-- script to draw chart -->
