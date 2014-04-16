@@ -1,0 +1,15 @@
+.filter{
+
+}
+.filter table{
+	width: 100%;
+	border:solid 1px;
+}
+.filter td{
+	vertical-align: top;
+	width: 20%;
+	border-left: solid 1px;
+}
+.filter .from-to-time{
+	visibility: hidden;
+}
