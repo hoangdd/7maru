@@ -201,12 +201,14 @@ class AdminController extends AppController {
                 	$this->AdminLevel->create($data_admin_admin);
                 	$this->AdminLevel->save();
                     $this->Session->setFlash(__('Create Admin Successfully'));
-//                     $this->redirect('userManage');
+                    $this->redirect('userManage');
                 }
             }
         }
         $this->set('error', $error);
     }
+    
+    
 
     function Notification() {
         //load list user
@@ -665,6 +667,78 @@ class AdminController extends AppController {
         $temp = $this->request->query;
     }
 
+    function adminManage() {
+    	$currentAdmin = $this->Auth->user();
+    	$pagination = array(
+    			'limit' => 3,
+    			'fields' => array(
+    					'AdminLevel.admin_sub'
+    					
+    			),
+    			'conditions' =>array('AdminLevel.admin_super' => $currentAdmin['admin_id']
+    			)
+    	);
+    	
+    	$this->Paginator->settings = $pagination;
+    	$dataTemp = $this->Paginator->paginate('AdminLevel');
+    	$itemp = 0;
+    	foreach ($dataTemp as $key => $value){
+    		$specificallyThisOne = $this->Admin->find('first', array(
+    				'conditions' => array(
+    						'Admin.admin_id' => $value['AdminLevel']['admin_sub']
+    				)
+    		));
+    		$specificallyThisTwo = $this->IpOfAdmin->find('first', array(
+    				'conditions' => array(
+    						'IpOfAdmin.admin_id' => $value['AdminLevel']['admin_sub']
+    				)
+    		));
+    		$specificallyThisThree = $this->AdminIp->find('first', array(
+    				'conditions' => array(
+    						'AdminIp.ip_id' => $specificallyThisTwo['IpOfAdmin']['ip_id']
+    				)
+    		));
+    		if($itemp == 0) $data = array($itemp => array(
+    					'admin_id' => $specificallyThisOne['Admin']['admin_id'],
+    					'username' => $specificallyThisOne['Admin']['username'],
+    					'ip' => $specificallyThisThree['AdminIp']['ip']
+    		)
+    		);
+    		else 
+    			$data = $data + array($itemp => array(
+    					'admin_id' => $specificallyThisOne['Admin']['admin_id'],
+    					'username' => $specificallyThisOne['Admin']['username'],
+    					'ip' => $specificallyThisThree['AdminIp']['ip']
+    			)
+    			);
+    			$itemp++;
+    	}
+    	
+    	$this->set('data', $data);
+    }
+    function delAdmin($id) {
+    	$this->Admin->delete(intval($id));
+    	$specificallyThisOne = $this->AdminLevel->find('first', array(
+    			'conditions' => array(
+    					'AdminLevel.admin_sub' => $id
+    			)
+    	));
+    	$this->AdminLevel->delete(intval($specificallyThisOne['AdminLevel']['admin_level_id']));
+    	$specificallyThisOne = $this->IpOfAdmin->find('first', array(
+    			'conditions' => array(
+    					'IpOfAdmin.admin_id' => $id
+    			)
+    	));
+    	$specificallyThisTwo = $this->AdminIp->find('first', array(
+    			'conditions' => array(
+    					'AdminIp.ip_id' => $specificallyThisOne['IpOfAdmin']['ip_id']
+    			)
+    	));
+    	$this->AdminIp->delete(intval($specificallyThisTwo['AdminIp']['ip_id']));
+    	$this->redirect('adminManage');
+    	
+    }
+    
     function delip() {
         $ip = $this->params ['url'] ['ip'];
     }
