@@ -310,10 +310,10 @@ class AdminController extends AppController {
         }
     }
     function acceptNewUser() {
-
         $paginate = array(
             'limit' => 10,
             'fields' => array(
+                'User.user_id',
                 'User.firstname',
                 'User.lastname',
                 'User.username',
@@ -324,30 +324,28 @@ class AdminController extends AppController {
         );
         $this->Paginator->settings = $paginate;
         $data = $this->Paginator->paginate('User');
-
         $dataNewUser = $this->User->find('all', array(
             'conditions' => array(
-                'approved' => false
+                'approved' => '0'
             ),
-            'recursive' => 3
+            'recursive' => 2
         ));
         $this->set('data', $dataNewUser);
     }
     
-    function isAcceptNewUser(){
+    function approveUser($id,$value){
         //$this->layout = null;
-        if ($this->request->is('ajax')) {
-            $id = $this->request->data['id'];
+        if ($this->request->is('get')) {            
             if ($this->User->updateAll(
                             array(
-                        'User.approved' => true
+                        'User.approved' => $value
                             ), array(
                         'User.user_id' => $id
                             )
                     )) {
-                echo '1';
+                echo '1';die;
             } else {
-                echo '0';
+                echo '0';die;
             }
 
         }

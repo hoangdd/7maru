@@ -42,6 +42,9 @@ $this->Paginator->options(array(
 						<th class='text-center' style="width:5%">
 							<?php echo __('Accept'); ?>
 						</th>
+						<th class='text-center' style="width:5%">
+							<?php echo __('Unaccept'); ?>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,7 +67,8 @@ $this->Paginator->options(array(
 						echo $td.$user['User']['date_of_birth'].$close;				
 						echo $td.$user['User']['created'].$close;										
 						echo $td.$this->Html->link(__('View'),array('controller' => $type,'action' => 'Profile',$user['User']['user_id'])).$close;
-						echo $td."<button type='button' id='acceptUser' name='".$user['User']['user_id']."' class='text-center accept-btn btn btn-default'>OK</button>".$close;
+						echo $td.$this->Html->link(__('Accept'),array('controller' => 'admin','action' => 'approveUser',$user['User']['user_id'],1),array('class' => 'approve_link')).$close;
+						echo $td.$this->Html->link(__('Unaccept'),array('controller' => 'admin','action' => 'approveUser',$user['User']['user_id'],2),array('class' => 'approve_link')).$close;
 						echo "</tr>";			
 					endforeach;
 					?>
@@ -90,23 +94,22 @@ $this->Paginator->options(array(
 
 <script>
     $(document).ready(function(){
-    	$('.accept-btn').click(function(){
-            var id = $(this).attr('name');
-            $.ajax({
-            url : "isAcceptNewUser",
-            data : {id : id},
-            type : 'post',
-            dataType : 'json',
-            complete : function(data){
-                console.log(data);
-                if (data.responseText == 1) {
-                    location.reload();
+    	$('a.approve_link').click(function(){
+            var src = $(this).attr('href');
+            var a = $(this);
+            $.get(
+            src,            
+            function(data){            
+                if (data.trim() == '1') {
+                    alert("<?php echo __('Successful') ?>");
+                    var tr = a.parent().parent();
+                    tr.replaceWith("");
                 }else{
-                    alert('Error has occured.');
+                    alert("<?php echo __('Error') ?>");
                 }
-            },
-        })
-
+            }
+        );
+        return false;
     })
 });
 </script>
