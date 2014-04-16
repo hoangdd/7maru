@@ -40,7 +40,6 @@
 
 		<thead>
 			<tr>
-
 				<th class='text-center' style="width:5%">
 					<?php echo __('No.') ?>
 				</th>
@@ -81,6 +80,7 @@
 </div>
 
 <!-- paginate -->
+
 <div class='text-center'>	
 	<ul class="pagination">
 		<?php 

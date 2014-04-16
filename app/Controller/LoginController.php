@@ -60,32 +60,32 @@ class LoginController extends AppController {
                 $_SESSION['isValidIp'] = true;
             }                
 			if (isset($this->request->data['User'])){
-                $data = $this->request->data['User'];
-                $clientIp = $this->request->clientIp();                        
-                if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= $errorLoginTimes) ) || !$_SESSION['isValidIp'] ) {                     
-                //check verifycode and password
-                   $answer = "";$question ="";	   
-                   if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
-                    $username = $data['username'];
-                    $answer = $this->Auth->password($username.$this->request->data['answer'].FILL_CHARACTER);
-                    $question = $this->Auth->password($username.$this->request->data['question'].FILL_CHARACTER);                             					
-                    $result = $this->User->find('all',
-                      array(
-                       'conditions' => array(
-                        'username' => $username,
-                        'verifycode_answer' => $answer,
-                        'verifycode_question' => $question
-                        )));                                                  
-                    if ( ($result == null) || empty($result)){                        
-                        ++$_SESSION['countFail'];
-                        $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-                        return;
-                    }
-                    $isCheckIp = false;                          
-                    $_SESSION['isValidIp'] = true;
-                }                                        
-                ++$_SESSION['countFail'];                                                      
-            }                         
+                 $data = $this->request->data['User'];
+                // $clientIp = $this->request->clientIp();                        
+                // if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= $errorLoginTimes) ) || !$_SESSION['isValidIp'] ) {                     
+                // //check verifycode and password
+                //    $answer = "";$question ="";	   
+                //    if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
+                //     $username = $data['username'];
+                //     $answer = $this->Auth->password($username.$this->request->data['answer'].FILL_CHARACTER);
+                //     $question = $this->Auth->password($username.$this->request->data['question'].FILL_CHARACTER);                             					
+                //     $result = $this->User->find('all',
+                //       array(
+                //        'conditions' => array(
+                //         'username' => $username,
+                //         'verifycode_answer' => $answer,
+                //         'verifycode_question' => $question
+                //         )));                                                  
+                //     if ( ($result == null) || empty($result)){                        
+                //         ++$_SESSION['countFail'];
+                //         $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
+                //         return;
+                //     }
+                //     $isCheckIp = false;                          
+                //     $_SESSION['isValidIp'] = true;
+                // }                                        
+                // ++$_SESSION['countFail'];                                                      
+            //}                         
             $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
             if ($this->Auth->login()) {   
                 //check IP                

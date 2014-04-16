@@ -62,23 +62,23 @@
 </div>
 <script>
 $(document).ready(function(){
-	var errorLoginTimes = <?php echo $errorLoginTimes; ?>;
-	if (isBlock %errorLoginTimes == 0 && isBlock != 0 ){
-		count = <?php echo Configure::read('customizeConfig.block_time'); ?>;
-		// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
-		//disable submit button		
-		$("#overlay").show();
-		$('.bs-example-modal-sm').modal();				
-		counter = setInterval(timer,1000);		
-		//time
-	}
-	function timer(){
-		$("#overlay strong").html(count);
-		count--;
-		if (count < 0){
-			clearInterval(counter);$("#overlay").hide();
-		}
-		return;
-	}
+	// var errorLoginTimes = <?php echo $errorLoginTimes; ?>;
+	// if (isBlock %errorLoginTimes == 0 && isBlock != 0 ){
+	// 	count = <?php echo Configure::read('customizeConfig.block_time'); ?>;
+	// 	// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
+	// 	//disable submit button		
+	// 	$("#overlay").show();
+	// 	$('.bs-example-modal-sm').modal();				
+	// 	counter = setInterval(timer,1000);		
+	// 	//time
+	// }
+	// function timer(){
+	// 	$("#overlay strong").html(count);
+	// 	count--;
+	// 	if (count < 0){
+	// 		clearInterval(counter);$("#overlay").hide();
+	// 	}
+	// 	return;
+	// }
 })
 </script>

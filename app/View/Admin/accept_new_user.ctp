@@ -98,7 +98,7 @@ $this->Paginator->options(array(
             var src = $(this).attr('href');
             var a = $(this);
             $.get(
-            src,            
+            src,            	
             function(data){            
                 if (data.trim() == '1') {
                     alert("<?php echo __('Successful') ?>");

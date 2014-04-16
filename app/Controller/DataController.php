@@ -22,6 +22,33 @@ class DataController extends AppController {
 		if(empty($file)){
 			return false;
 		}
+		if ($file['Data']['is_block'] == 1){
+			$this->Session->setFlash(__('The file is blocked'));
+			//$this->redirect(array('controller' => 'Home','action' => 'index'));
+			die;
+		}
+		// check permission	
+		$lessonId = $file['Data']['coma_id'];	
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+
+		}
+		else if ($user['role'] == 'R2'){
+			//Teacher
+			//check teacher is author			
+			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
+			if (!$result){
+				die;
+			}
+		}		
+		else if ($user['role'] == 'R3'){
+			//check if user bought the lesson
+			$this->loadModel('LessonTransaction');
+			$result = $this->LessonTransaction->had_active_transaction($user['user_id'],$file['Data']['coma_id']);
+			if (!$result){				
+				die;
+			}
+		}
 		$this->autoLayout = false;
 		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 		// @todo , xu li path

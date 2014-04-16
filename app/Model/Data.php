@@ -11,7 +11,7 @@ class Data extends AppModel {
 	public function beforeSave($option = array()){
 
 		//generate ids 
-		$data = $this->data['Data'];
+		$data = $this->data['Data'];		
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
 		$data['file_id'] = hash('crc32', (string)$idString);

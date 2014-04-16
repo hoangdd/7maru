@@ -14,24 +14,26 @@
 <p></p>
 <div class="row col-md-12">
 	<table class="table table-bordered table-hover">
+        <th class="info"><label><?php echo __("File");?></label></th>
+        <th class="info"><label><?php echo __("Type");?></label></th>
 		<th class="info"><label><?php echo __("Lesson");?></label></th>
         <th class="info"><label><?php echo __("Author");?></label></th>
         <th class="info"><label><?php echo __("Date Created");?></label></th>
         <th class="info"><label><?php echo __("Block");?></label></th>
         <th class="info"><label><?php echo __("Delete");?></label></th>
         <?php
-        foreach ($reference as $d):
-            echo '<tr class="linktr"><td>'.$d['Lesson']['name'].'</td><td>'.$d['Author']['username'].'</td><td>'.$d['Lesson']['created'].'</td>';
+        foreach ($reference as $d):                
+            echo '<tr class="linktr">'.'<td>'.$d['Data']['file_name'].'</td>'.'<td>'.$d['Data']['type'].'</td>'.'<td>'.$d['Lesson']['name'].'</td><td>'.$d['Lesson']['Author']['username'].'</td><td>'.$d['Lesson']['created'].'</td>';
             echo '<td>';
-            if ($d['Lesson']['is_block'] === '0'){
-                echo $this->Html->link(__('Block'),array('controller' => 'Admin','action' => 'blockLesson',$d['Lesson']['coma_id']),array('link_type' => 'block_link','coma_id' => $d['Lesson']['coma_id']));
+            if ($d['Data']['is_block'] === '0'){
+                echo $this->Html->link(__('Block'),array('controller' => 'Admin','action' => 'blockFile',$d['Data']['file_id']),array('link_type' => 'block_link','file_id' => $d['Data']['file_id']));
             }
             else{
-                echo $this->Html->link(__('Unblock'),array('controller' => 'Admin','action' => 'unBlockLesson',$d['Lesson']['coma_id']),array('link_type' => 'un_block_link','coma_id' => $d['Lesson']['coma_id']));
+                echo $this->Html->link(__('UnBlock'),array('controller' => 'Admin','action' => 'unBlockFile',$d['Data']['file_id']),array('link_type' => 'un_block_link','file_id' => $d['Data']['file_id']));
             }
             echo '</td>';
             echo '<td>';
-            echo $this->Html->link(__('Delete'),array('controller' => 'Admin','action' => 'deleteLesson',$d['Lesson']['coma_id']),array('link_type' => 'delete_link','coma_id' => $d['Lesson']['coma_id']));
+            echo $this->Html->link(__('Delete'),array('controller' => 'Admin','action' => 'deleteFile',$d['Data']['file_id']),array('link_type' => 'delete_link','file_id' => $d['Data']['file_id']));
             echo '</td></tr>';
         endforeach;
         ?>
@@ -58,18 +60,19 @@
                         }
                         else if (type === 'block_link'){                         
                             link.html(<?php echo "'".__('Unblock')."'"; ?>);
-                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'unBlockLesson'))."'"; ?> + '/'+link.attr('coma_id'));
-                            link.attr('link_type','un_block_link');                           
+                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'unBlockFile'))."'"; ?> + '/'+link.attr('file_id'));
+                            link.attr('link_type','un_block_link');                            
                         }
                         else{
                             link.html(<?php echo "'".__('Block')."'"; ?>);
-                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'blockLesson'))."'"; ?> + '/'+link.attr('coma_id')   );
-                            link.attr('link_type','block_link');                           
+                            link.attr('href',<?php echo "'".$this->Html->url(array('controller' => 'Admin','action' => 'blockFile'))."'"; ?> + '/'+link.attr('file_id')   );
+                            link.attr('link_type','block_link');
+                            console.log(link.attr('file_id'));
                         }
                     }
                     else
                     {
-                        alert("<?php echo __('Not successfully') ?>")
+                        alert("<?php echo __('Error') ?>")
                     }
                 }
             );

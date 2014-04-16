@@ -40,7 +40,7 @@ Configure::write('userRoles', array(
 		'admin' => '*',
 		'home' => '*',
 		'file' => '*',
-		'lesson' => array('index', 'comment','view'),
+		'lesson' => '*',
 		'search' => '*',
 		'student' => array('index', 'profile', 'editprofile'),
 		'teacher' => array('index', 'profile', 'editprofile'),

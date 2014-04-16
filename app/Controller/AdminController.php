@@ -655,19 +655,24 @@ class AdminController extends AppController {
        $this->loadModel('Lesson');
        //$this->loadModel('LessonReference');
        $this->loadModel('User');         
-         $this->Lesson->bindModel(array(
-             'belongsTo' => array(
-               'Author' => array(
-                   'className' => 'User',
-                   'foreignKey' => 'author',                                                     
-                     //'conditions' => array('User.user_id = LessonTransaction.Lesson.author')
-               )
+       $this->loadModel('Data');
+         $this->Data->bindModel(array(
+             'belongsTo' => array(               
+               'Lesson' => array(
+                    'foreignKey' => 'coma_id'
+                )
              )
          ), true);
-
-        $data = $this->Lesson->find('all',array('recursive' => 2));              
-        $this->set('reference',$data);
-
+         $this->Lesson->bindModel(array(
+             'belongsTo' => array(               
+               'Author' => array(
+                    'className' => 'User',
+                    'foreignKey' => 'author'
+                )
+             )
+         ), true);
+        $data = $this->Data->find('all',array('recursive' => 3,'order' => 'Data.created DESC'));
+        $this->set('reference',$data);        
        /*$paginate = array (
            'limit' => 10,
            'fields' => array (
@@ -967,6 +972,59 @@ class AdminController extends AppController {
             $this->loadModel('Lesson');
             $this->Lesson->id = $coma_id;            
             $result = $this->Lesson->saveField('is_block',0);
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
+    }
+
+    function blockFile($file_id = null){
+        if ($file_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Data');
+            $this->Data->id = $file_id;            
+            $result = $this->Data->saveField('is_block',1,array('callbacks' => false));
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
+    }
+
+    function unBlockFile($file_id = null){
+        if ($file_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Data');
+            $this->Data->id = $file_id;            
+            $result = $this->Data->saveField('is_block',0,array('callbacks' => false));
+            if ($result){
+                echo "1";
+            }
+            else{
+                echo "0";
+            }
+            die;
+        }
+    }
+
+function deleteFile($file_id = null){
+        if ($file_id === null){
+            echo "0";
+            die;
+        }else{
+            $this->loadModel('Data');
+            $result = $this->Data->delete($file_id);
             if ($result){
                 echo "1";
             }

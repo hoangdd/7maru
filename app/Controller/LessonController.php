@@ -448,11 +448,40 @@ class LessonController extends AppController {
 	private function check_Document_File(){
 	}
 
-	public function viewContent($fid = null){
+	public function viewContent($fid = null){					
 		if (!$fid) die;
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
+		//check is block or not
+		if ($file['Data']['is_block'] == 1){
+			$this->Session->setFlash(__('The file is blocked'));
+			//$this->redirect(array('controller' => 'Home','action' => 'index'));
+			header("location:javascript://history.go(-1)");
+		}
+		// check teacher permission	
+		$lessonId = $file['Data']['coma_id'];	
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+
+		}
+		else if ($user['role'] == 'R2'){
+			//Teacher
+			//check teacher is author			
+			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
+			if (!$result){
+				$this->Session->setFlash(__("Forbidden error"));				
+				$this->redirect($this->referer());
+			}
+		}		
+		else if ($user['role'] == 'R3'){
+			//check if user bought the lesson
+			$result = $this->LessonTransaction->had_active_transaction($user['user_id'],$file['Data']['coma_id']);
+			if (!$result){
+				$this->Session->setFlash(__("Forbidden error"));				
+				$this->redirect($this->referer());
+			}
+		}
 		$this->set('file', $file);
 		//play list
 		$list = $this->Data->find('all', array(
