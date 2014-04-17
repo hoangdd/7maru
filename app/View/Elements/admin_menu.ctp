@@ -20,9 +20,7 @@
 		  	<?php  echo $this->Html->link(__('Create another admin'),array('action' => 'createAdmin')) ?>
 		  </li>
 		  
-		  <li id= 'adminManage'>
-		  	<?php  echo $this->Html->link(__('Manage admin'),array('action' => 'adminManage')) ?>
-		  </li>
+		 
 		  
 		  <li id= 'userManage'>
 		  	<?php  echo $this->Html->link(__('User Manage'),array('action' => 'userManage')) ?>		

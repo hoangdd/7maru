@@ -61,7 +61,7 @@ class AdminController extends AppController {
         $pass_re_ex = '/^\w+$/';
         // If has data
         if ($this->request->isPost()) {
-            $data = $this->request->data;
+            $data = $this->request->data;            
             /*
              * Check username: 0: null 1: empty 2: not match form 3: min short 4: max long 5: is used
              */
@@ -173,11 +173,30 @@ class AdminController extends AppController {
              * username,password
              */            
             if ($check_admin == true) {
-                //$this->Admin->create($data);
+                //$this->Admin->create($data);               
                 if ($this->Admin->save($data)){
+                    $data_admin_ip = array(
+                        'ip' => $data['Admin']['ip']
+                    );
+                    $this->AdminIp->create($data_admin_ip);
+                    $this->AdminIp->save();
+                    $data_ipOfAdmin = array (
+                        'admin_id'  => $this->Admin->getLastInsertId(),
+                        'ip_id' => $this->AdminIp->getLastInsertId()
+                    );                    
+                    $this->IpOfAdmin->save($data_ipOfAdmin);                    
+                    // $aa = $this->Auth->User();
+                    // $data_admin_admin = array(
+                    //     'admin_super' => 
+                    //         $aa['admin_id'],
+                    //     'admin_sub' => $this->Admin->getLastInsertId()
+                    // );
+                    // $this->AdminLevel->create($data_admin_admin);
+                    // $this->AdminLevel->save();
                     $this->Session->setFlash(__('Create Admin Successfully'));
-                    $this->redirect('adminManage');
+                    $this->redirect(array('controller' => 'Admin','action' => 'adminManage'));
                 }
+
             }
         }
         $this->set('error', $error);
