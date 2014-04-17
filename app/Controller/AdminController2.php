@@ -7,10 +7,7 @@ class AdminController extends AppController {
         'Admin',
         'AdminIp',
         'Notification',
-        'Category',
-    	'IpOfAdmin',
-    	'AdminLevel'
-    		
+        'Category'
     );
     public $components = array(
         'Auth' => array(
@@ -152,21 +149,6 @@ class AdminController extends AppController {
                     $check_admin = false;
                 }
             }
-            if (!isset($data ['Admin'] ['ip'])) {
-            	$error ['ip'] [0] = 'ip is equal null.';
-            	$check_admin = false;
-            }
-            
-            if (empty($data ['Admin'] ['ip'])) {
-            	$error ['ip'] [1] = 'IP is empty.';
-            	$check_admin = false;
-            } else {
-            	 if (!filter_var($data['Admin']['ip'], FILTER_VALIDATE_IP)) {
-            		$error ['ip'] [2] = 'IP is not correct';
-            		$check_admin = false;
-            	}
-            }
-            
 
             // save data of user
             /*
@@ -182,8 +164,6 @@ class AdminController extends AppController {
         }
         $this->set('error', $error);
     }
-    
-    
 
     function Notification() {
         //load list user
@@ -640,7 +620,7 @@ class AdminController extends AppController {
 
         $temp = $this->request->query;
     }
-    
+
     function delip() {
         $ip = $this->params ['url'] ['ip'];
     }
@@ -1027,7 +1007,7 @@ class AdminController extends AppController {
         }else{
             $this->loadModel('Data');
             $this->Data->id = $file_id;            
-            $result = $this->Data->saveField('is_block',0,array('callbacks' => false));
+            $result = $this->Data->saveField('is_bool(var)ock',0,array('callbacks' => false));
             if ($result){
                 echo "1";
             }

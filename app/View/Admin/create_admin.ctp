@@ -88,16 +88,11 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
-<<<<<<< HEAD
-=======
-            
->>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
             <tr>
                 <td>
                     <div class="form-group">
                         <label class="pull-left control-label">
                             <?php
-<<<<<<< HEAD
                                 echo __('First Name');
                             ?>
                         :</label>
@@ -126,39 +121,7 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
-            <!-- <tr>
-                <td>
-                    <div class="form-group">
-                        <label class="pull-left control-label">
-                            <?php
-=======
->>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
-                                echo __('IP');
-                            ?>
-                            :
-                        </label>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-md-12 <?php if(isset($error['ip'])) echo "has-error has-feedback"?>">
-                        <input type="text"  name='Admin[ip]' 
-                               class="form-control changecolor" 
-                               placeholder="Enter IP">
-                        <?php
-                             if(isset($error['ip'])&& is_array($error['ip'])){
-                                foreach($error['ip'] as $ip):
-                                        echo $ip;
-                                        echo '<br/>';
-                                endforeach;
-                            }
-                        ?>
-                    </div>
-                </td>
-<<<<<<< HEAD
-       -->      </tr>
-=======
-            </tr>
->>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
+        
             
         </table>
         <div class="text-center">
