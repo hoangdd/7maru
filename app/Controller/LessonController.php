@@ -38,7 +38,12 @@ class LessonController extends AppController {
 					)				
 				),
 			));			
-			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));						
+			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id,'Lesson.is_block' => 0), 'recursive' => 2));						
+			if ($lesson == null){
+				$this->Session->setFlash(__('The lesson is blocked'));			
+				//$this->redirect(array('controller' => 'Home','action' => 'index'));
+				header("location:javascript://history.go(-1)");
+			}
 			$file = $lesson['File'];
 			$lesson = $lesson['Lesson'];			
 			$lesson['created'] = $util->convertDate($lesson['created'],'d-m-Y');
@@ -53,18 +58,15 @@ class LessonController extends AppController {
 			
 			//授業の見られる数を準備する。
 			
-			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
+			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。			
 			$user = $this->Auth->user();
 			// debug($user);
-			$lesson['buy_status'] = 0;			
-			if ($user['user_type'] == 2){
-				if($this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-					$lesson['buy_status'] = 1;
+			$lesson['buy_status'] = 1;						
+			if ($user['role'] == 'R3'){
+				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+					$lesson['buy_status'] = 0;
 				}
-			}
-			else if ($user['user_type'] == 1){
-				$lesson['buy_status'] = 1;
-			}
+			}						
 			
 			//　授業のカテゴリを全部GET
 			
@@ -453,13 +455,15 @@ class LessonController extends AppController {
 			'conditions' => array('file_id' =>$fid)
 			));
 		//check is block or not
-		if ($file['Data']['is_block'] == 1){
+
+	$lessonId = $file['Data']['coma_id'];
+		$lesson = $this->Lesson->findByComaId($lessonId);		
+		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
 			$this->Session->setFlash(__('The file is blocked'));
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));
 			header("location:javascript://history.go(-1)");
 		}
-		// check teacher permission	
-		$lessonId = $file['Data']['coma_id'];	
+		// check teacher permission			
 		$user = $this->Auth->user();
 		if ($user['role'] == 'R1'){
 

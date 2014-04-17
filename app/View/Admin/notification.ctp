@@ -67,7 +67,7 @@
                     <div class="text-center">
                          <form class="form-horizontal" role="form">
                           <div class="form-group">
-                              <label class="col-sm-2 control-label"><?php echo __('Message').':' ?> </label>
+                              <!-- <label class="col-sm-2 control-label"><?php echo __('Message').':' ?> </label>
                                 <div class="col-sm-10">
                                     <select id="select_message" class="form-control">
                                         <?php
@@ -77,7 +77,7 @@
                                             endforeach;
                                         ?>
                                     </select>
-                                </div>
+                                </div> -->
                           </div>
                         </form>
                     </div>

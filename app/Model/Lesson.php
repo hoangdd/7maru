@@ -65,15 +65,15 @@ class Lesson extends AppModel {
 		$this->data['Lesson'] = $data;
 	}
 
-	public function beforeFind($query)
-	{		
-		if (isset($_SESSION['Auth']['User'])){
-			if ($_SESSION['Auth']['User']['role'] !== 'R1'){
-				$query['conditions']['Lesson.is_block'] = 0;				
-			}
-		}else{
-			$query['conditions']['Lesson.is_block'] = 0;											
-		}			
-		return $query;
-	}
+	// public function beforeFind($query)
+	// {		
+	// 	if (isset($_SESSION['Auth']['User'])){
+	// 		if ($_SESSION['Auth']['User']['role'] !== 'R1'){
+	// 			$query['conditions']['Lesson.is_block'] = 0;				
+	// 		}
+	// 	}else{
+	// 		$query['conditions']['Lesson.is_block'] = 0;											
+	// 	}			
+	// 	return $query;
+	// }
 }

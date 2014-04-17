@@ -991,9 +991,15 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
+            $this->loadModel('Data');            
             $this->Lesson->id = $coma_id;            
-            $result = $this->Lesson->saveField('is_block',1);
+            $result = $this->Lesson->saveField('is_block',1);            
             if ($result){
+                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
+                // foreach($files as $index=>$f):
+                //     $files[$index]['Data']['is_block'] = 1;
+                // endforeach;
+                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1009,9 +1015,15 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
+            $this->loadModel('Data');
             $this->Lesson->id = $coma_id;            
             $result = $this->Lesson->saveField('is_block',0);
             if ($result){
+                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
+                // foreach($files as $index=>$f):
+                //     $files[$index]['Data']['is_block'] = 0;
+                // endforeach;
+                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1241,6 +1253,20 @@ function deleteFile($file_id = null){
                 $this->Session->setFlash(__('Error'));
             }
         }
+    }
+
+    function lessonManage(){
+        $this->loadModel('Lesson');
+        $this->Lesson->bindModel(array(
+             'belongsTo' => array(               
+               'Author' => array(
+                    'className' => 'User',
+                    'foreignKey' => 'author'
+                )
+             )
+         ), true);     
+        $lessons = $this->Lesson->find('all',array('recursive' => 1));        
+        $this->set(compact('lessons'));
     }
     ///==================
     /// end code by @dac

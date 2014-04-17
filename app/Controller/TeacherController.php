@@ -716,4 +716,26 @@ class TeacherController extends AppController {
         }
         return $dataToChart;
     }
+
+    function reportTitle($coma_id = null){
+        if ($coma_id == null){      
+            die;
+        }        
+        $this->loadModel('ReportLesson');
+        $data = array(
+                'coma_id' => $coma_id,
+                'user_id' => $this->Auth->user('user_id'),
+                'report_reason' => 'tittle'
+            );
+        $this->ReportLesson->create($data);
+        if ($this->ReportLesson->save()){
+            echo "1";
+            die;
+        }
+        else{
+            echo "0";
+            die;
+        }
+
+    }
 }

@@ -10,7 +10,14 @@
   echo $this->Html->css('common');
 
   $lesson['created_date'] = preg_split("/ /", $lesson['created']);
-  $lesson['created_date'] = $lesson['created_date'][0];
+  $lesson['created_date'] = $lesson['created_date'][0]; 
+  $reportLink = null;
+  if ($_SESSION['Auth']['User']['role'] == '2'){
+     $reportLink = $this->Html->url(array('controller' => 'Teacher','action' => 'reportTitle',$lesson['coma_id']));     
+  }
+  else if ($_SESSION['Auth']['User']['role'] == '3'){
+     $reportLink = $this->Html->url(array('controller' => 'Student','action' => 'reportCopyright',$lesson['coma_id']));     
+  }
 
 	//================
   ?>
@@ -25,7 +32,10 @@
       'class' => 'img-rounded img-responsive',        
       'style' => 'margin:auto'
       )); 
-     echo "<h2 style = 'color:red'>".$lesson['name'].'</h2>';
+     echo "<h3 style = 'font-weight:bold;color:red'>".$lesson['name'].'</h3>';
+     if ($reportLink == null){
+      echo '<button id = "report_button" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-warning-sign"></span></button>';
+    }
      echo '<p></p>';
     			//_____________________
     			//ranking by stars                   
@@ -237,6 +247,22 @@
           location.reload();
         }
       }       
-      })
+      });
+
+    $("#report_button").click(function(){
+      var src = "<?php echo $reportLink ?>";
+      $.get(
+        src,
+        function (data){
+          if (data.trim() == '1'){
+            alert("<?php echo __('Successfully') ?>");
+          }
+          else{
+           alert("<?php echo __('Error') ?>"); 
+          }
+        }
+      )
+
+    })
   });
 </script>

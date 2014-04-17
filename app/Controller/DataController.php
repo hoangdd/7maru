@@ -19,17 +19,18 @@ class DataController extends AppController {
 		$this->loadModel('Data');
 		$this->loadModel('Lesson');
 		//check file exist
-		$file = $this->Data->findByFileId($file_id);
+		$file = $this->Data->findByFileId($file_id);		
 		if(empty($file)){
 			return false;
 		}
-		if ($file['Data']['is_block'] == 1){
-			$this->Session->setFlash(__('The file is blocked'));
+		$lessonId = $file['Data']['coma_id'];
+		$lesson = $this->Lesson->findByComaId($lessonId);		
+		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
+			echo '<div class="alert alert-success">'.__('The file is blocked').'</div>';			
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));
 			die;
 		}
-		// check permission	
-		$lessonId = $file['Data']['coma_id'];	
+		// check permission			
 		$user = $this->Auth->user();
 		if ($user['role'] == 'R1'){
 
@@ -39,6 +40,7 @@ class DataController extends AppController {
 			//check teacher is author						
 			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
 			if (!$result){
+				echo '<div class="alert alert-success">'.__('Forbidend error').'</div>';
 				die;
 			}
 		}		
@@ -47,6 +49,7 @@ class DataController extends AppController {
 			$this->loadModel('LessonTransaction');
 			$result = $this->LessonTransaction->had_active_transaction($user['user_id'],$file['Data']['coma_id']);
 			if (!$result){				
+				echo '<div class="alert alert-success">'.__('Forbidend error').'</div>';
 				die;
 			}
 		}

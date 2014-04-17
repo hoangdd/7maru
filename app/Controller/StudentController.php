@@ -545,4 +545,25 @@ class StudentController extends AppController {
 
 	function ChangePassword() {
 	}
+
+	function reportCopyright($coma_id ){
+		if ($coma_id == null){      
+            die;
+        }        
+        $this->loadModel('ReportLesson');
+        $data = array(
+                'coma_id' => $coma_id,
+                'user_id' => $this->Auth->user('user_id') ,
+                'report_reason' => 'copyright'             
+            );
+        $this->ReportLesson->create($data);
+        if ($this->ReportLesson->save()){
+            echo "1";
+            die;
+        }
+        else{
+            echo "0";
+            die;
+        }
+	} 
 }
