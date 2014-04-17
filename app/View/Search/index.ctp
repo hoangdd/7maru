@@ -15,23 +15,41 @@
             //keyword
             var keyword = $('input[name="keyword"').val();
 
+            //type
+            var type = '';
+            $('input[name="type"]:checked').each(function(){
+                type += $(this).val()+' ';
+            });
+
+
             //category
             var category = '';
             $('input[name="category"]:checked').each(function(){
-                category += $(this).val()+' , ';
+                category += $(this).val()+' ';
             });
 
             //time
-
+            var time;
+            $('input[name="time"]:checked').each(function(){
+                time = {
+                    'from' : $(this).attr('from'),
+                    'to' : $(this).attr('to'),
+                }
+            });
             var rate = '';
             $('input[name="rate"]:checked').each(function(){
-                rate += $(this).val()+' , ';
+                rate += $(this).val()+' ';
             });
+
             var data = {
                 'keyword' : keyword,
+                'type' : type,
                 'category' : category,
+                'time' : time,
+                'rate' : rate,
             }
             $.ajax({
+                'url' : '<?php echo $this->Html->url(array("controller" => "Search", "action" => "ajaxSearch"));?>',
                 'type' : 'get',
                 'data' : data,
                 complete : function(res){
@@ -85,29 +103,35 @@
                     </div>
                 <?php endforeach;?>
             <td>
+                <?php 
+                    $today = date('y/m/d');
+                ?>
                 <div>
-                    <input name = 'time' type='radio'><?php echo __('Today');?>
+                    <input name = 'time' from = '<?php echo $today;?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('Today');?>
                 </div>
                 <div>
-                    <input name = 'time' type='radio'><?php echo __('This week');?>
+                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 week ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This week');?>
                 </div>
                 <div>
-                    <input name = 'time' type='radio'><?php echo __('This month');?>
+                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 month ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This month');?>
                 </div>
                 <div>
-                    <input name = 'time' type='radio'><?php echo __('This year');?>
+                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 year ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This year');?>
                 </div>
-                <div>
-                    <input name = 'time' type='radio' class='custom-time'><?php echo __('Custom time');?>
+                <div style='display:none'>
+                    <input name = 'time'  from = '' to = '' 
+                        type='radio' class='custom-time'><?php echo __('Custom time');?>
                     <div class='from-to-time'>
                         <div>
                             <?php echo __('From')?>: 
                         </div>
-                        <input type='text' name='from-input'>
+                        <input type='datetime' name='from-input'>
+                        <input name="date_of_birth" class="form-control valid" id="dp" >
                         <div>
                             <?php echo __('To')?>: 
                         </div>
-                        <input type='text' name='to-input'>
+                        <input type='datetime' name='to-input'>
+                        <input name="date_of_birth" class="form-control valid" id="dp">
                     </div>
                 </div>
             </td>
