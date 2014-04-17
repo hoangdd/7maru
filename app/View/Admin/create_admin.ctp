@@ -88,11 +88,16 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
             <tr>
                 <td>
                     <div class="form-group">
                         <label class="pull-left control-label">
                             <?php
+<<<<<<< HEAD
                                 echo __('First Name');
                             ?>
                         :</label>
@@ -126,6 +131,8 @@ echo $this->Html->css('common');
                     <div class="form-group">
                         <label class="pull-left control-label">
                             <?php
+=======
+>>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
                                 echo __('IP');
                             ?>
                             :
@@ -147,7 +154,11 @@ echo $this->Html->css('common');
                         ?>
                     </div>
                 </td>
+<<<<<<< HEAD
        -->      </tr>
+=======
+            </tr>
+>>>>>>> 78cca413fad3092a729b62b47f106096d5c06a0f
             
         </table>
         <div class="text-center">
