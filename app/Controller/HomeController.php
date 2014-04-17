@@ -12,8 +12,8 @@ class HomeController extends AppController {
 		$this->layout = "intro";
 		$user = $this->Auth->User();
 		$this->loadModel('Notification');
-// 		$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'], 'viewed' => 0)));		
-		$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'])));
+ 		$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'], 'viewed' => 0)));		
+		//$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'])));
 		if(empty($user)){
 			//not login
 			$user = array('role' => 'R4');

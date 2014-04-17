@@ -156,9 +156,9 @@ class LessonController extends AppController {
 					$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
 				}
 			}
-			// for($i = 0, $len = $);			
+			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
-				//Check if image format is supported
+				//Check if image format is supported				
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
@@ -213,8 +213,7 @@ class LessonController extends AppController {
 					if(!(isset($value['error']) && $value['error']!=0 ) ){
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];						
 						$this->Data->create($value);
-						if (!$this->Data->save()){
-
+						if (!$this->Data->save()){							
 						}
 					} 
 				}

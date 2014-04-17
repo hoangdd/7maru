@@ -17,6 +17,7 @@ class DataController extends AppController {
 	public function file($file_id=null){
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
+		$this->loadModel('Lesson');
 		//check file exist
 		$file = $this->Data->findByFileId($file_id);
 		if(empty($file)){
@@ -35,7 +36,7 @@ class DataController extends AppController {
 		}
 		else if ($user['role'] == 'R2'){
 			//Teacher
-			//check teacher is author			
+			//check teacher is author						
 			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
 			if (!$result){
 				die;

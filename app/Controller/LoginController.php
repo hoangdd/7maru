@@ -94,17 +94,17 @@ class LoginController extends AppController {
                 if( $userType==1 || $userType=='1'){
                     //check IP
                     // if not confirm successfully verifycode 
-                    $login_ip = $this->Auth->user('login_ip');
-                    if (empty($login_ip)){                      
-                        $isCheckIp = false;
-                    }                    
-                    if ($isCheckIp){
-                        if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
-                            $_SESSION['isValidIp'] = false;
-                            $this->Session->setFlash(__('Login with invalid IP'));
-                            $this->logout();
-                        }               
-                    }     
+                    // $login_ip = $this->Auth->user('login_ip');
+                    // if (empty($login_ip)){                      
+                    //     $isCheckIp = false;
+                    // }                    
+                    // if ($isCheckIp){
+                    //     if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
+                    //         $_SESSION['isValidIp'] = false;
+                    //         $this->Session->setFlash(__('Login with invalid IP'));
+                    //         $this->logout();
+                    //     }               
+                    // }     
                     $this->Session->write('Auth.User.role', 'R2');                                        
                     //update ip
                     $this->User->id = $this->Auth->user('user_id');
