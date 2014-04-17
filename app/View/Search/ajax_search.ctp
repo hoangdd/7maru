@@ -7,7 +7,7 @@ if( !empty($data['Lesson'])) :
 			echo '<div>';
 			echo $this->Html->link($value['Lesson']['name'], array(
 					'controller' => 'Lesson',
-					'action' => 'view',
+					'action' => 'index',
 					$value['Lesson']['coma_id']
 				));
 			echo '</div>';
