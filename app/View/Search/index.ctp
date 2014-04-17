@@ -14,6 +14,10 @@
 
             //keyword
             var keyword = $('input[name="keyword"').val();
+            if( keyword.length == 0 ) return;
+
+            //loading
+            $('.result').html('<?php echo $this->Html->image("loading.gif");?>');
 
             //type
             var type = '';
@@ -41,12 +45,18 @@
                 rate += $(this).val()+' ';
             });
 
+            //sort
+            var order;
+            $('input[name="order"]:checked').each(function(){
+                order =  $(this).val();
+            });
             var data = {
                 'keyword' : keyword,
                 'type' : type,
                 'category' : category,
                 'time' : time,
                 'rate' : rate,
+                'order' : order
             }
             $.ajax({
                 'url' : '<?php echo $this->Html->url(array("controller" => "Search", "action" => "ajaxSearch"));?>',
@@ -57,13 +67,21 @@
                 }
             });
         });
+        
+        $('.advanced-search').click(function(){
+            $('.filter').toggleClass('hide');
+        });
+
+        //first load
+        $('.search-button').click();
     });
 <?php echo $this->Html->scriptEnd();?>
 <div>
-    <input name = 'keyword'>
-    <button class='search-button'>Search</button>
+    <input name = 'keyword' value = '<?php if(isset($keyword)) echo $keyword;?>'>
+    <button class='search-button'><?php echo __('Search');?></button>
+    <button class='advanced-search'><?php echo __('Show advanced search');?></button>
 </div>
-<div class = 'filter'>
+<div class = 'filter hide'>
     <table>
         <tr>
             <td>
@@ -79,25 +97,25 @@
             <td>
                 <?php echo __('Rate');?>
             </td>
+             <td>
+                <?php echo __('Sort by');?>
+            </td>
         </tr>
     
 
         <tr>
             <td>
                 <div>
-                    <input name='type' type='checkbox' value='lesson'> <?php echo __('Lesson');?>
+                    <input name='type' type='checkbox' value='lesson' checked> <?php echo __('Lesson');?>
                 </div>
                 <div>
-                    <input name='type' type='checkbox' value='teacher'> <?php echo __('Teacher');?>
-                </div>
-                <div>
-                    <input name='type' type='checkbox' value='student'> <?php echo __('Student');?>
+                    <input name='type' type='checkbox' value='teacher' checked> <?php echo __('Teacher');?>
                 </div>
             </td>
             <td>
                 <?php foreach ($categories as $key => $value) : ?>
                     <div>
-                        <input type="checkbox" name="category" 
+                        <input type="checkbox" name="category" checked
                         value="<?php echo $value['Category']['category_id']?>">
                         <?php echo $value['Category']['name'];?>
                     </div>
@@ -116,7 +134,7 @@
                     <input name = 'time' from = '<?php echo date_format(new DateTime('1 month ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This month');?>
                 </div>
                 <div>
-                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 year ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This year');?>
+                    <input checked name = 'time' from = '<?php echo date_format(new DateTime('1 year ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This year');?>
                 </div>
                 <div style='display:none'>
                     <input name = 'time'  from = '' to = '' 
@@ -138,13 +156,26 @@
             <td>
                 <?php for($i=0;$i<5;$i++) : ?>
                     <div>
-                        <input name='rate' type="checkbox" value=<?php echo $i+1 ?>><?php echo $i+1;?>
+                        <input name='rate' type="checkbox" checked value=<?php echo $i+1 ?>><?php echo $i+1;?>
                     </div>
                 <?php endfor;?>
+            </td>
+            <td>
+                <div>
+                    <input name = 'order' checked type='radio' value='Lesson.created'><?php echo __('Time');?>
+                </div>
+                <div>
+                    <input name = 'order' type='radio' value='Lesson.name'><?php echo __('Name');?>
+                </div>
+                <div>
+                    <input name = 'order' type='radio' value='Category.name'><?php echo __('Tag');?>
+                </div>
             </td>
         </tr>   
     </table>
 </div>
 <form>
+<hr>
+<h1><b><?php echo __('Result');?></b></h1>
 <div class='result'>
 </div>
