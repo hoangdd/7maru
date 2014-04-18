@@ -41,11 +41,12 @@ class LoginController extends AppController {
     public function beforeFilter() {        
         parent::beforeFilter();
         $this->Auth->autoRedirect = false;
+        $this->Auth->allow('confirmVerifycode');
         $this->Auth->allow('Login/index');
         $this->Auth->allow('Home/index');
+        
     }
-    function index() {
-        $errorLoginTimes = Configure::read('customizeConfig.error_login_times');
+    function index() {        
         //check loggedIn();                
         if($this->Auth->loggedIn()){
             $this->redirect(array(
@@ -53,82 +54,97 @@ class LoginController extends AppController {
                 'action' => 'index',
                 ));
         }  
-        if ($this->request->is('post')) {
-            //$clientIp = $this->request[]               
+        if ($this->request->is('post')) {                       
+            //$clientIp = $this->request[] 
+            $this->_initalBlockStage();              
             $isCheckIp = true;   
             if (!isset($_SESSION['isValidIp'])){
-                $_SESSION['isValidIp'] = true;
+                $_SESSION['isValidIp'] = array();
             }                
-			if (isset($this->request->data['User'])){
-                 $data = $this->request->data['User'];
-                // $clientIp = $this->request->clientIp();                        
-                // if ( ( isset($_SESSION['countFail']) && ($_SESSION['countFail'] >= $errorLoginTimes) ) || !$_SESSION['isValidIp'] ) {                     
-                // //check verifycode and password
-                //    $answer = "";$question ="";	   
-                //    if (isset($data['username']) && isset($this->request->data['answer']) && isset($this->request->data['question'])){
-                //     $username = $data['username'];
-                //     $answer = $this->Auth->password($username.$this->request->data['answer'].FILL_CHARACTER);
-                //     $question = $this->Auth->password($username.$this->request->data['question'].FILL_CHARACTER);                             					
-                //     $result = $this->User->find('all',
-                //       array(
-                //        'conditions' => array(
-                //         'username' => $username,
-                //         'verifycode_answer' => $answer,
-                //         'verifycode_question' => $question
-                //         )));                                                  
-                //     if ( ($result == null) || empty($result)){                        
-                //         ++$_SESSION['countFail'];
-                //         $this->Session->setFlash(__('Verifycode is incorrect'), 'default', array(), 'verifycode');
-                //         return;
-                //     }
-                //     $isCheckIp = false;                          
-                //     $_SESSION['isValidIp'] = true;
-                // }                                        
-                // ++$_SESSION['countFail'];                                                      
-            //}                         
-            $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
+			if (isset($this->request->data['User'])){                
+                    $data = $this->request->data['User'];
+                    $isCheckIp = true;
+                     if (!isset($_SESSION['isValidIp'][$data['username']])){
+                         $_SESSION['isValidIp'][$data['username']] = true;
+                    }  
+                    if (!$_SESSION['isValidIp'][$data['username']]){
+                        $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],2));
+                    }
+                    $errorLoginTimes = Configure::read('customizeConfig.error_login_times');                
+                     
+                     if(empty($data['username'])){
+                        return;
+                     }
+                      $isBlock = 0;                
+                if (!empty($data['username'])){                    
+                    $this->_initalBlockStage($data['username']);
+                    //check if is blocking then redirect to confirm verifycode page                
+                   if ($_SESSION['count_to_block'][$data['username']] >= $errorLoginTimes){
+                        $blockTime = Configure::read('customizeConfig.block_time');
+                        $remain_block = $blockTime-(time() - $_SESSION['start_block_time'][$data['username']]);                        
+                        //check remain block time
+                        if ($remain_block < 0 ){
+                            $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],1));
+                        }
+                        else{
+                            $isBlock = $remain_block;                        
+                        }
+                    }
+                }
+                // set remain time block to show 
+                $this->set(compact('isBlock'));
+                $this->set('username',$data['username']);
+                if ($isBlock > 0){
+                    return;
+                }                
+
+            //}
+            if (!empty($data['username'])){                            
+                $this->request->data['User']['password'] = (string)($data['username'] . $data['password'].FILL_CHARACTER);
+            }            
+
             if ($this->Auth->login()) {   
                 //check IP                
                 // Login success                 
+                $this->_resetBlockStage($data['username']);
                 $userType = $this->Auth->user('user_type');                
                 if( $userType==1 || $userType=='1'){
                     //check IP
-                    // if not confirm successfully verifycode 
-                    // $login_ip = $this->Auth->user('login_ip');
-                    // if (empty($login_ip)){                      
-                    //     $isCheckIp = false;
-                    // }                    
-                    // if ($isCheckIp){
-                    //     if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
-                    //         $_SESSION['isValidIp'] = false;
-                    //         $this->Session->setFlash(__('Login with invalid IP'));
-                    //         $this->logout();
-                    //     }               
-                    // }     
-                    $this->Session->write('Auth.User.role', 'R2');                                        
-                    //update ip
-                    $this->User->id = $this->Auth->user('user_id');
-                    $this->User->saveField('login_ip', $clientIp);
+                    // if not confirm successfully verifycode                     
+                    $clientIp = $this->request->clientIp();
+                    $login_ip = $this->Auth->user('login_ip');
+                    $isCheckIp = true;
+                    if (empty($login_ip)){                      
+                         $isCheckIp = false;
+                    }                                    
+                    if ($isCheckIp){                        
+                        if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
+                            $_SESSION['isValidIp'][$data['username']] = false;                            
+                            $this->Session->setFlash(__('Login with invalid IP'));
+                            $this->Auth->logout(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],2));  
+
+                        }               
+                    }     
+                    $this->Session->write('Auth.User.role', 'R2');                                                                            
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
-                $this->Session->setFlash(__("Login success"));                
-                if (isset($_SESSION['countFail'])){
-                    $_SESSION['countFail'] = 1;
-                }                
+                $this->Session->setFlash(__("Login success"));                    
                 return $this->redirect($this->Auth->redirectUrl());
             } 
             else {
             //Login fail                                
-                $this->Session->setFlash(
-                    __('Username or password is incorrect'), 'default', array(), 'auth');          
-                if (!isset($_SESSION['countFail'])){
-                    $_SESSION['countFail']= 1;     
-                }                               
-                else{
-                    ++$_SESSION['countFail'];                    
+                $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');          
+                //increase count block
+                ++$_SESSION['count_to_block'][$data['username']];
+                // fail many times enough to block
+                if ($_SESSION['count_to_block'][$data['username']] == $errorLoginTimes){
+                    $_SESSION['start_block_time'][$data['username']] = time();                    
                 }
             }    
+        }
+        else{
+            die;
         }
     }    
     }
@@ -333,4 +349,58 @@ class LoginController extends AppController {
     private function _isValidIp($orgIp, $newIp){
         return ($orgIp == $newIp);
     }
+
+    private function _initalBlockStage($username = null){
+        if ($username == null){
+            if (!isset($_SESSION['count_to_block']))
+                $_SESSION['count_to_block'] = array();
+            if (!isset($_SESSION['start_block_time']))
+                $_SESSION['start_block_time'] = array();
+        }
+        else{
+            if (!isset($_SESSION['count_to_block'][$username]))
+                $_SESSION['count_to_block'][$username] = 1;                        
+        }
+    }  
+
+    private function _resetBlockStage($username){
+        $_SESSION['count_to_block'][$username] = 1;
+    }
+
+    public function confirmVerifycode($username,$type){
+        $this->set(compact('username'));
+        if ($this->request->is('post')){
+            $data = $this->request->data['User'];
+            $answer = "";$question ="";    
+            if (isset($data['username']) && isset($data['answer']) && isset($data['question'])){
+                $username = $data['username'];
+                $answer = $this->Auth->password($username.$data['answer'].FILL_CHARACTER);
+                $question = $this->Auth->password($username.$data['question'].FILL_CHARACTER);                                                
+                $result = $this->User->find('first',
+                  array(
+                     'conditions' => array(
+                        'username' => $username,
+                        'verifycode_answer' => $answer,
+                        'verifycode_question' => $question
+                        )));                                                  
+                if ( ($result == null) || empty($result)){                                                            
+                    $this->Session->setFlash(__('Verifycode is incorrect'));                                        
+                }
+                else{
+                    if ($type == 1){
+                        $this->_resetBlockStage($username);                        
+                    }
+                    else{                        
+                        $_SESSION['isValidIp'][$username] = true;                        
+                        $clientIp = $this->request->clientIp();                        
+                        $this->User->id = $result['User']['user_id'];
+                        debug($result);
+                        $this->User->saveField('login_ip', $clientIp,array('callbacks' => false));
+                    }
+                    $this->redirect(array('controller' => 'Login','action' => 'index'));
+                }
+            }
+        }
+    }
+
 }

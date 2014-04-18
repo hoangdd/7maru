@@ -80,13 +80,15 @@
             break;
           }
         endforeach;
-      echo $this->Html->link(__('View'), array(
-            'controller' => 'Lesson',
-            'action' => 'viewContent',
-            $firstComaId
-          ),
-        $options
-      );
+        if (isset($fistComaId)){
+          echo $this->Html->link(__('View'), array(
+                'controller' => 'Lesson',
+                'action' => 'viewContent',
+                $firstComaId
+              ),
+            $options
+          );
+      }
     }
     echo "</div>";
     ?>    

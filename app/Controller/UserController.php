@@ -165,12 +165,18 @@ class UserController extends AppController {
 			die;
 		}	
 		if ($this->request->is('get')){
-			$result = $this->deleteUser($user_id);
-			if ($result){
-				echo 1;die;
-			}
-			else{
-				echo 0;die;
+			if ($this->Auth->loggedIn()){
+				$user = $this->Auth->User();
+				if ($user['role'] !== 'R1'){
+					die;
+				}
+				$result = $this->deleteUser($user_id);
+				if ($result){
+					echo 1;die;
+				}
+				else{
+					echo 0;die;
+				}
 			}
 		}
 		die;
