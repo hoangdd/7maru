@@ -16,16 +16,26 @@
 		});
 
 	}
-	function on_document_input(){
-		var document_input = $(".document-input");
+	var on_document_input = function(){				
+		var document_input = $(this).parent().find('input');		
 		var needadd = true;
-		for(var i=0, len=document_input.length ; i<len; i++){
+		var isExisted = new Array();
+		for(var i=0, len=document_input.length ; i<len; i++){			 		
 			if(document_input[i].value == ""){
 				needadd = false;
 				break;
 			}
+			if (isExisted[document_input[i].value] == null) {
+				isExisted[document_input[i].value] = true;
+			}
+			else{
+				alert("<?php  echo __('Duplicate upload') ?>");
+				needadd = false;
+				document_input[i].value = "";
+				break;
+			}
 		}
-		if(needadd) add_new_document_input();
+		if(needadd) add_new_document_input($(this));
 	}
 	function hide_Checkbox_with(key){
 		$('.checkbox-name').each(function(wrapper){
@@ -52,8 +62,8 @@
 			}
 		})
 	}
-	function add_new_document_input(){
-		$('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input" onchange = "on_document_input()">');
+	function add_new_document_input(file_input){							
+		$(file_input).parent().append($(file_input)[0].outerHTML);
 	}
 </script>
 <h1><?php echo __('Create New Lesson') ?></h1>
@@ -122,7 +132,7 @@
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Document') ?></label>
 			<div class="col-sm-8" id = "document-input-wrapper">
-				<input type="file" name="document[]" class = 'document-input' onchange = "on_document_input()">
+				<input type="file" name="document[]" class = 'document-input' onchange = "on_document_input.call(this)">
 				<?php if(isset($error) && isset($error['document']))echo "<div class='text-danger'>".$error['document']."</div>"; ?>
 				<!-- <input type="file" name="document[]" id='document'> -->
 			</div>
@@ -131,7 +141,7 @@
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Test File') ?></label>
 			<div class="col-sm-8">
-				<input type="file" name="test">
+				<input type="file" name="test" onchange = "on_document_input.call(this)">
 				<?php if(isset($error) && isset($error['test']))echo "<div class='text-danger'>".$error['test']."</div>"; ?>
 			</div>
 		</div>

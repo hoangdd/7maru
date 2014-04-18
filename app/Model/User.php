@@ -17,6 +17,28 @@ class User extends AppModel {
             'message' => 'A password is required'
         )
     );
+    public $hasMany = array(
+        'Comment' => array(
+            'foreignKey' => 'user_id',
+            'dependent' => true
+        ),        
+        'Lesson' => array(
+         'foreignKey' => 'author',
+         'dependent' => true
+        ),
+        'LessonTransaction' => array(
+         'foreignKey' => 'student_id',
+         'dependent' => true
+        ),
+        'ReportLesson' => array(
+         'foreignKey' => 'user_id',
+         'dependent' => true
+        ),
+        'RateLesson' => array(
+         'foreignKey' => 'student_id',
+         'dependent' => true
+        )
+    );
     function hashPassword($data, $enforce=false) {
         if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
           if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {

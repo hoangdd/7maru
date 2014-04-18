@@ -11,7 +11,7 @@ class Data extends AppModel {
 	public function beforeSave($option = array()){
 
 		//generate ids 
-		$data = $this->data['Data'];
+		$data = $this->data['Data'];		
 		$date = getdate();
 		$idString = $data['tmp_name'].rand().$date[0];
 		$data['file_id'] = hash('crc32', (string)$idString);
@@ -33,7 +33,7 @@ class Data extends AppModel {
 		// @todo: if file exsist
 		//pdf file
 		if(in_array($ext, $fileType['pdf']['extension'])){
-			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){				
 				 $this->__convertPdfToSwf(DATA_SRC_DIR.DS.$fid.'.'.$ext, SWF_DATA_DIR.DS.$fid.'.swf');
 				// return VIDEO_DATA_DIR.DS.$fid.'.swf';	
 				return $fid.'.swf';	

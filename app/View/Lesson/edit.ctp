@@ -270,8 +270,8 @@
 						<button type="button" class="btn btn-danger btn-lg btn-block">
 							<span class="glyphicon glyphicon-refresh"></span> 
 							<?php echo $this->Html->link('Reset', array(
-								'controller' => 'xxx',
-								'action' => 'xxx',
+								'controller' => 'Lesson',
+								'action' => 'edit',
 								$lesson['coma_id']
 							), array(
 								'style' => 'color:white'

@@ -1,6 +1,9 @@
 .filter{
 
 }
+.filter.hide{
+	display: none;
+}
 .filter table{
 	width: 100%;
 	border:solid 1px;

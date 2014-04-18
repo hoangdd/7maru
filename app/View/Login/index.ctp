@@ -15,8 +15,9 @@
 		</div>
 		
 		<?php  
-			if ( ( isset($_SESSION['countFail']) && $_SESSION['countFail'] >= 3 ) || (isset($_SESSION['isValidIp']) && !$_SESSION['isValidIp']) ){
-				if ($_SESSION['countFail'] >= 3){
+			$errorLoginTimes = Configure::read('customizeConfig.error_login_times');
+			if ( ( isset($_SESSION['countFail']) && $_SESSION['countFail'] >= $errorLoginTimes ) || (isset($_SESSION['isValidIp']) && !$_SESSION['isValidIp']) ){
+				if ($_SESSION['countFail'] >= $errorLoginTimes){
 					//isBlock
 					echo "<script>isBlock =". $_SESSION['countFail']."</script>";
 				}			
@@ -61,22 +62,23 @@
 </div>
 <script>
 $(document).ready(function(){
-	if (isBlock %3 == 0 && isBlock != 0 ){
-		count = 5;
-		// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
-		//disable submit button		
-		$("#overlay").show();
-		$('.bs-example-modal-sm').modal();				
-		counter = setInterval(timer,1000);		
-		//time
-	}
-	function timer(){
-		$("#overlay strong").html(count);
-		count--;
-		if (count < 0){
-			clearInterval(counter);$("#overlay").hide();
-		}
-		return;
-	}
+	// var errorLoginTimes = <?php echo $errorLoginTimes; ?>;
+	// if (isBlock %errorLoginTimes == 0 && isBlock != 0 ){
+	// 	count = <?php echo Configure::read('customizeConfig.block_time'); ?>;
+	// 	// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
+	// 	//disable submit button		
+	// 	$("#overlay").show();
+	// 	$('.bs-example-modal-sm').modal();				
+	// 	counter = setInterval(timer,1000);		
+	// 	//time
+	// }
+	// function timer(){
+	// 	$("#overlay strong").html(count);
+	// 	count--;
+	// 	if (count < 0){
+	// 		clearInterval(counter);$("#overlay").hide();
+	// 	}
+	// 	return;
+	// }
 })
 </script>

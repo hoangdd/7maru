@@ -97,6 +97,7 @@ Configure::write('Dispatcher.filters', array(
  */
 App::uses('CakeLog', 'Log');
 
+
 // --Enable custom debug -hoangdd
 
 // CakeLog::config('debug', array(
@@ -109,3 +110,8 @@ App::uses('CakeLog', 'Log');
 // 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 // 	'file' => 'error',
 // ));
+
+//Load configuration of system - dacht
+App::import("Model","Config");
+$customizeConfig = new Config();
+$customizeConfig->loadConfig();

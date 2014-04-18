@@ -28,6 +28,5 @@
 	    <h4 class=""><?php echo $notify['Notification']['created'] ?></h4>
 	    <p class="list-group-item-text"><?php echo substr($notify['Notification']['content'],0,10)."....."; ?></p>
 	  </a>
-  	<? endforeach; ?>
+  	<?php endforeach; ?>
 </div>
-

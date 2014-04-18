@@ -17,10 +17,41 @@ class DataController extends AppController {
 	public function file($file_id=null){
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
+		$this->loadModel('Lesson');
 		//check file exist
-		$file = $this->Data->findByFileId($file_id);
+		$file = $this->Data->findByFileId($file_id);		
 		if(empty($file)){
 			return false;
+		}
+		$lessonId = $file['Data']['coma_id'];
+		$lesson = $this->Lesson->findByComaId($lessonId);		
+		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
+			echo '<div class="alert alert-success">'.__('The file is blocked').'</div>';			
+			//$this->redirect(array('controller' => 'Home','action' => 'index'));
+			die;
+		}
+		// check permission			
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+
+		}
+		else if ($user['role'] == 'R2'){
+			//Teacher
+			//check teacher is author						
+			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
+			if (!$result){
+				echo '<div class="alert alert-success">'.__('Forbidend error').'</div>';
+				die;
+			}
+		}		
+		else if ($user['role'] == 'R3'){
+			//check if user bought the lesson
+			$this->loadModel('LessonTransaction');
+			$result = $this->LessonTransaction->had_active_transaction($user['user_id'],$file['Data']['coma_id']);
+			if (!$result){				
+				echo '<div class="alert alert-success">'.__('Forbidend error').'</div>';
+				die;
+			}
 		}
 		$this->autoLayout = false;
 		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);

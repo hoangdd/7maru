@@ -36,8 +36,7 @@
   <label for="inputPassword3" class="">資料をアップロード</label>
   	<div class="input-group-btn">
   	<span class="glyphicon glyphicon-paperclip"></span>
-                <a class="btn btn-default btn-file">
-                	
+                <a class="btn btn-default btn-file">                	
                     <input type="file" class="file-input"/></a>
                 <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
             </div>

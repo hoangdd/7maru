@@ -4,12 +4,12 @@ echo $this->Html->css('common');
 
 <h1 class="center-block">
     <?php
-        echo __('Create another admin');
+        echo __('Edit Admin');
     ?>
 </h1>
 <div class="col-md-1"></div>
 <div class="col-md-9">
-    <form class="form-horizontal" role="form" action="createAdmin" method="POST">
+    <form class="form-horizontal" role="form" method="POST">
         <table class="table changecolor" id='register-table'>
             <tr>
                 <td>
@@ -26,15 +26,10 @@ echo $this->Html->css('common');
                     <div class="col-md-12 <?php if(isset($error['username'])) echo "has-error has-feedback"?>">
                         <input type="text"  name='Admin[username]' 
                                class="form-control changecolor" 
-                               placeholder="Enter Username">
-                        <?php
-                             if(isset($error['username'])&& is_array($error['username'])){
-                                foreach($error['username'] as $usernames):
-                                        echo $usernames;
-                                        echo '<br/>';
-                                endforeach;
-                            }
-                        ?>
+                               placeholder="Enter Username"                               
+                               value = "<?php echo $username ?>"
+                               readonly
+                        >                       
                     </div>
                 </td>
             </tr>
@@ -88,77 +83,19 @@ echo $this->Html->css('common');
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <label class="pull-left control-label">
-                            <?php
-                                echo __('First Name');
-                            ?>
-                        :</label>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-md-12">
-                        <input type="text" name='Admin[first_name]' class="form-control changecolor" placeholder="Enter First Name">                        
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <label class="pull-left control-label">
-                            <?php
-                                echo __('Last Name');
-                            ?>
-                        :</label>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-md-12">
-                        <input type="text" name='Admin[last_name]' class="form-control changecolor" placeholder="Enter Last Name">                        
-                    </div>
-                </td>
-            </tr>
             
-            <tr>
-                <td>
-                    <div class="form-group">
-                        <label class="pull-left control-label">
-                            <?php
-                                echo __('IP');
-                            ?>
-                        :</label>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-md-12">
-                        <input type="text" name='Admin[ip]' class="form-control changecolor" placeholder="Enter IP">                        
-                        <?php
-                             if(isset($error['ip'])&& is_array($error['ip'])){
-                                foreach($error['ip'] as $ip):
-                                        echo $ip;
-                                        echo '<br/>';
-                                endforeach;
-                            }
-                        ?>
-                    </div>
-                </td>
-            </tr>
-            
-        </table>
-        <div class="text-center">
+        </table>                        
+            <div class='text-center'> 
             <button class="btn btn-primary" type="submit">
                 <?php
-                    echo __('Register');
+                    echo __('Edit');
                 ?>
             </button>
             <button type="button" class="btn btn-primary">
                 <?php
                     echo __('Cancel');
                 ?>
-            </button>
+            </button>        
         </div>         
     </form>
 </div>

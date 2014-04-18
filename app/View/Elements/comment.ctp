@@ -167,7 +167,9 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 	<div class = 'comment-area' style="width:<?php echo $width;?>">
 		<div class='header'>
 			<div><?php echo __('Comment');?></div>
+			<?php if (isset($_SESSION['Auth']['User']['user_id'])){ ?>
 			<a href="#" class="create-button"> <?php echo __('Insert new comment');?></a>
+			<?php } ?>
 		</div>
 		<?php 
 		if(!empty($comments)) :
@@ -186,6 +188,7 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 			endif; //if(!empty($comments)) :
 		?>
 		<hr>
+		<?php if (isset($_SESSION['Auth']['User']['user_id'])){ ?>
 		<div class = 'new-comment'>
 			<textarea placeholder='<?php echo __("Insert your comment here");?>'></textarea>
 			<div>
@@ -195,6 +198,7 @@ var file_id = <?php echo '"'.$file_id.'"'; ?>;
 				</div>
 			</div>
 		</div>
+		<?php } ?>
 	</div>
 <?php 
 	endif;

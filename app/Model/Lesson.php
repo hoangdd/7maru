@@ -7,7 +7,7 @@ class Lesson extends AppModel {
 	public $hasMany = array(
 		'Data' => array(
 			'foreignKey' => 'coma_id',
-			'dependent' => true
+			'dependent' => true,			
 		),
 		'LessonTransaction' => array(
 			'foreignKey' => 'coma_id',
@@ -28,7 +28,7 @@ class Lesson extends AppModel {
 		'LessonReference' => array(
 			'foreignKey' => 'coma_id',
 			'dependent' => true
-		),
+		)		
 	);
 	public function deleteLesson($id){        
             $id = $this->request->data['id'];            
@@ -65,15 +65,15 @@ class Lesson extends AppModel {
 		$this->data['Lesson'] = $data;
 	}
 
-	public function beforeFind($query)
-	{		
-		if (isset($_SESSION['Auth']['User'])){
-			if ($_SESSION['Auth']['User']['role'] !== 'R1'){
-				$query['conditions']['Lesson.is_block'] = 0;				
-			}
-		}else{
-			$query['conditions']['Lesson.is_block'] = 0;											
-		}			
-		return $query;
-	}
+	// public function beforeFind($query)
+	// {		
+	// 	if (isset($_SESSION['Auth']['User'])){
+	// 		if ($_SESSION['Auth']['User']['role'] !== 'R1'){
+	// 			$query['conditions']['Lesson.is_block'] = 0;				
+	// 		}
+	// 	}else{
+	// 		$query['conditions']['Lesson.is_block'] = 0;											
+	// 	}			
+	// 	return $query;
+	// }
 }

@@ -1,7 +1,7 @@
 <?php
 class UserController extends AppController {
-
-	public $helpers = array('Html', 'Session');
+	public $primaryKey = 'user_id';
+	public $helpers = array('Html', 'Session');	
 	function index(){
 		$data = $this->User->find('all');
 		$this->set('data',$data);
@@ -16,8 +16,8 @@ class UserController extends AppController {
 		$this->Comment->bindModel(array(
 			'belongsTo' => array(
 					'User' => array(
-						'foreignKey' => 'user_id',
-						)
+						'foreignKey' => 'user_id',						
+					)
 				)
 			));
 		$comments = $this->Comment->find('all');
@@ -146,5 +146,37 @@ class UserController extends AppController {
 		else
 			echo "0";
 		die;
+	}
+
+	function delete($user_id = null){
+		if ($user_id == null){
+			if ($this->Auth->loggedIn()){
+				$user_id = $this->Auth->user('user_id');				
+				$result = $this->deleteUser($user_id);
+				if ($result)	{
+					$this->Session->setFlash(__('Delete').__('Successfull'));
+					$this->redirect(array('controller' => 'login','action' => 'logout'));					
+				}
+				else{
+					$this->Session->setFlash(__('Delete').__('Error'));
+					$this->redirect();		
+				}					
+			}
+			die;
+		}	
+		if ($this->request->is('get')){
+			$result = $this->deleteUser($user_id);
+			if ($result){
+				echo 1;die;
+			}
+			else{
+				echo 0;die;
+			}
+		}
+		die;
+	}
+
+	private function deleteUser($user_id){
+		return $this->User->delete($user_id,true);		
 	}
 }

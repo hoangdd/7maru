@@ -7,10 +7,7 @@ class AdminController extends AppController {
         'Admin',
         'AdminIp',
         'Notification',
-        'Category',
-    	'IpOfAdmin',
-    	'AdminLevel'
-    		
+        'Category'
     );
     public $components = array(
         'Auth' => array(
@@ -61,7 +58,7 @@ class AdminController extends AppController {
         $pass_re_ex = '/^\w+$/';
         // If has data
         if ($this->request->isPost()) {
-            $data = $this->request->data;            
+            $data = $this->request->data;
             /*
              * Check username: 0: null 1: empty 2: not match form 3: min short 4: max long 5: is used
              */
@@ -152,57 +149,21 @@ class AdminController extends AppController {
                     $check_admin = false;
                 }
             }
-            if (!isset($data ['Admin'] ['ip'])) {
-            	$error ['ip'] [0] = 'ip is equal null.';
-            	$check_admin = false;
-            }
-            
-            if (empty($data ['Admin'] ['ip'])) {
-            	$error ['ip'] [1] = 'IP is empty.';
-            	$check_admin = false;
-            } else {
-            	 if (!filter_var($data['Admin']['ip'], FILTER_VALIDATE_IP)) {
-            		$error ['ip'] [2] = 'IP is not correct';
-            		$check_admin = false;
-            	}
-            }
-            
 
             // save data of user
             /*
              * username,password
              */            
             if ($check_admin == true) {
-                //$this->Admin->create($data);               
+                //$this->Admin->create($data);
                 if ($this->Admin->save($data)){
-                    $data_admin_ip = array(
-                        'ip' => $data['Admin']['ip']
-                    );
-                    $this->AdminIp->create($data_admin_ip);
-                    $this->AdminIp->save();
-                    $data_ipOfAdmin = array (
-                        'admin_id'  => $this->Admin->getLastInsertId(),
-                        'ip_id' => $this->AdminIp->getLastInsertId()
-                    );                    
-                    $this->IpOfAdmin->save($data_ipOfAdmin);                    
-                    // $aa = $this->Auth->User();
-                    // $data_admin_admin = array(
-                    //     'admin_super' => 
-                    //         $aa['admin_id'],
-                    //     'admin_sub' => $this->Admin->getLastInsertId()
-                    // );
-                    // $this->AdminLevel->create($data_admin_admin);
-                    // $this->AdminLevel->save();
                     $this->Session->setFlash(__('Create Admin Successfully'));
-                    $this->redirect(array('controller' => 'Admin','action' => 'adminManage'));
+                    $this->redirect('adminManage');
                 }
-
             }
         }
         $this->set('error', $error);
     }
-    
-    
 
     function Notification() {
         //load list user
@@ -359,15 +320,17 @@ class AdminController extends AppController {
                 'User.date_of_birth',
                 'User.user_type',
                 'User.created'
-            ),
+            )
+        );
+        $this->Paginator->settings = $paginate;
+        $data = $this->Paginator->paginate('User');
+        $dataNewUser = $this->User->find('all', array(
             'conditions' => array(
                 'approved' => '0'
             ),
             'recursive' => 2
-        );
-        $this->Paginator->settings = $paginate;
-        $data = $this->Paginator->paginate('User');
-        $this->set('data', $data);
+        ));
+        $this->set('data', $dataNewUser);
     }
     
     function approveUser($id,$value){
@@ -657,7 +620,7 @@ class AdminController extends AppController {
 
         $temp = $this->request->query;
     }
-    
+
     function delip() {
         $ip = $this->params ['url'] ['ip'];
     }
@@ -989,15 +952,9 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
-            $this->loadModel('Data');            
             $this->Lesson->id = $coma_id;            
-            $result = $this->Lesson->saveField('is_block',1);            
+            $result = $this->Lesson->saveField('is_block',1);
             if ($result){
-                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
-                // foreach($files as $index=>$f):
-                //     $files[$index]['Data']['is_block'] = 1;
-                // endforeach;
-                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1013,15 +970,9 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
-            $this->loadModel('Data');
             $this->Lesson->id = $coma_id;            
             $result = $this->Lesson->saveField('is_block',0);
             if ($result){
-                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
-                // foreach($files as $index=>$f):
-                //     $files[$index]['Data']['is_block'] = 0;
-                // endforeach;
-                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1056,7 +1007,7 @@ class AdminController extends AppController {
         }else{
             $this->loadModel('Data');
             $this->Data->id = $file_id;            
-            $result = $this->Data->saveField('is_block',0,array('callbacks' => false));
+            $result = $this->Data->saveField('is_bool(var)ock',0,array('callbacks' => false));
             if ($result){
                 echo "1";
             }
@@ -1251,20 +1202,6 @@ function deleteFile($file_id = null){
                 $this->Session->setFlash(__('Error'));
             }
         }
-    }
-
-    function lessonManage(){
-        $this->loadModel('Lesson');
-        $this->Lesson->bindModel(array(
-             'belongsTo' => array(               
-               'Author' => array(
-                    'className' => 'User',
-                    'foreignKey' => 'author'
-                )
-             )
-         ), true);     
-        $lessons = $this->Lesson->find('all',array('recursive' => 1));        
-        $this->set(compact('lessons'));
     }
     ///==================
     /// end code by @dac

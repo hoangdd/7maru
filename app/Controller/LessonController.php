@@ -38,7 +38,12 @@ class LessonController extends AppController {
 					)				
 				),
 			));			
-			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));						
+			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id,'Lesson.is_block' => 0), 'recursive' => 2));						
+			if ($lesson == null){
+				$this->Session->setFlash(__('The lesson is blocked'));			
+				//$this->redirect(array('controller' => 'Home','action' => 'index'));
+				header("location:javascript://history.go(-1)");
+			}
 			$file = $lesson['File'];
 			$lesson = $lesson['Lesson'];			
 			$lesson['created'] = $util->convertDate($lesson['created'],'d-m-Y');
@@ -53,18 +58,15 @@ class LessonController extends AppController {
 			
 			//授業の見られる数を準備する。
 			
-			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。
+			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。			
 			$user = $this->Auth->user();
 			// debug($user);
-			$lesson['buy_status'] = 0;			
-			if ($user['user_type'] == 2){
-				if($this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
-					$lesson['buy_status'] = 1;
+			$lesson['buy_status'] = 1;						
+			if ($user['role'] == 'R3'){
+				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
+					$lesson['buy_status'] = 0;
 				}
-			}
-			else if ($user['user_type'] == 1){
-				$lesson['buy_status'] = 1;
-			}
+			}						
 			
 			//　授業のカテゴリを全部GET
 			
@@ -156,9 +158,9 @@ class LessonController extends AppController {
 					$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
 				}
 			}
-			// for($i = 0, $len = $);			
+			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
-				//Check if image format is supported
+				//Check if image format is supported				
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
@@ -213,8 +215,7 @@ class LessonController extends AppController {
 					if(!(isset($value['error']) && $value['error']!=0 ) ){
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];						
 						$this->Data->create($value);
-						if (!$this->Data->save()){
-
+						if (!$this->Data->save()){							
 						}
 					} 
 				}
@@ -448,11 +449,42 @@ class LessonController extends AppController {
 	private function check_Document_File(){
 	}
 
-	public function viewContent($fid = null){
+	public function viewContent($fid = null){					
 		if (!$fid) die;
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
+		//check is block or not
+
+	$lessonId = $file['Data']['coma_id'];
+		$lesson = $this->Lesson->findByComaId($lessonId);		
+		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
+			$this->Session->setFlash(__('The file is blocked'));
+			//$this->redirect(array('controller' => 'Home','action' => 'index'));
+			header("location:javascript://history.go(-1)");
+		}
+		// check teacher permission			
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+
+		}
+		else if ($user['role'] == 'R2'){
+			//Teacher
+			//check teacher is author			
+			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
+			if (!$result){
+				$this->Session->setFlash(__("Forbidden error"));				
+				$this->redirect($this->referer());
+			}
+		}		
+		else if ($user['role'] == 'R3'){
+			//check if user bought the lesson
+			$result = $this->LessonTransaction->had_active_transaction($user['user_id'],$file['Data']['coma_id']);
+			if (!$result){
+				$this->Session->setFlash(__("Forbidden error"));				
+				$this->redirect($this->referer());
+			}
+		}
 		$this->set('file', $file);
 		//play list
 		$list = $this->Data->find('all', array(
@@ -821,7 +853,9 @@ class LessonController extends AppController {
 					$this->loadModel('ComaTransaction');
 					$data = array(
 						'coma_id' => $coma_id,
-						'student_id' => $this->Auth->user('user_id')
+						'student_id' => $this->Auth->user('user_id'),
+						'money' => Configure::read('customizeConfig.money_per_lesson'),
+						'rate' => Configure::read('customizeConfig.teacher_profit_percentage')
 					);					
 					$this->ComaTransaction->create($data);
 					if ($this->ComaTransaction->save()){

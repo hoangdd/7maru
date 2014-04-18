@@ -8,6 +8,13 @@ msgstr "順番"
 msgid "Name'"
 msgstr "ネーム"
 
+msgid "Forbidden error"
+msgstr "禁じられた エラー"
+
+msgid "Relative lesson"
+msgstr "相対授業"
+
+
 msgid "Type"
 msgstr "タイプ"
 
@@ -47,7 +54,7 @@ msgstr "記述"
 msgid "Reset password"
 msgstr "パスワードがれセット"
 
-msgid "Verify code"
+msgid "verify code"
 msgstr "Verify コード"
 
 <!-- ACCOUNT -->
@@ -78,6 +85,11 @@ msgstr "ステータス"
 msgid "Test Result"
 msgstr "テスト結果"
 
+msgid "Test"
+msgstr "テスト"
+
+
+
 msgid "Student Register"
 msgstr "学生の登録"
 
@@ -97,9 +109,6 @@ msgstr "買った日"
 msgid "Username"
 msgstr "ユーザ名"
 
-msgid "Credit card number"
-msgstr "クレジットカード番号"
-
 msgid "Credit card"
 msgstr "クレジットカード番号"
 
@@ -118,7 +127,8 @@ msgstr "出力が完成します"
 msgid "Error was happended while exporting file"
 msgstr "ファイルを出力する時、エラーがあります"
 
-
+msgid "Lesson description"
+msgstr "授業記述"
 
 msgid "From the begin"
 msgstr "最初から"
@@ -126,11 +136,14 @@ msgstr "最初から"
 msgid "Total of Money"
 msgstr "課金総計"
 
-msgid "Top 3 bought lesson: "
-msgstr "もっとも買った授業: "
+msgid "Top 3 bought lesson"
+msgstr "もっとも買った授業"
 
 msgid "Buy"
 msgstr "商売"
+
+msgid "Destroy"
+msgstr "削除"
 
 msgid "Rate point"
 msgstr "ランク"
@@ -177,9 +190,6 @@ msgstr "コメント"
 
 msgid "Block"
 msgstr "ブロック"
-
-msgid "Destroy"
-msgstr "削除"
 
 <!-- Change Password -->
 msgid "Admin Change Password"
@@ -248,6 +258,11 @@ msgid "Reference Manage"
 msgstr "資料管理"
 
 <!-- IP Manage -->
+msgid "IP Address"
+msgstr "IP アドレス"
+
+msgid "Manage"
+msgstr "管理"
 
 <!-- Login -->
 msgid "Login success"
@@ -286,6 +301,15 @@ msgstr "プロファイル"
 <!-- Student -->
 
 <!-- Lesson -->
+msgid "Hot"
+msgstr "ホット"
+
+msgid "New"
+msgstr "新"
+
+msgid "Best"
+msgstr "最上"
+
 msgid "Recent"
 msgstr "最近"
 
@@ -317,7 +341,7 @@ msgid "First Name"
 msgstr "名刺"
 
 msgid "Last Name"
-msgstr ""
+msgstr "名前"
 
 msgid "Birthday"
 msgstr "誕生日"
@@ -325,7 +349,7 @@ msgstr "誕生日"
 msgid "Email"
 msgstr "Eメール"
 
-msgid "Addresss"
+msgid "Address"
 msgstr "地所"
 
 msgid "Phone Number"
@@ -342,6 +366,9 @@ msgstr "記憶"
 
 msgid "ADMIN HOMEPAGE"
 msgstr "アドミンホームページ"
+
+msgid "ADMIN MANAGE"
+msgstr "アドミン管理"
 
 msgid "Search"
 msgstr "検索"
@@ -366,6 +393,9 @@ msgstr "サブミット"
 
 msgid "Lesson Name"
 msgstr "授業ネーム"
+
+msgid "Title"
+msgstr "タイトル"
 
 msgid "Document"
 msgstr "ドキュメント"
@@ -438,6 +468,8 @@ msgstr "学生"
 msgid "Login"
 msgstr "ログイン"
 
+msgid "Admin Login"
+msgstr "管理者ログイン"
 
 msgid "Logout"
 msgstr "ログアウト"
@@ -451,8 +483,11 @@ msgstr "買った授業"
 msgid "Home"
 msgstr "ホーム"
 
-msgid "Study more"
-msgstr "勉強しよう"
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Notification"
+msgstr "通知"
 
 msgid "Edit Profile"
 msgstr "プロファイルの変更"
@@ -460,8 +495,8 @@ msgstr "プロファイルの変更"
 msgid "Lesson Manage"
 msgstr "授業管理"
 
-msgid "Lesson Manage"
-msgstr "授業管理"
+msgid "Reference Manage"
+msgstr "書類管理"
 
 msgid "Lets try with test"
 msgstr "テストをしてみてください"
@@ -497,7 +532,38 @@ msgid "Category"
 msgstr "カテゴリ"
 
 msgid "Different Category"
-msgstr "ほかのカテゴリ"
+msgstr "他のカテゴリ"
 
+msgid "Your school"
+msgstr "学校"
 
+msgid "Introduce yourself"
+msgstr "自己紹介"
+
+msgid "Teacher Register"
+msgstr "先生の登録"
+
+msgid "backup_period"
+msgstr "自動バックアップ時刻"
+
+msgid "block_time"
+msgstr "ロック時間"
+
+msgid "error_login_times"
+msgstr "ログイン誤り回数"
+
+msgid "limit_learn_day"
+msgstr "受講可能時間"
+
+msgid "limit_session_time"
+msgstr "自動セション終了時間"
+
+msgid "money_per_lesson"
+msgstr "１回の受講料"
+
+msgid "teacher_profit_percentage"
+msgstr "報酬％"
+
+msgid "Configuration"
+msgstr "設定"
 

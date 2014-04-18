@@ -40,7 +40,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         });
         
         jQuery.validator.addMethod("checkpwd", function(value,element) {
-            return /^[A-Za-z]\w+$/.test(value);
+            return /^[A-Za-z0-9]\w+$/.test(value);
         });
         
         jQuery.validator.addMethod("checkMatch", function(value,element){
@@ -59,7 +59,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 
         $( "#newpw" ).rules( "add", {
             required: true,
-            minlength: 8,
+            minlength: 2,
             maxlength: 30,
             checkpwd: true,
             messages: {
@@ -72,7 +72,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 
         $( "#confirmpw" ).rules( "add", {
             required: true,
-            minlength: 8,
+            minlength: 2,
             maxlength: 30,
             checkMatch:true,
             checkpwd: true,

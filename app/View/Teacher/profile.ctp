@@ -16,21 +16,21 @@
 	<div>
     <?php 
       $role = $_SESSION['Auth']['User']['role'];
-      if ( $role === 'R2'){
+      if ( !$isOther){
     ?>
 		<a href="<?php echo $this->Html->url(array('controller' => 'Teacher', 'action' => 'EditProfile')) ?>" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Edit Profile') ?></a>
 		<br><br>
 		<a href="Statistic" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Statistic') ?></a>
 		<br><br>
-		<a href=<?php echo "'".$this->Html->url(array('controller' => 'login','action' => 'changePassword'))."'" ?> style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Change Password') ?></a>
-	</div>
+		<a href=<?php echo "'".$this->Html->url(array('controller' => 'login','action' => 'changePassword'))."'" ?> style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Change Password') ?></a>	
   <?php     
     }else if ($role === 'R1'){
   ?>
-  <a href="<?php echo $this->Html->url(array('controller' => 'Teacher', 'action' => 'EditProfile', $data['User']['user_id'])) ?>" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Edit Profile') ?></a>
+  <a href="<?php echo $this->Html->url(array('controller' => 'Teacher', 'action' => 'EditProfile', $data['User']['user_id'])) ?>" style="width:180px;height:30px;font-size:14px;text-align:center;" class="btn btn-primary btn-lg" role="button"><?php echo __('Edit Profile') ?></a>  
   <?php  
     }    
   ?>
+</div>
 </div>
 <div class="col-md-9">
 	<dl style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px; background:#CCFFCC;width:600px;border-radius:25px;" class="dl-horizontal">

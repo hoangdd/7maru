@@ -61,7 +61,7 @@ class AdminController extends AppController {
         $pass_re_ex = '/^\w+$/';
         // If has data
         if ($this->request->isPost()) {
-            $data = $this->request->data;            
+            $data = $this->request->data;
             /*
              * Check username: 0: null 1: empty 2: not match form 3: min short 4: max long 5: is used
              */
@@ -173,30 +173,11 @@ class AdminController extends AppController {
              * username,password
              */            
             if ($check_admin == true) {
-                //$this->Admin->create($data);               
+                //$this->Admin->create($data);
                 if ($this->Admin->save($data)){
-                    $data_admin_ip = array(
-                        'ip' => $data['Admin']['ip']
-                    );
-                    $this->AdminIp->create($data_admin_ip);
-                    $this->AdminIp->save();
-                    $data_ipOfAdmin = array (
-                        'admin_id'  => $this->Admin->getLastInsertId(),
-                        'ip_id' => $this->AdminIp->getLastInsertId()
-                    );                    
-                    $this->IpOfAdmin->save($data_ipOfAdmin);                    
-                    // $aa = $this->Auth->User();
-                    // $data_admin_admin = array(
-                    //     'admin_super' => 
-                    //         $aa['admin_id'],
-                    //     'admin_sub' => $this->Admin->getLastInsertId()
-                    // );
-                    // $this->AdminLevel->create($data_admin_admin);
-                    // $this->AdminLevel->save();
                     $this->Session->setFlash(__('Create Admin Successfully'));
-                    $this->redirect(array('controller' => 'Admin','action' => 'adminManage'));
+                    $this->redirect('adminManage');
                 }
-
             }
         }
         $this->set('error', $error);
@@ -359,15 +340,17 @@ class AdminController extends AppController {
                 'User.date_of_birth',
                 'User.user_type',
                 'User.created'
-            ),
+            )
+        );
+        $this->Paginator->settings = $paginate;
+        $data = $this->Paginator->paginate('User');
+        $dataNewUser = $this->User->find('all', array(
             'conditions' => array(
                 'approved' => '0'
             ),
             'recursive' => 2
-        );
-        $this->Paginator->settings = $paginate;
-        $data = $this->Paginator->paginate('User');
-        $this->set('data', $data);
+        ));
+        $this->set('data', $dataNewUser);
     }
     
     function approveUser($id,$value){
@@ -656,6 +639,78 @@ class AdminController extends AppController {
         $this->set('data', $data);
 
         $temp = $this->request->query;
+    }
+
+    function adminManage() {
+    	$currentAdmin = $this->Auth->user();
+    	$pagination = array(
+    			'limit' => 3,
+    			'fields' => array(
+    					'AdminLevel.admin_sub'
+    					
+    			),
+    			'conditions' =>array('AdminLevel.admin_super' => $currentAdmin['admin_id']
+    			)
+    	);
+    	
+    	$this->Paginator->settings = $pagination;
+    	$dataTemp = $this->Paginator->paginate('AdminLevel');
+    	$itemp = 0;
+    	foreach ($dataTemp as $key => $value){
+    		$specificallyThisOne = $this->Admin->find('first', array(
+    				'conditions' => array(
+    						'Admin.admin_id' => $value['AdminLevel']['admin_sub']
+    				)
+    		));
+    		$specificallyThisTwo = $this->IpOfAdmin->find('first', array(
+    				'conditions' => array(
+    						'IpOfAdmin.admin_id' => $value['AdminLevel']['admin_sub']
+    				)
+    		));
+    		$specificallyThisThree = $this->AdminIp->find('first', array(
+    				'conditions' => array(
+    						'AdminIp.ip_id' => $specificallyThisTwo['IpOfAdmin']['ip_id']
+    				)
+    		));
+    		if($itemp == 0) $data = array($itemp => array(
+    					'admin_id' => $specificallyThisOne['Admin']['admin_id'],
+    					'username' => $specificallyThisOne['Admin']['username'],
+    					'ip' => $specificallyThisThree['AdminIp']['ip']
+    		)
+    		);
+    		else 
+    			$data = $data + array($itemp => array(
+    					'admin_id' => $specificallyThisOne['Admin']['admin_id'],
+    					'username' => $specificallyThisOne['Admin']['username'],
+    					'ip' => $specificallyThisThree['AdminIp']['ip']
+    			)
+    			);
+    			$itemp++;
+    	}
+    	
+    	$this->set('data', $data);
+    }
+    function delAdmin($id) {
+    	$this->Admin->delete(intval($id));
+    	$specificallyThisOne = $this->AdminLevel->find('first', array(
+    			'conditions' => array(
+    					'AdminLevel.admin_sub' => $id
+    			)
+    	));
+    	$this->AdminLevel->delete(intval($specificallyThisOne['AdminLevel']['admin_level_id']));
+    	$specificallyThisOne = $this->IpOfAdmin->find('first', array(
+    			'conditions' => array(
+    					'IpOfAdmin.admin_id' => $id
+    			)
+    	));
+    	$specificallyThisTwo = $this->AdminIp->find('first', array(
+    			'conditions' => array(
+    					'AdminIp.ip_id' => $specificallyThisOne['IpOfAdmin']['ip_id']
+    			)
+    	));
+    	$this->AdminIp->delete(intval($specificallyThisTwo['AdminIp']['ip_id']));
+    	$this->redirect('adminManage');
+    	
     }
     
     function delip() {
@@ -989,15 +1044,9 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
-            $this->loadModel('Data');            
             $this->Lesson->id = $coma_id;            
-            $result = $this->Lesson->saveField('is_block',1);            
+            $result = $this->Lesson->saveField('is_block',1);
             if ($result){
-                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
-                // foreach($files as $index=>$f):
-                //     $files[$index]['Data']['is_block'] = 1;
-                // endforeach;
-                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1013,15 +1062,9 @@ class AdminController extends AppController {
             die;
         }else{
             $this->loadModel('Lesson');
-            $this->loadModel('Data');
             $this->Lesson->id = $coma_id;            
             $result = $this->Lesson->saveField('is_block',0);
             if ($result){
-                // $files  = $this->Data->find('all',array('conditions' => array('coma_id' => $coma_id)));
-                // foreach($files as $index=>$f):
-                //     $files[$index]['Data']['is_block'] = 0;
-                // endforeach;
-                // $this->Data->saveMany($files,array('callbacks' => false));
                 echo "1";
             }
             else{
@@ -1251,20 +1294,6 @@ function deleteFile($file_id = null){
                 $this->Session->setFlash(__('Error'));
             }
         }
-    }
-
-    function lessonManage(){
-        $this->loadModel('Lesson');
-        $this->Lesson->bindModel(array(
-             'belongsTo' => array(               
-               'Author' => array(
-                    'className' => 'User',
-                    'foreignKey' => 'author'
-                )
-             )
-         ), true);     
-        $lessons = $this->Lesson->find('all',array('recursive' => 1));        
-        $this->set(compact('lessons'));
     }
     ///==================
     /// end code by @dac

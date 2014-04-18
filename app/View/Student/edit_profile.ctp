@@ -16,20 +16,27 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         $role = $_SESSION['Auth']['User']['role'];
         if ($role === 'R3'){
             echo "<div class='text-center'>";
-            echo $this->Html->link('Statistic',
+            echo $this->Html->link(__('Statistic'),
                'Statistic',array(
                 'class'=>'btn btn-primary',
                 'role'=>'button',
                 'style'=>'font-size:14px;margin:auto;width:80%'
                 ));
             echo "<p></p></div><div class='text-center'>";        
-            echo $this->Html->link('ChangePassword',
+            echo $this->Html->link(__('ChangePassword'),
                array('controller' => 'Login','action' => 'changePassword'),array(
                 'class'=>'btn btn-primary',
                 'role'=>'button',
                 'style'=>'font-size:14px;margin:auto;width:80%'
+                ));            
+            echo "<p></p></div><div class='text-center'>";        
+            echo $this->Html->link(__('ChangeVerifycode'),
+               array('controller' => 'Login','action' => 'changeVerifycode'),array(
+                'class'=>'btn btn-primary',
+                'role'=>'button',
+                'style'=>'font-size:14px;margin:auto;width:80%'
                 ));
-            echo "</div>";        
+            echo "</div>";
         }   
         ?>
     </div>
