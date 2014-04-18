@@ -303,12 +303,17 @@ class StudentController extends AppController {
 			if ($id!= null){
                 $pid = $id;        
             }
-            else if ($this->Auth->user('role') !== 'R1' ){               
+            else if ($this->Auth->user('role') !== 'R1' ){            	
                 $pid=$this->Auth->User('user_id');                            
             }
             else{
             	die;
             }
+           $user = $this->Auth->User();
+           $isOther = true;
+            if (isset($user['user_id']) && $pid == $user['user_id']){
+                $isOther = false;
+            }            
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
@@ -316,8 +321,9 @@ class StudentController extends AppController {
             ));
 			if (!$data){
 				$this->Session->setFlash(__('Forbidden error'));
-			}
+			}			
 		$this->set("data",$data);
+		$this->set('isOther',$isOther);
 		if($data['User']['user_type']==2){
 			$a=$data['User']['foreign_id'];
 			$data1=$this->Student->find('first',array(

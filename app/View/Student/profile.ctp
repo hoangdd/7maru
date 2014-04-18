@@ -14,7 +14,7 @@
 	<div>       
 		<?php
     $role = $_SESSION['Auth']['User']['role'];
-      if ( $role === 'R3'){
+      if ( !$isOther){
         echo "<br>";
         echo $this->Html->link(__('Edit Profile'),
           array(

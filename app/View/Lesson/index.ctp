@@ -239,13 +239,10 @@
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
                 result = true;                
+                location.reload();
               }             
             }
-          );
-        if (result){
-          //reload page
-          location.reload();
-        }
+          );        
       }       
       });
 

@@ -67,7 +67,7 @@
 					$type = $user['User']['user_type'] == 1 ? 'Teacher': 'Student';
 
 					echo $td.$this->Html->link('Edit',array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Delete',array('controller' => 'User','action' => 'delete',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Delete',array('controller' => 'User','action' => 'delete',$user['User']['user_id']),array('class' => 'delete_link')).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
 					echo "</tr>";			
@@ -91,3 +91,31 @@
 </div>
 </div>
 <?php echo $this->Js->writeBuffer(); ?>
+
+<script>
+    $(document).ready(function(){
+        $("a.delete_link").click(function(){
+            var src = $(this).attr('href');           
+            var link = $(this);
+            var isConfirm = confirm("<?php echo __('Confirm') ?>");
+            if (!isConfirm){
+                return false;
+            }                    
+            $.get(
+                src,             
+                function (data){                
+                    if (data.trim() === '1'){
+                        alert("<?php echo __('Successfully') ?>");                       
+                        link.parent().parent().replaceWith("");
+                        return;                        
+                    }
+                    else
+                    {
+                        alert("<?php echo __('Error') ?>")
+                    }
+                }
+            );
+            return false;
+        })
+    })
+</script>

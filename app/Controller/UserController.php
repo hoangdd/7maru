@@ -1,38 +1,7 @@
 <?php
 class UserController extends AppController {
-
-	public $helpers = array('Html', 'Session');
-	var $hasMany = array(
-		'Comment' => array(
-			'foreignKey' => 'user_id',
-			'dependent' => true
-		),
-		'Teacher' => array(
-			'foreignKey' => 'foreign_key',
-			'dependent' => true
-		), 
-		'Student' => array(
-			'foreignKey' => 'fireign_key',
-			'dependent' => true
-		),
-		'Lesson' => array(
-			'foreignKey' => 'author',
-			'dependent' => true
-		),
-		'LessonTransaction' => array(
-			'foreignKey' => 'student_id',
-			'dependent' => true
-		),
-		'ReportLesson' => array(
-			'foreignKey' => 'user_id',
-			'dependent' => true
-		),
-		'RateLesson' => array(
-			'foreignKey' => 'student_id',
-			'dependent' => true
-		)
-
-	);
+	public $primaryKey = 'user_id';
+	public $helpers = array('Html', 'Session');	
 	function index(){
 		$data = $this->User->find('all');
 		$this->set('data',$data);
@@ -181,15 +150,33 @@ class UserController extends AppController {
 
 	function delete($user_id = null){
 		if ($user_id == null){
+			if ($this->Auth->loggedIn()){
+				$user_id = $this->Auth->user('user_id');				
+				$result = $this->deleteUser($user_id);
+				if ($result)	{
+					$this->Session->setFlash(__('Delete').__('Successfull'));
+					$this->redirect(array('controller' => 'login','action' => 'logout'));					
+				}
+				else{
+					$this->Session->setFlash(__('Delete').__('Error'));
+					$this->redirect();		
+				}					
+			}
 			die;
+		}	
+		if ($this->request->is('get')){
+			$result = $this->deleteUser($user_id);
+			if ($result){
+				echo 1;die;
+			}
+			else{
+				echo 0;die;
+			}
 		}
-		$result = $this->User->delete($user_id,true);
-		if ($result){
-			echo 1;die;
-		}
-		else{
-			echo 0;die;
-		}
+		die;
+	}
 
+	private function deleteUser($user_id){
+		return $this->User->delete($user_id,true);		
 	}
 }

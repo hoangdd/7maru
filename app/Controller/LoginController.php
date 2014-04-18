@@ -170,7 +170,7 @@ class LoginController extends AppController {
                     $this->set('error', $error);
                     return;
                 }else{
-                    if (strlen($new) < 8) {
+                    if (strlen($new) < 2) {
                         $error['new'] = 'Password is too short.';
                         $this->set('error', $error);
                         return;
@@ -201,15 +201,10 @@ class LoginController extends AppController {
 
             if ($this->Auth->password($this->Auth->user('username') . $current.FILL_CHARACTER) === $user['User']['password']) {
                 $hashNewPassword = $this->Auth->password($this->Auth->user('username') . $new.FILL_CHARACTER);
-                $updatePassword = $this->User->updateAll(
-                    array(
-                        'User.password' => "'" . $hashNewPassword . "'"
-                        ), array(
-                        'User.user_id' => $this->Auth->User('user_id')
-                        )
-                        );
+                $this->User->id = $this->Auth->user('user_id');
+                $updatePassword = $this->User->saveField('password',$hashNewPassword,array('callbacks' => false));
                 if ($updatePassword) {
-                    $this->Session->setFlash('The user info has been saved');
+                    $this->Session->setFlash(__('Change password').__('Successfully') );
                     if ($this->Auth->user('user_type')==1) {
                         # code...
                         $this->redirect(array(
@@ -223,6 +218,103 @@ class LoginController extends AppController {
                             'action' => 'Profile',
                             ));
                     }
+                } else {
+                    $this->Session->setFlash('The user could not be saved. Please, try again.');
+                }
+            } else {
+                $error['current'] = 'Current password invalid';
+            }
+
+            $this->set('error', $error);
+        }
+    }
+
+    function changeVerifycode() {
+        
+        if ($this->request->is('post')) {
+
+            // Get data from view via $data
+            $data = $this->request->data;
+
+            $current = $data['current-pw'];
+            $newAnswer = $data['new-answer'];
+            $newQuestion = $data['new-question'];            
+            $error = array();
+            //$error[] = $this->User->validationErrors;
+            //Check NULL data requested
+
+            if (empty($current)) {
+                $error['current'] = 'This field is required';
+            }
+            // if (empty($new)) {
+            //     $error['new'] = 'This field is required';
+            // }
+            // if (empty($confirm)) {
+            //     $error['confirm'] = 'This field is required';
+            // }
+
+            if (empty($current) || empty( $newAnswer) || empty($newQuestion) ) {
+                $this->set('error', $error);
+                return;
+            }
+
+            // Check $new validate ?
+            // if ($this->User->validates(array('fieldList' => array('password' => $new)))) {
+            //     // Check matching between $new and $confirm
+            //     if ($new != $confirm) {
+            //         $error['confirm'] = 'Password do not match';
+            //         $this->set('error', $error);
+            //         return;
+            //     }else{
+            //         if (strlen($new) < 2) {
+            //             $error['new'] = 'Password is too short.';
+            //             $this->set('error', $error);
+            //             return;
+            //         }
+
+            //         if (strlen($new) > 30) {
+            //             $error['new'] = 'Password is too long.';
+            //             $this->set('error', $error);
+            //             return;
+            //         }
+            //     }
+            // } else {
+            //     $error['new'] = 'Password format is wrong';
+            //     $this->set('error', $error);
+            //     return;
+            // }
+
+            // Access to table User with user_id got from Session, Auth
+            $user = $this->User->find('first', array(
+                'conditions' => array(
+                    'User.user_id' => $this->Auth->User('user_id'),
+                    ),
+                ));
+
+            /* Check current password to password in database
+             * If valid then update new Password
+             */
+
+            if ($this->Auth->password($this->Auth->user('username') . $current.FILL_CHARACTER) === $user['User']['password']) {
+                $hashNewQuestion = $this->Auth->password($this->Auth->user('new_question') . $newQuestion.FILL_CHARACTER);
+                $hashNewQuestion = $this->Auth->password($this->Auth->user('new_answer') . $newAnswer.FILL_CHARACTER);
+                $this->User->id = $this->Auth->user('user_id');
+                $this->User->saveField('verifycode_question',$hashNewQuestion,array('callbacks' => false));
+                $result = $this->User->saveField('verifycode_answer',$hashNewQuestion,array('callbacks' => false));
+
+                // $updatePassword = $this->User->updateAll(
+                //     array(
+                //         'User.password' => "'" . $hashNewPassword . "'"
+                //         ), array(
+                //         'User.user_id' => $this->Auth->User('user_id')
+                //         )
+                //         );
+                if ($result) {
+                    $this->Session->setFlash(__('Successfully'));
+                    $this->redirect(array(
+                        'controller' => 'Home',
+                        'action' => 'index',
+                        ));
                 } else {
                     $this->Session->setFlash('The user could not be saved. Please, try again.');
                 }

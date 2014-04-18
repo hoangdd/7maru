@@ -322,6 +322,11 @@ class TeacherController extends AppController {
             else{
                 die;
             }
+            $isOther = true;
+            $user = $this->Auth->User();
+            if (isset($user['user_id']) && $pid == $user['user_id']){
+                $isOther = false;
+            }            
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
@@ -331,6 +336,7 @@ class TeacherController extends AppController {
                 $this->Session->setFlash(__('Forbidden error'));
             }        
             $this->set("data", $data);
+            $this->set('isOther',$isOther);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
                 $data1 = $this->Teacher->find('first', array(
