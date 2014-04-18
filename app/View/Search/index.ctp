@@ -2,6 +2,37 @@
 	echo $this->Html->css(array('search'));
 ?>
 <?php echo $this->Html->scriptStart();?>
+	function noClip() {
+	// window.clipboardData.clearData("Image");
+	return true;
+
+	}
+
+	//300ms間隔
+	// setInterval("noClip()", 300);
+	$(document).keydown(function(e){
+		console.log(e);
+	});
+	$(document).mouseout(function(e){
+		console.log('mouseout');
+	});
+	$(document).focusout(function(e){
+		console.log('focusout');
+	});
+	function xxx(){
+		$('body').hide();
+		// console.log('xxx');
+	}
+	function yyy(){
+		$('body').show();
+		// console.log('yyy');
+	}
+	function zzz(){
+		$('.panel').toggleClass('hidden');
+		// console.log('yyy');
+	}
+	// setInterval(yyy, 1000);
+
 	$(document).ready(function(){
 		$('input[name="time"]').click(function(){
 			if($('.custom-time').is(':checked')){
@@ -85,6 +116,7 @@
 		$('.search-button').click();
 	});
 <?php echo $this->Html->scriptEnd();?>
+<!-- <div class='panel' style='width:1000px;height:1000px;position:fixed;z-index=5;'></div> -->
 <div>
 	<input name = 'keyword' value = '<?php if(isset($keyword)) echo $keyword;?>'>
 	<button class='search-button'><?php echo __('Search');?></button>
