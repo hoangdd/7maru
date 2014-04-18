@@ -14,7 +14,7 @@
 
             //keyword
             var keyword = $('input[name="keyword"').val();
-            if( keyword.length == 0 ) return;
+            // if( keyword.length == 0 ) return;
 
             //loading
             $('.result').html('<?php echo $this->Html->image("loading.gif");?>');
@@ -50,13 +50,18 @@
             $('input[name="order"]:checked').each(function(){
                 order =  $(this).val();
             });
+
+            //author
+            var author = $('option:checked').val();
+
             var data = {
                 'keyword' : keyword,
                 'type' : type,
                 'category' : category,
                 'time' : time,
                 'rate' : rate,
-                'order' : order
+                'order' : order,
+                'author' : author
             }
             $.ajax({
                 'url' : '<?php echo $this->Html->url(array("controller" => "Search", "action" => "ajaxSearch"));?>',
@@ -71,7 +76,11 @@
         $('.advanced-search').click(function(){
             $('.filter').toggleClass('hide');
         });
-
+        $('input[name="type"]').click(function(){
+            $('table').hide();
+            var type = $(this).val();
+            $('.'+type+'-filter').show();
+        });
         //first load
         $('.search-button').click();
     });
@@ -82,12 +91,15 @@
     <button class='advanced-search'><?php echo __('Show advanced search');?></button>
 </div>
 <div class = 'filter hide'>
-    <table>
-        <tr>
-            <td>
-                <?php echo __('Type');?>
-            </td>
+ <div>
+    <input name='type' type='radio' value='lesson' checked> <?php echo __('Lesson');?>
 
+    <input name='type' type='radio' value='teacher' > <?php echo __('Teacher');?>
+
+    <input name='type' type='radio' value='category' > <?php echo __('Category');?>
+</div>
+    <table class='lesson-filter'>
+        <tr>
             <td>
                 <?php echo __('Category');?>
             </td>
@@ -98,28 +110,25 @@
                 <?php echo __('Rate');?>
             </td>
              <td>
+                <?php echo __('Author');?>
+            </td>
+            <td>
                 <?php echo __('Sort by');?>
             </td>
         </tr>
     
 
         <tr>
-            <td>
-                <div>
-                    <input name='type' type='checkbox' value='lesson' checked> <?php echo __('Lesson');?>
+            <td >
+                <div style='height:100px;overflow:auto'>
+                    <?php foreach ($categories as $key => $value) : ?>
+                        <div>
+                            <input type="checkbox" name="category" checked
+                            value="<?php echo $value['Category']['category_id']?>">
+                            <?php echo $value['Category']['name'];?>
+                        </div>
+                    <?php endforeach;?>
                 </div>
-                <div>
-                    <input name='type' type='checkbox' value='teacher' checked> <?php echo __('Teacher');?>
-                </div>
-            </td>
-            <td>
-                <?php foreach ($categories as $key => $value) : ?>
-                    <div>
-                        <input type="checkbox" name="category" checked
-                        value="<?php echo $value['Category']['category_id']?>">
-                        <?php echo $value['Category']['name'];?>
-                    </div>
-                <?php endforeach;?>
             <td>
                 <?php 
                     $today = date('y/m/d');
@@ -161,6 +170,16 @@
                 <?php endfor;?>
             </td>
             <td>
+                <select>
+                    <option value=''> <?php echo __('Any'); ?></option>
+                    <?php 
+                        foreach ($teacher_list as $key => $value) {
+                            echo '<option value="'.$value['User']['user_id'].'">'.$value['User']['username'].'</option>';
+                        }
+                    ?>
+                </select>
+            </td>
+            <td>
                 <div>
                     <input name = 'order' checked type='radio' value='Lesson.created'><?php echo __('Time');?>
                 </div>
@@ -170,6 +189,62 @@
                 <div>
                     <input name = 'order' type='radio' value='Category.name'><?php echo __('Tag');?>
                 </div>
+            </td>
+        </tr>   
+    </table>
+    <table class='teacher-filter' style="display:none">
+        <tr>
+            <td>
+                <?php echo __('Category');?>
+            </td>
+            <td>
+                <?php echo __('Time');?>
+            </td>
+            <td>
+                <?php echo __('Rate');?>
+            </td>
+             <td>
+                <?php echo __('Sort by');?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              
+            <td>
+               
+            </td>
+            <td>
+              
+            </td>
+            <td>
+            </td>
+        </tr>   
+    </table>
+   <table class='category-filter' style="display:none">
+        <tr>
+            <td>
+                <?php echo __('Category');?>
+            </td>
+            <td>
+                <?php echo __('Time');?>
+            </td>
+            <td>
+                <?php echo __('Rate');?>
+            </td>
+             <td>
+                <?php echo __('Sort by');?>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              
+            <td>
+               
+            </td>
+            <td>
+              
+            </td>
+            <td>
             </td>
         </tr>   
     </table>

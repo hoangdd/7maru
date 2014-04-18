@@ -12,6 +12,12 @@ if( !empty($data['Lesson'])) :
 				));
 			echo '</div>';
 			echo '<div>';
+			echo '<b>';
+			echo 'Author:'.$value['Lesson']['User']['username'];
+			echo '<br>';
+			echo 'Category:'.$value['Category']['name'];
+			echo '<br>';
+			echo '</b>';
 			echo $value['Lesson']['name'].'...'.$value['Lesson']['title'].'...'.$value['Lesson']['description'].'...';
 			echo '</div>';
 			echo '<hr>';

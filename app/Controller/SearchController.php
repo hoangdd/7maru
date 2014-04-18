@@ -11,7 +11,16 @@ class SearchController extends AppController {
 	function index(){
 		$this->set('categories', $this->Category->find('all'));
 		$data = $this->request->query;
+		$teacher_list = $this->User->find('all', array(
+			'conditions' => array(
+				'user_type' => 1
+				),
+			'fields' => array(
+				'username','user_id'
+				)
+			));
 		$this->set('keyword',$data['keyword']);
+		$this->set('teacher_list',$teacher_list);
 	}
 
 	function ajaxSearch(){
@@ -32,6 +41,13 @@ class SearchController extends AppController {
 						}else{
 							$bindCondition = array();
 						}
+
+						//author
+						if( !empty($q['author'])){
+							$bindCondition['Lesson.author'] = $q['author'];
+						}
+						debug($bindCondition);
+
 						$order = array();
 						//order
 						if( !empty($q['order']) && $q['order'] != 'category' ){
@@ -44,11 +60,18 @@ class SearchController extends AppController {
 						}else{
 							$order['Category'] = '';
 						}
+						$this->Lesson->bindModel(array(
+							'belongsTo' => array(
+									'User' => array(
+										'foreignKey' => 'author',
+										)
+								)
+							));
 						$this->LessonCategory->bindModel(array(
 									'belongsTo' => array(
 											'Lesson' => array(
 													'foreignKey' => 'coma_id',
-													'conditions' => $bindCondition,	
+													'conditions' => $bindCondition,
 													'order' => $order['Lesson']
 												),
 											'Category' => array(
@@ -58,7 +81,6 @@ class SearchController extends AppController {
 										)
 								)
 							);
-
 						$conditions = array();
 						$categories = explode(' ', $q['category']);
 
@@ -69,6 +91,7 @@ class SearchController extends AppController {
 						if( !empty($categories)){
 							$conditions['LessonCategory.category_id'] = $categories;
 						}
+						$this->LessonCategory->recursive = 2;
 						$data['Lesson'] = $this->LessonCategory->find('all', array(
 								'conditions' => $conditions,
 							));
@@ -97,7 +120,7 @@ class SearchController extends AppController {
 								}
 							}
 						}
-						// debug($data['Lesson']);
+						debug($data['Lesson']);
 						break;
 
 					case 'teacher':
