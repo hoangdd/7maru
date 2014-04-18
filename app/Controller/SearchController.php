@@ -44,7 +44,10 @@ class SearchController extends AppController {
 
 						//author
 						if( !empty($q['author'])){
-							$bindCondition['Lesson.author'] = $q['author'];
+							$authors = explode(' ', $q['author']);
+							if( empty($authors[0])) unset($authors[0]);
+							if( empty($authors[1])) unset($authors[1]);
+							$bindCondition['Lesson.author'] = $authors;
 						}
 						debug($bindCondition);
 
@@ -120,7 +123,7 @@ class SearchController extends AppController {
 								}
 							}
 						}
-						debug($data['Lesson']);
+						// debug($data['Lesson']);
 						break;
 
 					case 'teacher':

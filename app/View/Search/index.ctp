@@ -52,7 +52,7 @@
             });
 
             //author
-            var author = $('option:checked').val();
+            var author = $('.author1 option:checked').val()+' '+$('.author2 option:checked').val();
 
             var data = {
                 'keyword' : keyword,
@@ -132,18 +132,19 @@
             <td>
                 <?php 
                     $today = date('y/m/d');
+                    $tomorrow = date_format(new DateTime('tomorrow'),'y/m/d');
                 ?>
                 <div>
-                    <input name = 'time' from = '<?php echo $today;?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('Today');?>
+                    <input name = 'time' from = '<?php echo $today;?>' to =  '<?php echo $tomorrow;?>' type='radio'><?php echo __('Today');?>
                 </div>
                 <div>
-                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 week ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This week');?>
+                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 week ago'), 'y/m/d');?>' to =  '<?php echo $tomorrow;?>' type='radio'><?php echo __('This week');?>
                 </div>
                 <div>
-                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 month ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This month');?>
+                    <input name = 'time' from = '<?php echo date_format(new DateTime('1 month ago'), 'y/m/d');?>' to =  '<?php echo $tomorrow;?>' type='radio'><?php echo __('This month');?>
                 </div>
                 <div>
-                    <input checked name = 'time' from = '<?php echo date_format(new DateTime('1 year ago'), 'y/m/d');?>' to =  '<?php echo $today;?>' type='radio'><?php echo __('This year');?>
+                    <input checked name = 'time' from = '<?php echo date_format(new DateTime('1 year ago'), 'y/m/d');?>' to =  '<?php echo $tomorrow;?>' type='radio'><?php echo __('This year');?>
                 </div>
                 <div style='display:none'>
                     <input name = 'time'  from = '' to = '' 
@@ -170,7 +171,19 @@
                 <?php endfor;?>
             </td>
             <td>
-                <select>
+                1:
+                <select class='author1'>
+                    <option value=''> <?php echo __('Any'); ?></option>
+                    <?php 
+                        foreach ($teacher_list as $key => $value) {
+                            echo '<option value="'.$value['User']['user_id'].'">'.$value['User']['username'].'</option>';
+                        }
+                    ?>
+                </select>
+                <br>
+                <br>
+                2:
+                <select class='author2'>
                     <option value=''> <?php echo __('Any'); ?></option>
                     <?php 
                         foreach ($teacher_list as $key => $value) {
