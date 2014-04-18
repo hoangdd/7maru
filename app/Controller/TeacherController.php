@@ -1,7 +1,8 @@
 <?php
 class TeacherController extends AppController {
     public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson','Data');
-    public $helpers = array('Html');    
+    public $helpers = array('Html'); 
+    public $components = array('Paginator');   
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('register','login'); //Allow all
@@ -422,27 +423,33 @@ class TeacherController extends AppController {
         )
       )
       );   
-        $lesson = $this->Lesson->find('all', array(
+
+        $pagination = array(
+            'limit' => 5,
             'contain' => array(
                 'RateLesson' => array(                    
                     'fields' => array(      
                             'AVG(RateLesson.rate) as rate',                                
                         )
                     )
-                ),            
-            'conditions' => array(
-                'Lesson.author' => $this->Auth->user('user_id')
-            )
-        ));
+                ),
+            'conditions' =>  array('Lesson.author' => $this->Auth->user('user_id')),
+            'order' => array('Lesson.name' => 'asc')
+        );
+        
+        $this->Paginator->settings = $pagination;
+        $lesson = $this->Paginator->paginate('Lesson'); 
+        
         foreach ($lesson as $index=>$ls):
             $lesson[$index]['Lesson']['rate'] = 0;
             if (isset($ls['RateLesson'][0]['RateLesson'][0]['rate'])){
                 $lesson[$index]['Lesson']['rate'] = $ls['RateLesson'][0]['RateLesson'][0]['rate'];
             }
             unset($lesson[$index]['RateLesson']);
-        endforeach;        
+        endforeach;     
         $this->set('lesson', $lesson);
    }
+
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            

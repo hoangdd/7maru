@@ -350,7 +350,7 @@ class AdminController extends AppController {
     }
     function acceptNewUser() {
         $paginate = array(
-            'limit' => 10,
+            'limit' => 2,
             'fields' => array(
                 'User.user_id',
                 'User.firstname',
@@ -359,17 +359,15 @@ class AdminController extends AppController {
                 'User.date_of_birth',
                 'User.user_type',
                 'User.created'
-            )
-        );
-        $this->Paginator->settings = $paginate;
-        $data = $this->Paginator->paginate('User');
-        $dataNewUser = $this->User->find('all', array(
+            ),
             'conditions' => array(
                 'approved' => '0'
             ),
             'recursive' => 2
-        ));
-        $this->set('data', $dataNewUser);
+        );
+        $this->Paginator->settings = $paginate;
+        $data = $this->Paginator->paginate('User');
+        $this->set('data', $data);
     }
     
     function approveUser($id,$value){

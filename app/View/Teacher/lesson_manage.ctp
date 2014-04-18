@@ -96,7 +96,18 @@
         <?php }?>
     </div>
 
+    <div class='text-center'>   
+        <ul class="pagination">
+            <?php 
+            echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
+            echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
+            echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
+            ?>   
+        </ul>
+    </div>
 </div>
+
+<?php echo $this->Js->writeBuffer(); ?>
 
 <script type="text/javascript">
 $(document).ready(function(){
