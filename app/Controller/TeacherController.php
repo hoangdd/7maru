@@ -312,11 +312,14 @@ class TeacherController extends AppController {
 
     function Profile($id = null) {
         if ($this->Auth->loggedIn()) {
-            if ($this->Auth->User('admin_id') && $id!= null){
+            if ($id!= null){
                 $pid = $id;        
             }
-            else{               
+            else if ($this->Auth->user('role') !== 'R1' ){               
                 $pid=$this->Auth->User('user_id');                            
+            }
+            else{
+                die;
             }
             $data = $this->User->find('first', array(
                     'conditions' => array(

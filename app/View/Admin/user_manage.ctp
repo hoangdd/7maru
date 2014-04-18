@@ -67,7 +67,7 @@
 					$type = $user['User']['user_type'] == 1 ? 'Teacher': 'Student';
 
 					echo $td.$this->Html->link('Edit',array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'delete',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link('Delete',array('controller' => 'User','action' => 'delete',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
 					echo "</tr>";			

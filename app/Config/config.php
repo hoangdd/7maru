@@ -44,7 +44,7 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'student' => array('index', 'profile', 'editprofile'),
 		'teacher' => array('index', 'profile', 'editprofile'),
-		'user' => array('index'),
+		'user' => '*',
 		'cakeerror' => '*'
 	),
 	// teacher

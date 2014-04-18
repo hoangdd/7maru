@@ -2,6 +2,37 @@
 class UserController extends AppController {
 
 	public $helpers = array('Html', 'Session');
+	var $hasMany = array(
+		'Comment' => array(
+			'foreignKey' => 'user_id',
+			'dependent' => true
+		),
+		'Teacher' => array(
+			'foreignKey' => 'foreign_key',
+			'dependent' => true
+		), 
+		'Student' => array(
+			'foreignKey' => 'fireign_key',
+			'dependent' => true
+		),
+		'Lesson' => array(
+			'foreignKey' => 'author',
+			'dependent' => true
+		),
+		'LessonTransaction' => array(
+			'foreignKey' => 'student_id',
+			'dependent' => true
+		),
+		'ReportLesson' => array(
+			'foreignKey' => 'user_id',
+			'dependent' => true
+		),
+		'RateLesson' => array(
+			'foreignKey' => 'student_id',
+			'dependent' => true
+		)
+
+	);
 	function index(){
 		$data = $this->User->find('all');
 		$this->set('data',$data);
@@ -16,8 +47,8 @@ class UserController extends AppController {
 		$this->Comment->bindModel(array(
 			'belongsTo' => array(
 					'User' => array(
-						'foreignKey' => 'user_id',
-						)
+						'foreignKey' => 'user_id',						
+					)
 				)
 			));
 		$comments = $this->Comment->find('all');
@@ -146,5 +177,19 @@ class UserController extends AppController {
 		else
 			echo "0";
 		die;
+	}
+
+	function delete($user_id = null){
+		if ($user_id == null){
+			die;
+		}
+		$result = $this->User->delete($user_id,true);
+		if ($result){
+			echo 1;die;
+		}
+		else{
+			echo 0;die;
+		}
+
 	}
 }

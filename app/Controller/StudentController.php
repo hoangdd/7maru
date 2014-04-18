@@ -298,14 +298,16 @@ class StudentController extends AppController {
 
 	function Profile($id = null){
 		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
-			// $data=$this->User->query($sql);
-
+			// $data=$this->User->query($sql);				
 		if($this->Auth->loggedIn()){			
-			if ($this->Auth->User('admin_id') && $id!= null){
+			if ($id!= null){
                 $pid = $id;        
             }
-            else{               
+            else if ($this->Auth->user('role') !== 'R1' ){               
                 $pid=$this->Auth->User('user_id');                            
+            }
+            else{
+            	die;
             }
             $data = $this->User->find('first', array(
                     'conditions' => array(

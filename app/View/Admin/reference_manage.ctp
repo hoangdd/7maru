@@ -23,8 +23,8 @@
         <th class="info"><label><?php echo __("Delete");?></label></th>
         <?php
         foreach ($reference as $d):                
-            echo '<tr class="linktr">'.'<td>'.$d['Data']['file_name'].'</td>'.'<td>'.$d['Data']['type'].'</td>'.'<td>'.$d['Lesson']['name'].'</td><td>'.$d['Lesson']['Author']['username'].'</td><td>'.$d['Lesson']['created'].'</td>';
-            echo '<td>';
+            echo '<tr class="linktr">'.'<td>'.$this->Html->link($d['Data']['file_name'],array('controller' => 'lesson','action' => 'viewContent',$d['Data']['file_id'])).'</td>'.'<td>'.$d['Data']['type'].'</td>'.'<td>'.$d['Lesson']['name'].'</td><td>'.$d['Lesson']['Author']['username'].'</td><td>'.$d['Lesson']['created'].'</td>';
+            echo '<td class="link_td">';
             if ($d['Data']['is_block'] === '0'){
                 echo $this->Html->link(__('Block'),array('controller' => 'Admin','action' => 'blockFile',$d['Data']['file_id']),array('link_type' => 'block_link','file_id' => $d['Data']['file_id']));
             }
@@ -32,7 +32,7 @@
                 echo $this->Html->link(__('UnBlock'),array('controller' => 'Admin','action' => 'unBlockFile',$d['Data']['file_id']),array('link_type' => 'un_block_link','file_id' => $d['Data']['file_id']));
             }
             echo '</td>';
-            echo '<td>';
+            echo '<td class="link_td">';
             echo $this->Html->link(__('Delete'),array('controller' => 'Admin','action' => 'deleteFile',$d['Data']['file_id']),array('link_type' => 'delete_link','file_id' => $d['Data']['file_id']));
             echo '</td></tr>';
         endforeach;
@@ -41,7 +41,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        $("tr.linktr td a").click(function(){
+        $("tr.linktr td.link_td a").click(function(){
             var src = $(this).attr('href');
             var type = $(this).attr('link_type');
             var link = $(this);

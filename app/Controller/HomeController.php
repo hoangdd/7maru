@@ -10,15 +10,19 @@ class HomeController extends AppController {
 
 	function index(){
 		$this->layout = "intro";
-		$user = $this->Auth->User();
-		$this->loadModel('Notification');
- 		$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'], 'viewed' => 0)));		
+		if ($this->Auth->loggedIn()){			
+			$user = $this->Auth->User();
+			if ($user['role'] !== 'R1'){
+				$this->loadModel('Notification');
+		 		$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'], 'viewed' => 0)));		
+		 		$user['notify_num'] = $notifyNum;
+	 		}
+ 		}
 		//$notifyNum = $this->Notification->find('count',array('conditions' => array('user_id' => $user['user_id'])));
 		if(empty($user)){
 			//not login
 			$user = array('role' => 'R4');
-		}
-		$user['notify_num'] = $notifyNum;
+		}		
 		$this->set(compact('user'));
 	}
 }

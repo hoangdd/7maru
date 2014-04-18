@@ -28,7 +28,7 @@
 				<span class="created-time">
 					<?php echo $comment['created'];?>
 				</span>
-				<?php if($current_user['user_id'] == $user['user_id']) :?>
+				<?php if(isset($current_user['user_id']) && $current_user['user_id'] == $user['user_id']) :?>
 					<!-- my comment -->
 					<a class='edit-button' href="#"><?php echo __('Edit');?></a>
 					<a class='save-button' href="#"><?php echo __('Save');?></a>
