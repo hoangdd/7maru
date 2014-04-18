@@ -1,7 +1,7 @@
 <?php
 if( !empty($data['Lesson'])) :
 ?>
-	<h1>Lesson</h1>
+	<h3>Lesson</h3>
 	<?php 
 		foreach ($data['Lesson'] as $key => $value) {
 			echo '<div>';
@@ -28,7 +28,7 @@ endif;
 
 if( !empty($data['User'])) :
 ?>
-	<h1>Teacher</h1>
+	<h3>Teacher</h3>
 	<?php 
 		foreach ($data['User'] as $key => $value) {
 			echo '<div>';

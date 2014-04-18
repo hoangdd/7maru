@@ -47,9 +47,10 @@ class SearchController extends AppController {
 							$authors = explode(' ', $q['author']);
 							if( empty($authors[0])) unset($authors[0]);
 							if( empty($authors[1])) unset($authors[1]);
-							$bindCondition['Lesson.author'] = $authors;
+							if( !empty($authors)){
+								$bindCondition['Lesson.author'] = $authors;
+							}
 						}
-						debug($bindCondition);
 
 						$order = array();
 						//order
