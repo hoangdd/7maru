@@ -209,11 +209,20 @@ class LoginController extends AppController {
                         )
                         );
                 if ($updatePassword) {
-                    $this->Session->setFlash('The user has been saved');
-                    $this->redirect(array(
-                        'controller' => 'Home',
-                        'action' => 'index',
-                        ));
+                    $this->Session->setFlash('The user info has been saved');
+                    if ($this->Auth->user('user_type')==1) {
+                        # code...
+                        $this->redirect(array(
+                            'controller' => 'Teacher',
+                            'action' => 'Profile',
+                            ));
+                    }elseif ($this->Auth->user('user_type')==2){
+                        # code...
+                        $this->redirect(array(
+                            'controller' => 'Student',
+                            'action' => 'Profile',
+                            ));
+                    }
                 } else {
                     $this->Session->setFlash('The user could not be saved. Please, try again.');
                 }

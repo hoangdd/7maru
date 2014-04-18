@@ -1,6 +1,6 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
+    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson','Data');
     public $helpers = array('Html');    
     public function beforeFilter() {
         parent::beforeFilter();
@@ -447,12 +447,15 @@ class TeacherController extends AppController {
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            
             if($this->Lesson->delete($id)){
-                echo '1';
-                die;
+                echo "1|";
+                //die;
+            }else{
+                echo "0|";
+                // echo json_encode(array("res"=> 1));
+                //die;
             }
        }
-       echo '0';
-       die;
+       
    }
 
     function Statistic() {

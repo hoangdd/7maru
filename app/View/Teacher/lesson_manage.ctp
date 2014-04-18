@@ -105,23 +105,25 @@ $(document).ready(function(){
 
             var id = $(this).attr('name');
             $.ajax({
-            url : "deleteLesson",
-            data : {id : id},
-            type : 'post',
-            dataType : 'text',
-            complete : function(data){
-                if (data.responseText == 1) {
-                    $('.lesson[lessonid='+id+']').fadeOut();
-                    alert('Deletion success');
-                }else{
-                    alert('can not  delete');
-                }
-            },
-            /*error : function(){
-                
-            }*/
-        })
-   }
+                url : "deleteLesson",
+                data : {id : id},
+                type : 'POST',
+                dataType : 'text',
+                complete : function(data){
+                    var res = $(this).attr('class');
+                    res = data.responseText.split("|");
+                    if (res[0] == 1) {
+                        $('.lesson[lessonid='+id+']').fadeOut();
+                        alert('Deletion success');
+                    }else{
+                        alert('can not  delete');
+                    }
+                },
+                /*error : function(){
+                    
+                }*/
+            })
+        }
 
     })
     $('#search-input').on('input',function(e){
