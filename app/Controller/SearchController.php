@@ -19,7 +19,7 @@ class SearchController extends AppController {
 				'username','user_id'
 				)
 			));
-		$this->set('keyword',$data['keyword']);
+		$this->set('data',$data);
 		$this->set('teacher_list',$teacher_list);
 	}
 
@@ -104,7 +104,7 @@ class SearchController extends AppController {
 							foreach ($data['Lesson'] as $key => $value) {
 								//search
 								$searchSet = $value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description'];
-								if( strpos($searchSet, $q['keyword']) == false){
+								if( strpos($searchSet, $q['keyword']) === false){
 									unset($data['Lesson'][$key]);
 								}
 							}
@@ -139,7 +139,7 @@ class SearchController extends AppController {
 								//search
 								$searchSet = $value['User']['username'].'|'.$value['User']['lastname'].'|'.$value['User']['address'].'|'
 								.$value['User']['phone_number'].'|'.$value['User']['mail'];
-								if( strpos($searchSet, $q['keyword']) == false){
+								if( strpos($searchSet, $q['keyword']) === false){
 									unset($data['User'][$key]);
 								}
 							};
@@ -148,8 +148,19 @@ class SearchController extends AppController {
 
 						break;
 
-					case 'student':
+					case 'category':
 						# code...
+						$data['Category'] = $this->Category->find('all');
+						if( !empty($q['keyword'])){
+							foreach ($data['Category'] as $key => $value) {
+								//search
+								$searchSet = $value['Category']['name'].'|'.$value['Category']['description'];
+								if( strpos($searchSet, $q['keyword']) === false){
+									unset($data['Category'][$key]);
+								}
+							};
+						}
+						// debug($data['Category']);
 						break;
 
 					default:
@@ -159,7 +170,7 @@ class SearchController extends AppController {
 			}
 		}
 		$this->set('data', $data);
-		if( empty($data['User'])&&empty($data['Lesson']) ){
+		if( empty($data['User'])&&empty($data['Lesson'])&&empty($data['Category']) ){
 			echo __('No result found');
 			die;
 		}

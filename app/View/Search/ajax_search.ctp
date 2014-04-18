@@ -13,9 +13,9 @@ if( !empty($data['Lesson'])) :
 			echo '</div>';
 			echo '<div>';
 			echo '<b>';
-			echo 'Author:'.$value['Lesson']['User']['username'];
+			echo 'Author: '.$value['Lesson']['User']['username'];
 			echo '<br>';
-			echo 'Category:'.$value['Category']['name'];
+			echo 'Category: '.$value['Category']['name'];
 			echo '<br>';
 			echo '</b>';
 			echo $value['Lesson']['name'].'...'.$value['Lesson']['title'].'...'.$value['Lesson']['description'].'...';
@@ -38,6 +38,34 @@ if( !empty($data['User'])) :
 			echo $value['User']['username'].'...'.$value['User']['lastname'].'...'.$value['User']['address'].'...'
 								.$value['User']['phone_number'].'...'.$value['User']['mail'].'...';
 			echo '</div>';
+			echo $this->Html->link(__('Show all lesson of ').$value['User']['username'], array(
+				'controller' => 'Search',
+				'action' => 'index?author='.$value['User']['user_id'],
+				));
+			echo '<hr>';
+		}
+	?>
+<?php
+endif;
+
+if( !empty($data['Category'])) :
+?>
+	<h3>Category</h3>
+	<?php 
+		foreach ($data['Category'] as $key => $value) {
+			echo '<div>';
+			echo $this->Html->link($value['Category']['name'], array(
+				'controller' => 'Search',
+				'action' => 'index?category='.$value['Category']['category_id'],
+				));
+			echo '</div>';
+			echo '<div>';
+			echo $value['Category']['name'].'...'.$value['Category']['description'];
+			echo '</div>';
+			echo $this->Html->link(__('Show all lesson of ').$value['Category']['name'], array(
+				'controller' => 'Search',
+				'action' => 'index?category='.$value['Category']['category_id'],
+				));
 			echo '<hr>';
 		}
 	?>
