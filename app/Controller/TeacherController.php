@@ -49,7 +49,7 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
 
-                if (strlen($data['username']) < 6) {
+                if (strlen($data['username']) < 2) {
                     $error['username'][3] = 'Username is too short.';
                     $check_user = false;
                 }
@@ -96,7 +96,7 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
 
-                if (strlen($data['password']) < 8) {
+                if (strlen($data['password']) < 6) {
                     $error['password'][3] = 'Password is too short.';
                     $check_user = false;
                 }

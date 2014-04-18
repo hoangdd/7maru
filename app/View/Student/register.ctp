@@ -243,18 +243,12 @@ echo $this->Html->css('datepicker');
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="pull-left control-label"><?php echo __('verify code').':' ?></label>
+                        <label class="pull-left control-label"><?php echo __('Question').':' ?></label>
                     </div>
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <select name="verifycode_question" class="form-control">
-                            <option><?php echo __('What subject do you like') ?></option>
-                            <option><?php echo __('What activity do you like') ?></option>
-                            <option><?php echo __('What do you do in freetime') ?></option>
-                            <option><?php echo __('How often do read book') ?></option>
-                            <option><?php echo __('What song do you like') ?></option>
-                        </select>
+                        <input id="verifycode_question" name="verifycode_question" type="text" class="form-control" placeholder="Enter your question"> 
                     </div>
                 </td>
             </tr>
@@ -328,7 +322,7 @@ echo $this->Html->css('datepicker');
     //rules of username
     $( "#username" ).rules( "add", {
         required: true,
-        minlength: 6,
+        minlength: 2,
         maxlength: 30,
         checkusername: true,
         messages: {
@@ -342,7 +336,7 @@ echo $this->Html->css('datepicker');
     //rules of password
     $( "#password" ).rules( "add", {
         required: true,
-        minlength: 8,
+        minlength: 6,
         maxlength: 30,
         checkpass: true,
         messages: {
