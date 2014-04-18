@@ -1,84 +1,51 @@
-<script>isBlock = 0;</script>
+<script>
+	count = 0;username = "";
+</script>
+<?php 
+	if (!isset($username))
+		$username = "";
+	if (isset($isBlock) && ($isBlock > 0)){
+		echo "<script>count =" .$isBlock. "; username = '". $username ."'; </script>";
+	}
+?>
 <div class="col-md-5">
 	<form role="form" method="post" >
+		<?php if (!isset($isBlock) || ($isBlock == 0)){ ?>
 		<h1><?php echo __('Login') ?></h1>
 		<?php 			
 			echo $this->Session->flash('auth');			
-		?>
+		?>			
 		<div class="form-group">
 			<label for="inputUsername"><?php echo __('Username') ?></label>
-			<input type="Username" name='User[username]' class="form-control" id="inputUsername1" placeholder="Username">
-		</div>
+			<input type="Username" name='User[username]' class="form-control" id="inputUsername1" placeholder="Username" value="<?php echo $username ?>">
+		</div>		
 		<div class="form-group">
 			<label for="inputPassword"><?php echo __('Password') ?></label>
 			<input type="password" name='User[password]' class="form-control" id="inputPassword" placeholder="Password">
-		</div>
-		
-		<?php  
-			$errorLoginTimes = Configure::read('customizeConfig.error_login_times');
-			if ( ( isset($_SESSION['countFail']) && $_SESSION['countFail'] >= $errorLoginTimes ) || (isset($_SESSION['isValidIp']) && !$_SESSION['isValidIp']) ){
-				if ($_SESSION['countFail'] >= $errorLoginTimes){
-					//isBlock
-					echo "<script>isBlock =". $_SESSION['countFail']."</script>";
-				}			
-					//echo input verifycode	
-			?>		
-		<p></p>
-		<select name="question" class="form-control">
-			<option><?php echo __('What subject do you like') ?></option>
-			<option><?php echo __('What activity do you like') ?></option>
-			<option><?php echo __('What do you do in freetime') ?></option>
-			<option><?php echo __('How often do read book') ?></option>
-			<option><?php echo __('What song do you like') ?></option>
-		</select>
-		<p></p>
-		 <input name="answer" type="text" class="form-control" placeholder="<?php echo __('Answer this question') ?>" />
-		 <p></p>
-		<?php
-				echo $this->Session->flash('verifycode');			
-			}
-
-		?>
+		</div>				
 		<button type="submit" class="btn btn-default"><?php echo __('Login') ?></button>
+		<?php } ?>
 	</form>
-	<!-- <div class="login_form_label_field">
-			<a rel="nofollow" href=""><?php echo __('Forgot your password')."?" ?></a>`
-		</div>
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" name='remember'> <?php echo __('Remember me').'?' ?>
-			</label>
-		</div>
-</div> -->
-<div id="overlay" style="position:absolute;top:0;left:0;width:100%;height:100%;display:none;background-color:green;opacity:0.5;" >
-	<strong style="position:absolute;top:50%;left:50%;font-size:larger"></strong>
-</div>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <?php echo __('Please wait at least 5s to continue!'); ?>
-    </div>
-  </div>
-</div>
+	<div id='warning'> </div>
+</div>	
 <script>
-$(document).ready(function(){
-	// var errorLoginTimes = <?php echo $errorLoginTimes; ?>;
-	// if (isBlock %errorLoginTimes == 0 && isBlock != 0 ){
-	// 	count = <?php echo Configure::read('customizeConfig.block_time'); ?>;
-	// 	// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
-	// 	//disable submit button		
-	// 	$("#overlay").show();
-	// 	$('.bs-example-modal-sm').modal();				
-	// 	counter = setInterval(timer,1000);		
-	// 	//time
-	// }
-	// function timer(){
-	// 	$("#overlay strong").html(count);
-	// 	count--;
-	// 	if (count < 0){
-	// 		clearInterval(counter);$("#overlay").hide();
-	// 	}
-	// 	return;
-	// }
+$(document).ready(function(){	
+	if (count > 0 ){		
+		// alert(<?php echo  "'".__("Wait for 5s to continue")."'" ?>);
+		//disable submit button					
+		counter = setInterval(timer,1000);		
+		$("#warning").addClass("alert alert-success");
+		$("#warning").html(<?php echo "'".__("Your account is blocking, waiting for ")."'" ?>+count+"s");		
+		//time
+	}
+	function timer(){
+		$("#warning").html(<?php echo "'".__("Your account is blocking, waiting for ")."'" ?>+count+"s");		
+		count--;
+		if (count < 0){
+			//redirect to confirmverifyCode			
+			window.location.replace("<?php echo $this->Html->url(array('controller' => 'Login','action' =>'confirmVerifycode')) ?>"+"/"+username+"/1");
+		}
+		return;
+	}
 })
 </script>

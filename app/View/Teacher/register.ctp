@@ -247,8 +247,9 @@ echo $this->Html->css('datepicker');
                     </div>
                 </td>
                 <td>
-                    <div class="col-md-12">
-                        <input id="verifycode_question" name="verifycode_question" type="text" class="form-control" placeholder="Enter your question"> 
+                    <div class="col-md-12">                    
+                        <input id="verifycode_question" name="verifycode_question" type="text"  class="form-control" placeholder="Enter question">
+                        <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
             </tr>
