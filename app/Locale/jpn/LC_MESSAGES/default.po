@@ -22,7 +22,7 @@ msgid "Date of birth"
 msgstr "誕生日"
 
 msgid "Created Account Time"
-msgstr "作成時"
+msgstr "作成時間"
 
 msgid "Accept"
 msgstr "認証"
@@ -153,6 +153,7 @@ msgstr "もっとも好きな授業"
 
 msgid "Statistic by time"
 msgstr "時間で総計"
+
 msgid "Statistic"
 msgstr "総計"
 
@@ -193,10 +194,10 @@ msgstr "ブロック"
 
 <!-- Change Password -->
 msgid "Admin Change Password"
-msgstr "管理者のパースワードの変更"
+msgstr "管理者のパースワード変更"
 
 msgid "Change Password"
-msgstr "パースワードの変更"
+msgstr "パースワード変更"
 
 msgid "Current Password"
 msgstr "現在パースワード"
@@ -245,9 +246,6 @@ msgstr "ユーザの防ぐ"
 msgid "Report"
 msgstr "違反報告"
 
-msgid "Statistic"
-msgstr "統計"
-
 msgid "IP Manage"
 msgstr "IP管理"
 
@@ -266,13 +264,43 @@ msgstr "管理"
 
 <!-- Login -->
 msgid "Login success"
-msgstr "ログインできます"
+msgstr "ログインできました"
+
+msgid "Confirm verifycode"
+msgstr "VerifyCode確認"
+
+msgid "Enter your question"
+msgstr "秘密質問を入力してください"
+
+msgid "Question"
+msgstr "秘密質問"
+
+msgid "Cancel"
+msgstr "カンセル"
+
+msgid "Required input"
+msgstr "このフィルドが必要"
+
+msgid "Please, at least {8} characters are necessary"
+msgstr "8文字以上でください"
+
+msgid "Please enter no more than {30} characters"
+msgstr "30文字以下でください"
+
+msgid "Start by a alphabet and please do not enter special characters"
+msgstr "アルファベットと初めて、特別な文字で使わないでください"
+
+msgid "Username is existed"
+msgstr "ユーザ名が存在した"
+
+msgid "Please do not enter special characters"
+msgstr "特別な文字で使わないでください"
 
 msgid "Username or password is incorrect"
 msgstr "ユーザ名またパスワードが間違います"
 
-msgid "Login success"
-msgstr "ログインできます"
+msgid "Password and RetypePassword are not equal"
+msgstr "パスワードと確認パスワードが違いました"
 
 msgid "Logout"
 msgstr "ログアウト"
@@ -282,10 +310,10 @@ msgid "Register failure"
 msgstr "登録できません"
 
 msgid "Register successful, waiting for approving by admin"
-msgstr "登録できます。アドミンが認証することがお待ちください"
+msgstr "登録できました。アドミンが認証することがお待ちください"
 
 msgid "Change Profile"
-msgstr "プロファイルの変更"
+msgstr "プロファイル変更"
 
 msgid "View"
 msgstr "見る"
@@ -329,7 +357,7 @@ msgid "Successfully Created"
 msgstr "カテゴリが作成しました"
 
 msgid "Edit successful"
-msgstr "添削できます"
+msgstr "修正が成です"
 
 msgid "Create lesson successfully"
 msgstr "授業を作成できます"
@@ -344,7 +372,7 @@ msgid "Last Name"
 msgstr "名前"
 
 msgid "Birthday"
-msgstr "誕生日"
+msgstr "生年月日"
 
 msgid "Email"
 msgstr "Eメール"
@@ -362,7 +390,7 @@ msgid "Upload your photo to display"
 msgstr "ディスプレイのようにアップロードイメージ"
 
 msgid "Save"
-msgstr "記憶"
+msgstr "セーブ"
 
 msgid "ADMIN HOMEPAGE"
 msgstr "アドミンホームページ"
@@ -371,7 +399,7 @@ msgid "ADMIN MANAGE"
 msgstr "アドミン管理"
 
 msgid "Edit Admin"
-msgstr "アドミン添削"
+msgstr "アドミン修正"
 
 msgid "Search"
 msgstr "検索"
@@ -419,7 +447,16 @@ msgid "Copyright"
 msgstr "コピーライト"
 
 msgid "Answer this question"
-msgstr "質問を答えます"
+msgstr "回答を入力してください"
+
+msgid "Result"
+msgstr "結果"
+
+msgid "Show advanced search"
+msgstr "向上検索"
+
+msgid "No result found"
+msgstr "結果がありません"
 
 msgid "Please wait at least 5s to continue!"
 msgstr "5秒でお待ちください"
@@ -495,6 +532,9 @@ msgstr "通知"
 msgid "Edit Profile"
 msgstr "プロファイルの変更"
 
+msgid "Refresh"
+msgstr "リフレッシュ"
+
 msgid "Lesson Manage"
 msgstr "授業管理"
 
@@ -520,7 +560,7 @@ msgid "Credit Card Number"
 msgstr "クレジットカード番号"
 
 msgid "Edit"
-msgstr "添削"
+msgstr "修正"
 
 msgid "Add"
 msgstr "追加"
@@ -544,7 +584,7 @@ msgid "Introduce yourself"
 msgstr "自己紹介"
 
 msgid "Teacher Register"
-msgstr "先生の登録"
+msgstr "先生登録"
 
 msgid "backup_period"
 msgstr "自動バックアップ時刻"

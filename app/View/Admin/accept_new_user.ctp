@@ -98,7 +98,7 @@ $(document).ready(function(){
 		var a = $(this);
 		$.get(
 			src,            	
-			function(data){            
+			function(data){  
 				if (data.trim() == '1') {
 					alert("<?php echo __('Successful') ?>");
 					var tr = a.parent().parent();

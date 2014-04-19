@@ -45,10 +45,10 @@
       	echo __('Birthday').':' ?></dt>
       <dd><?php echo $data['User']['date_of_birth']; ?></dd>
       <br>
-      <dt><?php echo __('Mail').':' ?></dt>
+      <dt><?php echo __('Email').':' ?></dt>
       <dd><?php echo $data['User']['mail'];?></dd>
       <br>
-      <dt><?php echo __('Adress').':' ?></dt>
+      <dt><?php echo __('Address').':' ?></dt>
       <dd><?php echo $data['User']['address'];?></dd>
       <br>
       <dt><?php echo __('Telephone number').':' ?></dt>
@@ -69,7 +69,7 @@
       <br>
       </dl>
       <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#CAFFAC;width:600px;border-radius:25px;">
-            <h4 style="font-family:”Times New Roman”;"><b><?php echo __('Introduce Themselves').':' ?></b></h4>
+            <h4 style="font-family:”Times New Roman”;"><b><?php echo __('Introduce yourself').':' ?></b></h4>
             <p style="font-family:”Times New Roman”;">
                   <?php
                   if(!isset($data1['Teacher']['description']) || $data1['Teacher']['description'] === '')
@@ -81,7 +81,7 @@
       <br>
       <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
             <table class="table">
-                 <tr><td>STT</td><td><?php echo __('Lesson') ?></td><td><?php echo __('Subject') ?></td><td><?php echo __('Creation Date') ?></td></tr>
+                 <tr><td><?php echo __('No') ?></td><td><?php echo __('Lesson') ?></td><td><?php echo __('Subject') ?></td><td><?php echo __('Created Account Time') ?></td></tr>
                  <?php
                  for($i=0;$i<count($data2);$i++){
                    $temp=$i+1;

@@ -130,9 +130,6 @@ $(document).ready(function(){
                         alert('can not  delete');
                     }
                 },
-                /*error : function(){
-                    
-                }*/
             })
         }
 

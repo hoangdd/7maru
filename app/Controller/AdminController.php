@@ -350,16 +350,7 @@ class AdminController extends AppController {
     }
     function acceptNewUser() {
         $paginate = array(
-            'limit' => 10,
-            'fields' => array(
-                'User.user_id',
-                'User.firstname',
-                'User.lastname',
-                'User.username',
-                'User.date_of_birth',
-                'User.user_type',
-                'User.created'
-            ),
+            'limit' => 2,
             'conditions' => array(
                 'approved' => '0'
             ),

@@ -362,11 +362,11 @@ echo $this->Html->css('datepicker');
         checkusername: true,
         checkusername_database: true,
         messages: {
-            required: "Required input",
-            minlength: jQuery.format("Please, at least {0} characters are necessary"),
-            maxlength: jQuery.format("Please enter no more than {0} characters"),
-            checkusername: jQuery.format("Please enter follow format: aaAA123 or abc_123"),
-            checkusername_database: jQuery.format("Username is exist"),
+            required: <?php echo __('Required input');?>,
+            minlength: jQuery.format(<?php echo __('Please, at least {8} characters are necessary');?>),
+            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
+            checkusername: jQuery.format(<?php echo __('Start by a alphabet and please do not enter special characters');?>),
+            checkusername_database: jQuery.format(<?php echo __('Username is existed');?>),
         }
     });
     
@@ -377,10 +377,10 @@ echo $this->Html->css('datepicker');
         maxlength: 30,
         checkpass: true,
         messages: {
-            required: "Required input",
-            minlength: jQuery.format("Please, at least {0} characters are necessary"),
-            maxlength: jQuery.format("Please enter no more than {0} characters"),
-            checkusername: jQuery.format("Please enter follow format: 123abc456"),
+            required: <?php echo __('Required input');?>,
+            minlength: jQuery.format(<?php echo __('Please, at least {8} characters are necessary');?>),
+            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
+            checkpass: jQuery.format(<?php echo __('Please do not enter special characters');?>),
         }
     });
         
@@ -388,20 +388,20 @@ echo $this->Html->css('datepicker');
         if(value!=$("#password").val())
             return false;
         else return true;
-    },jQuery.format("Password and RetypePassword are not equal."));
+    },jQuery.format(<?php echo __('Password and RetypePassword are not equal');?>));
         
     $("#retypepass").rules("add", {
         required: true,
         checkretypepass: true,
         messages: {
-            required: "Required input",
+            required: <?php echo __('Required input');?>,
         }
     });
                     
     $("#email").rules("add", {
         required: true,
         messages: {
-            required: "Required input",
+            required: <?php echo __('Required input');?>,
         }
     });
         
@@ -409,8 +409,8 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 30,
         messages: {
-            required: "Required input",
-            maxlength: jQuery.format("Please enter no more than {0} characters"),
+            required: <?php echo __('Required input');?>,
+            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
         }
     });
         
@@ -418,15 +418,15 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 30,
         messages: {
-            required: "Required input",
-            maxlength: jQuery.format("Please enter no more than {0} characters"),
+            required: <?php echo __('Required input');?>,
+            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
         }
     });
         
     $("#bank_account").rules("add", {
         required: true,
         messages: {
-            required: "Required input",
+            required: <?php echo __('Required input');?>,
         }
     });
     
@@ -434,8 +434,8 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 50,
         messages: {
-            required: "Required input",
-            maxlength: jQuery.format("Please enter no more than {0} characters"),
+            required: <?php echo __('Required input');?>,
+            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
         }
     });
    });

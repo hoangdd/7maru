@@ -340,7 +340,7 @@ class LessonController extends AppController {
 			}			
 			if(count($error)){
 				$this->set('error',$error);
-				// debug($error);
+				debug($error);
 				$this->set('data',$data);				
 			}else{
 				// Update Lesson Information
@@ -365,6 +365,7 @@ class LessonController extends AppController {
 
 				//reformat array
 				$document = array();
+				$this->log($_FILES['document'], 'hlog');
 				if($_FILES['document']){
 					foreach ($_FILES['document'] as $k1 => $v1) {
 						foreach ($v1 as $k2 => $v2) {

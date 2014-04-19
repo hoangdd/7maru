@@ -4,10 +4,10 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 ?>
 <div class="col-md-4 users form">
     <form id='changePassword' role='form' type="form" method="post">
-        <h1>Change Password</h1>
+        <h1><?php echo __('Change Password');?></h1>
 
         <div class="form-group">
-            <label for="currentPassword">Current Password</label>
+            <label for="currentPassword"><?php echo __('Current Password');?></label>
             <input type="password" id='currentpw' name='current-pw' class="form-control">
             <?php if (!empty($error["current"])) { ?>
                 <span class="text-danger "><?php echo $error["current"]; ?></span>
@@ -16,20 +16,20 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         </div>
         
         <div class="form-group">
-            <label for="newPassword">New Password</label>
+            <label for="newPassword"><?php echo __('New Password');?></label>
             <input type="password" id='newpw' name='new-pw' class="form-control">
             <?php if (!empty($error["new"])) { ?>
                 <span class="text-danger "><?php echo $error["new"]; ?></span>
             <?php } else echo '</br>'; ?>
         </div>
         <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <label for="confirmPassword"><?php echo __('Confirm Password');?></label>
             <input type="password" id='confirmpw' name='confirm-pw' class="form-control">
             <?php if (!empty($error["confirm"])) { ?>
                 <span class="text-danger "><?php echo $error["confirm"]; ?></span>
             <?php } else echo '</br>'; ?>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default"><?php echo __('Save');?></button>
     </form>
 </div>
 
