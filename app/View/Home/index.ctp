@@ -432,6 +432,7 @@ endforeach;
 		$(".buy-button").click(function(){			
 			var r = confirm("<?php echo __('Confirm') ?>");
 			var id = $(this).attr('id');
+			var button = $(this);
 			var coma_id = id.slice(11);
 			var result = false;
 			if (r == true){  				  		
@@ -441,6 +442,7 @@ endforeach;
 							if (data.trim() === "1"){
 								alert("<?php echo __('Transaction successfully') ?>");							
 								result = true;
+								button.replaceWith("");
 							}							
 						}
 					);

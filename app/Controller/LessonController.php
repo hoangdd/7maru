@@ -92,7 +92,7 @@ class LessonController extends AppController {
 				)
 			);
 			$relativeLesson = array();
-			//foreach ($tags as $tag):				
+			//foreach ($tags as $tag):					
 				$relativeLesson = $this->LessonCategory->find('all',array(
 					'contain' => array(						
 						'Lesson' => array(

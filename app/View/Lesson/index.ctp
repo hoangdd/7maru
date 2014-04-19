@@ -206,8 +206,15 @@
   <div>
     <div class='panel-body'>
   <?php 
+  $mark = array();
   foreach ($relativeLesson as $l):
     if (empty($l['Lesson']['coma_id'])) continue;
+    if (isset($mark[$l['Lesson']['coma_id']])){
+      continue;
+    }
+    else{
+      $mark[$l['Lesson']['coma_id']] = true;
+    }
     echo "<div class='text-center' style = 'float:left;margin-left:10px;'>";    
           $cover = LESSON_COVER_LINK.$l['Lesson']['cover'];      
        echo $this->Html->image($cover,array(
