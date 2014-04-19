@@ -26,6 +26,13 @@ header('Expires: 0'); // Proxies.
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<?php 
+		App::uses('Component', 'AuthComponent');
+		$user = AuthComponent::user();
+		if( !empty($user)){
+			echo $this->Html->script(array('common.js'));
+		}
+	?>
 </head>
 <body>
 	<div id="container">
