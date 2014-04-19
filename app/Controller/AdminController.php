@@ -589,7 +589,9 @@ class AdminController extends AppController {
                 $this->IpOfAdmin->delete(intval($ipOfAdmin['IpOfAdmin']['ip_of_admin_id']));
             }
             if (strcmp($getParam ['mod'], "edit") == 0) {
-                $enter = $getParam ['ip'];
+                $enterID = $getParam ['ip_admin'];
+                $enter = $getParam['ip'];
+                $admin = $getParam['admin'];
                 $modFlag = 1;
             }
         }
@@ -604,44 +606,57 @@ class AdminController extends AppController {
                     $pre = $this->request->data ['AdminIp'] ['Hidden'];
                     $specificallyThisOne = $this->AdminIp->find('first', array(
                         'conditions' => array(
-                            'AdminIp.ip' => $pre
+                            'AdminIp.ip_id' => $pre
                         )
                             ));
                     if (!filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
                         echo "Not a valid IP address!";
                     } else {
                         if ((strcmp(strval($pre), $ipRetrieved) != 0) && (count($specificallyThisOne) != 0)) {
-                            echo $specificallyThisOne ['AdminIp'] ['ip_id'];
                             $this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
                             $this->AdminIp->saveField('ip', $ipRetrieved);
-                            // 						$this->AdminIp->set ( 'ip_id', $specificallyThisOne ['AdminIp'] ['ip_id'] );
-                            // 						$this->AdminIp->read(null,$specificallyThisOne ['AdminIp'] ['ip_id']);
-                            // 						$this->AdminIp->set ( 'ip', $ipRetrieved );
-                            // 						$this->AdminIp->save ();
                         }
 
 
                         if ((strcmp(strval($pre), $ipRetrieved) != 0) && (count($specificallyThisOne) != 0)) {
-                            echo $specificallyThisOne ['AdminIp'] ['ip_id'];
                             $this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
                             $this->AdminIp->saveField('ip', $ipRetrieved);
                         }
                     }
                 } else {
-                    $specificallyThisOne = $this->AdminIp->find('first', array(
-                        'conditions' => array(
-                            'AdminIp.ip' => $ipRetrieved
-                        )
-                            ));
+//                     $specificallyThisOne = $this->AdminIp->find('first', array(
+//                         'conditions' => array(
+//                             'AdminIp.ip' => $ipRetrieved
+//                         )
+//                             ));
 
-                    if ((count($specificallyThisOne) == 0)&&filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
+                    if (filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
+                    	//save ip address
                         $this->AdminIp->set('ip', $ipRetrieved);
                         $this->AdminIp->save();
+                        //preparing for saving admin and ip step
+//                         $specificallyThisOne = $this->Admin->find('first', array(
+//                         		'conditions' => array(
+//                         				'AdminIp.username' => $retrieveData['Admininput']
+//                         		)
+//                         ));
+                        	$data_admin_ip = array(
+                        		'admin_id' => $retrieveData['Admininput'],
+                        		'ip_id' => $this->AdminIp->getLastInsertID()
+                        	);
+                        	$this->IpOfAdmin->create($data_admin_ip);
+                        	$this->IpOfAdmin->save();
                     }
                 }
             }
+            $this->redirect(array('controller' => 'Admin','action' => 'ipManage'));
         }
-        $this->set('enter', $enter);
+        if(isset($enter))
+        	$this->set('enter', $enter);
+        if(isset($enterID))
+        	$this->set('enterID',$enterID);
+        if(isset($admin))
+        	$this->set('admin_hidden',$admin);
         $this->set('modFlag', $modFlag);
         $pagination = array(
             'limit' => 3,
@@ -664,10 +679,10 @@ class AdminController extends AppController {
         					'Admin.admin_id' => $specificallyThisOne['IpOfAdmin']['admin_id']
         			)
         	));
-        	print_r($specificallyThisTwo);
         	if($iTemp == 0)
         		$data = array(
         		$iTemp => array(
+        			'ip_id' => $value['AdminIp']['ip_id'],
         			'admin' => $specificallyThisTwo['Admin']['username'],
         			'ip'	=> $value['AdminIp']['ip']
         		)
@@ -675,6 +690,7 @@ class AdminController extends AppController {
         		else 
         			$data += array(
         					$iTemp => array(
+        							'ip_id' => $value['AdminIp']['ip_id'],
         							'admin' => $specificallyThisTwo['Admin']['username'],
         							'ip'	=> $value['AdminIp']['ip']
         					)
@@ -682,7 +698,21 @@ class AdminController extends AppController {
         			$iTemp++;
         }
         
-        print_r($data);
+        $admin_query = $this->Admin->find('all',array(
+        	'field' => 'username'
+        ));
+        if(count($admin_query) > 0){
+        	$iA = 0;
+        	foreach($admin_query as $aKey => $aValue){
+        		if($iA == 0)
+        			$data_forADMIN = array($aValue['Admin']['admin_id'] => $aValue['Admin']['username']);
+        		else 
+        			$data_forADMIN += array($aValue['Admin']['admin_id'] => $aValue['Admin']['username']);
+        		$iA = 1;
+        	}
+        }
+        	$this->set('data_admin_query',$data_forADMIN);
+        
         $this->set('data', $data);
 
         $temp = $this->request->query;

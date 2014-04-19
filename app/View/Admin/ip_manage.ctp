@@ -46,8 +46,8 @@
 		  		 
 			
 			$i = ($this->Paginator->current($model = null)-1)*3+1;
-			//foreach($array_item as $value){
 			foreach($data as $numb => $value) {
+			$iTemp=1;
 			echo"<tr>
 				<td class='no-col'>";
 			echo $this->Form->input('AdminIp.IpId', array(
@@ -73,7 +73,7 @@
 
 				<td class='edit-ip-col'>";
 			//echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
-			echo "<a href=".$this->here."?mod=edit&ip=".$value['ip'].">".__('Edit')."</a>";
+			echo "<a href=".$this->here."?mod=edit&ip=".$value['ip']."&admin=".$value['admin']."&ip_admin=".$value['ip_id'].">".__('Edit')."</a>";
 			echo "
 				</td>
 			</tr>
@@ -87,7 +87,25 @@
 					
 				</td>
 				<td class='del-ip-col'>
-					
+					<?php
+					if($modFlag == 1)  
+						echo $this->Form->input('AdminIp.Admininput', array(
+					    	'type' => 'text',
+					    	'class' => 'form-control',
+					    	'placeholder' => 'Admin',
+					    	'label' => false,
+					    	'readonly' => 'readonly',
+					    	'value' => $admin_hidden
+							));
+						else {
+							echo $this->Form->input('AdminIp.Admininput', array(
+					    	'type' => 'select',
+					    	'class' => 'form-control',
+					    	'label' => false,
+ 					    	'options' => $data_admin_query
+							));
+							}
+							?> 
 				</td>
 				
 				<td class='ip-col'>
@@ -124,7 +142,7 @@
 						if($modFlag == 1) {
 							echo $this->Form->input('AdminIp.Hidden', array(
 					    	'type' => 'hidden',
-					    	'value' => $enter
+					    	'value' => $enterID
 							));
 							}
 							?>
