@@ -19,7 +19,11 @@
 					<?php echo __('No') ?>
 				</th>
 
-				<th class='ip-col' style="width:60%">
+				<th class='ip-col' style="width:30%">
+					<?php echo __('Admin') ?>
+				</th>
+				
+				<th class='ip-col' style="width:30%">
 					<?php echo __('IP Address') ?>
 				</th>
 
@@ -55,18 +59,21 @@
 							));
 			echo "</td>
 				<td class='ip-col'>"
-					.$data[$numb]['AdminIp']['ip'].
+					.$value['admin'].
+				"</td><td class='ip-col'>"
+					.$value['ip'].
 				"</td>
 
 				<td class='del-ip-col'>";
+			
 			//echo $this->Form->submit('Delete', array('name' => 'delete','class' => 'btn btn-default'));
-			echo "<a href=".$this->here."?mod=delete&ip=".$data[$numb]['AdminIp']['ip'].">".__('Delete')."</a>";
+			echo "<a href=".$this->here."?mod=delete&ip=".$value['ip'].">".__('Delete')."</a>";
 			
 			echo "</td>
 
 				<td class='edit-ip-col'>";
 			//echo $this->Form->submit('Edit', array('name' => 'edit','class' => 'btn btn-default'));
-			echo "<a href=".$this->here."?mod=edit&ip=".$data[$numb]['AdminIp']['ip'].">".__('Edit')."</a>";
+			echo "<a href=".$this->here."?mod=edit&ip=".$value['ip'].">".__('Edit')."</a>";
 			echo "
 				</td>
 			</tr>
@@ -79,6 +86,10 @@
 			<td class='del-ip-col'>
 					
 				</td>
+				<td class='del-ip-col'>
+					
+				</td>
+				
 				<td class='ip-col'>
 					<?php 
 						echo $this->Form->input('AdminIp.Ipinput', array(

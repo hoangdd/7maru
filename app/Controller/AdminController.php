@@ -588,7 +588,14 @@ class AdminController extends AppController {
                         'AdminIp.ip' => $id
                     )
                         ));
+               $ipOfAdmin = $this->IpOfAdmin->find('first',array(
+    				'conditions' => array(
+               		'IpOfAdmin.ip_id' => $del['AdminIp']['ip_id']
+               )	           	
+	               )
+               );
                 $this->AdminIp->delete(intval($del ['AdminIp'] ['ip_id']));
+                $this->IpOfAdmin->delete(intval($ipOfAdmin['IpOfAdmin']['ip_of_admin_id']));
             }
             if (strcmp($getParam ['mod'], "edit") == 0) {
                 $enter = $getParam ['ip'];
@@ -648,11 +655,43 @@ class AdminController extends AppController {
         $pagination = array(
             'limit' => 3,
             'fields' => array(
+            	'AdminIp.ip_id',
                 'AdminIp.ip'
             )
         );
         $this->Paginator->settings = $pagination;
-        $data = $this->Paginator->paginate('AdminIp');
+        $dataIP = $this->Paginator->paginate('AdminIp');
+        $iTemp = 0;
+        foreach($dataIP as $key => $value){
+        	$specificallyThisOne = $this->IpOfAdmin->find('first', array(
+        			'conditions' => array(
+        					'IpOfAdmin.ip_id' => $value['AdminIp']['ip_id']
+        			)
+        	));
+        	$specificallyThisTwo = $this->Admin->find('first', array(
+        			'conditions' => array(
+        					'Admin.admin_id' => $specificallyThisOne['IpOfAdmin']['admin_id']
+        			)
+        	));
+        	print_r($specificallyThisTwo);
+        	if($iTemp == 0)
+        		$data = array(
+        		$iTemp => array(
+        			'admin' => $specificallyThisTwo['Admin']['username'],
+        			'ip'	=> $value['AdminIp']['ip']
+        		)
+        	);
+        		else 
+        			$data += array(
+        					$iTemp => array(
+        							'admin' => $specificallyThisTwo['Admin']['username'],
+        							'ip'	=> $value['AdminIp']['ip']
+        					)
+        			);
+        			$iTemp++;
+        }
+        
+        print_r($data);
         $this->set('data', $data);
 
         $temp = $this->request->query;
