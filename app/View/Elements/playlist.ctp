@@ -1,7 +1,5 @@
 <?php //playlist ?>
 <?php 
-	$list[2] = $list[1] = $list[0];
-	$list[2]['Data']['file_id'] = $list[0]['Data']['file_id'] = 'xxxx';
 	echo $this->Html->css('playlist.css');
 	echo $this->Html->script('jquery');
 ?>

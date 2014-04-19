@@ -5,12 +5,15 @@
 ?>
 <?php 
 	echo $this->element('playlist', array('current' => $file['Data']['file_id'],'list' => $list));
+
+	$config = Configure::read('dataFile');
+	$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 ?>
 <div class="player-wrapper">
 	<div id="player" class="flexpaper_viewer"></div>	
 </div>
 <?php 
-	if ($file['Data']['type'] == 'pdf'){		
+	if( in_array($ext, $config['swf']['extension']) ){
 ?>
 <script type="text/javascript">
 	var startDocument = "Paper";
@@ -43,7 +46,8 @@
 </script>
 
 <?php 
-	} else{
+	}
+	if( in_array($ext, $config['audio']['extension']) || in_array($ext, $config['video']['extension']) ){
 ?>
 	<script type="text/javascript">
 		jwplayer("player").setup({	
@@ -59,6 +63,24 @@
 	}
 ?>
 
+<?php
+if( in_array($ext, $config['img']['extension']) ){
+?>
+<div style="width:100%;height:750px;overflow:auto">
+	<?php
+		$img = $this->Html->url(
+			array(
+				'controller' => 'Data',
+				'action' => 'file',
+				$file['Data']['file_id']
+				)
+			);
+		echo '<img src="'.$img.'" alt="Smiley face" width="100%">';
+	?>
+</div>
+<?php
+}
+?>
 
 <?php //comment ?>
 <?php
@@ -69,3 +91,4 @@
 	);
 	echo $this->element('comment', $option);
 ?>
+

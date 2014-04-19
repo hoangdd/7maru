@@ -76,6 +76,14 @@ class Data extends AppModel {
 				return $fid.'.swf';	
 			}
 		}
+		//image file
+		if(in_array($ext, $fileType['image']['extension'])){
+			$this->log($tmp, 'hlog');
+			if( move_uploaded_file($tmp, IMG_DATA_DIR.DS.$fid.'.'.$ext)){
+				// return IMG_DATA_DIR.DS.$fid.'.'.$ext;
+				return $fid.'.'.$ext;
+			}
+		}
 
 		//tsv file
 		if(in_array($ext, $fileType['tsv']['extension'])){

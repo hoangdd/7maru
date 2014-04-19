@@ -34,7 +34,7 @@ if(isset($options['action']) && isset($options['user_id'])){
 }
 	//=======================	
 ?>
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
 	//==========================
 	//to rating
@@ -46,6 +46,14 @@ $(document).ready(function(){
 	var user_id = <?php echo "'$user_id';"; ?>
 	var coma_id = <?php echo "'$coma_id';"; ?>
 	var rateAllow = <?php echo $rateAllow ?>;
+	var rateText = {
+		0 : '',
+		1 : '<?php echo __("Normal")?>',
+		2 : '<?php echo __("Good")?>',
+		3 : '<?php echo __("Very good")?>',
+		4 : '<?php echo __("Excellent")?>',
+		5 : '<?php echo __("Awesome")?>',
+	};
 	if (rateAllow){
 		$("#star-container-"+coma_id).mousemove(function(e){
 			var mouseReLeftPos = (e.pageX - $(this).offset().left );
@@ -55,10 +63,11 @@ $(document).ready(function(){
 		$("#star-container-"+coma_id).mouseleave(function(e){		
 			$("#bright-star-div-"+coma_id).width(brightStarWidth + "%");
 		})
-		$("#star-container-"+coma_id).click(function(e){
+		$("#star-container-"+coma_id+' .star-div').click(function(e){
 			var mouseReLeftPos = (e.pageX - $(this).offset().left );
 			var rate = 100 * Math.round(5 * mouseReLeftPos / containerWidth) / 5;	
-			brightStarWidth = rate;						
+			$('.rate-text').text(rateText[rate/20]);
+			brightStarWidth = rate;
 			$("#bright-star-div-"+coma_id).width(rate + "%");
 
 		// ajax
@@ -89,6 +98,7 @@ div#star-container-<?php echo $coma_id ?>{
 	margin:auto;
 	width:<?php echo $containerWidth ?>px;
 	height: <?php echo $containerHeight ?>px;	
+	margin-bottom: 50px;
 }
 div#blur-star-div-<?php echo $coma_id ?>{
 	width:100% ;	
@@ -102,9 +112,14 @@ div#bright-star-div-<?php echo $coma_id ?>{
 </style>
 <div class="row text-center">
 	<div id="star-container-<?php echo $coma_id ?>">
+		<div>
+			<?php echo __('Good!');?>
+		</div>
 		<div class="star-div" id = "blur-star-div-<?php echo $coma_id ?>">
 			<div class="star-div" id = "bright-star-div-<?php echo $coma_id ?>">
 			</div>
+		</div>
+		<div class='rate-text'>
 		</div>
 	</div>
 </div>

@@ -132,7 +132,7 @@ class LessonController extends AppController {
 			}				
 			if(!empty($_FILES['cover-image']['name'])){
 				//Check if image format is supported
-				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
+				if(!preg_match('/\.(jpg|png|gif|jpeg)$/',$_FILES['cover-image']['name'])){
 					$error['image'] = __('Unsupported Image Format');
 				} else if($_FILES['cover-image']['size'] > MAX_COVER_SIZE*UNIT_SIZE){
 					$error['image'] = __('Image Size Too Big');
@@ -168,7 +168,7 @@ class LessonController extends AppController {
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf|mp3|mp4)$/',$_FILES['document']['name'][$i])){							
+						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){							
 							$error['document'] = 'Unsupported Document Format';
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
@@ -330,7 +330,7 @@ class LessonController extends AppController {
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf|mp3|mp4)$/',$_FILES['document']['name'][$i])){							
+						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){							
 							$error['document'] = 'Unsupported Document Format';
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');

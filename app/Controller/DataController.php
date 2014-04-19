@@ -56,28 +56,15 @@ class DataController extends AppController {
 		$this->autoLayout = false;
 		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 		// @todo , xu li path
-		switch ($ext) {
-			case 'swf':
-				$path = SWF_DATA_DIR.DS.$file['Data']['path'];
+		$config = Configure::read('dataFile');
+		foreach ($config as $key => $value) {
+			if( in_array($ext, $value['extension'])){
+				$path = $value['path'].DS.$file['Data']['path'];
 				break;
-			case 'js':
-				$path = HTML_DATA_DIR.DS.$file['Data']['path'];
-				break;
-			case 'mp3':
-				$path = AUDIO_DATA_DIR.DS.$file['Data']['path'];
-				break;
-			case 'ogg':
-				$path = AUDIO_DATA_DIR.DS.$file['Data']['path'];
-				break;
-			case 'mp4':
-				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
-				break;
-			case 'flv':
-				$path = VIDEO_DATA_DIR.DS.$file['Data']['path'];
-				break;
-			default:
+			}else{
 				$path = '';
-				break;
+			}
+
 		}
 		$mimeType = '';
 		$mimeTypes = Configure::read('dataFile');
