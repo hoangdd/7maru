@@ -1,6 +1,6 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson','Data');
+    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson','Data','BlockStudent');
     public $helpers = array('Html'); 
     public $components = array('Paginator');   
     public function beforeFilter() {
@@ -357,7 +357,54 @@ class TeacherController extends AppController {
         }
     }
 
+    function blockStudent(){
+        //Set Block Student List
+        $this->BlockStudent->bindModel(array(
+            'belongsTo' => array(
+                'User' => array(
+                    'foreignKey' => 'student_id'
+                )
+            ) 
+        ));
 
+        $stdBlockList = $this->BlockStudent->findAllByTeacherId($this->Auth->user('user_id'),array(),array('BlockStudent.created' => 'desc'),10);
+        // debug($stdBlockList);die;
+        $this->set('stdBlockList',$stdBlockList);
+
+    }
+
+    function addBlockStudent($id){
+        if ($this->request->is('get')) {
+            $this->BlockStudent->create(array(
+                'teacher_id' => $this->Auth->user('user_id'),
+                'student_id' => $id
+            )); 
+            if ($this->BlockStudent->save()){
+                echo '1';die;
+            } else {
+                echo '0';die;
+            }
+
+        }
+    }
+
+    function unblockStudent($id){
+        if ($this->request->is('get')) {  
+            $block = $this->BlockStudent->find('first',array(
+                'conditions' => array(
+                    'teacher_id' => $this->Auth->user('user_id'),
+                    'student_id' =>$id
+                    )
+            ));      
+            
+            if ($this->BlockStudent->delete($block['BlockStudent']['id'])){
+                echo '1';die;
+            } else {
+                echo '0';die;
+            }
+
+        }
+    }
 
     function EditProfile($id = null) {
         if ($this->Auth->loggedIn()) {               

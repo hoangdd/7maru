@@ -10,7 +10,8 @@ class LessonController extends AppController {
 		'Data',
 		'Teacher',
 		'RateLesson',
-		'LessonTransaction'
+		'LessonTransaction',
+		'BlockStudent'
 		);
 	
 	public function beforeFilter(){
@@ -437,7 +438,7 @@ class LessonController extends AppController {
 	
 	private function check_Document_File(){
 	}
-
+	
 	public function viewContent($fid = null){					
 		if (!$fid) die;
 		$file = $this->Data->find('first', array(
@@ -511,8 +512,35 @@ class LessonController extends AppController {
 			));
 		$this->set('comments',$comments);
 
+		//Set Student List
+		$this->LessonTransaction->bindModel(array(
+			'belongsTo' =>array(
+				'Lesson' => array(
+					'foreignKey' => 'coma_id',					
+					),
+					'User' => array(
+					'foreignKey' => 'student_id'
+					)				
+			)
+		));
+		$stdList = $this->LessonTransaction->findAllByComaId($lessonId,array(),array('LessonTransaction.created' => 'asc'));
+		$this->set('stdList',$stdList);
 
+		//Set Rate List
+		$this->RateLesson->bindModel(array(
+			'belongsTo' => array(
+				'Lesson' => array(
+					'foreignKey' => 'coma_id'
+				),
+				'User' => array(
+					'foreignKey' => 'student_id'
+				)
+			)
+		));
+		$rateList = $this->RateLesson->findAllByComaId($lessonId,array(),array('RateLesson.created' => 'desc'));
+		$this->set('rateList',$rateList);
 	}
+
 	public function rate(){
 		if($this->request->is('post')){
 			$data = $this->request->data;			

@@ -37,6 +37,10 @@ class User extends AppModel {
         'RateLesson' => array(
          'foreignKey' => 'student_id',
          'dependent' => true
+        ),
+        'BlockStudent' => array(
+            'foreignKey' => 'student_id',
+            'dependent' => true
         )
     );
     function hashPassword($data, $enforce=false) {
