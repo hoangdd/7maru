@@ -193,7 +193,7 @@ Configure::write('dataFile', array(
 		'mimeType' => array(
 			'js' => array('js' => 'application/x-javascript'),
 			),
-		'path' => VIDEO_DATA_DIR,
+		'path' => HTML_DATA_DIR,
 		), 
 
 	))	;

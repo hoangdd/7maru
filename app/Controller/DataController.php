@@ -65,7 +65,7 @@ class DataController extends AppController {
 		// @todo , xu li path
 		$config = Configure::read('dataFile');
 		foreach ($config as $key => $value) {
-			if( in_array($ext, $value['extension'])){
+			if( in_array($ext, $value['extension'])){				
 				$path = $value['path'].DS.$file['Data']['path'];
 				break;
 			}else{
