@@ -206,9 +206,9 @@
 				</div>
 			</td>
 			<td>
-				<?php for($i=0;$i<5;$i++) : ?>
+				<?php for($i=0;$i<6;$i++) : ?>
 					<div>
-						<input name='rate' type="checkbox" checked value=<?php echo $i+1 ?>><?php echo $i+1;?>
+						<input name='rate' type="checkbox" checked value=<?php echo $i ?>><?php echo $i;?>
 					</div>
 				<?php endfor;?>
 			</td>

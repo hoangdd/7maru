@@ -13,11 +13,17 @@ if( !empty($data['Lesson'])) :
 			echo '</div>';
 			echo '<div>';
 			echo '<b>';
-			echo 'Author: '.$value['Lesson']['User']['username'];
+			echo 'Author: '.$value['User']['username'];
 			echo '<br>';
-			echo 'Category: '.$value['Category']['name'];
+			echo 'Category: ';
+			foreach ($value['LessonCategory'] as $key => $category) {
+				echo $category['Category']['name'].' - ';
+			}
 			echo '<br>';
 			echo '</b>';
+			$str = sprintf(__('Has %s document(s) and test(s)'), sizeof($value['Data']));
+			echo $str;
+			echo '<br>';
 			echo $value['Lesson']['name'].'...'.$value['Lesson']['title'].'...'.$value['Lesson']['description'].'...';
 			echo '</div>';
 			echo '<hr>';

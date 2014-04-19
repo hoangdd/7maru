@@ -34,12 +34,12 @@ class SearchController extends AppController {
 					case 'lesson':
 						# code...
 						if( !empty($q['time']['from']) && !empty($q['time']['to'])){
-							$bindCondition = array(
+							$lessonConditions = array(
 								'Lesson.created >= ' => $q['time']['from'],
 								'Lesson.created <= ' => $q['time']['to'],
 							);
 						}else{
-							$bindCondition = array();
+							$lessonConditions = array();
 						}
 
 						//author
@@ -48,7 +48,7 @@ class SearchController extends AppController {
 							if( empty($authors[0])) unset($authors[0]);
 							if( empty($authors[1])) unset($authors[1]);
 							if( !empty($authors)){
-								$bindCondition['Lesson.author'] = $authors;
+								$lessonConditions['Lesson.author'] = $authors;
 							}
 						}
 
@@ -64,67 +64,70 @@ class SearchController extends AppController {
 						}else{
 							$order['Category'] = '';
 						}
-						$this->Lesson->bindModel(array(
-							'belongsTo' => array(
-									'User' => array(
-										'foreignKey' => 'author',
-										)
-								)
-							));
-						$this->LessonCategory->bindModel(array(
-									'belongsTo' => array(
-											'Lesson' => array(
-													'foreignKey' => 'coma_id',
-													'conditions' => $bindCondition,
-													'order' => $order['Lesson']
-												),
-											'Category' => array(
-													'foreignKey' => 'category_id',
-													'order' => $order['Category']
-												)
-										)
-								)
-							);
-						$conditions = array();
+						
 						$categories = explode(' ', $q['category']);
-
-
 						//remove last empty element
 						unset($categories[sizeof($categories)-1]);
 
 						if( !empty($categories)){
-							$conditions['LessonCategory.category_id'] = $categories;
-						}
-						$this->LessonCategory->recursive = 2;
-						$data['Lesson'] = $this->LessonCategory->find('all', array(
-								'conditions' => $conditions,
+							$lessonCategoryConditons['LessonCategory.category_id'] = $categories;
+						}						
+						$this->Lesson->bindModel(array(
+							'hasMany' => array(
+								'LessonCategory' => array(
+									'foreignKey' => 'coma_id',
+									'conditions' => $lessonCategoryConditons,
+									'order' => $order['Category']
+									),
+								),
+							'belongsTo' => array(
+								'User' => array(
+									'foreignKey' => 'author',
+									)
+								)
+							)
+						);
+						$this->LessonCategory->bindModel(array(
+									'belongsTo' => array(
+											'Category' => array(
+													'foreignKey' => 'category_id',
+												)
+										)
+								)
+							);
+						$this->Lesson->recursive = 4;
+						$data['Lesson'] = $this->Lesson->find('all', array(
+							'conditions' => $lessonConditions,
+							'order' => $order['Lesson'],
 							));
 
-						if( !empty($q['keyword'])){
-							foreach ($data['Lesson'] as $key => $value) {
-								//search
+						foreach ($data['Lesson'] as $key => $value) {
+							//search
+							if( empty($value['LessonCategory']) ){
+								unset($data['Lesson'][$key]);
+							}
+							if( !empty($q['keyword'])){
 								$searchSet = $value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description'];
 								if( strpos($searchSet, $q['keyword']) === false){
 									unset($data['Lesson'][$key]);
 								}
 							}
-						}
-						if( !empty($q['rate'])){
-							$rates = explode(' ', $q['rate']);
+
+							if( !empty($q['rate'])){
+								$rates = explode(' ', $q['rate']);
 
 							//remove last empty element
-							unset($rates[sizeof($rates)-1]);
-							foreach ($data['Lesson'] as $key => $value) {
-								//rate
-								$r = $this->RateLesson->get_mean_rate($value['Lesson']['coma_id']);
-								if( in_array($r, $rates)){
-									$data[$key]['Lesson']['rate'] = $r;
-								}else{
-									unset($data[$key]);
+								unset($rates[sizeof($rates)-1]);
+								if( !empty($data['Lesson'][$key]['Lesson'])){
+									$r = $this->RateLesson->get_mean_rate($data['Lesson'][$key]['Lesson']['coma_id']);
+									if( in_array($r, $rates)){
+										$data['Lesson'][$key]['Lesson']['rate'] = $r;
+									}else{
+										unset($data['Lesson'][$key]);
+									}
 								}
 							}
 						}
-						// debug($data['Lesson']);
 						break;
 
 					case 'teacher':
