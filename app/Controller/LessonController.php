@@ -247,8 +247,7 @@ class LessonController extends AppController {
 								$test[$k2][$k1] = $v2;
 							}
 						}
-					}
-				}           								
+					}				 							
 				foreach($test as $key=>$value){
 					if(!(isset($value['error'])&&$value['error']!=0) ){											
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];
@@ -269,7 +268,8 @@ class LessonController extends AppController {
 		if(!$lesson){
 			//throw 404
 			throw new NotFoundException();
-		} else {
+		} 
+		else {
 			$categories =  $this->Category->find('all');
 			$this->set('categories',$categories);
 			$this->set('data',$lesson['Lesson']);
@@ -356,7 +356,8 @@ class LessonController extends AppController {
 				$this->set('error',$error);
 				debug($error);
 				$this->set('data',$data);				
-			}else{
+			}
+			else{
 				// Update Lesson Information
 				$this->Lesson->read(null, $data['coma_id']);
 				$saveData = array(
@@ -432,59 +433,7 @@ class LessonController extends AppController {
 
 	function Destroy(){
 		
-	}
-	function View($id){
-		//=======================================
-		//check permisson
-		//check student 
-		$user = $this->Auth->user();
-		if ($user['user_type'] == 2){			
-			if (!$this->LessonTransaction->had_active_transaction($user['user_id'],$id)){
-				$this->Session->setFlash(__('Forbidden error'));
-				return;
-			}
-		}
-		//check teacher
-		else{
-			$conditions = array(
-					'coma_id' => $id,
-					'author' => $user['user_id']
-				);
-			$result = $this->Lesson->find('first',array('conditions' => $conditions));
-			if (!$result){
-				$this->Session->setFlash(__('Forbidden error'));
-				return;
-			}
-		}
-		//=======================================
-		$this->Lesson->bindModel(array(
-			'belongsTo' =>array(
-				'User' => array(
-					'foreignKey' => 'author',
-					)
-				),
-			'hasMany' => array(
-				'RateLesson' => array(
-					'foreignKey' => 'coma_id',					
-					),
-				'File' => array(
-					'className' => 'Data',
-					'foreignKey' => 'coma_id'
-					)				
-				),
-			));
-		$this->Lesson->recursive = 2 ;
-		$lesson = $this->Lesson->findByComaId($id);
-		if( !empty($lesson)){
-		//ok
-		//@todo : check user has permission to view
-			// debug($lesson);
-			$this->set('data', $lesson);
-
-		}else{
-		//invalid id
-		}
-	}
+	}	
 	
 	private function check_Document_File(){
 	}

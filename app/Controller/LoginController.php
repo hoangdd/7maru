@@ -34,8 +34,8 @@ class LoginController extends AppController {
             'loginRedirect' =>array(
                 'controller' => 'Home',
                 'action' => 'index'
-            ),
-            'authError' => 'You don\'t have permission to view this page',
+            )
+            //'authError' => 'You don\'t have permission to view this page',
         ),
     );
     public function beforeFilter() {        
