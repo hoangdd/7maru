@@ -2,7 +2,7 @@
 
 class HomeController extends AppController {
 	public $uses = array('User');
-
+	public $helpers = array('Html');
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('index');
@@ -24,5 +24,8 @@ class HomeController extends AppController {
 			$user = array('role' => 'R4');
 		}		
 		$this->set(compact('user'));
+	}
+	function bg(){
+		$this->layout = false;
 	}
 }

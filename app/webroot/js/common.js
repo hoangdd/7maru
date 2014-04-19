@@ -1,4 +1,4 @@
-if(typeof(idle_time) === 'undefined' ) idle_time = 60*1000;
+if(typeof(idle_time) === 'undefined' ) idle_time = 60*60*1000;
 var flag = false;
 // var window_focus = ;
 var isTyping = false;

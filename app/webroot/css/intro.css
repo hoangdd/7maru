@@ -114,3 +114,11 @@
 .control-button.right{
 	right: -20px;
 }
+.bg-video{
+	position: fixed;
+	top: -10px;
+	left: -10px;
+	height: 110vh;
+	width: 110%;
+	overflow: hidden;
+}

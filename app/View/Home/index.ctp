@@ -195,10 +195,9 @@
 	$(document).ready(function(){
 		$(window).scroll(function(){
 			page1bottom = $('.page:first').offset().top + $('.page:first').height();
-			narbottom = $('.nav.page-nav').offset().top + $('.nav.page-nav').height();
-			// console.log(page1bottom);
-			// console.log(narbottom);
-			if( narbottom > page1bottom && !$('.page:first').hasClass('nav-inverse')){
+			pagenavbottom = $('.nav.page-nav').offset().top + $('.nav.page-nav').height();
+
+			if( pagenavbottom > page1bottom && !$('.page:first').hasClass('nav-inverse')){
 				$('.page:first').addClass('nav-inverse');
 				$('.nav.page-nav').animate({
 					'width' : '0px',
@@ -208,7 +207,7 @@
 				function(){
 
 				});
-			}else if( narbottom <= page1bottom && $('.page:first').hasClass('nav-inverse')){
+			}else if( pagenavbottom <= page1bottom && $('.page:first').hasClass('nav-inverse')){
 				$('.page:first').removeClass('nav-inverse');
 				$('.nav.page-nav').animate({
 					'width' : 'auto',
@@ -219,8 +218,7 @@
 
 				});
 			}
-
-			if( narbottom > page1bottom + 350 ){
+			if( pagenavbottom > page1bottom + 172 ){
 				$('#intro-menu').addClass('intro-menu-fixed');
 			}else{
 				$('#intro-menu').removeClass('intro-menu-fixed');
