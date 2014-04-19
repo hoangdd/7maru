@@ -39,6 +39,10 @@
 		  </li>
 		  <li id = 'changeConfig'>
 		  		<?php  echo $this->Html->link(__('Configuration'),array('action' => 'changeConfig')) ?>	
+		  </li>
+		  
+		  <li id = 'Backup'>
+		  		<?php  echo $this->Html->link(__('Backup System'),array('action' => 'backupManage')) ?>	
 		  </li>		  
 		  
 

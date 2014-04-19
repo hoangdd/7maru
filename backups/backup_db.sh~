@@ -1,0 +1,1 @@
+mysqldump -u root -p123456 7maru >    /home/khaclinh/itjap/backup_store/`date +%Y%m%d%T`/databaseBackup_`date +%Y%m%d%T`.sql

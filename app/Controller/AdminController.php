@@ -1266,6 +1266,40 @@ function deleteFile($file_id = null){
         $lessons = $this->Lesson->find('all',array('recursive' => 1));        
         $this->set(compact('lessons'));
     }
+    
+    function backupManage(){
+    	$path = '/home/khaclinh/itjap/backup_store/';
+    	$results = scandir($path);
+    	$itemp = 0;
+    	foreach ($results as $result) {
+    		if ($result === '.' or $result === '..') continue;
+    	
+    		if (is_dir($path . '/' . $result)) {
+    			//code to use if directory
+    			if($itemp == 0)
+    				$backup_history = array($itemp => $result);
+    			else 
+    				$backup_history += array($itemp => $result);
+    			$itemp++;
+    		}
+    	}
+    	
+    	$this->set('backup_history',$backup_history);
+    }
+    
+    function backupDelete(){
+    	$directDel = $this->params['url']['backup_folder'];
+    	$output = shell_exec('rm -rf /home/khaclinh/itjap/backup_store/'.$directDel);
+    	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
+    }
+    
+    function backupRestore(){
+    	$directDel = $this->params['url']['backup_folder'];
+    	$dir = '/home/khaclinh/itjap/backup_store/';
+    	$output = shell_exec('mysql -u root -p 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
+    	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
+    	 
+    }
     ///==================
     /// end code by @dac
     ///==================
