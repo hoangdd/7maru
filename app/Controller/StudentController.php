@@ -424,28 +424,24 @@ class StudentController extends AppController {
 	function BuyLesson() {
 	}
 
-	function Test() {
-	}
-
-	function DoTest(){
-		
+	function DoTest() {
 		if (! $this->request->is ( "post" )) {
 		} else {
-			
+				echo "inhlinhdfasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 			$values = $this->request->data['testfilegettest'];
 			$values = str_replace(".js",".tsv",$values);
 			$this->set('testfilegettest',$values);
 			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
 			$totques=count($this->request->data['hid']);
-
+		
 			$temp = 0;$mark = 0;
 			$markGET = 0;
 			$markTotal = 0;
-			
+				
 			$flagChooseCheck = 0;
 			$choosedNONE = "ignored";
 			for($i = 0;$i<$totques;$i++){
-				
+		
 				$markTotal += intval($finalTest['Question'.$i]['markNumber']);
 				if(!isset($this->request->data['Question'.$i])) {
 					$mark++;
@@ -454,7 +450,7 @@ class StudentController extends AppController {
 					else {
 						$choosed += array($i => $choosedNONE);
 						// $choosed = array_merge($choosed, array($i => $choosedNONE));
-						
+		
 					}
 					$flagChooseCheck = 1;
 				}
@@ -464,50 +460,60 @@ class StudentController extends AppController {
 					else {
 						$choosed += array($i => $this->request->data['Question'.$i]);
 						// $choosed = array_merge($choosed, array($i => $this->request->data['Question'.$i]));
-						
+		
 					}
 					$flagChooseCheck = 1;
 					// echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
 					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
-					
+							
 						$markGET += intval($finalTest['Question'.$i]['markNumber']);
 						$temp++;
-				}
+					}
 				}
 			}
+			$dataResult = array(
+				'file_id' => $values,
+				'score' => $markGET,
+				'scorefull' => $markTotal,
+				'choiced' => $mark,
+				'total_ques' => $totques,
+				'hit' => $temp,
+				'result' => serialize($choosed)
+			);
+			print_r($dataResult);
+			$this->TestResult->create($dataResult);
+			$this->TestResult->save();
+			$this->redirect(array(
+					'controller' => 'Student',
+					'action' => 'result',
+					$values
+			));
 			
+	}
+	
+	}
+
+	function Result($values){
+			$result = $this->TestResult->find('fist',array(
+				'condition' => array(
+					'TestResult.file_id' => $values	
+			)
+			));
+			print_r($values);
 			
-			$reTemp = $totques;
-			$this->set('hit',$temp);
-			$this->set('total',$reTemp);
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values.'.tsv');
+			
+			$this->set('hit',$result['TestResult']['hit']);
+			$this->set('total',$result['TestResult']['total_ques']);
 			$this->set('time',600);
-			$this->set('mark',$mark);
-			$this->set('markGET',$markGET);
-			$this->set('markTotal',$markTotal);
+			$this->set('mark',$result['TestResult']['choiced']);
+			$this->set('markGET',$result['TestResult']['score']);
+			$this->set('markTotal',$result['TestResult']['scorefull']);
 			
 			$this->set('finalTest',$finalTest);
+			$choosed = unserialize($result['TestResult']['result']);
 			$this->set('choosedEnd',$choosed);
 			
-			/*echo $mark;
-			echo $temp;
-			
-			$this->ViewTestResult($temp, 5);
-			$this->redirect ( '/student/viewtestresult/?hit='.$temp.'&total='.$reTemp.'&time='.$timeTemp );
-			$this->redirect ( array (
-
-			
-				$this->redirect ( array (
-
-					'controller' => 'student',
-					'action' => 'viewtestresult',
-					'hit' => $temp,
-					'total' => $reTemp,
-
-					'mark' => $mark,
-					'time' => 10
-			) );
-			*/
-		}
 	}
 
 							
