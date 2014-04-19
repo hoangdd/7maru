@@ -1,7 +1,7 @@
 <?php
 	echo $this->Html->script('jquery');
 	echo $this->Html->css('flexpaper');
-	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv'));	
+	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv', 'view_file_encrypt.js'));	
 ?>
 <?php 
 	echo $this->element('playlist', array('current' => $file['Data']['file_id'],'list' => $list));
@@ -16,49 +16,23 @@
 	if( in_array($ext, $config['swf']['extension']) ){
 ?>
 <script type="text/javascript">
-	var startDocument = "Paper";
-	$('#player').FlexPaperViewer(
-			{ config : {
-				SWFFile : <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
-				Scale : 0.6,
-				ZoomTransition : 'easeOut',
-				ZoomTime : 0.5,
-				ZoomInterval : 0.2,
-				FitPageOnLoad : true,
-				FitWidthOnLoad : false,
-				FullScreenAsMaxWindow : false,
-				ProgressiveLoading : false,
-				  MinZoomSize : 0.2,
-				MaxZoomSize : 5,
-				SearchMatchAll : false,
-				InitViewMode : 'Portrait',
-				RenderingOrder : 'flash,html',
-				StartAtPage : '',
-				ViewModeToolsVisible : true,
-				ZoomToolsVisible : true,
-				NavToolsVisible : true,
-				CursorToolsVisible : true,
-				SearchToolsVisible : true,
-				WMode : 'window',
-				localeChain: 'en_US'
-			}}
-	);
+	$(document).ready(function(){
+		if( typeof view_swf_file == 'function'){
+			view_swf_file("<?php echo $file['Data']['file_id'];?>");
+		}
+	});
 </script>
-
 <?php 
 	}
 	if( in_array($ext, $config['audio']['extension']) || in_array($ext, $config['video']['extension']) ){
 ?>
-	<script type="text/javascript">
-		jwplayer("player").setup({	
-		file: <?php echo "'".$this->Html->url(array('controller' => 'Data','action' => 'file',$file['Data']['file_id']))."'" ?>,
-		type:<?php echo "'".$file['Data']['type']."'" ?>,
-		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
-		primary:"flash",
-		startparam: "starttime",
-		width: '100%',
+<script type="text/javascript">
+	$(document).ready(function(){
+		if( typeof view_media_file == 'function'){
+			view_media_file("<?php echo $file['Data']['file_id'];?>", "<?php echo $file['Data']['type'];?>");
+		}
 	});
-	</script>
+</script>
 <?php 
 	}
 ?>
@@ -66,18 +40,13 @@
 <?php
 if( in_array($ext, $config['img']['extension']) ){
 ?>
-<div style="width:100%;height:750px;overflow:auto">
-	<?php
-		$img = $this->Html->url(
-			array(
-				'controller' => 'Data',
-				'action' => 'file',
-				$file['Data']['file_id']
-				)
-			);
-		echo '<img src="'.$img.'" alt="Smiley face" width="100%">';
-	?>
-</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		if( typeof view_image_file == 'function'){
+			view_image_file("<?php echo $file['Data']['file_id'];?>");
+		}
+	});
+</script>
 <?php
 }
 ?>
@@ -92,7 +61,7 @@ if( in_array($ext, $config['img']['extension']) ){
 	echo $this->element('comment', $option);
 ?>
 
-<script>
+<script type="text/javascript">
 	$("document").ready(function(){
 		document.addEventListener("contextmenu", function(e){
 	    e.preventDefault();
