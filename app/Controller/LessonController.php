@@ -523,7 +523,34 @@ class LessonController extends AppController {
 					)				
 			)
 		));
+
+		$this->BlockStudent->bindModel(array(
+            'belongsTo' => array(
+                'User' => array(
+                    'foreignKey' => 'student_id'
+                )
+            ) 
+        ));
+
+        $stdBlockList = $this->BlockStudent->findAllByTeacherId($this->Auth->user('user_id'),array(),array('BlockStudent.created' => 'desc'),10);
 		$stdList = $this->LessonTransaction->findAllByComaId($lessonId,array(),array('LessonTransaction.created' => 'asc'));
+		// debug($stdList);die;
+		if(!empty($stdList)){
+			$lessonName = $stdList[0]['Lesson']['name'];
+			foreach($stdBlockList as $key=>$valueB){
+				foreach ($stdList as $key => $valueL) {
+					$j = 0;
+					if ($valueB['BlockStudent']['student_id'] === $valueL['User']['user_id']) {
+						unset($stdList[$j]);
+					}
+					$j++;
+				}
+			}
+		}else{
+			$stdList = array();
+			$lessonName = array();
+		}
+		$this->set('lessonName',$lessonName);
 		$this->set('stdList',$stdList);
 
 		//Set Rate List

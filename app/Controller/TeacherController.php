@@ -368,24 +368,7 @@ class TeacherController extends AppController {
         ));
 
         $stdBlockList = $this->BlockStudent->findAllByTeacherId($this->Auth->user('user_id'),array(),array('BlockStudent.created' => 'desc'),10);
-        // debug($stdBlockList);die;
         $this->set('stdBlockList',$stdBlockList);
-
-    }
-
-    function addBlockStudent($id){
-        if ($this->request->is('get')) {
-            $this->BlockStudent->create(array(
-                'teacher_id' => $this->Auth->user('user_id'),
-                'student_id' => $id
-            )); 
-            if ($this->BlockStudent->save()){
-                echo '1';die;
-            } else {
-                echo '0';die;
-            }
-
-        }
     }
 
     function unblockStudent($id){
@@ -406,6 +389,26 @@ class TeacherController extends AppController {
         }
     }
 
+    function addBlockStudent($id){
+        if ($this->request->is('get')) {
+            $data = array(
+                'teacher_id' => $this->Auth->user('user_id'),
+                'student_id' => $id
+                );
+            $this->BlockStudent->create();
+            /*$this->BlockStudent->set(array(
+                'teacher_id' => $this->Auth->user('user_id'),
+                'student_id' => $id
+            )); */
+            if ($this->BlockStudent->save($data)){
+                echo '1';die;
+            } else {
+                echo '0';die;
+            }
+
+        }
+    }
+    
     function EditProfile($id = null) {
         if ($this->Auth->loggedIn()) {               
             if ($this->Auth->user('role') === "R1"){

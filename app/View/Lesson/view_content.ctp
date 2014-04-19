@@ -10,7 +10,7 @@
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane active" id="lessonName"><h1><?php if(!empty($stdList)) echo($stdList[0]['Lesson']['name']); ?></h1></div>
+  <div class="tab-pane active" id="lessonName"><h1><?php if(!empty($lessonName)) echo($lessonName); ?></h1></div>
   <div class="tab-pane" id="studentList">
   		<div class="panel panel-default">
   			<div class="panel-heading">
@@ -59,7 +59,7 @@
 							</td>
 							<td><?php echo($value['User']['firstname'])?></td>
 							<td><?php echo($value['User']['lastname'])?></td>
-							<td><?php echo $this->Html->link(__('Accept'),array('controller' => 'Teacher','action' => 'blockStudent',$value['User']['user_id']),array('class' => 'block_link'));
+							<td><?php echo $this->Html->link(__('Block'),array('controller' => 'Teacher','action' => 'addBlockStudent',$value['User']['user_id']),array('class' => 'block_link'));
 							?>
 							</td>
 			</tbody>
@@ -127,7 +127,8 @@ $(document).ready(function(){
 		var a = $(this);
 		$.get(
 			src,            	
-			function(data){  
+			function(data){
+				console.log(data);
 				if (data.trim() == '1') {
 					alert("<?php echo __('Successful') ?>");
 					var tr = a.parent().parent();
