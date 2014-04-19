@@ -46,8 +46,8 @@ class Lesson extends AppModel {
     }
 	public  function beforeSave($option = array()){
 		$data = $this->data['Lesson'];
-
-		if(!empty($data['cover'])&&
+		$this->log($this->data['Lesson'], 'hlog');
+		if(	!empty($data['cover'])&&
 			!empty($data['cover']['tmp_name'])&&
 			!empty($data['cover']['name'])
 		){
@@ -60,20 +60,12 @@ class Lesson extends AppModel {
 			$data['cover'] = $filename.'.'.$ext;
 			$this->data['Lesson'] = $data;
 		}else{
-			$data['cover'] = DEFAULT_COVER_IMAGE;
+			//phan biet truong hop create va update
+			if( empty($data['coma_id']))
+				$data['cover'] = DEFAULT_COVER_IMAGE;
+			else
+				unset($data['cover']);
 		}
 		$this->data['Lesson'] = $data;
 	}
-
-	// public function beforeFind($query)
-	// {		
-	// 	if (isset($_SESSION['Auth']['User'])){
-	// 		if ($_SESSION['Auth']['User']['role'] !== 'R1'){
-	// 			$query['conditions']['Lesson.is_block'] = 0;				
-	// 		}
-	// 	}else{
-	// 		$query['conditions']['Lesson.is_block'] = 0;											
-	// 	}			
-	// 	return $query;
-	// }
 }
