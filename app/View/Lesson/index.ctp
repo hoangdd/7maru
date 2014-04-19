@@ -176,7 +176,7 @@
                        echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";       
                      }
                      else{
-                      echo $this->Html->link("Test".$key, array(
+                      echo $this->Html->link($value['file_name'], array(
                         'controller' => 'Student',
                         'action' => 'Exam?id='.$value['file_id']                        
                         ),

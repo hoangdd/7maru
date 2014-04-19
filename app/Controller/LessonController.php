@@ -15,7 +15,7 @@ class LessonController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow();//allow all, manual check
+		//$this->Auth->allow('index');//allow all, manual check
 	}
 	/**
 	* 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
@@ -111,7 +111,7 @@ class LessonController extends AppController {
 		}	
 	}
 
-	function Create(){
+	function create(){
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
@@ -228,12 +228,24 @@ class LessonController extends AppController {
 				//Test file upload
 
 				// save data   
-				$testFile = $_FILES['test'];
-				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
-					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
-					$testFile['isTest'] = true;					
-					$this->Data->create(array('Data' => $testFile));
-					$this->Data->save();    
+				$test = array();
+				if($_FILES['test']){
+					foreach ($_FILES['test'] as $k1 => $v1) {
+						foreach ($v1 as $k2 => $v2) {
+							if( !empty($v2)){
+								$test[$k2][$k1] = $v2;
+							}
+						}
+					}
+				}           				
+				$this->log($test,'hlog');
+				foreach($test as $key=>$value){
+					if(!(isset($value['error'])&&$value['error']!=0) ){											
+						$value['coma_id'] = $lesson['Lesson']['coma_id'];
+						$value['isTest'] = true;					
+						$this->Data->create($value);
+						$this->Data->save();    
+					}					
 				}
 				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
@@ -268,9 +280,7 @@ class LessonController extends AppController {
 			$this->set('category_list', $category_list);
 		}
 		if( $this->request->is('post')){
-			$data = $this->request->data;
-			$this->log($data, 'hlog');
-			$this->log($_FILES, 'hlog');
+			$data = $this->request->data;		
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(empty($data['copyright'])){
