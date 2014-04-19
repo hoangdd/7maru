@@ -1,5 +1,11 @@
+.hidden{
+	display: none;
+}
 .filter{
 
+}
+.filter.hide{
+	display: none;
 }
 .filter table{
 	width: 100%;

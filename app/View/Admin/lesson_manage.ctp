@@ -22,7 +22,7 @@
         <th class="info"><label><?php echo __("Delete");?></label></th>
         <?php
         foreach ($lessons as $d):                
-            echo '<tr class="linktr">'.'<td>'.$d['Lesson']['name'].'</td><td>'.$d['Author']['username'].'</td>';
+            echo '<tr class="linktr">'.'<td>'.$this->Html->link($d['Lesson']['name'],array('controller' => 'Lesson','action' =>'index',$d['Lesson']['coma_id'] )).'</td><td>'.$d['Author']['username'].'</td>';
             //get number of report
             $copyright = 0;
             $title = 0;
@@ -36,7 +36,7 @@
             endforeach;
             echo '<td>'.$title.'</td><td>'.$copyright.'</td>';
             //end
-            echo '<td>';
+            echo '<td class="link_td">';
             if ($d['Lesson']['is_block'] === '0'){
                 echo $this->Html->link(__('Block'),array('controller' => 'Admin','action' => 'blockLesson',$d['Lesson']['coma_id']),array('link_type' => 'block_link','coma_id' => $d['Lesson']['coma_id']));
             }
@@ -44,7 +44,7 @@
                 echo $this->Html->link(__('UnBlock'),array('controller' => 'Admin','action' => 'unBlockLesson',$d['Lesson']['coma_id']),array('link_type' => 'un_block_link','coma_id' => $d['Lesson']['coma_id']));
             }
             echo '</td>';
-            echo '<td>';
+            echo '<td class="link_td">';
             echo $this->Html->link(__('Delete'),array('controller' => 'Admin','action' => 'deleteLesson',$d['Lesson']['coma_id']),array('link_type' => 'delete_link','coma_id' => $d['Lesson']['coma_id']));
             echo '</td></tr>';
         endforeach;
@@ -53,7 +53,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        $("tr.linktr td a").click(function(){
+        $("tr.linktr td.link_td a").click(function(){
             var src = $(this).attr('href');
             var type = $(this).attr('link_type');
             var link = $(this);

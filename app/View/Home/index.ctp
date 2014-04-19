@@ -308,7 +308,11 @@
 </div>
 <div id='intro-menu'>
 <?php
-	echo $this->element('menu_intro',array('notify_num' => $user['notify_num']));
+	if (isset($user['notify_num'])){
+		echo $this->element('menu_intro',array('notify_num' => $user['notify_num']));
+	}else{
+		echo $this->element('menu_intro');
+	}
 ?>
 </div>
 <?php

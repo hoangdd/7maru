@@ -33,7 +33,7 @@
       'style' => 'margin:auto'
       )); 
      echo "<h3 style = 'font-weight:bold;color:red'>".$lesson['name'].'</h3>';
-     if ($reportLink == null){
+     if ($reportLink !== null){
       echo '<button id = "report_button" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-warning-sign"></span></button>';
     }
      echo '<p></p>';
@@ -41,14 +41,14 @@
     			//ranking by stars                   
      $options = array();
      $options['rateAllow'] = 0;
-     if ($user['user_type'] == 2)
+     if ($user['role'] == 'R3')
         $options['rateAllow'] = 1;
      $options['stars'] =   $lesson['stars'];      
      $options['width'] = 30;
      $options['height'] = 30;
      $options['coma_id'] = $lesson['coma_id'];
      $options['action'] = '/'.FILL_CHARACTER.'/Lesson/rate';
-     if(isset($user)){
+     if(isset($user) && $user['role'] == 'R3'){
         $options['user_id'] = $user['user_id'];
      }
      echo $this->element('star_rank',array(
@@ -80,13 +80,15 @@
             break;
           }
         endforeach;
-      echo $this->Html->link(__('View'), array(
-            'controller' => 'Lesson',
-            'action' => 'viewContent',
-            $firstComaId
-          ),
-        $options
-      );
+        if (isset($fistComaId)){
+          echo $this->Html->link(__('View'), array(
+                'controller' => 'Lesson',
+                'action' => 'viewContent',
+                $firstComaId
+              ),
+            $options
+          );
+      }
     }
     echo "</div>";
     ?>    
@@ -174,7 +176,7 @@
                        echo "<li class='list-group-item'><span class='glyphicon glyphicon-book'></span>".$value['file_name']."</li>";       
                      }
                      else{
-                      echo $this->Html->link("Test".$key, array(
+                      echo $this->Html->link($value['file_name'], array(
                         'controller' => 'Student',
                         'action' => 'Exam?id='.$value['file_id']                        
                         ),
@@ -239,13 +241,10 @@
               if (data.trim() === "1"){
                 alert("<?php echo __('Transaction successfully') ?>");              
                 result = true;                
+                location.reload();
               }             
             }
-          );
-        if (result){
-          //reload page
-          location.reload();
-        }
+          );        
       }       
       });
 

@@ -10,17 +10,29 @@ class SearchController extends AppController {
     // search
 	function index(){
 		$this->set('categories', $this->Category->find('all'));
+		$data = $this->request->query;
+		$teacher_list = $this->User->find('all', array(
+			'conditions' => array(
+				'user_type' => 1
+				),
+			'fields' => array(
+				'username','user_id'
+				)
+			));
+		$this->set('data',$data);
+		$this->set('teacher_list',$teacher_list);
 	}
 
 	function ajaxSearch(){
+		$this->layout = false;
 		$q = $this->request->query;
+		$data = array();
 		if( !empty($q)){
 			$types = explode(' ', $q['type']);
 			foreach ($types as $type) {
 				switch ($type) {
 					case 'lesson':
 						# code...
-						$this->loadModel('Lesson');
 						if( !empty($q['time']['from']) && !empty($q['time']['to'])){
 							$bindCondition = array(
 								'Lesson.created >= ' => $q['time']['from'],
@@ -29,43 +41,80 @@ class SearchController extends AppController {
 						}else{
 							$bindCondition = array();
 						}
+
+						//author
+						if( !empty($q['author'])){
+							$authors = explode(' ', $q['author']);
+							if( empty($authors[0])) unset($authors[0]);
+							if( empty($authors[1])) unset($authors[1]);
+							if( !empty($authors)){
+								$bindCondition['Lesson.author'] = $authors;
+							}
+						}
+
+						$order = array();
+						//order
+						if( !empty($q['order']) && $q['order'] != 'category' ){
+							$order['Lesson'] = $q['order'];
+						}else{
+							$order['Lesson'] = '';
+						}
+						if( !empty($q['order']) && $q['order'] == 'Category.name' ){
+							$order['Category'] = $q['order'];
+						}else{
+							$order['Category'] = '';
+						}
+						$this->Lesson->bindModel(array(
+							'belongsTo' => array(
+									'User' => array(
+										'foreignKey' => 'author',
+										)
+								)
+							));
 						$this->LessonCategory->bindModel(array(
 									'belongsTo' => array(
 											'Lesson' => array(
 													'foreignKey' => 'coma_id',
-													'conditions' => $bindCondition,	
+													'conditions' => $bindCondition,
+													'order' => $order['Lesson']
+												),
+											'Category' => array(
+													'foreignKey' => 'category_id',
+													'order' => $order['Category']
 												)
 										)
 								)
 							);
-
 						$conditions = array();
-
 						$categories = explode(' ', $q['category']);
+
 
 						//remove last empty element
 						unset($categories[sizeof($categories)-1]);
-						if( !empty($categories)){
-							$conditions['category_id'] = $categories;
-						}
-					
 
-						$data = $this->LessonCategory->find('all', array(
+						if( !empty($categories)){
+							$conditions['LessonCategory.category_id'] = $categories;
+						}
+						$this->LessonCategory->recursive = 2;
+						$data['Lesson'] = $this->LessonCategory->find('all', array(
 								'conditions' => $conditions,
 							));
-						foreach ($data as $key => $value) {
+
+						if( !empty($q['keyword'])){
+							foreach ($data['Lesson'] as $key => $value) {
 								//search
 								$searchSet = $value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description'];
-								if( strpos($searchSet, $q['keyword']) == false){
-									unset($data[$key]);
+								if( strpos($searchSet, $q['keyword']) === false){
+									unset($data['Lesson'][$key]);
 								}
-							};
+							}
+						}
 						if( !empty($q['rate'])){
 							$rates = explode(' ', $q['rate']);
 
 							//remove last empty element
 							unset($rates[sizeof($rates)-1]);
-							foreach ($data as $key => $value) {
+							foreach ($data['Lesson'] as $key => $value) {
 								//rate
 								$r = $this->RateLesson->get_mean_rate($value['Lesson']['coma_id']);
 								if( in_array($r, $rates)){
@@ -75,15 +124,43 @@ class SearchController extends AppController {
 								}
 							}
 						}
-						debug($data);
+						// debug($data['Lesson']);
 						break;
 
 					case 'teacher':
 						# code...
+						$data['User'] = $this->User->find('all', array(
+								'conditions' => array(
+									'user_type' => 1
+									)
+							));
+						if( !empty($q['keyword'])){
+							foreach ($data['User'] as $key => $value) {
+								//search
+								$searchSet = $value['User']['username'].'|'.$value['User']['lastname'].'|'.$value['User']['address'].'|'
+								.$value['User']['phone_number'].'|'.$value['User']['mail'];
+								if( strpos($searchSet, $q['keyword']) === false){
+									unset($data['User'][$key]);
+								}
+							};
+						}
+						// debug($data['User']);
+
 						break;
 
-					case 'student':
+					case 'category':
 						# code...
+						$data['Category'] = $this->Category->find('all');
+						if( !empty($q['keyword'])){
+							foreach ($data['Category'] as $key => $value) {
+								//search
+								$searchSet = $value['Category']['name'].'|'.$value['Category']['description'];
+								if( strpos($searchSet, $q['keyword']) === false){
+									unset($data['Category'][$key]);
+								}
+							};
+						}
+						// debug($data['Category']);
 						break;
 
 					default:
@@ -92,7 +169,11 @@ class SearchController extends AppController {
 				}
 			}
 		}
-		die;
+		$this->set('data', $data);
+		if( empty($data['User'])&&empty($data['Lesson'])&&empty($data['Category']) ){
+			echo __('No result found');
+			die;
+		}
 	}
 
 	function tag( $id = null){

@@ -24,7 +24,8 @@
 		  <li id= 'createAdmin'>
 		  	<?php  echo $this->Html->link(__('Create another admin'),array('action' => 'createAdmin')) ?>
 		  </li>
-		  			 		  
+		  <li id= 'userManage'>
+		  	<?php  echo $this->Html->link(__('User Manage'),array('action' => 'userManage')) ?>		
 		  <li id = 'lessonManage'>
 		  		<?php  echo $this->Html->link(__('Lesson Manage'),array('action' => 'lessonManage')) ?>	
 		  </li>
@@ -38,6 +39,10 @@
 		  </li>
 		  <li id = 'changeConfig'>
 		  		<?php  echo $this->Html->link(__('Configuration'),array('action' => 'changeConfig')) ?>	
+		  </li>
+		  
+		  <li id = 'Backup'>
+		  		<?php  echo $this->Html->link(__('Backup System'),array('action' => 'backupManage')) ?>	
 		  </li>		  
 		  
 

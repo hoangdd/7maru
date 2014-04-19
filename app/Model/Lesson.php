@@ -7,7 +7,7 @@ class Lesson extends AppModel {
 	public $hasMany = array(
 		'Data' => array(
 			'foreignKey' => 'coma_id',
-			'dependent' => true
+			'dependent' => true,			
 		),
 		'LessonTransaction' => array(
 			'foreignKey' => 'coma_id',
@@ -28,7 +28,7 @@ class Lesson extends AppModel {
 		'LessonReference' => array(
 			'foreignKey' => 'coma_id',
 			'dependent' => true
-		),
+		)		
 	);
 	public function deleteLesson($id){        
             $id = $this->request->data['id'];            

@@ -60,7 +60,7 @@ LibreOffice Writer
 ----------------
 
 [lowriter](#)
-
+FAIL
 Options:
 
 --minimized    keep startup bitmap minimized.

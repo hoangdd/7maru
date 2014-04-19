@@ -59,7 +59,7 @@ class StudentController extends AppController {
 					$check_user = false;
 				}
 				
-				if (strlen($data['username'])< 6){
+				if (strlen($data['username'])< 2){
 					$error['username'][3] = __('Username is too short.');
 					$check_user = false;
 				}
@@ -106,7 +106,7 @@ class StudentController extends AppController {
 					$check_user = false;
 				}
 				
-				if (strlen($data['password']) < 8) {
+				if (strlen($data['password']) < 6) {
 					$error['password'][3] = __('Password is too short.');
 					$check_user = false;
 				}
@@ -298,15 +298,22 @@ class StudentController extends AppController {
 
 	function Profile($id = null){
 		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
-			// $data=$this->User->query($sql);
-
+			// $data=$this->User->query($sql);				
 		if($this->Auth->loggedIn()){			
-			if ($this->Auth->User('admin_id') && $id!= null){
+			if ($id!= null){
                 $pid = $id;        
             }
-            else{               
+            else if ($this->Auth->user('role') !== 'R1' ){            	
                 $pid=$this->Auth->User('user_id');                            
             }
+            else{
+            	die;
+            }
+           $user = $this->Auth->User();
+           $isOther = true;
+            if (isset($user['user_id']) && $pid == $user['user_id']){
+                $isOther = false;
+            }            
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
@@ -314,8 +321,9 @@ class StudentController extends AppController {
             ));
 			if (!$data){
 				$this->Session->setFlash(__('Forbidden error'));
-			}
+			}			
 		$this->set("data",$data);
+		$this->set('isOther',$isOther);
 		if($data['User']['user_type']==2){
 			$a=$data['User']['foreign_id'];
 			$data1=$this->Student->find('first',array(

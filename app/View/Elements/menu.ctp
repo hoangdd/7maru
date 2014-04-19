@@ -133,7 +133,7 @@ $(document).ready(function(){
 					> <?php echo __('Change Password');?> </a>
 				</li>
 				<li>
-					<a href="#"> <?php echo __('Delete');?> </a>
+					<a type='delete_link' href="<?php echo $this->Html->url(array('controller' => 'User','action' => 'delete')) ?>"> <?php echo __('Delete');?> </a>
 				</li>
 			</ul>
 			<ul root = 2>
@@ -219,7 +219,7 @@ $(document).ready(function(){
 					> <?php echo __('Change password');?> </a>
 				</li>
 				<li>
-					<a href="#"> <?php echo __('Delete');?> </a>
+					<a type='delete_link' href=<?php echo "'".$this->Html->url(array('controller' => 'User','action' => 'delete'))."'" ?>> <?php echo __('Delete');?> </a>					
 				</li>
 			</ul>
 			<ul root = 2>
@@ -296,3 +296,14 @@ $(document).ready(function(){
 
 	
 </div><!-- ac_content -->
+<script>
+						$("document").ready(function(){
+							$("a[type = 'delete_link']").click(function(){
+								var r = confirm(<?php echo "'".__('Confirm').' '.__('Delete')."'";?>);
+								if (r){
+									return true;
+								}
+								return false;
+							});
+						})
+					</script>

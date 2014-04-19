@@ -15,7 +15,7 @@ class LessonController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow();//allow all, manual check
+		//$this->Auth->allow('index');//allow all, manual check
 	}
 	/**
 	* 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
@@ -111,7 +111,7 @@ class LessonController extends AppController {
 		}	
 	}
 
-	function Create(){
+	function create(){
 		$categories =  $this->Category->find('all');
 		$this->set('categories',$categories);
 		if($this->request->is('post')){
@@ -140,23 +140,26 @@ class LessonController extends AppController {
 				}
 			}
 
-			if(!empty($_FILES['test']['name'])){
+			if(!empty($_FILES['test']['name'][0])){
 				//Check if image format is supported
-				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
-					$error['test'] = __('Unsupported Test File Format');
-				} else if($_FILES['test']['size'] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
-					$error['test'] = __('Test File Too Big');
-				}
-
-				//テストファイルの構造は正しいかどうかをチェックする。
-				$fileReader = fopen($_FILES['test']['tmp_name'],'r');
-				if($fileReader){
-					while (($line = fgets($fileReader)) !== false) {
-
+				$len = count($_FILES['document']['name']);
+				for($i = 0, $len; $i < $len; $i++){
+					if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
+						$error['test'] = __('Unsupported Test File Format');
+					} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
+						$error['test'] = __('Test File Too Big');
 					}
-				} else {
-					$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+					//テストファイルの構造は正しいかどうかをチェックする。
+					$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
+					if($fileReader){
+						while (($line = fgets($fileReader)) !== false) {
+
+						}
+					} else {
+						$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+					}
 				}
+			
 			}
 			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
@@ -190,10 +193,12 @@ class LessonController extends AppController {
 						)
 					);				
 				$lesson = $this->Lesson->save($saveData);				
-				// save Lesson Category
-				if($lesson && !empty($data['category'])){					
-					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);					
+				if ($lesson){
 					$this->Session->setFlash(__('Create lesson successfully'));
+				}
+				// save Lesson Category
+				if($lesson && !empty($data['category'])){										
+					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);										
 				}
 				
 				// Save Lesson files
@@ -223,12 +228,24 @@ class LessonController extends AppController {
 				//Test file upload
 
 				// save data   
-				$testFile = $_FILES['test'];
-				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
-					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
-					$testFile['isTest'] = true;					
-					$this->Data->create(array('Data' => $testFile));
-					$this->Data->save();    
+				$test = array();
+				if($_FILES['test']){
+					foreach ($_FILES['test'] as $k1 => $v1) {
+						foreach ($v1 as $k2 => $v2) {
+							if( !empty($v2)){
+								$test[$k2][$k1] = $v2;
+							}
+						}
+					}
+				}           				
+				$this->log($test,'hlog');
+				foreach($test as $key=>$value){
+					if(!(isset($value['error'])&&$value['error']!=0) ){											
+						$value['coma_id'] = $lesson['Lesson']['coma_id'];
+						$value['isTest'] = true;					
+						$this->Data->create($value);
+						$this->Data->save();    
+					}					
 				}
 				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
@@ -263,9 +280,7 @@ class LessonController extends AppController {
 			$this->set('category_list', $category_list);
 		}
 		if( $this->request->is('post')){
-			$data = $this->request->data;
-			$this->log($data, 'hlog');
-			$this->log($_FILES, 'hlog');
+			$data = $this->request->data;		
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(empty($data['copyright'])){

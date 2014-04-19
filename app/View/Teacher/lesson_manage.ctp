@@ -96,7 +96,18 @@
         <?php }?>
     </div>
 
+    <div class='text-center'>   
+        <ul class="pagination">
+            <?php 
+            echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
+            echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
+            echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
+            ?>   
+        </ul>
+    </div>
 </div>
+
+<?php echo $this->Js->writeBuffer(); ?>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -105,23 +116,25 @@ $(document).ready(function(){
 
             var id = $(this).attr('name');
             $.ajax({
-            url : "deleteLesson",
-            data : {id : id},
-            type : 'post',
-            dataType : 'text',
-            complete : function(data){
-                if (data.responseText == 1) {
-                    $('.lesson[lessonid='+id+']').fadeOut();
-                    alert('Deletion success');
-                }else{
-                    alert('can not  delete');
-                }
-            },
-            /*error : function(){
-                
-            }*/
-        })
-   }
+                url : "deleteLesson",
+                data : {id : id},
+                type : 'POST',
+                dataType : 'text',
+                complete : function(data){
+                    var res = $(this).attr('class');
+                    res = data.responseText.split("|");
+                    if (res[0] == 1) {
+                        $('.lesson[lessonid='+id+']').fadeOut();
+                        alert('Deletion success');
+                    }else{
+                        alert('can not  delete');
+                    }
+                },
+                /*error : function(){
+                    
+                }*/
+            })
+        }
 
     })
     $('#search-input').on('input',function(e){

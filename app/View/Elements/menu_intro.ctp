@@ -374,6 +374,7 @@ user => comment, index
 		<?php //search form ?>
 		<?php
 				echo $this->Form->create(null, array(
+				'type' => 'get',
 				'controller' => 'search',
 				'url' => array(
 						'controller' => 'Search',
@@ -386,6 +387,7 @@ user => comment, index
 						'keyword',
 						array(
 							'label' => '',
+							'name' => 'keyword',
 							'class' => 'form-control',
 							'placeholder' => __('Enter a keyword'),
 							'div' => array(

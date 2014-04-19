@@ -1,7 +1,8 @@
 <?php
 class TeacherController extends AppController {
-    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson');
-    public $helpers = array('Html');    
+    public $uses = array('User', 'Teacher', 'Lesson', 'Comment', 'LessonCategory', 'LessonReference', 'LessonTransaction', 'RateLesson', 'ReportLesson','Data');
+    public $helpers = array('Html'); 
+    public $components = array('Paginator');   
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('register','login'); //Allow all
@@ -48,7 +49,7 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
 
-                if (strlen($data['username']) < 6) {
+                if (strlen($data['username']) < 2) {
                     $error['username'][3] = 'Username is too short.';
                     $check_user = false;
                 }
@@ -95,7 +96,7 @@ class TeacherController extends AppController {
                     $check_user = false;
                 }
 
-                if (strlen($data['password']) < 8) {
+                if (strlen($data['password']) < 6) {
                     $error['password'][3] = 'Password is too short.';
                     $check_user = false;
                 }
@@ -312,12 +313,20 @@ class TeacherController extends AppController {
 
     function Profile($id = null) {
         if ($this->Auth->loggedIn()) {
-            if ($this->Auth->User('admin_id') && $id!= null){
+            if ($id!= null){
                 $pid = $id;        
             }
-            else{               
+            else if ($this->Auth->user('role') !== 'R1' ){               
                 $pid=$this->Auth->User('user_id');                            
             }
+            else{
+                die;
+            }
+            $isOther = true;
+            $user = $this->Auth->User();
+            if (isset($user['user_id']) && $pid == $user['user_id']){
+                $isOther = false;
+            }            
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
@@ -327,6 +336,7 @@ class TeacherController extends AppController {
                 $this->Session->setFlash(__('Forbidden error'));
             }        
             $this->set("data", $data);
+            $this->set('isOther',$isOther);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
                 $data1 = $this->Teacher->find('first', array(
@@ -419,37 +429,46 @@ class TeacherController extends AppController {
         )
       )
       );   
-        $lesson = $this->Lesson->find('all', array(
+
+        $pagination = array(
+            'limit' => 5,
             'contain' => array(
                 'RateLesson' => array(                    
                     'fields' => array(      
                             'AVG(RateLesson.rate) as rate',                                
                         )
                     )
-                ),            
-            'conditions' => array(
-                'Lesson.author' => $this->Auth->user('user_id')
-            )
-        ));
+                ),
+            'conditions' =>  array('Lesson.author' => $this->Auth->user('user_id')),
+            'order' => array('Lesson.name' => 'asc')
+        );
+        
+        $this->Paginator->settings = $pagination;
+        $lesson = $this->Paginator->paginate('Lesson'); 
+        
         foreach ($lesson as $index=>$ls):
             $lesson[$index]['Lesson']['rate'] = 0;
             if (isset($ls['RateLesson'][0]['RateLesson'][0]['rate'])){
                 $lesson[$index]['Lesson']['rate'] = $ls['RateLesson'][0]['RateLesson'][0]['rate'];
             }
             unset($lesson[$index]['RateLesson']);
-        endforeach;        
+        endforeach;     
         $this->set('lesson', $lesson);
    }
+
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
             $id = $this->request->data['id'];            
             if($this->Lesson->delete($id)){
-                echo '1';
-                die;
+                echo "1|";
+                //die;
+            }else{
+                echo "0|";
+                // echo json_encode(array("res"=> 1));
+                //die;
             }
        }
-       echo '0';
-       die;
+       
    }
 
     function Statistic() {

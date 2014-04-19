@@ -141,7 +141,8 @@
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Test File') ?></label>
 			<div class="col-sm-8">
-				<input type="file" name="test" onchange = "on_document_input.call(this)">
+				<!-- <input type="file" name="test"> -->
+				<input type="file" name="test[]" onchange = "on_document_input.call(this)">
 				<?php if(isset($error) && isset($error['test']))echo "<div class='text-danger'>".$error['test']."</div>"; ?>
 			</div>
 		</div>
