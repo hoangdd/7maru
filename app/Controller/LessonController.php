@@ -144,19 +144,21 @@ class LessonController extends AppController {
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
+					if ($_FILES['document']['name'][$i]) {
 					if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
 						$error['test'] = __('Unsupported Test File Format');
 					} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 						$error['test'] = __('Test File Too Big');
 					}
-					//テストファイルの構造は正しいかどうかをチェックする。
-					$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
+					//テストファイルの構造は正しいかどうかをチェックする。					
+					$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');								
 					if($fileReader){
 						while (($line = fgets($fileReader)) !== false) {
-
+				
 						}
 					} else {
 						$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+					}
 					}
 				}
 			
