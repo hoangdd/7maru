@@ -46,7 +46,7 @@ class Lesson extends AppModel {
     }
 	public  function beforeSave($option = array()){
 		$data = $this->data['Lesson'];
-
+		$this->log($this->data['Lesson'], 'hlog');
 		if(	!empty($data['cover'])&&
 			!empty($data['cover']['tmp_name'])&&
 			!empty($data['cover']['name'])
@@ -59,10 +59,12 @@ class Lesson extends AppModel {
 			move_uploaded_file($data['cover']['tmp_name'], LESSON_COVER_DIR.DS.$filename.'.'.$ext);
 			$data['cover'] = $filename.'.'.$ext;
 			$this->data['Lesson'] = $data;
-		}elseif(!empty($data['cover'])){
+		}else{
 			//phan biet truong hop create va update
 			if( empty($data['coma_id']))
 				$data['cover'] = DEFAULT_COVER_IMAGE;
+			else
+				unset($data['cover']);
 		}
 		$this->data['Lesson'] = $data;
 	}
