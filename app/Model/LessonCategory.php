@@ -7,7 +7,13 @@ class LessonCategory extends AppModel {
 
         } else {
             $dataArr = array();
+            $ids = $this->find('list', array(
+                'fields' => array('id'),
+                ));
+            $this->deleteAll(array('id' => $ids));
             foreach($categories as $category){
+
+                //check if exsit
                 $saveData = array(
                     'LessonCategory' => array(
                         'coma_id' => $lesson_id,
@@ -23,6 +29,7 @@ class LessonCategory extends AppModel {
     public function get_Lesson_categories($coma_id){
         $tags = array();
         $categories = $this->findAllByComaId($coma_id);
+        $this->log($categories,'hlog');
         // debug($categories);
         if($categories){
             foreach($categories as $category){

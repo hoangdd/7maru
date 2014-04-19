@@ -69,7 +69,6 @@ class LessonController extends AppController {
 			}						
 			
 			//　授業のカテゴリを全部GET
-			
 			$tagsId = $this->LessonCategory->get_Lesson_categories($lesson['coma_id']);
 			$tags= $this->Category->get_all_category_name($tagsId);
 			$lesson['tags'] = $tags;
@@ -358,9 +357,8 @@ class LessonController extends AppController {
 				// save Lesson Category
 				if($lesson && !empty($data['category'])){					
 					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);					
-					$this->Session->setFlash(__('Create lesson successfully'));
+					$this->Session->setFlash(__('Update lesson successfully'));
 				}
-				
 				// Save Lesson files
 
 				//reformat array
