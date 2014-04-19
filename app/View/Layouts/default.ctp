@@ -36,11 +36,18 @@ header('Expires: 0'); // Proxies.
 
 		// echo $this->Html->css('cake.generic');
 		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'docs', 'common'));
-		echo $this->Html->script(array('jquery.js','bootstrap.js','jquery.gdocsviewer.js'));
+		echo $this->Html->script(array('jquery.js','bootstrap.js'));
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+	?>
+	<?php 
+		App::uses('Component', 'AuthComponent');
+		$user = AuthComponent::user();
+		if( !empty($user)){
+			echo $this->Html->script(array('common.js'));
+		}
 	?>
 </head>
 <body>
