@@ -1173,10 +1173,27 @@ function deleteFile($file_id = null){
                 $data[$index]['Config']['value'] = $value;
                 $index++;
             endforeach;        
-            $fieldList = array('value');                    
+            $fieldList = array('value');  
             if ($this->Config->saveMany($data,array('fields' => $fieldList) ) ){
                 $this->Session->setFlash(__('Successfully'));
             }
+            
+            //update backup period automatically
+            $periodTime = intval($data['0']['Config']['value']);
+            $content_toPUSTH = "# Backup system";
+            $content_toPUSTH .= "\n";
+            $content_toPUSTH .= "# @Author by khaclinh,dev in E-learning T-06 \n";
+            $content_toPUSTH .= "*/".$periodTime." * * * * ";
+            $content_toPUSTH .= BACKUP_COMMAND."backup-shell.sh \n";
+            
+            if(file_put_contents(BACKUP_COMMAND.'backup-execute', $content_toPUSTH))
+            	echo "write file sussessfully";
+            else 
+            	echo "write file failed";
+            
+            echo exec('crontab '.BACKUP_COMMAND.'backup-execute');
+            //END OF BACKUP
+            
             $data = $configs;
         }
         if (!isset($data) || empty($data) ){
@@ -1328,7 +1345,7 @@ function deleteFile($file_id = null){
     }
     
     function backupManage(){
-    	$path = '/home/khaclinh/itjap/backup_store/';
+    	$path = BACKUP_STORE;
     	$results = scandir($path);
     	$itemp = 0;
     	foreach ($results as $result) {
@@ -1343,22 +1360,29 @@ function deleteFile($file_id = null){
     			$itemp++;
     		}
     	}
-    	
+    	if(isset($backup_history))
     	$this->set('backup_history',$backup_history);
     }
     
     function backupDelete(){
     	$directDel = $this->params['url']['backup_folder'];
-    	$output = shell_exec('rm -rf /home/khaclinh/itjap/backup_store/'.$directDel);
+    	$command = 'rm -rf '.BACKUP_STORE.$directDel;
+    	$output = shell_exec($command);
+    	$dir = BACKUP_STORE.'$directDel';
     	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
     }
     
     function backupRestore(){
     	$directDel = $this->params['url']['backup_folder'];
-    	$dir = '/home/khaclinh/itjap/backup_store/';
+    	$dir = BACKUP_STORE;
     	$output = shell_exec('mysql -u root -p 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
     	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
     	 
+    }
+    
+    function manualBackup() {
+    	exec('sh '.BACKUP_COMMAND.'backup-shell.sh');
+    	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
     }
     ///==================
     /// end code by @dac

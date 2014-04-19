@@ -1,3 +1,6 @@
+<?php
+	if(isset($backup_history)) {
+?>
 <style type="text/css">
  .no-col, .del-ip-col, .edit-ip-col{
  	text-align: center;
@@ -6,7 +9,17 @@
 
 <!-- header -->
 <h3 style="text-align:center">
-	<?php echo __('Backup System').' '.__('Manage') ?>
+	<?php echo __('Backup System').' '.__('Manage'); 
+	echo $this->Html->link("すぐにバックアップする", array(
+											'controller' => 'Admin',
+											'action' => 'manualBackup'
+											
+										),
+										array(
+												'class' => "list-group-item"
+										)
+									);
+	?>
 </h3>
 <!-- table -->
 <div class="">
@@ -19,29 +32,29 @@
 					<?php echo __('No') ?>
 				</th>
 
-				<th class='ip-col' style="width:60%">
+				<th class='ip-col' style="width:50%">
 					<?php echo __('Backup History') ?>
 				</th>
 
-				<th class='del-ip-col' style="width:15%">
+				<th class='del-ip-col' style="width:20%">
 					<?php echo __('Delete').' '.__('Backup') ?>
 				</th>
 
-				<th class='edit-ip-col' style="width:15%">
+				<th class='edit-ip-col' style="width:20%">
 					<?php echo __('Restore') ?>
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php 
-			echo $this->Form->create('AdminIp',
+			echo $this->Form->create('AdminBackup',
 		  		array( 'url' => array('controller' => 'Admin', 'action' => 'backupManage')
 		  			)
 		  			);
 			foreach($backup_history as $key => $value) {
 			echo"<tr>
 				<td class='no-col'>";
-			echo $this->Form->input('AdminIp.IpId', array(
+			echo $this->Form->input('AdminBackup.Id', array(
 					    	'type' => 'text',
 					    	'class' => 'form-control',
 					    	'value' => $key,
@@ -88,3 +101,6 @@
 </div>
 
 
+<?php 
+	}
+?>

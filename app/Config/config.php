@@ -102,6 +102,9 @@ define('HTML_DATA_DIR', DATA_DIR.DS.'html');
 //define('HTML_DATA_DIR','js/test');
 define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
+define('BACKUP_COMMAND','/var/www/7maru/backups/');
+define('BACKUP_STORE','/home/khaclinh/itjap/backup_store/');
+
 
 Configure::write('srcFile', array(
 	'image' => array(
