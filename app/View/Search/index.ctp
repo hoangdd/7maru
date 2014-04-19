@@ -118,7 +118,7 @@
 <?php echo $this->Html->scriptEnd();?>
 <!-- <div class='panel' style='width:1000px;height:1000px;position:fixed;z-index=5;'></div> -->
 <div>
-	<input name = 'keyword' value = '<?php if(isset($keyword)) echo $keyword;?>'>
+	<input name = 'keyword' value = '<?php if(isset($data['keyword'])) echo $data['keyword'];?>'>
 	<button class='search-button'><?php echo __('Search');?></button>
 	<button class='advanced-search'><?php echo __('Show advanced search');?></button>
 </div>
