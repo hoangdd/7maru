@@ -15,24 +15,28 @@
 <?php 
 	if( in_array($ext, $config['swf']['extension']) ){
 ?>
+<div class="load-file">
 <script type="text/javascript">
 	$(document).ready(function(){
 		if( typeof view_swf_file == 'function'){
-			view_swf_file("<?php echo $file['Data']['file_id'];?>");
+			view_swf_file("<?php echo $file['Data']['file_id'].'?token='.$token;?>");
 		}
 	});
 </script>
+</div>
 <?php 
 	}
 	if( in_array($ext, $config['audio']['extension']) || in_array($ext, $config['video']['extension']) ){
 ?>
+<div class="load-file">
 <script type="text/javascript">
 	$(document).ready(function(){
 		if( typeof view_media_file == 'function'){
-			view_media_file("<?php echo $file['Data']['file_id'];?>", "<?php echo $file['Data']['type'];?>");
+			view_media_file("<?php echo $file['Data']['file_id'].'?token='.$token;?>", "<?php echo $file['Data']['type'];?>");
 		}
 	});
 </script>
+</div>
 <?php 
 	}
 ?>
@@ -40,13 +44,15 @@
 <?php
 if( in_array($ext, $config['img']['extension']) ){
 ?>
+<div class="load-file">
 <script type="text/javascript">
 	$(document).ready(function(){
 		if( typeof view_image_file == 'function'){
-			view_image_file("<?php echo $file['Data']['file_id'];?>");
+			view_image_file("<?php echo $file['Data']['file_id'].'?token='.$token;?>");
 		}
 	});
 </script>
+</div>
 <?php
 }
 ?>
@@ -63,6 +69,7 @@ if( in_array($ext, $config['img']['extension']) ){
 
 <script type="text/javascript">
 	$("document").ready(function(){
+		$('.load-file').remove();
 		document.addEventListener("contextmenu", function(e){
 	    e.preventDefault();
 			}, false);
