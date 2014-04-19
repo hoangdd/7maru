@@ -5,7 +5,8 @@ class StudentController extends AppController {
 	public $uses = array (
 			'User',
 			'Student',
-			'Data' 
+			'Data' ,
+			'TestResult'
 			
 	);
 
@@ -426,14 +427,14 @@ class StudentController extends AppController {
 
 	function DoTest() {
 		if (! $this->request->is ( "post" )) {
+			
 		} else {
-				echo "inhlinhdfasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+			
 			$values = $this->request->data['testfilegettest'];
 			$values = str_replace(".js",".tsv",$values);
 			$this->set('testfilegettest',$values);
 			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
 			$totques=count($this->request->data['hid']);
-		
 			$temp = 0;$mark = 0;
 			$markGET = 0;
 			$markTotal = 0;
@@ -471,6 +472,7 @@ class StudentController extends AppController {
 					}
 				}
 			}
+			$values = str_replace(".tsv","",$values);
 			$dataResult = array(
 				'file_id' => $values,
 				'score' => $markGET,
@@ -480,28 +482,28 @@ class StudentController extends AppController {
 				'hit' => $temp,
 				'result' => serialize($choosed)
 			);
-			print_r($dataResult);
 			$this->TestResult->create($dataResult);
 			$this->TestResult->save();
 			$this->redirect(array(
 					'controller' => 'Student',
-					'action' => 'result',
-					$values
+					'action' => 'result?view='.$this->TestResult->getLastInsertID(),
 			));
 			
 	}
 	
 	}
+	
 
-	function Result($values){
-			$result = $this->TestResult->find('fist',array(
+	function Result(){
+			$values = $this->params['url']['view'];
+			$result = $this->TestResult->find('first',array(
 				'condition' => array(
-					'TestResult.file_id' => $values	
+					'TestResult.result_id' => $values	
 			)
 			));
-			print_r($values);
+			$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
 			
-			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values.'.tsv');
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
 			
 			$this->set('hit',$result['TestResult']['hit']);
 			$this->set('total',$result['TestResult']['total_ques']);
