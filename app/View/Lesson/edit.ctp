@@ -53,7 +53,7 @@
 
 		$('.del-file').click(function(e){
 			e.preventDefault();
-			$(this).parent('.list-group-item').fadeOut(600);
+			$(this).parents('.file-element').fadeOut(600);
 			file_id = $(this).attr('file_id');
 			current = $('.list-file-del').val();
 			$('.list-file-del').val(current + file_id +',');
@@ -172,6 +172,7 @@
 						<?php
 							foreach ($lesson_data['Data'] as $key => $value) {
 								if( !$value['isTest']){
+									echo '<div class="file-element">';
 									echo $value['file_name'];
 									echo $this->Html->link('Delete', '#', array(
 										'class' => 'del-file' ,
@@ -190,6 +191,7 @@
 											)
 									);
 									echo '<hr>';
+									echo '</div>';
 								}
 							}
 
@@ -210,13 +212,15 @@
 						<?php
 							foreach ($lesson_data['Data'] as $key => $value) {
 								if($value['isTest']){
+									echo '<div class="file-element">';
 									echo $value['file_name'];
-									 echo $this->Html->link('Delete', '#', array(
+									echo $this->Html->link('Delete', '#', array(
 									 	'file_id'=> $value['file_id'],
 									 	'class' => 'del-file',
 									 	'style' => 'float:right;margin:10px;'
 									 	));
 									echo '<hr>';
+									echo '</div>';
 								}
 							}
 
@@ -232,7 +236,10 @@
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Lesson Image') ?></label>
 			<div class="col-sm-8">
-				<?php echo $this->Html->image(LESSON_COVER_LINK.$lesson['cover']);?>
+				<?php echo $this->Html->image(LESSON_COVER_LINK.$lesson['cover'], array(
+					'width' => '150px',
+					'height' => '200px'
+				));?>
 				<br>
 				<br>
 				<div>
