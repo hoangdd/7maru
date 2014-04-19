@@ -43,7 +43,7 @@ class LoginController extends AppController {
         $this->Auth->autoRedirect = false;
         $this->Auth->allow('confirmVerifycode');
         $this->Auth->allow('Login/index');
-        $this->Auth->allow('Home/index');
+        $this->Auth->allow('logout');
         
     }
     function index() {        
@@ -64,7 +64,7 @@ class LoginController extends AppController {
 			if (isset($this->request->data['User'])){                
                     $data = $this->request->data['User'];
                     $isCheckIp = true;
-                     if (!isset($_SESSION['isValidIp'][$data['username']])){
+                    if (!isset($_SESSION['isValidIp'][$data['username']])){
                          $_SESSION['isValidIp'][$data['username']] = true;
                     }  
                     if (!$_SESSION['isValidIp'][$data['username']]){
@@ -115,22 +115,25 @@ class LoginController extends AppController {
                     $login_ip = $this->Auth->user('login_ip');
                     $isCheckIp = true;
                     if (empty($login_ip)){                      
-                         $isCheckIp = false;
+                        $clientIp = $this->request->clientIp();                        
+                        $this->User->id = $this->Auth->user('user_id');
+                        $this->User->saveField('login_ip', $clientIp,array('callbacks' => false));
                     }                                    
-                    if ($isCheckIp){                        
+                    else {                        
                         if (!$this->_isValidIp($clientIp, $this->Auth->user('login_ip'))){
                             $_SESSION['isValidIp'][$data['username']] = false;                            
-                            $this->Session->setFlash(__('Login with invalid IP'));
-                            $this->Auth->logout(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],2));  
+                            $this->Session->setFlash(__('Login with invalid IP'));                              
+                            $this->Auth->logout();
+                            $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],2));  
 
                         }               
-                    }     
+                    } 
                     $this->Session->write('Auth.User.role', 'R2');                                                                            
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
                 $this->Session->setFlash(__("Login success"));                    
-                return $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect($this->Auth->loginRedirect);
             } 
             else {
             //Login fail                                
@@ -139,7 +142,9 @@ class LoginController extends AppController {
                 ++$_SESSION['count_to_block'][$data['username']];
                 // fail many times enough to block
                 if ($_SESSION['count_to_block'][$data['username']] == $errorLoginTimes){
-                    $_SESSION['start_block_time'][$data['username']] = time();                    
+                    $_SESSION['start_block_time'][$data['username']] = time();                     
+                    $blockTime = Configure::read('customizeConfig.block_time');                                                
+                    $this->set('isBlock',$blockTime);                    
                 }
             }    
         }
@@ -393,8 +398,7 @@ class LoginController extends AppController {
                     else{                        
                         $_SESSION['isValidIp'][$username] = true;                        
                         $clientIp = $this->request->clientIp();                        
-                        $this->User->id = $result['User']['user_id'];
-                        debug($result);
+                        $this->User->id = $result['User']['user_id'];                        
                         $this->User->saveField('login_ip', $clientIp,array('callbacks' => false));
                     }
                     $this->redirect(array('controller' => 'Login','action' => 'index'));

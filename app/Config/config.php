@@ -57,7 +57,8 @@ Configure::write('userRoles', array(
 		'search' => '*',
 		'user' => '*',
 		'teacher' => '*',
-		'data' => '*',			
+		'data' => '*',
+		'student' => array('exam','profile','dotest'),
 		'cakeerror' => '*'
 		),
 
@@ -79,7 +80,7 @@ Configure::write('userRoles', array(
 	//guest
 	'R4' => array(
 		'home' => '*',
-		'login' => array('index'),
+		'login' => array('index','confirmverifycode','logout'),
 		'admin' => array('login'),
 		'search' => '*',
 		'student' => array('profile', 'register'),

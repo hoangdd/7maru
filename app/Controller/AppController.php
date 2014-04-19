@@ -60,16 +60,15 @@ class AppController extends Controller {
             'authError' => 'You don\'t have permission to view this page',
         ),
     );
-     public function beforeFilter() {
+     public function beforeFilter() {        
         parent::beforeFilter();
         if(!$this->__permission()){            
             echo '403 Forbidden error.';
-            //die;
+            die;
         }
     }
     private function __permission($user_role = null, $current_controller = null){
-        $role = isset($user_role) ? $user_role : $this->Auth->user('role');
-
+        $role = isset($user_role) ? $user_role : $this->Auth->user('role');       
         if( !is_array($current_controller)){
             $current_controller = array();
         }
@@ -80,12 +79,10 @@ class AppController extends Controller {
 
         //string to lowwer
         $controller['controller'] = strtolower($controller['controller']);
-        $controller['action'] = strtolower($controller['action']);
-
+        $controller['action'] = strtolower($controller['action']);        
         if( empty($role)) $role = 'R4'; //guest
-
         $userRolesData = Configure::read('userRoles');
-        $userRoles = $userRolesData[$role];
+        $userRoles = $userRolesData[$role];        
         if( empty($userRoles) ) return false; //invalid role;
 
         if( isset($userRoles['*']) && $userRoles['*']=='*') return true;

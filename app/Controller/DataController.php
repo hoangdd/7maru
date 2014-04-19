@@ -25,6 +25,7 @@ class DataController extends AppController {
 		}
 		$lessonId = $file['Data']['coma_id'];
 		$lesson = $this->Lesson->findByComaId($lessonId);		
+		$authorId = $lesson['Lesson']['author'];
 		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
 			echo '<div class="alert alert-success">'.__('The file is blocked').'</div>';			
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));
@@ -51,6 +52,12 @@ class DataController extends AppController {
 			if (!$result){				
 				echo '<div class="alert alert-success">'.__('Forbidend error').'</div>';
 				die;
+			}
+			$this->loadModel('BlockStudent');
+			$result = $this->BlockStudent->isBlock($user['user_id'],$authorId);
+			if ($result){
+				//$this->Session->setFlash(__('You are blocked by author'));
+				$this->redirect(array('controller' => 'Home','action' => 'index'));
 			}
 		}
 		$this->autoLayout = false;

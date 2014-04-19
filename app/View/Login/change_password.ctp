@@ -5,7 +5,6 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 <div class="col-md-4 users form">
     <form id='changePassword' role='form' type="form" method="post">
         <h1><?php echo __('Change Password');?></h1>
-
         <div class="form-group">
             <label for="currentPassword"><?php echo __('Current Password');?></label>
             <input type="password" id='currentpw' name='current-pw' class="form-control">

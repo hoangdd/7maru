@@ -59,16 +59,26 @@
 			$('.list-file-del').val(current + file_id +',');
 		});
 	}
-	function on_document_input(){
-		var document_input = $(".document-input");
+	var on_document_input = function(){				
+		var document_input = $(this).parent().find('input');		
 		var needadd = true;
-		for(var i=0, len=document_input.length ; i<len; i++){
+		var isExisted = new Array();
+		for(var i=0, len=document_input.length ; i<len; i++){			 		
 			if(document_input[i].value == ""){
 				needadd = false;
 				break;
 			}
+			if (isExisted[document_input[i].value] == null) {
+				isExisted[document_input[i].value] = true;
+			}
+			else{
+				alert("<?php  echo __('Duplicate upload') ?>");
+				needadd = false;
+				document_input[i].value = "";
+				break;
+			}
 		}
-		if(needadd) add_new_document_input();
+		if(needadd) add_new_document_input($(this));
 	}
 	function hide_Checkbox_with(key){
 		$('.checkbox-name').each(function(wrapper){
@@ -95,8 +105,8 @@
 			}
 		})
 	}
-	function add_new_document_input(){
-		$('#document-input-wrapper').append('<p></p><input type="file" name="document[]" class = "document-input form-control" onchange = "on_document_input()">');
+	function add_new_document_input(file_input){							
+		$(file_input).parent().append($(file_input)[0].outerHTML);
 	}
 </script>
 <h1><?php echo __('Edit lesson') ?></h1>
@@ -228,7 +238,7 @@
 						<!-- <button class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></button> -->
 					</div>
 				</div>
-				<input type="file" name="test" class = "form-control">
+				<input type="file" name="test[]" onchange = "on_document_input.call(this)">
 				<?php if(isset($error) && isset($error['test']))echo "<div class='text-danger'>".$error['test']."</div>"; ?>
 			</div>
 		</div>

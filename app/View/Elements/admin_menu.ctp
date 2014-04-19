@@ -23,9 +23,7 @@
 		  </li>
 		  <li id= 'createAdmin'>
 		  	<?php  echo $this->Html->link(__('Create another admin'),array('action' => 'createAdmin')) ?>
-		  </li>
-		  <li id= 'userManage'>
-		  	<?php  echo $this->Html->link(__('User Manage'),array('action' => 'userManage')) ?>		
+		  </li>	
 		  <li id = 'lessonManage'>
 		  		<?php  echo $this->Html->link(__('Lesson Manage'),array('action' => 'lessonManage')) ?>	
 		  </li>

@@ -92,3 +92,11 @@ if( in_array($ext, $config['img']['extension']) ){
 	echo $this->element('comment', $option);
 ?>
 
+<script>
+	$("document").ready(function(){
+		document.addEventListener("contextmenu", function(e){
+	    e.preventDefault();
+			}, false);
+	})
+</script>
+

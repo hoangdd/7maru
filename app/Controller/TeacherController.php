@@ -757,4 +757,13 @@ class TeacherController extends AppController {
         }
 
     }
+
+    function block(){
+        if ($this->Auth->loggedIn()){
+            $teacherId = $this->Auth->user('user_id');
+            if ($this->request->is('post')){
+
+            }
+        }
+    }
 }

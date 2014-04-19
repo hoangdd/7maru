@@ -30,11 +30,12 @@ class LessonController extends AppController {
 			//$this->Lesson->increaseView($id);
 
 			// データベースから、授業の情報を取得
+
 			$this->Lesson->bindModel(array(			
 			'hasMany' => array(				
 				'File' => array(
 					'className' => 'Data',
-					'foreignKey' => 'coma_id'
+					'foreignKey' => 'coma_id' 
 					)				
 				),
 			));			
@@ -62,9 +63,17 @@ class LessonController extends AppController {
 			$user = $this->Auth->user();
 			// debug($user);
 			$lesson['buy_status'] = 1;						
-			if ($user['role'] == 'R3'){
+			if ($user['role'] == 'R3'){				
 				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
 					$lesson['buy_status'] = 0;
+				}
+				$student_id = $user['user_id'];
+				$teacher_id = $author['user_id'];
+				$this->log($student_id,'hlog');$this->log($teacher_id,'hlog');
+				$this->loadModel('BlockStudent');
+				if ($this->BlockStudent->isBlock($student_id,$teacher_id)){
+					//$this->Session->setFlash(__('You are blocked by author'));
+					$this->redirect(array('controller' => 'Home','action' => 'index'));
 				}
 			}						
 			
@@ -132,7 +141,7 @@ class LessonController extends AppController {
 			}				
 			if(!empty($_FILES['cover-image']['name'])){
 				//Check if image format is supported
-				if(!preg_match('/\.(jpg|png|gif|jpeg)$/',$_FILES['cover-image']['name'])){
+				if(!preg_match('/\.(jpg|png|gif|tif|jpeg|png)$/',$_FILES['cover-image']['name'])){
 					$error['image'] = __('Unsupported Image Format');
 				} else if($_FILES['cover-image']['size'] > MAX_COVER_SIZE*UNIT_SIZE){
 					$error['image'] = __('Image Size Too Big');
@@ -143,20 +152,21 @@ class LessonController extends AppController {
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
-					if ($_FILES['document']['name'][$i]) {
-					if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
-						$error['test'] = __('Unsupported Test File Format');
-					} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
-						$error['test'] = __('Test File Too Big');
-					}
-					//テストファイルの構造は正しいかどうかをチェックする。					
-					$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');								
-					if($fileReader){
-						while (($line = fgets($fileReader)) !== false) {
-				
+					if ($_FILES['test']['name'][$i]){
+						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
+							$error['test'] = __('Unsupported Test File Format');
+						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
+							$error['test'] = __('Test File Too Big');
 						}
-					} else {
-						$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+					//テストファイルの構造は正しいかどうかをチェックする。
+						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
+						if($fileReader){
+							while (($line = fgets($fileReader)) !== false) {
+
+							}
+						} else {
+							$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+						}
 					}
 					}
 				}
@@ -238,8 +248,7 @@ class LessonController extends AppController {
 							}
 						}
 					}
-				}           				
-				$this->log($test,'hlog');
+				}           								
 				foreach($test as $key=>$value){
 					if(!(isset($value['error'])&&$value['error']!=0) ){											
 						$value['coma_id'] = $lesson['Lesson']['coma_id'];
@@ -306,23 +315,28 @@ class LessonController extends AppController {
 				}
 			}
 
-			if(!empty($_FILES['test']['name'])){
+			if(!empty($_FILES['test']['name'][0])){
 				//Check if image format is supported
-				if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'])){
-					$error['test'] = __('Unsupported Test File Format');
-				} else if($_FILES['test']['size'] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
-					$error['test'] = __('Test File Too Big');
-				}
+				$len = count($_FILES['document']['name']);
+				for($i = 0, $len; $i < $len; $i++){
+					if ($_FILES['test']['name'][$i]){
+						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
+							$error['test'] = __('Unsupported Test File Format');
+						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
+							$error['test'] = __('Test File Too Big');
+						}
+					//テストファイルの構造は正しいかどうかをチェックする。
+						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
+						if($fileReader){
+							while (($line = fgets($fileReader)) !== false) {
 
-				//テストファイルの構造は正しいかどうかをチェックする。
-				$fileReader = fopen($_FILES['test']['tmp_name'],'r');
-				if($fileReader){
-					while (($line = fgets($fileReader)) !== false) {
-
+							}
+						} else {
+							$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+						}
 					}
-				} else {
-					$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
 				}
+			
 			}
 			// for($i = 0, $len = $);			
 			if(!empty($_FILES['document']['name'][0])){
@@ -389,13 +403,23 @@ class LessonController extends AppController {
 
 				//Test file upload
 
-				// save data   
-				$testFile = $_FILES['test'];
-				if(!(isset($testFile['error'])&&$testFile['error']!=0) ){
-					$testFile['coma_id'] = $lesson['Lesson']['coma_id'];
-					$testFile['isTest'] = true;					
-					$this->Data->create(array('Data' => $testFile));
-					$this->Data->save();    
+				$test = array();
+				if($_FILES['test']){
+					foreach ($_FILES['test'] as $k1 => $v1) {
+						foreach ($v1 as $k2 => $v2) {
+							if( !empty($v2)){
+								$test[$k2][$k1] = $v2;
+							}
+						}
+					}
+				}           								
+				foreach($test as $key=>$value){
+					if(!(isset($value['error'])&&$value['error']!=0) ){											
+						$value['coma_id'] = $lesson['Lesson']['coma_id'];
+						$value['isTest'] = true;					
+						$this->Data->create($value);
+						$this->Data->save();    
+					}					
 				}
 
 				//delete files
@@ -472,8 +496,10 @@ class LessonController extends AppController {
 			));
 		//check is block or not
 
-	$lessonId = $file['Data']['coma_id'];
+		$lessonId = $file['Data']['coma_id'];
 		$lesson = $this->Lesson->findByComaId($lessonId);		
+		$this->loadModel('User');
+		$authorId = $lesson['Lesson']['author'];
 		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
 			$this->Session->setFlash(__('The file is blocked'));
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));
@@ -499,6 +525,14 @@ class LessonController extends AppController {
 			if (!$result){
 				$this->Session->setFlash(__("Forbidden error"));				
 				$this->redirect($this->referer());
+			}
+
+			//check if user is block by author
+			$this->loadModel('BlockStudent');
+			$result = $this->BlockStudent->isBlock($user['user_id'],$authorId);
+			if ($result){
+				//$this->Session->setFlash(__('You are blocked by author'));
+				$this->redirect(array('controller' => 'Home','action' => 'index'));
 			}
 		}
 		$this->set('file', $file);

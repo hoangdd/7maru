@@ -12,10 +12,10 @@
   $lesson['created_date'] = preg_split("/ /", $lesson['created']);
   $lesson['created_date'] = $lesson['created_date'][0]; 
   $reportLink = null;
-  if ($_SESSION['Auth']['User']['role'] == '2'){
+  if ($_SESSION['Auth']['User']['role'] == 'R2'){
      $reportLink = $this->Html->url(array('controller' => 'Teacher','action' => 'reportTitle',$lesson['coma_id']));     
   }
-  else if ($_SESSION['Auth']['User']['role'] == '3'){
+  else if ($_SESSION['Auth']['User']['role'] == 'R3'){
      $reportLink = $this->Html->url(array('controller' => 'Student','action' => 'reportCopyright',$lesson['coma_id']));     
   }
 
@@ -34,7 +34,7 @@
       )); 
      echo "<h3 style = 'font-weight:bold;color:red'>".$lesson['name'].'</h3>';
      if ($reportLink !== null){
-      echo '<button id = "report_button" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-warning-sign"></span></button>';
+      echo '<button id = "report_button" type="button" class="btn btn-danger data-toggle="tooltip" data-placement="top" title="' .__('Report Violation'). '"><span class="glyphicon glyphicon-warning-sign"></span></button>';
     }
      echo '<p></p>';
     			//_____________________
@@ -230,6 +230,7 @@
 
 <script>
   $(document).ready(function(){
+    $('#report_button').tooltip();
     $("#buy-button").click(function(){      
       var r = confirm("<?php echo __('Confirm') ?>");      
       var coma_id = <?php echo $lesson['coma_id'] ?>;
@@ -250,11 +251,13 @@
 
     $("#report_button").click(function(){
       var src = "<?php echo $reportLink ?>";
+      var button = $(this);
       $.get(
         src,
         function (data){
           if (data.trim() == '1'){
             alert("<?php echo __('Successfully') ?>");
+            button.replaceWith("");
           }
           else{
            alert("<?php echo __('Error') ?>"); 

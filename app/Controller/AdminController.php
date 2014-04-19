@@ -49,8 +49,8 @@ class AdminController extends AppController {
     function index() {        
     }
 
-    public function beforeFilter() {
-        // parent::beforeFilter ();
+    public function beforeFilter() {        
+        parent::beforeFilter();
         $this->Auth->userModel = 'Admin';        
         $this->Auth->allow('login', 'logout');     
     }
