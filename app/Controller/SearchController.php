@@ -103,12 +103,41 @@ class SearchController extends AppController {
 
 						foreach ($data['Lesson'] as $key => $value) {
 							//search
+							$searchSet = strtolower($value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description']);
 							if( empty($value['LessonCategory']) ){
 								unset($data['Lesson'][$key]);
 							}
 							if( !empty($q['keyword'])){
-								$searchSet = $value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description'];
-								if( strpos($searchSet, $q['keyword']) === false){
+								$keyword = strtolower($q['keyword']);
+								if(strpos($keyword, '+') !==false){
+									$flag = true;
+									// $pos = -1;
+									$keywords = explode('+', $keyword);
+									foreach ($keywords as $v) {
+										$newpos = strpos($searchSet, $v) ;
+										if($newpos === false){
+											$flag = false;
+										}else{
+											// if( $newpos < $pos){
+											// 	$flag = false;
+											// }else{
+											// 	$pos = $newpos;
+											// }
+										}
+									}
+									if( !$flag ) unset($data['Lesson'][$key]);
+								}elseif(strpos($keyword, '-') !==false){
+									$keywords = explode('-', $keyword);
+									$flag = false;
+									foreach ($keywords as $v) {
+										$newpos = strpos($searchSet, $v) ;
+										if($newpos !== false){
+											$flag = true;
+											break;
+										}
+									}
+									if( !$flag ) unset($data['Lesson'][$key]);
+								}elseif( strpos($searchSet, $keyword) === false){
 									unset($data['Lesson'][$key]);
 								}
 							}
@@ -137,16 +166,44 @@ class SearchController extends AppController {
 									'user_type' => 1
 									)
 							));
-						if( !empty($q['keyword'])){
 							foreach ($data['User'] as $key => $value) {
-								//search
-								$searchSet = $value['User']['username'].'|'.$value['User']['lastname'].'|'.$value['User']['address'].'|'
-								.$value['User']['phone_number'].'|'.$value['User']['mail'];
-								if( strpos($searchSet, $q['keyword']) === false){
-									unset($data['User'][$key]);
+								if( !empty($q['keyword'])){
+									$searchSet = strtolower($value['User']['username'].'|'.$value['User']['lastname'].'|'.$value['User']['address'].'|'
+									.$value['User']['phone_number'].'|'.$value['User']['mail']);
+									$keyword = strtolower($q['keyword']);
+									if(strpos($keyword, '+') !==false){
+										$flag = true;
+										// $pos = -1;
+										$keywords = explode('+', $keyword);
+										foreach ($keywords as $v) {
+											$newpos = strpos($searchSet, $v) ;
+											if($newpos === false){
+												$flag = false;
+											}else{
+												// if( $newpos < $pos){
+												// 	$flag = false;
+												// }else{
+												// 	$pos = $newpos;
+												// }
+											}
+										}
+										if( !$flag ) unset($data['User'][$key]);
+									}elseif(strpos($keyword, '-') !==false){
+										$keywords = explode('-', $keyword);
+										$flag = false;
+										foreach ($keywords as $v) {
+											$newpos = strpos($searchSet, $v) ;
+											if($newpos !== false){
+												$flag = true;
+												break;
+											}
+										}
+										if( !$flag ) unset($data['User'][$key]);
+									}elseif( strpos($searchSet, $keyword) === false){
+										unset($data['User'][$key]);
+									}
 								}
-							};
-						}
+							}
 						// debug($data['User']);
 
 						break;
@@ -157,9 +214,36 @@ class SearchController extends AppController {
 						if( !empty($q['keyword'])){
 							foreach ($data['Category'] as $key => $value) {
 								//search
-								$searchSet = $value['Category']['name'].'|'.$value['Category']['description'];
-								if( strpos($searchSet, $q['keyword']) === false){
-									unset($data['Category'][$key]);
+								if( !empty($q['keyword'])){
+									$searchSet = strtolower($value['Category']['name'].'|'.$value['Category']['description']);
+									$keyword = strtolower($q['keyword']);
+									if(strpos($keyword, '+') !==false){
+										$flag = true;
+										$keywords = explode('+', $keyword);
+										foreach ($keywords as $v) {
+											$newpos = strpos($searchSet, $v) ;
+											if($newpos === false){
+												$flag = false;
+												break;
+											}
+										}
+										if( !$flag ) {
+											unset($data['Category'][$key]);
+										}
+									}elseif(strpos($keyword, '-') !==false){
+										$keywords = explode('-', $keyword);
+										$flag = false;
+										foreach ($keywords as $v) {
+											$newpos = strpos($searchSet, $v) ;
+											if($newpos !== false){
+												$flag = true;
+												break;
+											}
+										}
+										if( !$flag ) unset($data['Category'][$key]);
+									}elseif( strpos($searchSet, $keyword) === false){
+										unset($data['Category'][$key]);
+									}
 								}
 							};
 						}

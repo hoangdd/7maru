@@ -43,7 +43,7 @@ $this->Paginator->options(array(
 						<?php echo __('Accept'); ?>
 					</th>
 					<th class='text-center' style="width:5%">
-						<?php echo __('Unaccept'); ?>
+						<?php echo __('アクセプトをしない'); ?>
 					</th>
 				</tr>
 			</thead>

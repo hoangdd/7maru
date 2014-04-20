@@ -632,15 +632,21 @@ class AdminController extends AppController {
 
                     if (filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
                     	//save ip address
-                    	$specificallyThisOne = $specificallyThisOne = $this->IpOfAdmin->find('all', array(
-                    			'contain' => array('AdminIp' ),
+                    	$this->IpOfAdmin->bindModel(array(
+                    		'belongsTo' => array(
+                    			'AdminIp' => array(
+                    				'foreignKey' => 'ip_id'
+                    		)
+                    		)
+                    	));
+                    	$specificallyThisOne = $specificallyThisOne = $this->IpOfAdmin->find('all', array(                    			
 								'conditions' => array(
 										'IpOfAdmin.admin_id' => $retrieveData['Admininput'],
 										'AdminIp.ip' => $ipRetrieved,
 										'IpOfAdmin.ip_id =AdminIp.ip_id'
                     	)));
-                    	
-                    	if(count($specificallyThisOne) > 0){
+                    	//debug($specificallyThisOne);die;
+                    	if(!$specificallyThisOne){
 	                        $this->AdminIp->set('ip', $ipRetrieved);
 	                        $this->AdminIp->save();
 	                        //preparing for saving admin and ip step

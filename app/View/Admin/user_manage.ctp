@@ -47,7 +47,7 @@
 					<?php echo __('Password') ?>
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('verify code') ?>
+					<?php echo __('verify コード') ?>
 				</th>
 			</tr>
 		</thead>
@@ -66,10 +66,10 @@
 					echo $td.$user['User']['created'].$close;				
 					$type = $user['User']['user_type'] == 1 ? 'Teacher': 'Student';
 
-					echo $td.$this->Html->link('Edit',array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Delete',array('controller' => 'User','action' => 'delete',$user['User']['user_id']),array('class' => 'delete_link')).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link('Reset',array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link(__('Edit'),array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link(__('Delete'),array('controller' => 'User','action' => 'delete',$user['User']['user_id']),array('class' => 'delete_link')).$close;
+					echo $td.$this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
 					echo "</tr>";			
 				endforeach;
 			?>

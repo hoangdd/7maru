@@ -51,14 +51,14 @@ Configure::write('userRoles', array(
 	'R2' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson','viewcontent','exam','dotest','result','viewtestresult'),
+		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson','viewcontent','testhistory','exam','dotest','result','viewtestresult'),
 		'login' => '*',
 		'reference' => '*',
 		'search' => '*',
 		'user' => '*',
 		'teacher' => '*',
 		'data' => '*',
-		'student' => array('exam','profile','dotest'),
+		'student' => array('profile'),
 		'cakeerror' => '*'
 		),
 
@@ -66,7 +66,7 @@ Configure::write('userRoles', array(
 	'R3' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('index','view' , 'comment', 'rate', 'viewcontent', 'hotlesson', 'newlesson', 'bestseller', 'recentlesson', 'buy'),
+		'lesson' => array('index','view' , 'comment', 'rate', 'viewcontent', 'hotlesson', 'newlesson', 'bestseller', 'recentlesson', 'buy','viewcontent','testhistory','exam','dotest','result','viewtestresult'),
 		'login' => '*',
 		'reference' => array('index', 'view'), 
 		'search' => '*',
