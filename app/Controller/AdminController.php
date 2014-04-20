@@ -1392,7 +1392,7 @@ function deleteFile($file_id = null){
     function backupRestore(){
     	$directDel = $this->params['url']['backup_folder'];
     	$dir = BACKUP_STORE;
-    	$output = shell_exec('mysql -u root -photada 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
+    	$output = shell_exec('mysql -u root -p123456 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
     	$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));    	 
     }
     

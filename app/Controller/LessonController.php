@@ -983,8 +983,12 @@ function Edit($id)
 					}
 				}
 			}
-			$values = str_replace(".tsv","",$values);
-			$aUser = $this->Auth->user();
+			
+			
+			$userType = $this->Auth->User('role');
+			if($userType != "R1"){
+				$aUser = $this->Auth->user();
+				$values = str_replace(".tsv","",$values);
 			$dataResult = array(
 				'file_id' => $values,
 				'score' => $markGET,
@@ -1002,7 +1006,20 @@ function Edit($id)
 				'controller' => 'Lesson',
 				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
 				));
-
+			}
+			else{//if admin test,view result only
+				$this->set('testfilegettest',$values);
+				
+				$this->set('hit',$temp);
+				$this->set('total',$totques);
+				$this->set('time',1);
+				$this->set('mark',$mark);
+				$this->set('markGET',$markGET);
+				$this->set('markTotal',$markTotal);
+				
+				$this->set('finalTest',$finalTest);
+				$this->set('choosedEnd',$choosed);
+			}
 		}
 
 	}
@@ -1089,7 +1106,7 @@ function Edit($id)
 	function testHistory($file_id){
 		$userType = $this->Auth->User('role');
 		$users = $this->Auth->user();
-		if($userType == 'R2') $conditions = array('TestResult.file_id' => $file_id);
+		if($userType == 'R2' || $userType == 'R1') $conditions = array('TestResult.file_id' => $file_id);
 		if($userType == 'R3') $conditions = array('TestResult.file_id' => $file_id,
 													'TestResult.user_id' => $users['user_id']
 													);
