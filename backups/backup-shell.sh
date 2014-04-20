@@ -1,8 +1,8 @@
 #!/bin/bash
-
- cd /var/www/
- mkdir /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`
- chmod -R 755 /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`
- mysqldump -u root -p123456 7maru >    /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`/databaseBackup_`date +%Y%m%d%H%M`.sql
- tar zcf /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`/backup-`date +%Y%m%d%H%M`.tar.gz 7maru
- chmod -R 755 
+cd /var/www/
+dir="$HOME/backup_store/`date +%Y_%m_%d_%H_%M_%S`"
+file="databaseBackup_`date +%Y_%m_%d_%H_%M_%S`.sql"
+mkdir -p ${dir}
+chmod -R 755 ${dir}
+mysqldump -u root -photada 7maru >    ${dir}/${file}
+# tar zcf /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`/backup-`date +%Y%m%d%H%M`.tar.gz 7maru 

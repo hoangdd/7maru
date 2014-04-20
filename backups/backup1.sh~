@@ -1,5 +1,0 @@
-#!/bin/bash
-
- cd /var/www/
- mkdir /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`
- tar zcf /home/khaclinh/itjap/backup_store/`date +%Y%m%d%H%M`/backup-`date +%Y%m%d%H%M`.tar.gz 7maru
