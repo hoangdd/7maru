@@ -1,5 +1,4 @@
 <?php
-    $token = 'xxx';
 	echo $this->Html->script('jquery');
 	echo $this->Html->css('flexpaper');
 	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv', 'view_file.js'));	
