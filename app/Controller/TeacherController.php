@@ -326,7 +326,7 @@ class TeacherController extends AppController {
         if ($this->Auth->loggedIn()) {
             if ($id!= null){
                 $pid = $id;        
-            }elseif ($this->Auth->user('role') == 'R1' ){               
+            }elseif ($this->Auth->user('role') !== 'R1' ){               
                 $pid=$this->Auth->User('user_id');                            
             }else{
                 echo '403 Forbidden error.';
