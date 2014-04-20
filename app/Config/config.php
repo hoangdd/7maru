@@ -38,6 +38,7 @@ Configure::write('userRoles', array(
 	// admin
 	'R1' => array(
 		'admin' => '*',
+		'data' => '*',
 		'home' => '*',
 		'file' => '*',
 		'lesson' => '*',

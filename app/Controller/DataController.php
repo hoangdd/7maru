@@ -18,9 +18,12 @@ class DataController extends AppController {
 
 		$q = $this->request->query;
 		if( empty($q['token'])) die;
-
-		$user_id = $this->Auth->user('user_id');
-		//check token
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+			$user_id = $user['admin_id'];
+		}else{
+			$user_id = $user['user_id'];
+		}
 		if( !$this->__checkToken($q['token'], $file_id, $user_id) ){
 			// invalid token
 			echo 'コピーするとバカになります！';
@@ -42,8 +45,7 @@ class DataController extends AppController {
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));
 			die;
 		}
-		// check permission			
-		$user = $this->Auth->user();
+		// check permission					
 		if ($user['role'] == 'R1'){
 
 		}

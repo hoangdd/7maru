@@ -461,11 +461,11 @@ class AdminController extends AppController {
                 $rate = $dt['LessonTransaction']['rate'];
             	if (!isset($student[$dt['User']['user_id']])){
             		$student[$dt['User']['user_id']] = array();
-            		$student[$dt['User']['user_id']]['money'] = $dt['LessonTransaction']['money'] *(100 - $rate)/100;
+            		$student[$dt['User']['user_id']]['money'] = $dt['LessonTransaction']['money'];
             		$student[$dt['User']['user_id']]['info'] = $dt['User'];
             	}
             	else{
-            		$student[$dt['User']['user_id']]['money'] = $student[$dt['User']['user_id']]['money']+ $dt['LessonTransaction']['money'] *(100 - $rate)/100;
+            		$student[$dt['User']['user_id']]['money'] = $student[$dt['User']['user_id']]['money']+ $dt['LessonTransaction']['money'];
             	}
             	if (!isset($teacher[$dt['Lesson']['Author']['user_id']])){
             		$teacher[$dt['Lesson']['Author']['user_id']] = array();
@@ -800,31 +800,29 @@ class AdminController extends AppController {
    }
 
     function formatToWriteAccountFile($data) {
-        $_SERER_CODE = "ELS-UBT-GWK54M78";
-        $_STUDENT_PAY_MONEY = Configure::read('customizeConfig.money_per_lesson');
-    	$_TEACHER_PROFIT = $_STUDENT_PAY_MONEY*Configure::read('customizeConfig.teacher_profilt_percentage');    
+        $_SERER_CODE = "ELS-UBT-GWK54M78";        
     	$teacher = $data['teacher'];
     	$student = $data['student'];        
         $today = getdate();    
-        if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];        
+        //if ($today['mon']< 10 ) $today['mon'] = '0'.$today['mon'];        
         $tab = "    ";
+        $space = " "   ;    
         // get row to write
         $row = array();
-        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$this->Auth->user('admin_id'),$this->Auth->user('username'));
-        $i = 1;
-        $money = $_STUDENT_PAY_MONEY;
+        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$today['hours'],$today['minutes'],$today['seconds'],$this->Auth->user('username'),$this->Auth->user('last_name') . $space .$this->Auth->user('first_name'));
+        $i = 1;             
         foreach ($student as $dt):
-            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_STUDENT_PAY_MONEY, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['Student']['credit_account']);
+            $row[$i] = array($dt['info']['username'], $dt['info']['lastname'] . $space. $dt['info']['firstname'], $dt['money'], $dt['info']['address'], $dt['info']['phone_number'], TYPE_CREDIT_CARD ,$dt['info']['Student']['credit_account']);
             $i++;
         endforeach;
         foreach ($teacher as $dt):
-            $row[$i] = array($dt['info']['username'], $dt['info']['firstname'] . $dt['info']['lastname'], $dt['count'] * $_TEACHER_PROFIT, $dt['info']['address'], $dt['info']['phone_number'], $dt['info']['Teacher']['bank_account']);
+            $row[$i] = array($dt['info']['username'], $dt['info']['lastname'] . $space . $dt['info']['firstname'], $dt['money'], $dt['info']['address'], $dt['info']['phone_number'], TYPE_BANK_ACCOUNT ,$dt['info']['Teacher']['bank_account']);
             $i++;
         endforeach;
-        $end = array("END__END__END" . $data['year'] . $data['month']);
-        $row[$i++] = $end;
-        $str = "";
         $tab = "\t";
+        $end = array("END__END__END" . $tab . $data['year'] . $tab . $data['month']);
+        $row[$i++] = $end;
+        $str = "";        
         $newLine = "\n";
         foreach ($row as $r):
             foreach ($r as $c):
@@ -832,7 +830,9 @@ class AdminController extends AppController {
             endforeach;
             $str = $str . $newLine;
         endforeach;
-        $filename = "ELS-UBT-".$data['year']."-".$data['month'].".tsv";
+        $month  = $data['month'];
+        if ($month < 10) $month = '0'.$month;
+        $filename = "ELS-UBT-".$data['year']."-".$month.".tsv";
 
         file_put_contents($filename, $str);
         return $str;
@@ -842,6 +842,7 @@ class AdminController extends AppController {
         if ($this->request->is('post')) {
             $data = $this->request->data;
             $str = $this->formatToWriteAccountFile($data);
+            debug($data);
             //Write to file 
             die;
         }

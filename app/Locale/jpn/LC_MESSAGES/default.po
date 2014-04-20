@@ -682,3 +682,5 @@ msgstr "報酬％"
 msgid "Configuration"
 msgstr "設定"
 
+msgid "Bank Account"
+msgstr "銀行講座"

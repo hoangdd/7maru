@@ -448,8 +448,13 @@ function Edit($id)
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//token process
 		$token = md5(FILL_CHARACTER.date('y/m/d h:m:s').$fid);
-		$this->set('token', $token);
-		$user_id = $this->Auth->User('user_id');
+		$this->set('token', $token);				
+		$user = $this->Auth->user();
+		if ($user['role'] == 'R1'){
+			$user_id = $user['admin_id'];
+		}else{
+			$user_id = $user['user_id'];
+		}
 		$this->Session->write('Token.'.$fid.'.'.$user_id, $token);
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
