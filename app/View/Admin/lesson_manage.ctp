@@ -17,8 +17,8 @@
         <th class="info"><label><?php echo __("Lesson");?></label></th>        		
         <th class="info"><label><?php echo __("Author");?></label></th>        
         <th class="info"><label><?php echo __("Report Title");?></label></th>
-        <th class="info"><label><?php echo __("Report Copyright");?></label></th>
-        <th class="info"><label><?php echo __("Block");?></label></th>
+        <th class="info"><label><?php echo __("Copyrightレポート ");?></label></th>
+        <th class="info"><label><?php echo __("ブロック");?></label></th>
         <th class="info"><label><?php echo __("Delete");?></label></th>
         <?php
         foreach ($lessons as $d):                

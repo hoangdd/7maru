@@ -18,8 +18,8 @@
         <th class="info"><label><?php echo __("Type");?></label></th>
 		<th class="info"><label><?php echo __("Lesson");?></label></th>
         <th class="info"><label><?php echo __("Author");?></label></th>
-        <th class="info"><label><?php echo __("Date Created");?></label></th>
-        <th class="info"><label><?php echo __("Block");?></label></th>
+        <th class="info"><label><?php echo __("作った日");?></label></th>
+        <th class="info"><label><?php echo __("ブロック");?></label></th>
         <th class="info"><label><?php echo __("Delete");?></label></th>
         <?php
         foreach ($reference as $d):                

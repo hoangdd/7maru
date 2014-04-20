@@ -67,7 +67,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                  </div>
              </div>   
              <div class="form-group">
-                <label class="col-sm-3 control-label"><?php echo __('Email').':' ?> </label>
+                <label class="col-sm-3 control-label"><?php echo __('メール').':' ?> </label>
                 <div class="col-sm-6">
 
                 <input name="mail" type="email" class="form-control" placeholder="Email address" value=<?php echo "'".$userData['mail']  ."'" ?>>
@@ -75,7 +75,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 </div>
              </div>
              <div class="form-group">
-                <label class="col-sm-3 control-label"><?php echo __('Addresss').':' ?></label>
+                <label class="col-sm-3 control-label"><?php echo __('アドレス').':' ?></label>
                 <div class="col-sm-6">
 
                 <input name="address" class="form-control" placeholder="Adress" value=<?php echo "'".$userData['address']  ."'" ?>>

@@ -27,6 +27,10 @@ msgstr "作成時間"
 msgid "Accept"
 msgstr "認証"
 
+msgid "Unaccept"
+msgstr "アクセプトをしない"
+
+
 msgid "Money management"
 msgstr "課金管理"
 
@@ -56,6 +60,57 @@ msgstr "パスワードがれセット"
 
 msgid "verify code"
 msgstr "Verify コード"
+
+msgid "Edit"
+msgstr "修正"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Reset"
+msgstr "リセット"
+
+msgid "Public message"
+msgstr "公共メッセージ"
+
+msgid "Private message"
+msgstr "プライベートメッセージ"
+
+msgid "Input:"
+msgstr "入力:"
+
+msgid "Full name"
+msgstr "氏名"
+
+msgid "Check"
+msgstr "チェック"
+
+msgid "Post"
+msgstr "ポスト"
+
+msgid "Date Created"
+msgstr "作った日"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Report Title"
+msgstr "レポートタイトル"
+
+msgid "Report Copyright"
+msgstr "Copyrightレポート"
+
+msgid "Information figure"
+msgstr "情報フィギュア"
+
+msgid "Today"
+msgstr "今日"
+
+msgid "From the begin"
+msgstr "開始から"
+
+msgid "The total of views"
+msgstr "ビューの数"
 
 <!-- ACCOUNT -->
 msgid "Real name"
@@ -175,6 +230,10 @@ msgstr "好きカテゴリ"
 msgid "USER MANAGE"
 msgstr "ユーザ管理"
 
+msgid "Mail"
+msgstr "メール"
+
+
 
 <!-- Violation report -->
 msgid "VIOLATION REPORT"
@@ -251,6 +310,10 @@ msgstr "IP管理"
 
 msgid "User Manage"
 msgstr "ユーザ管理"
+
+msgid "USER MANAGE"
+msgstr "ユーザ管理"
+
 
 msgid "Reference Manage"
 msgstr "資料管理"
