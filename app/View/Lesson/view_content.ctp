@@ -1,7 +1,7 @@
 <?php
 	echo $this->Html->script('jquery');
 	echo $this->Html->css('flexpaper');
-	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv', 'view_file_encrypt.js'));	
+	echo $this->Html->script(array('flexpaper', 'flexpaper_handlers', 'flexpaper_handlers_debug','jwplayer/jwplayer','jwplayer/jwplayer.html5','jwplayer/jwpsrv', 'view_file.js'));	
 ?>
 <ul class="nav nav-tabs" id="lessonMenuTab">
   <li class="active"><a href="#lessonName" data-toggle="tab"><b><?php echo __('Lesson');?></b></a></li>
@@ -16,9 +16,9 @@
   			<div class="panel-heading">
   				<?php 
   					echo $this->Html->link(__('Block Student List'), array(
-										'controller' => 'Teacher',
-										'action' => 'addBlockStudent'
-									));
+						'controller' => 'Teacher',
+						'action' => 'addBlockStudent'
+					));
   				?>
   			</div>
 		  <!-- Table -->
@@ -220,10 +220,9 @@ if( in_array($ext, $config['img']['extension']) ){
 
 <script type="text/javascript">
 	$("document").ready(function(){
-		$('.load-file').remove();
+		// $('.load-file').remove();
 		document.addEventListener("contextmenu", function(e){
 	    e.preventDefault();
 			}, false);
 	})
 </script>
-

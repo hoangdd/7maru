@@ -173,8 +173,6 @@ class LessonController extends AppController {
 					}
 					}
 				}
-			
-			}
 			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
 				//Check if image format is supported				
@@ -263,37 +261,37 @@ class LessonController extends AppController {
 			}			
 		}		
 	}
-	
-	function Edit($id)
-	{
-		$this->Lesson->recursive = 2 ;
-		$lesson = $this->Lesson->findByComaId($id);
-		if(!$lesson){
+}	
+function Edit($id)
+{
+	$this->Lesson->recursive = 2 ;
+	$lesson = $this->Lesson->findByComaId($id);
+	if(!$lesson){
 			//throw 404
-			throw new NotFoundException();
-		} 
-		else {
-			$categories =  $this->Category->find('all');
-			$this->set('categories',$categories);
-			$this->set('data',$lesson['Lesson']);
-			$this->set('LessonCategory', $lesson['LessonCategory']);
-			$this->set('lesson',$lesson);	
-			
-			$categories = $this->LessonCategory->get_Lesson_categories($id);
-			$category_list = $this->Category->find('all');	
+		throw new NotFoundException();
+	} 
+	else {
+		$categories =  $this->Category->find('all');
+		$this->set('categories',$categories);
+		$this->set('data',$lesson['Lesson']);
+		$this->set('LessonCategory', $lesson['LessonCategory']);
+		$this->set('lesson',$lesson);	
+		
+		$categories = $this->LessonCategory->get_Lesson_categories($id);
+		$category_list = $this->Category->find('all');	
 
-			$cur_cat = array();
-			foreach ($lesson['LessonCategory'] as $key => $value) {
-				array_push($cur_cat, $value['category_id']);
-			}
-			$lesson['category_list'] = $cur_cat;
-
-			$this->set('lesson_data', $lesson);
-			$this->set('categories', $categories);
-			$this->set('category_list', $category_list);
+		$cur_cat = array();
+		foreach ($lesson['LessonCategory'] as $key => $value) {
+			array_push($cur_cat, $value['category_id']);
 		}
-		if( $this->request->is('post')){
-			$data = $this->request->data;		
+		$lesson['category_list'] = $cur_cat;
+
+		$this->set('lesson_data', $lesson);
+		$this->set('categories', $categories);
+		$this->set('category_list', $category_list);
+	}
+	if( $this->request->is('post')){
+		$data = $this->request->data;		
 			$error = array(); //error that return to client;
 			// check if copyright check box had checked yet?
 			if(empty($data['copyright'])){
@@ -339,7 +337,7 @@ class LessonController extends AppController {
 						}
 					}
 				}
-			
+				
 			}
 			// for($i = 0, $len = $);			
 			if(!empty($_FILES['document']['name'][0])){
@@ -446,8 +444,16 @@ class LessonController extends AppController {
 		$file = $this->Data->find('first', array(
 			'conditions' => array('file_id' =>$fid)
 			));
-		//check is block or not
 
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		//token process
+		$token = md5(FILL_CHARACTER.date('y/m/d h:m:s').$fid);
+		$this->set('token', $token);
+		$user_id = $this->Auth->User('user_id');
+		$this->Session->write('Token.'.$fid.'.'.$user_id, $token);
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		//check is block or not
 		$lessonId = $file['Data']['coma_id'];
 		$lesson = $this->Lesson->findByComaId($lessonId);		
 		$this->loadModel('User');
@@ -502,14 +508,14 @@ class LessonController extends AppController {
 		$this->loadModel('User');
 		$this->Comment->bindModel(array(
 			'belongsTo' => array(
-					'User' => array(
-						'foreignKey' => 'user_id',
+				'User' => array(
+					'foreignKey' => 'user_id',
 					)
 				)
 			));
 		$comments = $this->Comment->find('all', array(
 			'conditions' => array(
-					'file_id' => $fid
+				'file_id' => $fid
 				)
 			));
 		$this->set('comments',$comments);
@@ -520,21 +526,21 @@ class LessonController extends AppController {
 				'Lesson' => array(
 					'foreignKey' => 'coma_id',					
 					),
-					'User' => array(
+				'User' => array(
 					'foreignKey' => 'student_id'
 					)				
-			)
-		));
+				)
+			));
 
 		$this->BlockStudent->bindModel(array(
-            'belongsTo' => array(
-                'User' => array(
-                    'foreignKey' => 'student_id'
-                )
-            ) 
-        ));
+			'belongsTo' => array(
+				'User' => array(
+					'foreignKey' => 'student_id'
+					)
+				) 
+			));
 
-        $stdBlockList = $this->BlockStudent->findAllByTeacherId($this->Auth->user('user_id'),array(),array('BlockStudent.created' => 'desc'),10);
+		$stdBlockList = $this->BlockStudent->findAllByTeacherId($this->Auth->user('user_id'),array(),array('BlockStudent.created' => 'desc'),10);
 		$stdList = $this->LessonTransaction->findAllByComaId($lessonId,array(),array('LessonTransaction.created' => 'asc'));
 		// debug($stdList);die;
 		if(!empty($stdList)){
@@ -560,12 +566,12 @@ class LessonController extends AppController {
 			'belongsTo' => array(
 				'Lesson' => array(
 					'foreignKey' => 'coma_id'
-				),
+					),
 				'User' => array(
 					'foreignKey' => 'student_id'
+					)
 				)
-			)
-		));
+			));
 		$rateList = $this->RateLesson->findAllByComaId($lessonId,array(),array('RateLesson.created' => 'desc'));
 		$this->set('rateList',$rateList);
 	}
@@ -663,31 +669,31 @@ class LessonController extends AppController {
 				),
 			));
 		$options = array (
-				'limit' => $page_limit,    			
-				'offset' => ($pageIndex-1) * $page_limit,
-				'order' => array('Lesson.created' => 'ASC'),				
-				'recursive' => 2,
-				'conditions' => array('Lesson.is_block' => 0)				
-				);    	
-			$data = $this->Lesson->find ( 'all',$options); 
+			'limit' => $page_limit,    			
+			'offset' => ($pageIndex-1) * $page_limit,
+			'order' => array('Lesson.created' => 'ASC'),				
+			'recursive' => 2,
+			'conditions' => array('Lesson.is_block' => 0)				
+			);    	
+		$data = $this->Lesson->find ( 'all',$options); 
 			//debug($data);
-			foreach($data as $key=>$lesson){
-				$isShowBuyButton = false;
-				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
-					$isShowBuyButton = true;
-				}				
-				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
-				$rank = 0;$count = 0;
-				foreach($lesson['RateLesson'] as $le){    			
-					$rank =  $rank + $le['rate'];
-					++$count;
-				}
-				if ($count != 0) {
-					$rank = $rank / $count;
-				}			    		
-				$data[$key]['RateLesson'] = $rank;      						
-				//unset($data[$key]['LessonTransaction']);
+		foreach($data as $key=>$lesson){
+			$isShowBuyButton = false;
+			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+				$isShowBuyButton = true;
+			}				
+			$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
+			$rank = 0;$count = 0;
+			foreach($lesson['RateLesson'] as $le){    			
+				$rank =  $rank + $le['rate'];
+				++$count;
 			}
+			if ($count != 0) {
+				$rank = $rank / $count;
+			}			    		
+			$data[$key]['RateLesson'] = $rank;      						
+				//unset($data[$key]['LessonTransaction']);
+		}
 		if(empty($data)){
 			echo '0';
 			die;
@@ -742,12 +748,12 @@ class LessonController extends AppController {
 		// Logic: nhung lesson chua teacher moi duoc up
 		else if( $role == 'R2'){
 			$this->Lesson->bindModel(array(
-			'hasMany' => array(
-				'RateLesson' => array(
-					'foreignKey' => 'coma_id',    				
+				'hasMany' => array(
+					'RateLesson' => array(
+						'foreignKey' => 'coma_id',    				
+						)
 					)
-				)
-			));
+				));
 			$data = $this->Lesson->find('all', array(
 				'conditions' => array(
 					'author' => $user['user_id'],
@@ -759,7 +765,7 @@ class LessonController extends AppController {
 					),
 				'limit' => $page_limit,
 				'offset' => ($pageIndex-1) * $page_limit,
-			));
+				));
 			foreach($data as $key=>$lesson){
 				$isShowBuyButton = false;
 				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
@@ -785,23 +791,23 @@ class LessonController extends AppController {
 		//student moi mua
 		else if( $role == 'R3' ){			
 			$list_coma_id = $this->LessonTransaction->find('list', array(
-					'conditions' => array(
-						'student_id' => $user['user_id']						
-						),
-					'fields' => array(
-						'coma_id'
-						),
-					'order' => array(
-						'created ASC', 
-						),
-					'limit' => $page_limit,
-					'offset' => ($pageIndex-1) * $page_limit,
+				'conditions' => array(
+					'student_id' => $user['user_id']						
+					),
+				'fields' => array(
+					'coma_id'
+					),
+				'order' => array(
+					'created ASC', 
+					),
+				'limit' => $page_limit,
+				'offset' => ($pageIndex-1) * $page_limit,
 				));
 			$data = $this->Lesson->find('all', array(
-					'conditions' => array(
-							'coma_id' => $list_coma_id,	
-							'Lesson.is_block' => 0
-						)
+				'conditions' => array(
+					'coma_id' => $list_coma_id,	
+					'Lesson.is_block' => 0
+					)
 				));
 
 			foreach($data as $key=>$lesson){
@@ -829,8 +835,8 @@ class LessonController extends AppController {
 		$this->set("data",$data);
 	}
 	function Bestseller($pageIndex = 1, $page_limit = 4) {
-		 $this->layout = false;
-		 $user = $this->Auth->User();
+		$this->layout = false;
+		$user = $this->Auth->User();
 		$role = $user['role'];
 
 		if( empty($user)|| empty($role)){
@@ -849,21 +855,21 @@ class LessonController extends AppController {
 
 		// 	);		
 		// $data = array();
-		 $this->LessonTransaction->bindModel(array(
-		 	'belongsTo' => array(
-		 		'Lesson' => array(
-		 			'foreignKey' => 'coma_id',		 			
-		 		)
-		 	)
-		 ));
-		 $this->Lesson->bindModel(array(
-		 	'belongsTo' => array(
-		 		'Author' => array(
-		 			'className' => 'User',
-		 			'foreignKey' => 'author'
-		 		)
-		 	)
-		 ));
+		$this->LessonTransaction->bindModel(array(
+			'belongsTo' => array(
+				'Lesson' => array(
+					'foreignKey' => 'coma_id',		 			
+					)
+				)
+			));
+		$this->Lesson->bindModel(array(
+			'belongsTo' => array(
+				'Author' => array(
+					'className' => 'User',
+					'foreignKey' => 'author'
+					)
+				)
+			));
 		$options = array (
 			'limit' => $page_limit, 
 			'offset' => ($pageIndex-1) * $page_limit,			
@@ -874,24 +880,24 @@ class LessonController extends AppController {
 			);
 		$data = $this->LessonTransaction->find('all',$options);		
 		foreach($data as $key=>$lesson){
-				$isShowBuyButton = false;
-				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
-					$isShowBuyButton = true;
-				}				
-				$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
-				$rank = 0;$count = 0;
-				foreach($lesson['Lesson']['RateLesson'] as $le){    			
-					$rank =  $rank + $le['rate'];
-					++$count;
-				}
-				if ($count != 0) {
-					$rank = $rank / $count;
-				}			    		
-				$data[$key]['RateLesson'] = $rank;
-				$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
-				unset($data[$key]['Lesson']['RateLesson']);  		
-				unset($data[$key]['LessonTransaction']);
-			}			
+			$isShowBuyButton = false;
+			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
+				$isShowBuyButton = true;
+			}				
+			$data[$key]['Lesson']['is_show_buy_button'] = $isShowBuyButton;			
+			$rank = 0;$count = 0;
+			foreach($lesson['Lesson']['RateLesson'] as $le){    			
+				$rank =  $rank + $le['rate'];
+				++$count;
+			}
+			if ($count != 0) {
+				$rank = $rank / $count;
+			}			    		
+			$data[$key]['RateLesson'] = $rank;
+			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];
+			unset($data[$key]['Lesson']['RateLesson']);  		
+			unset($data[$key]['LessonTransaction']);
+		}			
 		if(empty($data)){
 			$data = 0;
 		}
@@ -912,7 +918,7 @@ class LessonController extends AppController {
 						'student_id' => $this->Auth->user('user_id'),
 						'money' => Configure::read('customizeConfig.money_per_lesson'),
 						'rate' => Configure::read('customizeConfig.teacher_profit_percentage')
-					);					
+						);					
 					$this->ComaTransaction->create($data);
 					if ($this->ComaTransaction->save()){
 						$result = 1;
@@ -927,9 +933,9 @@ class LessonController extends AppController {
 	 */
 	function DoTest() {
 		if (! $this->request->is ( "post" )) {
-				
+			
 		} else {
-				
+			
 			$values = $this->request->data['testfilegettest'];
 			$values = str_replace(".js",".tsv",$values);
 			$this->set('testfilegettest',$values);
@@ -938,11 +944,11 @@ class LessonController extends AppController {
 			$temp = 0;$mark = 0;
 			$markGET = 0;
 			$markTotal = 0;
-	
+			
 			$flagChooseCheck = 0;
 			$choosedNONE = "ignored";
 			for($i = 0;$i<$totques;$i++){
-	
+				
 				$markTotal += intval($finalTest['Question'.$i]['markNumber']);
 				if(!isset($this->request->data['Question'.$i])) {
 					$mark++;
@@ -951,7 +957,7 @@ class LessonController extends AppController {
 					else {
 						$choosed += array($i => $choosedNONE);
 						// $choosed = array_merge($choosed, array($i => $choosedNONE));
-	
+						
 					}
 					$flagChooseCheck = 1;
 				}
@@ -961,12 +967,12 @@ class LessonController extends AppController {
 					else {
 						$choosed += array($i => $this->request->data['Question'.$i]);
 						// $choosed = array_merge($choosed, array($i => $this->request->data['Question'.$i]));
-	
+						
 					}
 					$flagChooseCheck = 1;
 					// echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
 					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
-							
+						
 						$markGET += intval($finalTest['Question'.$i]['markNumber']);
 						$temp++;
 					}
@@ -975,53 +981,53 @@ class LessonController extends AppController {
 			$values = str_replace(".tsv","",$values);
 			$aUser = $this->Auth->user();
 			$dataResult = array(
-					'file_id' => $values,
-					'score' => $markGET,
-					'scorefull' => $markTotal,
-					'choiced' => $mark,
-					'total_ques' => $totques,
-					'hit' => $temp,
-					'result' => serialize($choosed),
-					'user_id' => $aUser['user_id'],
-					'test_time' => DboSource::expression('NOW()')
-			);
+				'file_id' => $values,
+				'score' => $markGET,
+				'scorefull' => $markTotal,
+				'choiced' => $mark,
+				'total_ques' => $totques,
+				'hit' => $temp,
+				'result' => serialize($choosed),
+				'user_id' => $aUser['user_id'],
+				'test_time' => DboSource::expression('NOW()')
+				);
 			$this->TestResult->create($dataResult);
 			$this->TestResult->save();
 			$this->redirect(array(
-					'controller' => 'Lesson',
-					'action' => 'result?view='.$this->TestResult->getLastInsertID(),
-			));
-				
+				'controller' => 'Lesson',
+				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
+				));
+			
 		}
-	
+		
 	}
 	
 	
 	function Result(){
 		$values = $this->params['url']['view'];
 		$result = $this->TestResult->find('first',array(
-				'condition' => array(
-						'TestResult.result_id' => $values
+			'condition' => array(
+				'TestResult.result_id' => $values
 				)
-		));
+			));
 		$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
-			
+		
 		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
-			
+		
 		$this->set('hit',$result['TestResult']['hit']);
 		$this->set('total',$result['TestResult']['total_ques']);
 		$this->set('time',600);
 		$this->set('mark',$result['TestResult']['choiced']);
 		$this->set('markGET',$result['TestResult']['score']);
 		$this->set('markTotal',$result['TestResult']['scorefull']);
-			
+		
 		$this->set('finalTest',$finalTest);
 		$choosed = unserialize($result['TestResult']['result']);
 		$this->set('choosedEnd',$choosed);
-			
+		
 	}
 	
-		
+	
 	function ViewTestResult() {
 		$this->layout = null;
 		$this->set('qid',$this->params['url']['qid']);
@@ -1047,15 +1053,15 @@ class LessonController extends AppController {
 			return;
 		}
 		$dulieu = $this->Data->find('first', array(
-				'conditions' => array(
-						'Data.file_id' => $id
+			'conditions' => array(
+				'Data.file_id' => $id
 				)
-		));
+			));
 		$str = "";
 		if(count($dulieu) != 0){
 			$this->set('testID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);
-				
+			
 		} else {
 			$str = "Error test data!!!";
 		}
