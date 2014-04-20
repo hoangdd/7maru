@@ -58,7 +58,7 @@ Configure::write('userRoles', array(
 		'user' => '*',
 		'teacher' => '*',
 		'data' => '*',
-		'student' => array('exam','profile','dotest'),
+		'student' => array('profile'),
 		'cakeerror' => '*'
 		),
 

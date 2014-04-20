@@ -1,3 +1,3 @@
 # Backup system
 # @Author by khaclinh,dev in E-learning T-06 
-*/70 * * * * /var/www/7maru/backups/backup-shell.sh 
+*/1 * * * * /var/www/7maru/backups/backup-shell.sh 
