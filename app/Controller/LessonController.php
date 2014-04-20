@@ -11,7 +11,9 @@ class LessonController extends AppController {
 		'Teacher',
 		'RateLesson',
 		'LessonTransaction',
-		'BlockStudent'
+		'BlockStudent',
+		'TestResult',
+		'User'
 		);
 	
 	public function beforeFilter(){
@@ -920,6 +922,146 @@ class LessonController extends AppController {
 		}
 		$this->set('result',$result);
 	}
+	/**
+	 * @khaclinh
+	 */
+	function DoTest() {
+		if (! $this->request->is ( "post" )) {
+				
+		} else {
+				
+			$values = $this->request->data['testfilegettest'];
+			$values = str_replace(".js",".tsv",$values);
+			$this->set('testfilegettest',$values);
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
+			$totques=count($this->request->data['hid']);
+			$temp = 0;$mark = 0;
+			$markGET = 0;
+			$markTotal = 0;
+	
+			$flagChooseCheck = 0;
+			$choosedNONE = "ignored";
+			for($i = 0;$i<$totques;$i++){
+	
+				$markTotal += intval($finalTest['Question'.$i]['markNumber']);
+				if(!isset($this->request->data['Question'.$i])) {
+					$mark++;
+					if($flagChooseCheck == 0)
+						$choosed = array($i => $choosedNONE);
+					else {
+						$choosed += array($i => $choosedNONE);
+						// $choosed = array_merge($choosed, array($i => $choosedNONE));
+	
+					}
+					$flagChooseCheck = 1;
+				}
+				else {
+					if($flagChooseCheck == 0)
+						$choosed = array($i => $this->request->data['Question'.$i]);
+					else {
+						$choosed += array($i => $this->request->data['Question'.$i]);
+						// $choosed = array_merge($choosed, array($i => $this->request->data['Question'.$i]));
+	
+					}
+					$flagChooseCheck = 1;
+					// echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
+					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
+							
+						$markGET += intval($finalTest['Question'.$i]['markNumber']);
+						$temp++;
+					}
+				}
+			}
+			$values = str_replace(".tsv","",$values);
+			$aUser = $this->Auth->user();
+			$dataResult = array(
+					'file_id' => $values,
+					'score' => $markGET,
+					'scorefull' => $markTotal,
+					'choiced' => $mark,
+					'total_ques' => $totques,
+					'hit' => $temp,
+					'result' => serialize($choosed),
+					'user_id' => $aUser['user_id'],
+					'test_time' => DboSource::expression('NOW()')
+			);
+			$this->TestResult->create($dataResult);
+			$this->TestResult->save();
+			$this->redirect(array(
+					'controller' => 'Lesson',
+					'action' => 'result?view='.$this->TestResult->getLastInsertID(),
+			));
+				
+		}
+	
+	}
+	
+	
+	function Result(){
+		$values = $this->params['url']['view'];
+		$result = $this->TestResult->find('first',array(
+				'condition' => array(
+						'TestResult.result_id' => $values
+				)
+		));
+		$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
+			
+		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
+			
+		$this->set('hit',$result['TestResult']['hit']);
+		$this->set('total',$result['TestResult']['total_ques']);
+		$this->set('time',600);
+		$this->set('mark',$result['TestResult']['choiced']);
+		$this->set('markGET',$result['TestResult']['score']);
+		$this->set('markTotal',$result['TestResult']['scorefull']);
+			
+		$this->set('finalTest',$finalTest);
+		$choosed = unserialize($result['TestResult']['result']);
+		$this->set('choosedEnd',$choosed);
+			
+	}
+	
+		
+	function ViewTestResult() {
+		$this->layout = null;
+		$this->set('qid',$this->params['url']['qid']);
+		$values = $this->params['url']['test_id'];
+		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$values);
+		$this->set('finalTest',$finalTest);
+		$this->set('choosedEnd',$this->params['url']['aParam']);
+		$this->set('total',count($finalTest));
+		/*$this->set('hit',$this->request->params['named']['hit']);
+			$this->set('total',$this->request->params['named']['total']);
+		$this->set('time',$this->request->params['named']['time']);
+		$this->set('mark',$this->request->params['named']['mark']);
+		$values = $this->request->data['testcompareneed'];
+		print_r($values);*/
+	}
+	
+	function Exam(){
+		// 		$this->set('testfile',$id);
+		// 		$this->set('testfile',$this->request->params['pass']['0']);
+		print_r($this->params['url']);
+		$id = $this->params['url']['id'];
+		if ($id == null){
+			return;
+		}
+		$dulieu = $this->Data->find('first', array(
+				'conditions' => array(
+						'Data.file_id' => $id
+				)
+		));
+		$str = "";
+		if(count($dulieu) != 0){
+			$this->set('testID',$id);
+			$this->set('testfile',$dulieu['Data']['path']);
+				
+		} else {
+			$str = "Error test data!!!";
+		}
+		$this->set("warningNotify",$str);
+	}
+	
 }
 
 ?>

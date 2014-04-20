@@ -632,20 +632,30 @@ class AdminController extends AppController {
 
                     if (filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
                     	//save ip address
-                        $this->AdminIp->set('ip', $ipRetrieved);
-                        $this->AdminIp->save();
-                        //preparing for saving admin and ip step
-//                         $specificallyThisOne = $this->Admin->find('first', array(
-//                         		'conditions' => array(
-//                         				'AdminIp.username' => $retrieveData['Admininput']
-//                         		)
-//                         ));
-                        	$data_admin_ip = array(
-                        		'admin_id' => $retrieveData['Admininput'],
-                        		'ip_id' => $this->AdminIp->getLastInsertID()
-                        	);
-                        	$this->IpOfAdmin->create($data_admin_ip);
-                        	$this->IpOfAdmin->save();
+                    	$specificallyThisOne = $specificallyThisOne = $this->IpOfAdmin->find('all', array(
+                    			'contain' => array('AdminIp' ),
+								'conditions' => array(
+										'IpOfAdmin.admin_id' => $retrieveData['Admininput'],
+										'AdminIp.ip' => $ipRetrieved,
+										'IpOfAdmin.ip_id =AdminIp.ip_id'
+                    	)));
+                    	
+                    	if(count($specificallyThisOne) > 0){
+	                        $this->AdminIp->set('ip', $ipRetrieved);
+	                        $this->AdminIp->save();
+	                        //preparing for saving admin and ip step
+	//                         $specificallyThisOne = $this->Admin->find('first', array(
+	//                         		'conditions' => array(
+	//                         				'AdminIp.username' => $retrieveData['Admininput']
+	//                         		)
+	//                         ));
+	                        	$data_admin_ip = array(
+	                        		'admin_id' => $retrieveData['Admininput'],
+	                        		'ip_id' => $this->AdminIp->getLastInsertID()
+	                        	);
+	                        	$this->IpOfAdmin->create($data_admin_ip);
+	                        	$this->IpOfAdmin->save();
+                    	}
                     }
                 }
             }

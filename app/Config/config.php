@@ -51,7 +51,7 @@ Configure::write('userRoles', array(
 	'R2' => array(
 		'file' => '*',
 		'home' => '*',
-		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson','viewcontent'),
+		'lesson' => array('index','view', 'comment', 'create', 'edit', 'destroy', 'recentlesson','viewcontent','exam','dotest','result','viewtestresult'),
 		'login' => '*',
 		'reference' => '*',
 		'search' => '*',

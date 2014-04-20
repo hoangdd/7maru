@@ -177,7 +177,7 @@
                      }
                      else{
                       echo $this->Html->link($value['file_name'], array(
-                        'controller' => 'Student',
+                        'controller' => 'Lesson',
                         'action' => 'Exam?id='.$value['file_id']                        
                         ),
                       array(
