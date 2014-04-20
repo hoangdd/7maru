@@ -344,8 +344,17 @@ msgstr "カンセル"
 msgid "Required input"
 msgstr "このフィルドが必要"
 
-msgid "Please, at least {8} characters are necessary"
-msgstr "8文字以上でください"
+msgid "Not email format"
+msgstr "Eメールのフォマットが正しくない"
+
+msgid "Please, at least {2} characters are necessary"
+msgstr "2文字以上でください"
+
+msgid "Please, at least {6} characters are necessary"
+msgstr "6文字以上でください"
+
+msgid "Please, at least {18} characters are necessary"
+msgstr "18文字以上でください"
 
 msgid "Please enter no more than {30} characters"
 msgstr "30文字以下でください"

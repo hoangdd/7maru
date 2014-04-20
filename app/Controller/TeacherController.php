@@ -23,7 +23,6 @@ class TeacherController extends AppController {
         //データがある場合
         if ($this->request->is('post')) {
             $data = $this->request->data;
-
             /*
               ユーザ名前をチェック:
               0:  null
@@ -211,12 +210,23 @@ class TeacherController extends AppController {
             $check_teacher = true;
             //check bank_account
             if (!isset($data['bank_account'])) {
-                $error['bank_account'][0] = 'Bank account is equal null.';
+                $error['bank_account'][0] = __('Bank account is equal null.');
                 $check_teacher = false;
             }
             if (empty($data['bank_account'])) {
-                $error['bank_account'][1] = 'Bank account is empty.';
+                $error['bank_account'][1] = __('Bank account is empty.');
                 $check_teacher = false;
+            }
+            else{
+                if(strlen($data['bank_account'])>18){
+                    $error ['bank_account'] [2] = __('Bank account is too long.');
+                    $check_teacher = false;
+                }
+                $bank_account_re_ex = '/^\w{4}-\w{3}-\w{1}-\w{7}$/';
+                if (!preg_match($bank_account_re_ex,$data['bank_account'])) {
+                    $error['bank_account'][3] = __('Bank account is not match form.');
+                    $check_teacher = false;
+                }
             }
             //=================================
             //携帯電話の番号をチェック：
@@ -229,9 +239,10 @@ class TeacherController extends AppController {
                     $error['phone_number'][1] = 'Phone number is too long.';
                 }
             }
+
             //====================================
-            //自己のイメージをチェック：            
-            if (!empty($_FILES['profile_picture'])) {
+            //自己のイメージをチェック：  
+            if ($_FILES['profile_picture']['error'] == 0) {
                 $configs = Configure::read('srcFile');
                 $img_exts = $configs['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
