@@ -184,3 +184,49 @@
 	?>
 	</div>
 </div>
+
+<div class="learning-course panel panel-info">
+	<div class="panel-heading">
+    	<h3 class="panel-title">ブロックされた</h3>
+  	</div>
+	<div class='row panel-body' style = 'overflow-x: auto'>
+			<!-- <div class="thumbnail"> -->
+				
+	<?php 
+		foreach ($blockeds as $blocked) {
+			// echo var_dump($blocked['Teacher']);
+	?>
+			<div class='text-center left-col col-sm-2 col-md-2'>
+			<div class="col-md-2 text-center">
+		     <?php
+		     		$author = $blocked['Teacher']['User'];     		                  
+		        $author_profile = IMAGE_PROFILE_LINK.DS.$author['profile_picture'];     
+				     echo $this->Html->image($author_profile, array(
+				      'alt' => __('Profile'),
+				      'class' => 'img-rounded mini_profile',                
+				      'url' => array('controller' => 'teacher', 'action' => 'profile', $author['user_id'])
+				      ));
+				     echo '<p>';
+				     echo $this->Html->link($author['firstname'].$author['lastname'],array(
+				      'controller' => 'teacher',
+				      'action' => 'profile', $author['user_id']
+				      ));
+				     echo '</p>';                
+		     ?>
+				 <div class="caption">
+			        <h3><?php 
+			        					// echo $this->Html->link($lesson['Lesson']['name'],array(
+			        					// 						'controller' => 'Lesson',
+			        					// 						'action' => 'index',
+			        					// 						$lesson['Lesson']['coma_id']
+			        									// )); 
+			        	?>
+			    	</h3>
+				</div>
+			</div>
+		
+	<?php	
+		}
+	?>
+	</div>
+</div>

@@ -459,8 +459,8 @@ class StudentController extends AppController {
 			$this->loadModel('BlockStudent');
 			$blockeds = $this->BlockStudent->findAllByStudentId($user['user_id']);
 			foreach ($blockeds as $index => $course) {
-				$lesson = $this->Lesson->findByComaId($course['ReportLesson']['coma_id']);
-				$blockeds[$index]['lesson'] = $lesson;
+				$lesson = $this->User->findByUserId($course['BlockStudent']['teacher_id']);
+				$blockeds[$index]['Teacher'] = $lesson;
 			}
 
 			$this->loadModel('RateLesson');
