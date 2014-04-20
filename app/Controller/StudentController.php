@@ -188,7 +188,6 @@ class StudentController extends AppController {
 				$check_user = false;
 			}	
 			else{
-
 				if(strlen($data['verifycode_answer']) > 50){
 					$error['verifycode_answer'][2] ='Answer of verifycode is too long.';
 					$check_user = false;
@@ -220,12 +219,23 @@ class StudentController extends AppController {
 			$check_student = true;
 			// check credit_account
 			if (! isset ( $data ['credit_account'] )) {
-				$error ['credit_account'] [0] = 'Credit account is equal null.';
+				$error ['credit_account'] [0] = __('Credit account is equal null.');
 				$check_student = false;
 			}
 			if (empty ( $data ['credit_account'] )) {
-				$error ['credit_account'] [1] = 'Credit account is empty.';
+				$error ['credit_account'] [1] = __('Credit account is empty.');
 				$check_student = false;
+			}
+			else{
+				if(strlen($data['credit_account'])>28){
+					$error ['credit_account'] [2] = __('Credit account is too long.');
+					$check_student = false;
+				}
+				$credit_card_re_ex = '/^\w{8}-\w{4}-\w{4}-\w{4}-\w{4}$/';
+				if (!preg_match($credit_card_re_ex,$data['credit_account'])) {
+					$error['credit_account'][3] = __('Creadit card is not match form.');
+					$check_student = false;
+				}
 			}
 			// =================================
 			

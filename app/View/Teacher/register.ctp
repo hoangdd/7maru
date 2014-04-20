@@ -233,8 +233,15 @@ echo $this->Html->css('datepicker');
                     </div>
                 </td>
                 <td>
-                    <div class="col-md-12">
+                    <div class="col-md-12 <?php if(isset($error['bank_account'])) echo "has-error has-feedback"?>">
                         <input id="bank_account" type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
+                        <?php
+                             if(isset($error['bank_account'])&& is_array($error['bank_account'])){
+                                foreach($error['bank_account'] as $bank_account):
+                                    echo $bank_account;
+                                endforeach;
+                            }
+                        ?>
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -321,7 +328,7 @@ echo $this->Html->css('datepicker');
     </form>
 </div>
 </div>
-<script>
+<script type="text/javascript">
     $(document).ready(function(){
         
     $("#register-form").validate();
@@ -362,11 +369,11 @@ echo $this->Html->css('datepicker');
         checkusername: true,
         checkusername_database: true,
         messages: {
-            required: <?php echo __('Required input');?>,
-            minlength: jQuery.format(<?php echo __('Please, at least {8} characters are necessary');?>),
-            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
-            checkusername: jQuery.format(<?php echo __('Start by a alphabet and please do not enter special characters');?>),
-            checkusername_database: jQuery.format(<?php echo __('Username is existed');?>),
+            required: '<?php echo __('Required input');?>',
+            minlength: jQuery.format('<?php echo __('Please, at least {2} characters are necessary');?>'),
+            maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
+            checkusername: jQuery.format('<?php echo __('Start by a alphabet and please do not enter special characters');?>'),
+            checkusername_database: jQuery.format('<?php echo __('Username is existed');?>'),
         }
     });
     
@@ -377,10 +384,10 @@ echo $this->Html->css('datepicker');
         maxlength: 30,
         checkpass: true,
         messages: {
-            required: <?php echo __('Required input');?>,
-            minlength: jQuery.format(<?php echo __('Please, at least {8} characters are necessary');?>),
-            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
-            checkpass: jQuery.format(<?php echo __('Please do not enter special characters');?>),
+            required: '<?php echo __('Required input');?>',
+            minlength: jQuery.format('<?php echo __('Please, at least {6} characters are necessary');?>'),
+            maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
+            checkpass: jQuery.format('<?php echo __('Please do not enter special characters');?>'),
         }
     });
         
@@ -388,20 +395,21 @@ echo $this->Html->css('datepicker');
         if(value!=$("#password").val())
             return false;
         else return true;
-    },jQuery.format(<?php echo __('Password and RetypePassword are not equal');?>));
+    },jQuery.format('<?php echo __('Password and RetypePassword are not equal');?>'));
         
     $("#retypepass").rules("add", {
         required: true,
         checkretypepass: true,
         messages: {
-            required: <?php echo __('Required input');?>,
+            required: '<?php echo __('Required input');?>',
         }
     });
                     
     $("#email").rules("add", {
         required: true,
         messages: {
-            required: <?php echo __('Required input');?>,
+            required: '<?php echo __('Required input');?>',
+            email : jQuery.format('<?php echo __('Not email format');?>'),
         }
     });
         
@@ -409,8 +417,8 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 30,
         messages: {
-            required: <?php echo __('Required input');?>,
-            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
+            required: '<?php echo __('Required input');?>',
+            maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
         }
     });
         
@@ -418,15 +426,22 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 30,
         messages: {
-            required: <?php echo __('Required input');?>,
-            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
+            required: '<?php echo __('Required input');?>',
+            maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
         }
     });
         
+     //method check credit card
+    jQuery.validator.addMethod("checkbankaccount",function(value,element){
+    return /^\w{4}-\w{3}-\w{1}-\w{7}$/.test(value);
+    });
+
     $("#bank_account").rules("add", {
         required: true,
+        checkbankaccount: true,
         messages: {
-            required: <?php echo __('Required input');?>,
+            required: '<?php echo __('Required input');?>',
+            checkbankaccount: jQuery.format('例： 1111-222-3-4444444'),
         }
     });
     
@@ -434,8 +449,8 @@ echo $this->Html->css('datepicker');
         required: true,
         maxlength: 50,
         messages: {
-            required: <?php echo __('Required input');?>,
-            maxlength: jQuery.format(<?php echo __('Please enter no more than {30} characters');?>),
+            required: '<?php echo __('Required input');?>',
+            maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
         }
     });
    });
