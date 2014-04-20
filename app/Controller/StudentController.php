@@ -530,4 +530,64 @@ class StudentController extends AppController {
             die;
         }
 	} 
+
+	function like(){
+		if($this->request->is('ajax')){
+			$data = $this->request->data;
+			if( !empty($data['teacher_id']) && !empty($data['student_id'])){
+
+				//check again
+				$tea = $this->User->find('all', array(
+					'conditions' => array(
+						'user_id' => $data['teacher_id'],
+						'user_type' => 1
+						)
+					));
+				$std = $this->User->find('all', array(
+					'conditions' => array(
+						'user_id' => $data['student_id'],
+						'user_type' => 2,
+						)
+					));
+				if( !empty($tea) && !empty($std)){
+					$data = array(
+						'student_id' => $data['student_id'],
+						'teacher_id' => $data['teacher_id'],
+						);
+					$this->loadModel('Like');
+					$like = $this->Like->save($data);
+					if( isset($like['Like'])){
+						echo '1';
+						die;
+					}
+				}
+				echo 0;
+			}
+		}
+		die;
+	}
+	function unlike(){
+		if($this->request->is('ajax')){
+			$data = $this->request->data;
+			if( !empty($data['teacher_id']) && !empty($data['student_id'])){
+
+				//check again
+				$this->loadModel('Like');
+				$like = $this->Like->find('all', array(
+					'conditions' => array(
+						'student_id' => $data['student_id'],
+						'teacher_id' => $data['teacher_id'],
+						)
+					));
+				if( isset($like[0]['Like']['like_id'])){
+					if($this->Like->delete($like[0]['Like']['like_id'])){
+						echo '1';
+						die;
+					}
+				}
+				echo 0;
+			}
+		}
+		die;
+	}
 }

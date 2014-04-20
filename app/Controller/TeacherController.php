@@ -333,6 +333,10 @@ class TeacherController extends AppController {
                 die;
             }
             $isOther = true;
+            $canLike = ($this->Auth->user('role') == 'R3') ? true : false;
+            $canComment =$canLike;
+            
+            $this->set(compact('canLike', 'canComment'));
             $user = $this->Auth->User();
             if (isset($user['user_id']) && $pid == $user['user_id']){
                 $isOther = false;
@@ -349,7 +353,21 @@ class TeacherController extends AppController {
                 $this->Session->setFlash(__('Forbidden error'));
                 echo '403 Forbidden error.';
                 die;
-            }        
+            }
+
+            //only student can like
+            if( $canLike ){
+                $this->loadModel('Like');
+                $student_id = $this->Auth->user('user_id');
+                $teacher_id = $id;
+                $likes = $this->Like->find('all', array(
+                    'conditions' => array(
+                        'student_id' => $student_id,
+                        'teacher_id' => $teacher_id,
+                        )
+                    ));
+                $this->set(compact('likes', 'teacher_id', 'student_id'));
+            }
             $this->set("data", $data);
             $this->set('isOther',$isOther);
             if ($data['User']['user_type'] == 1) {
