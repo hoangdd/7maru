@@ -16,8 +16,8 @@ class DataController extends AppController {
 	}
 	public function file($file_id=null){
 
-		// $q = $this->request->query;
-		// if( empty($q['token'])) die;
+		$q = $this->request->query;
+		if( empty($q['token'])) die;
 
 		$user_id = $this->Auth->user('user_id');
 		//check token

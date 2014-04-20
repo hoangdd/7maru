@@ -1082,11 +1082,17 @@ function Edit($id)
 	 * 
 	 */
 	function testHistory($file_id){
+		$userType = $this->Auth->User('role');
+		$users = $this->Auth->user();
+		if($userType == 'R2') $conditions = array('TestResult.file_id' => $file_id);
+		if($userType == 'R3') $conditions = array('TestResult.file_id' => $file_id,
+													'TestResult.user_id' => $users['user_id']
+													);
+		print_r($conditions);
 		$testList = $this->TestResult->find('all',array(
-			'conditions' => array(
-			'TestResult.file_id' => $file_id
-		)
+			'conditions' => $conditions
 		));
+		
 		if(isset($testList)){
 			$i = 0;
 			foreach($testList as $fKey => $fValue) {
