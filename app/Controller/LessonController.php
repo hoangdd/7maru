@@ -276,7 +276,7 @@ function Edit($id)
 		$this->set('data',$lesson['Lesson']);
 		$this->set('LessonCategory', $lesson['LessonCategory']);
 		$this->set('lesson',$lesson);	
-		
+
 		$categories = $this->LessonCategory->get_Lesson_categories($id);
 		$category_list = $this->Category->find('all');	
 
@@ -337,7 +337,7 @@ function Edit($id)
 						}
 					}
 				}
-				
+
 			}
 			// for($i = 0, $len = $);			
 			if(!empty($_FILES['document']['name'][0])){
@@ -933,9 +933,9 @@ function Edit($id)
 	 */
 	function DoTest() {
 		if (! $this->request->is ( "post" )) {
-			
+
 		} else {
-			
+
 			$values = $this->request->data['testfilegettest'];
 			$values = str_replace(".js",".tsv",$values);
 			$this->set('testfilegettest',$values);
@@ -944,11 +944,11 @@ function Edit($id)
 			$temp = 0;$mark = 0;
 			$markGET = 0;
 			$markTotal = 0;
-			
+
 			$flagChooseCheck = 0;
 			$choosedNONE = "ignored";
 			for($i = 0;$i<$totques;$i++){
-				
+
 				$markTotal += intval($finalTest['Question'.$i]['markNumber']);
 				if(!isset($this->request->data['Question'.$i])) {
 					$mark++;
@@ -957,7 +957,7 @@ function Edit($id)
 					else {
 						$choosed += array($i => $choosedNONE);
 						// $choosed = array_merge($choosed, array($i => $choosedNONE));
-						
+
 					}
 					$flagChooseCheck = 1;
 				}
@@ -967,12 +967,12 @@ function Edit($id)
 					else {
 						$choosed += array($i => $this->request->data['Question'.$i]);
 						// $choosed = array_merge($choosed, array($i => $this->request->data['Question'.$i]));
-						
+
 					}
 					$flagChooseCheck = 1;
 					// echo 'Question '.$i.' answer:'.$this->request->data['Question'.$i];
 					if(strcmp($this->request->data['Question'.$i],$finalTest['Question'.$i]['mark']) == 0){
-						
+
 						$markGET += intval($finalTest['Question'.$i]['markNumber']);
 						$temp++;
 					}
@@ -997,9 +997,9 @@ function Edit($id)
 				'controller' => 'Lesson',
 				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
 				));
-			
+
 		}
-		
+
 	}
 	
 	
@@ -1011,23 +1011,23 @@ function Edit($id)
 				)
 			));
 		$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
-		
+
 		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
-		
+
 		$this->set('hit',$result['TestResult']['hit']);
 		$this->set('total',$result['TestResult']['total_ques']);
 		$this->set('time',600);
 		$this->set('mark',$result['TestResult']['choiced']);
 		$this->set('markGET',$result['TestResult']['score']);
 		$this->set('markTotal',$result['TestResult']['scorefull']);
-		
+
 		$this->set('finalTest',$finalTest);
 		$choosed = unserialize($result['TestResult']['result']);
 		$this->set('choosedEnd',$choosed);
-		
+
 	}
 	
-	
+
 	function ViewTestResult() {
 		$this->layout = null;
 		$this->set('qid',$this->params['url']['qid']);
@@ -1057,11 +1057,20 @@ function Edit($id)
 				'Data.file_id' => $id
 				)
 			));
+
 		$str = "";
 		if(count($dulieu) != 0){
+			//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			//token process
+
+			$token = md5(FILL_CHARACTER.date('y/m/d h:m:s').$id);
+			$this->set('token', $token);
+			$user_id = $this->Auth->User('user_id');
+			$this->Session->write('Token.'.$id.'.'.$user_id, $token);
+			//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			$this->set('testID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);
-			
+
 		} else {
 			$str = "Error test data!!!";
 		}
