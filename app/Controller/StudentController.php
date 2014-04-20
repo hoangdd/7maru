@@ -34,7 +34,7 @@ class StudentController extends AppController {
 		//データがある場合
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
-			
+			debug($data);die;
 			 /*
 			   ユーザ名前をチェック:
 				0:  null
@@ -250,7 +250,7 @@ class StudentController extends AppController {
 				}
 			}
 			 //自己のイメージをチェック：				
-			if( !empty($_FILES['profile_picture'])){
+			if ($_FILES['profile_picture']['error'] == 0) {
 				$config = Configure::read('srcFile');
 				$img_exts = $config['image']['extension'];
 				$profile_pic = $_FILES['profile_picture'];
