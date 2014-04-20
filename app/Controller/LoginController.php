@@ -364,12 +364,12 @@ class LoginController extends AppController {
         }
         else{
             if (!isset($_SESSION['count_to_block'][$username]))
-                $_SESSION['count_to_block'][$username] = 1;                        
+                $_SESSION['count_to_block'][$username] = 0;                        
         }
     }  
 
     private function _resetBlockStage($username){
-        $_SESSION['count_to_block'][$username] = 1;
+        $_SESSION['count_to_block'][$username] = 0;
     }
 
     public function confirmVerifycode($username,$type){

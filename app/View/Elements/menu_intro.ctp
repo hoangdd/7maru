@@ -198,7 +198,7 @@ user => comment, index
 					?>
 				</li>
 
-
+<!-- 
 				<?php
 					$option = array(
 						'controller' => 'Student',
@@ -211,12 +211,12 @@ user => comment, index
 					}else{
 						$isActive = false;
 					}
-				?>
-				<li <?php if($isActive) echo "class='active'";?>>
+				?> -->
+				<!-- <li <?php if($isActive) echo "class='active'";?>>
 					<?php
 					echo $this->Html->link(__('Buy Lesson'), $option);
 					?>
-				</li>
+				</li> -->
 
 
 				<?php
