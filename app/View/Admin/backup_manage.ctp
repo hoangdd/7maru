@@ -1,6 +1,4 @@
-<?php
-	if(isset($backup_history)) {
-?>
+
 <style type="text/css">
  .no-col, .del-ip-col, .edit-ip-col{
  	text-align: center;
@@ -22,6 +20,9 @@
 	?>
 </h3>
 <!-- table -->
+<?php
+	if(isset($backup_history)) {
+?>
 <div class="">
 	<table class="table table-striped table-bordered">
 
