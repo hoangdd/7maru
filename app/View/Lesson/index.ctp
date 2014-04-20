@@ -183,13 +183,25 @@
                       array(
                         'class' => "list-group-item"
                         )
-                      );    
+                      );
+                      
+                      echo $this->Html->link(__('全部でこのテストのテストを見る'), array(
+                        'controller' => 'Lesson',
+                        'action' => 'testHistory',
+                        $value['file_id']                       
+                        ),
+                      array(
+                        'class' => "list-group-item"
+                        )
+                      ); 
+                          
                     }  
                   }                  
                 }
                 echo "</ul></div>";
               }
               ?>              
+                  
                 
         </div>
     </div>

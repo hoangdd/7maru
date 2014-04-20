@@ -1062,6 +1062,47 @@ class LessonController extends AppController {
 		$this->set("warningNotify",$str);
 	}
 	
+	/**
+	 * Get test history link
+	 * 
+	 */
+	function testHistory($file_id){
+		$testList = $this->TestResult->find('all',array(
+			'conditions' => array(
+			'TestResult.file_id' => $file_id
+		)
+		));
+		if(isset($testList)){
+			$i = 0;
+			foreach($testList as $fKey => $fValue) {
+				$userFind = $this->User->find('first',array(
+					'conditions' => array(
+						'User.user_id' =>	$fValue['TestResult']['user_id']
+					)
+				)
+				
+				);	
+				if(isset($userFind)){
+					if($i == 0)
+						$dataList = array($i => array(
+							'user_test' => $userFind['User']['username'],
+							'result_id' => $fValue['TestResult']['result_id'],
+							'test_time' => $fValue['TestResult']['test_time']
+					));
+						else 
+							$dataList += array($i=>array(
+									'user_test' => $userFind['User']['username'],
+									'result_id' => $fValue['TestResult']['result_id'],
+									'test_time' => $fValue['TestResult']['test_time']
+							));
+						$i++;
+				}
+			}
+			//end for
+			if(isset($dataList))
+				$this->set('dataList',$dataList);
+		}
+	}
 }
 
 ?>
