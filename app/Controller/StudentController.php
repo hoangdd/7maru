@@ -6,7 +6,8 @@ class StudentController extends AppController {
 			'User',
 			'Student',
 			'Data' ,
-			'TestResult'
+			'TestResult',
+			'LessonTransaction'
 			
 	);
 
@@ -420,6 +421,71 @@ class StudentController extends AppController {
 	}
 
 	function Statistic() {
+		$user = $this->Auth->User();
+		if($user && $user['user_id']){
+			$bought_courses = $this->LessonTransaction->findAllByStudentId($user['user_id']);
+			$this->loadModel('Lesson');
+			$this->Lesson->bindModel(array(			
+			'hasMany' => array(				
+				'File' => array(
+					'className' => 'Data',
+					'foreignKey' => 'coma_id' 
+					)				
+				),
+			));
+			// $bought_courses['spentMoney'] = 0;
+			$spentMoney = 0;
+			foreach ($bought_courses as $index => $course) {
+				$spentMoney += $course['LessonTransaction']['money'];
+				
+				if($this->LessonTransaction->had_active_transaction($user['user_id'], $course['LessonTransaction']['coma_id'])){
+					$bought_courses[$index]['learn_able'] = true;
+				} else {
+					$bought_courses[$index]['learn_able'] = false;
+				}
+
+				$lesson = $this->Lesson->findByComaId($course['LessonTransaction']['coma_id']);
+				//die(var_dump($lesson));
+				$bought_courses[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('ReportLesson');
+			$reported_lesson = $this->ReportLesson->findAllByUserId($user['user_id']);
+			foreach ($reported_lesson as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['ReportLesson']['coma_id']);
+				$reported_lesson[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('BlockStudent');
+			$blockeds = $this->BlockStudent->findAllByStudentId($user['user_id']);
+			foreach ($blockeds as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['ReportLesson']['coma_id']);
+				$blockeds[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('RateLesson');
+			$rates = $this->RateLesson->findAllByStudentId($user['user_id']);
+			foreach ($rates as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['RateLesson']['coma_id']);
+				$rates[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('Comment');
+			$comments = $this->Comment->findAllByUserId($user['user_id']);
+			foreach ($comments as $index => $comment) {
+				$file = $this->Comment->findByFileId($comment['Comment']['file_id']);
+				$comments[$index]['file'] = $file;
+			}
+
+			$this->set('comments',$comments);
+			$this->set('courses',$bought_courses);
+			$this->set('reported_lessons',$reported_lesson);
+			$this->set('spentMoney',$spentMoney);
+			$this->set('blockeds', $blockeds);
+			$this->set('rates',$rates);
+		} else {
+			$this->redirect(array('controller' => 'Login','action' => 'index'));
+		}
 	}
 
 	function BuyLesson() {
