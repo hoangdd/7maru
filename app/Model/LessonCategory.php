@@ -8,6 +8,9 @@ class LessonCategory extends AppModel {
         } else {
             $dataArr = array();
             $ids = $this->find('list', array(
+                'conditions' => array(
+                    'coma_id' => $lesson_id,
+                    ),
                 'fields' => array('id'),
                 ));
             $this->deleteAll(array('id' => $ids));
