@@ -329,10 +329,14 @@ class StudentController extends AppController {
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
+                    'user_type' => '2'
+                    /*@hoangdd */
                 )
             ));
-			if (!$data){
+			if ( empty($data)){
 				$this->Session->setFlash(__('Forbidden error'));
+				echo '403 Forbidden error.';
+                die;
 			}			
 		$this->set("data",$data);
 		$this->set('isOther',$isOther);
