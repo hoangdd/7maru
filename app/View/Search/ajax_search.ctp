@@ -38,7 +38,11 @@ if( !empty($data['User'])) :
 	<?php 
 		foreach ($data['User'] as $key => $value) {
 			echo '<div>';
-			echo $this->Html->link($value['User']['username'], '#');
+			echo $this->Html->link($value['User']['username'], array(
+					'controller' => 'Teacher',
+					'action' => 'Profile',
+					$value['User']['user_id']
+				));
 			echo '</div>';
 			echo '<div>';
 			echo $value['User']['username'].'...'.$value['User']['lastname'].'...'.$value['User']['address'].'...'

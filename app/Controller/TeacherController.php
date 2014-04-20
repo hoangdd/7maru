@@ -326,25 +326,29 @@ class TeacherController extends AppController {
         if ($this->Auth->loggedIn()) {
             if ($id!= null){
                 $pid = $id;        
-            }
-            else if ($this->Auth->user('role') !== 'R1' ){               
+            }elseif ($this->Auth->user('role') == 'R1' ){               
                 $pid=$this->Auth->User('user_id');                            
-            }
-            else{
+            }else{
+                echo '403 Forbidden error.';
                 die;
             }
             $isOther = true;
             $user = $this->Auth->User();
             if (isset($user['user_id']) && $pid == $user['user_id']){
                 $isOther = false;
-            }            
+            }
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
+                    'user_type' => '1'
+                    /*@hoangdd */
                 )
             ));
-            if (!$data){
+            /*@hoangdd- bo sung truong hop user_id -> student*/
+            if ( empty($data)){
                 $this->Session->setFlash(__('Forbidden error'));
+                echo '403 Forbidden error.';
+                die;
             }        
             $this->set("data", $data);
             $this->set('isOther',$isOther);
