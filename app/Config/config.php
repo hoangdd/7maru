@@ -103,7 +103,7 @@ define('HTML_DATA_DIR', DATA_DIR.DS.'html');
 define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
 define('BACKUP_COMMAND','/var/www/7maru/backups/');
-define('BACKUP_STORE','/home/boodfire/backup_store/');
+define('BACKUP_STORE','/var/www/backup_store/');
 
 
 Configure::write('srcFile', array(
