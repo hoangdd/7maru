@@ -22,11 +22,11 @@
 			<tr>			
 
 				<th class='ip-col' style="width:50%">
-					<?php echo __('Config') ?>
+					<?php echo __('コンフィグ') ?>
 				</th>
 
 				<th class='del-ip-col' style="width:50%">
-					<?php echo __('Value') ?>
+					<?php echo __('バリュー') ?>
 				</th>			
 			</tr>
 		</thead>			

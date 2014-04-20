@@ -15,6 +15,17 @@ class DataController extends AppController {
 
 	}
 	public function file($file_id=null){
+
+		// $q = $this->request->query;
+		// if( empty($q['token'])) die;
+
+		$user_id = $this->Auth->user('user_id');
+		//check token
+		if( !$this->__checkToken($q['token'], $file_id, $user_id) ){
+			// invalid token
+			echo 'コピーするとバカになります！';
+			die;
+		}
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
 		$this->loadModel('Lesson');
@@ -61,10 +72,12 @@ class DataController extends AppController {
 			}
 		}
 		$this->autoLayout = false;
+
 		$ext = pathinfo($file['Data']['path'], PATHINFO_EXTENSION);
 		// @todo , xu li path
 		$config = Configure::read('dataFile');
 		foreach ($config as $key => $value) {
+	//		debug($ext);die;
 			if( in_array($ext, $value['extension'])){				
 				$path = $value['path'].DS.$file['Data']['path'];
 				break;
@@ -91,15 +104,28 @@ class DataController extends AppController {
         //debug($params);
 		$this->set($params);
 	}
+	private function __checkToken($token, $fid, $user_id){
+		if( empty($token) || empty($fid) || empty($user_id)){
+			return false;
+		}
+		$set = array();
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('now'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('1 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('2 second ago'), 'y/m/d h:m:s').$fid);
+
+		//expired
+		if( !in_array($token, $set)){
+			return false;
+		}
+
+		$tokens = $this->Session->read('Token');
+		$this->log($tokens, 'hlog');
+		//check token is used
+		if( !empty($tokens) && 	!empty($tokens[$fid]) && !empty($tokens[$fid][$user_id]) && $tokens[$fid][$user_id] == $token){
+			//check ok
+			$this->Session->delete('Token.'.$fid.'.'.$user_id, $token);
+			return true;
+		}
+		return false;
+	}
 }
-
-
-
-/*
-$ext = pathinfo($file['File']['url'], PATHINFO_EXTENSION);
-
-$dataFile = Configure::read('dataFile');
-if( !isset($data['mimeType'][$ext])||empty($data['mimeType'][$ext]) ){
-	//unsupported file
-	return false;
-}*/

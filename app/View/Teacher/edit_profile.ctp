@@ -57,18 +57,18 @@
                  </div>
              </div>
              <div class="form-group">
-                <label class="col-sm-3 control-label"><?php echo __('Email').':' ?></label>
+                <label class="col-sm-3 control-label"><?php echo __('メール').':' ?></label>
                 <div class="col-sm-6">
 
-                <input name="mail" type="email" class="form-control" placeholder="<?php echo __('Email');?>" value=<?php echo "'".$userData['mail']  ."'" ?>>
+                <input name="mail" type="email" class="form-control" placeholder="<?php echo __('メール');?>" value=<?php echo "'".$userData['mail']  ."'" ?>>
 
                 </div>
              </div>
              <div class="form-group">
-                <label class="col-sm-3 control-label"><?php echo __('Address').':' ?></label>
+                <label class="col-sm-3 control-label"><?php echo __('アドレス').':' ?></label>
                 <div class="col-sm-6">
 
-                <input name="address" class="form-control" placeholder="<?php echo __('Address');?>" value=<?php echo "'".$userData['address']  ."'" ?>>
+                <input name="address" class="form-control" placeholder="<?php echo __('アドレス');?>" value=<?php echo "'".$userData['address']  ."'" ?>>
 
                 </div>
              </div>

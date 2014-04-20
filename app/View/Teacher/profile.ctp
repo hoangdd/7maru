@@ -45,10 +45,10 @@
       	echo __('Birthday').':' ?></dt>
       <dd><?php echo $data['User']['date_of_birth']; ?></dd>
       <br>
-      <dt><?php echo __('Email').':' ?></dt>
+      <dt><?php echo __('メール').':' ?></dt>
       <dd><?php echo $data['User']['mail'];?></dd>
       <br>
-      <dt><?php echo __('Address').':' ?></dt>
+      <dt><?php echo __('アドレス').':' ?></dt>
       <dd><?php echo $data['User']['address'];?></dd>
       <br>
       <dt><?php echo __('Telephone number').':' ?></dt>

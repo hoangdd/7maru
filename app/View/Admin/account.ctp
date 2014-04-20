@@ -26,10 +26,10 @@
 		<input class="form-control" id="dp1" readonly=""/>
 	</div>
 	<div class="col-md-3 date">	
-		<input type='button' id="displayButton" class='btn btn-success' value = 'Display'></input>
+		<input type='button' id="displayButton" class='btn btn-success' value = 'ディスプレイ'></input>
 	</div>
 	<div class="col-md-3 text-right date">	
-		 <input type='button' id="exportButton" class='btn btn-success' value = 'Export'></input>
+		 <input type='button' id="exportButton" class='btn btn-success' value = 'エクスポート'></input>
 	</div>
 </div>
 <p></p>
@@ -47,7 +47,7 @@ $(document).ready(function(){
     function update(data){    	
     	student = data['student'];
 		teacher = data['teacher'];			
-			var strToAppend = "<tr><th><?php echo __('Username');?></th><th><?php echo __('Name');?></th><th><?php echo __('Type');?></th><th> <?php echo __('Money');?> </th><th><?php echo __('Credit card number');?></th></tr>";
+			var strToAppend = "<tr><th><?php echo __('Username');?></th><th><?php echo __('Name');?></th><th><?php echo __('Type');?></th><th> <?php echo __('Money');?> </th><th><?php echo __('クレジットカード番号');?></th></tr>";
 			if (data != null){
 		 		for (var i in student){
 			 			strToAppend += "<tr>";		 			

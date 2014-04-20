@@ -6,7 +6,8 @@ class StudentController extends AppController {
 			'User',
 			'Student',
 			'Data' ,
-			'TestResult'
+			'TestResult',
+			'LessonTransaction'
 			
 	);
 
@@ -34,7 +35,7 @@ class StudentController extends AppController {
 		//データがある場合
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
-			
+			debug($data);die;
 			 /*
 			   ユーザ名前をチェック:
 				0:  null
@@ -188,7 +189,6 @@ class StudentController extends AppController {
 				$check_user = false;
 			}	
 			else{
-
 				if(strlen($data['verifycode_answer']) > 50){
 					$error['verifycode_answer'][2] ='Answer of verifycode is too long.';
 					$check_user = false;
@@ -220,12 +220,23 @@ class StudentController extends AppController {
 			$check_student = true;
 			// check credit_account
 			if (! isset ( $data ['credit_account'] )) {
-				$error ['credit_account'] [0] = 'Credit account is equal null.';
+				$error ['credit_account'] [0] = __('Credit account is equal null.');
 				$check_student = false;
 			}
 			if (empty ( $data ['credit_account'] )) {
-				$error ['credit_account'] [1] = 'Credit account is empty.';
+				$error ['credit_account'] [1] = __('Credit account is empty.');
 				$check_student = false;
+			}
+			else{
+				if(strlen($data['credit_account'])>28){
+					$error ['credit_account'] [2] = __('Credit account is too long.');
+					$check_student = false;
+				}
+				$credit_card_re_ex = '/^\w{8}-\w{4}-\w{4}-\w{4}-\w{4}$/';
+				if (!preg_match($credit_card_re_ex,$data['credit_account'])) {
+					$error['credit_account'][3] = __('Creadit card is not match form.');
+					$check_student = false;
+				}
 			}
 			// =================================
 			
@@ -240,7 +251,7 @@ class StudentController extends AppController {
 				}
 			}
 			 //自己のイメージをチェック：				
-			if( !empty($_FILES['profile_picture'])){
+			if ($_FILES['profile_picture']['error'] == 0) {
 				$config = Configure::read('srcFile');
 				$img_exts = $config['image']['extension'];
 				$profile_pic = $_FILES['profile_picture'];
@@ -318,10 +329,14 @@ class StudentController extends AppController {
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
+                    'user_type' => '2'
+                    /*@hoangdd */
                 )
             ));
-			if (!$data){
+			if ( empty($data)){
 				$this->Session->setFlash(__('Forbidden error'));
+				echo '403 Forbidden error.';
+                die;
 			}			
 		$this->set("data",$data);
 		$this->set('isOther',$isOther);
@@ -420,6 +435,71 @@ class StudentController extends AppController {
 	}
 
 	function Statistic() {
+		$user = $this->Auth->User();
+		if($user && $user['user_id']){
+			$bought_courses = $this->LessonTransaction->findAllByStudentId($user['user_id']);
+			$this->loadModel('Lesson');
+			$this->Lesson->bindModel(array(			
+			'hasMany' => array(				
+				'File' => array(
+					'className' => 'Data',
+					'foreignKey' => 'coma_id' 
+					)				
+				),
+			));
+			// $bought_courses['spentMoney'] = 0;
+			$spentMoney = 0;
+			foreach ($bought_courses as $index => $course) {
+				$spentMoney += $course['LessonTransaction']['money'];
+				
+				if($this->LessonTransaction->had_active_transaction($user['user_id'], $course['LessonTransaction']['coma_id'])){
+					$bought_courses[$index]['learn_able'] = true;
+				} else {
+					$bought_courses[$index]['learn_able'] = false;
+				}
+
+				$lesson = $this->Lesson->findByComaId($course['LessonTransaction']['coma_id']);
+				//die(var_dump($lesson));
+				$bought_courses[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('ReportLesson');
+			$reported_lesson = $this->ReportLesson->findAllByUserId($user['user_id']);
+			foreach ($reported_lesson as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['ReportLesson']['coma_id']);
+				$reported_lesson[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('BlockStudent');
+			$blockeds = $this->BlockStudent->findAllByStudentId($user['user_id']);
+			foreach ($blockeds as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['ReportLesson']['coma_id']);
+				$blockeds[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('RateLesson');
+			$rates = $this->RateLesson->findAllByStudentId($user['user_id']);
+			foreach ($rates as $index => $course) {
+				$lesson = $this->Lesson->findByComaId($course['RateLesson']['coma_id']);
+				$rates[$index]['lesson'] = $lesson;
+			}
+
+			$this->loadModel('Comment');
+			$comments = $this->Comment->findAllByUserId($user['user_id']);
+			foreach ($comments as $index => $comment) {
+				$file = $this->Comment->findByFileId($comment['Comment']['file_id']);
+				$comments[$index]['file'] = $file;
+			}
+
+			$this->set('comments',$comments);
+			$this->set('courses',$bought_courses);
+			$this->set('reported_lessons',$reported_lesson);
+			$this->set('spentMoney',$spentMoney);
+			$this->set('blockeds', $blockeds);
+			$this->set('rates',$rates);
+		} else {
+			$this->redirect(array('controller' => 'Login','action' => 'index'));
+		}
 	}
 
 	function BuyLesson() {

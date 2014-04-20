@@ -70,8 +70,8 @@
 					echo $td.$i++."</td>";										
 					echo $td.$user['Admin']['last_name'].$user['Admin']['first_name'].$close;				
 					echo $td.$user['Admin']['username'].$close;													
-					echo $td.$this->Html->link('Edit',array('controller' => 'Admin','action' => 'editAdmin',$user['Admin']['admin_id'])).$close;
-					echo $td.$this->Html->link('Delete',array('controller' => 'admin','action' => 'deleteAdmin',$user['Admin']['admin_id']),array('class' => 'link_delete')).$close;					
+					echo $td.$this->Html->link('修正',array('controller' => 'Admin','action' => 'editAdmin',$user['Admin']['admin_id'])).$close;
+					echo $td.$this->Html->link('削除',array('controller' => 'admin','action' => 'deleteAdmin',$user['Admin']['admin_id']),array('class' => 'link_delete')).$close;					
 					echo "</tr>";			
 				endforeach;
 			?>

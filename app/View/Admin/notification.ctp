@@ -31,13 +31,13 @@
         <div class="panel panel-danger">
             <!--panel header-->
             <div class="panel-heading">
-                <h3 class="panel-title"><?php echo __('Public message') ?></h3>
+                <h3 class="panel-title"><?php echo __('公共メッセージ') ?></h3>
             </div>
             
             <!--panel body-->
             <div class="panel-body">
                 <form action='notification' class="form-horizontal" role="form" method="POST">
-                    <label>Input:</label>
+                    <label><?php echo __('入力:')?></label>
                     <textarea class="form-control" rows="10" id="publicTextarea" name="publicTextarea"></textarea>
                     <p></p>
                     <div class="form-group">
@@ -81,7 +81,7 @@
                           </div>
                         </form>
                     </div>
-                    <label>Input:</label>
+                    <label>入力</label>
                     <textarea class="form-control" rows="3" id="privateTextarea"></textarea>
                 </form>
                 <p></p>
@@ -99,9 +99,9 @@
 
                 <div class="multiselect">
                     <table class="table table-bordered table-hover" id = "user-table">
-                        <th class="danger"><label><?php echo __('Username') ?></label></th>
-                        <th class="danger"><label><?php echo __('Full Name') ?></labe></th>
-                        <th class="danger"><label><input type="checkbox"/><?php echo __('Check') ?></label></th>
+                        <th class="danger"><label><?php echo __('Username'); ?></label></th>
+                        <th class="danger"><label><?php echo __('Full name'); ?></labe></th>
+                        <th class="danger"><label><input type="checkbox"><?php echo __('チェック'); ?></label></th>
                         <?php
                             /*foreach ($user['name'] as $name):
                                echo '<label><input type="checkbox" name="option[]"/>'.$name.'</label>';				
@@ -118,7 +118,7 @@
                 <p></p>
                     <div class="form-group">
                         <button id='post-button' name="privatepost" type="submit" class="btn btn-success">
-                        <span class="glyphicon glyphicon-envelope"></span> <?php echo __('Post') ?>
+                        <span class="glyphicon glyphicon-envelope"></span> <?php echo __('ポスト') ?>
                         </button>
                     
                         <button type="button" class="btn btn-warning" onClick="resetTextareaPrivate();">

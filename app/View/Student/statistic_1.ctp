@@ -69,13 +69,13 @@ $beginDate = '21/2/2013';
       <!-- Option to the statistics follow by : week,month,year -->      
       <div class="row">
             <!-- information -->
-            <p class='title'>情報フィギュア</p>
+            <p class='title'>Information figure</p>
 
       </div>
       <div class="row">
             <div class='col-md-12'>                    
                   <div class='col-md-6' style='border-right:1px solid #cccccc'>
-                        <p>今日: 
+                        <p>Today: 
                               <script>today = new Date()
                               var dd = today.getDate();
                               var mm = today.getMonth()+1; //January is 0!
@@ -88,32 +88,32 @@ $beginDate = '21/2/2013';
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <span class="badge">14</span>
-                                ビューの数
+                                The number of views
                               </li>
                               <li class="list-group-item">
                                 <span class="badge">14</span>
-                                投票の数
+                                The number of votes
                               </li>
                               <li class="list-group-item">
                                 <span class="badge">14</span>
-                                購入の数
+                                The number of purchases
                               </li>                              
                         </ul>                   
                   </div>
                   <div class='col-md-6'>
-                        <p>開始から: <?php echo $beginDate; ?></p>
+                        <p>From the begin: <?php echo $beginDate; ?></p>
                          <ul class="list-group">
                             <li class="list-group-item">
                                 <span class="badge">124</span>
-                                ビューのトータル
+                                The total of views
                               </li>
                               <li class="list-group-item">
                                 <span class="badge">124</span>
-                                投票のトータル
+                                The total of votes
                               </li>
                               <li class="list-group-item">
                                 <span class="badge">124</span>
-                                購入のトータル
+                                The total of purchases
                               </li>                              
                         </ul>       
                   </div>
@@ -127,18 +127,18 @@ $beginDate = '21/2/2013';
       </div>
       <!-- statistic by time -->
       <div class="row">
-            <p class='title'>時間による統計</p>
+            <p class='title'>Statistic by time</p>
       </div>
       <div class="row">
             <div class='col-md-8 col-md-offset-3 from-to-date'>
                   <div class='col-md-6'>                                    
-                        <div class="col-md-2">始め</div>
+                        <div class="col-md-2">From</div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp2" readonly=""/>
                         </div>                      
                   </div> 
                   <div class='col-md-6'>
-                        <div class="col-md-2 text-right">まで</div>
+                        <div class="col-md-2 text-right">To</div>
                         <div class="col-md-9 date">
                               <input class="form-control" id="dp3" readonly=""/>
                         </div>
@@ -150,9 +150,9 @@ $beginDate = '21/2/2013';
       <div class='row'>
             <div class='col-md-2'>
                   <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#" id="views">ビュー</a></li>
-                        <li><a href="#" id="votes">投票</a></li>
-                        <li><a href="#" id="purchases">購入</a></li>
+                        <li class="active"><a href="#" id="views">Views</a></li>
+                        <li><a href="#" id="votes">Votes</a></li>
+                        <li><a href="#" id="purchases">Purchases</a></li>
                   </ul>
             </div>
             <div class='col-md-10 char-div' id='chart_div'>
