@@ -556,6 +556,7 @@ function Edit($id)
 					$j = 0;
 					if ($valueB['BlockStudent']['student_id'] === $valueL['User']['user_id']) {
 						unset($stdList[$j]);
+						break;
 					}
 					$j++;
 				}
