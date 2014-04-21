@@ -63,7 +63,7 @@ $(document).ready(function(){
 			src,            	
 			function(data){  
 				if (data.trim() == '1') {
-					alert("<?php echo __('Successful') ?>");
+					alert("<?php echo __('Successfully') ?>");
 					var tr = a.parent().parent();
 					tr.replaceWith("");
 				}else{

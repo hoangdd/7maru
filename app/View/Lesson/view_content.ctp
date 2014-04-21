@@ -133,7 +133,7 @@ $(document).ready(function(){
 			function(data){
 				console.log(data);
 				if (data.trim() == '1') {
-					alert("<?php echo __('Successful') ?>");
+					alert("<?php echo __('Successfully') ?>");
 					var tr = a.parent().parent();
 					tr.replaceWith("");
 				}else{

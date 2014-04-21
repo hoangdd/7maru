@@ -715,8 +715,14 @@ msgstr "アンブロック"
 msgid "Successfully"
 msgstr "成功だった"
 
+msgid "Successful"
+msgstr "成功だった"
+
 msgid "Error"
 msgstr "エラーが発生した"
 
 msgid "Update Successfully"
 msgstr "更新が成功だった"
+
+msgid "You do not have permission to view this page"
+msgstr "このページにアクセス権がありません"
