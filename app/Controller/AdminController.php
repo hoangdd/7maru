@@ -588,12 +588,14 @@ class AdminController extends AppController {
                );
                 $this->AdminIp->delete(intval($del ['AdminIp'] ['ip_id']));
                 $this->IpOfAdmin->delete(intval($ipOfAdmin['IpOfAdmin']['ip_of_admin_id']));
+                $this->Session->setFlash(__('削除成功しました'));
             }
             if (strcmp($getParam ['mod'], "edit") == 0) {
                 $enterID = $getParam ['ip_admin'];
                 $enter = $getParam['ip'];
                 $admin = $getParam['admin'];
                 $modFlag = 1;
+                $this->Session->setFlash(__('IPアドレスを変更機能'));
             }
         }
         if ($this->request->is("post")) {
@@ -611,17 +613,12 @@ class AdminController extends AppController {
                         )
                             ));
                     if (!filter_var($ipRetrieved, FILTER_VALIDATE_IP)) {
-                        echo "Not a valid IP address!";
+                        $this->Session->setFlash(__('IPアドレスが正しくない'));
                     } else {
                         if ((strcmp(strval($pre), $ipRetrieved) != 0) && (count($specificallyThisOne) != 0)) {
                             $this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
-                            $this->AdminIp->saveField('ip', $ipRetrieved);
-                        }
-
-
-                        if ((strcmp(strval($pre), $ipRetrieved) != 0) && (count($specificallyThisOne) != 0)) {
-                            $this->AdminIp->id = $specificallyThisOne ['AdminIp'] ['ip_id'];
-                            $this->AdminIp->saveField('ip', $ipRetrieved);
+                            if($this->AdminIp->saveField('ip', $ipRetrieved))
+                            	$this->Session->setFlash(__('変更成功しました'));
                         }
                     }
                 } else {
@@ -661,8 +658,11 @@ class AdminController extends AppController {
 	                        		'ip_id' => $this->AdminIp->getLastInsertID()
 	                        	);
 	                        	$this->IpOfAdmin->create($data_admin_ip);
-	                        	$this->IpOfAdmin->save();
+	                        	if($this->IpOfAdmin->save())
+	                        		$this->Session->setFlash(__('IPを作成成功しました'));
                     	}
+                    	else 
+                    		$this->Session->setFlash(__('このIPは既存しました'));
                     }
                 }
             }
@@ -691,11 +691,13 @@ class AdminController extends AppController {
         					'IpOfAdmin.ip_id' => $value['AdminIp']['ip_id']
         			)
         	));
+        	if($specificallyThisOne) {
         	$specificallyThisTwo = $this->Admin->find('first', array(
         			'conditions' => array(
         					'Admin.admin_id' => $specificallyThisOne['IpOfAdmin']['admin_id']
         			)
         	));
+        	if($specificallyThisTwo) {
         	if($iTemp == 0)
         		$data = array(
         		$iTemp => array(
@@ -713,6 +715,8 @@ class AdminController extends AppController {
         					)
         			);
         			$iTemp++;
+        	}
+        	}
         }
         
         $admin_query = $this->Admin->find('all',array(

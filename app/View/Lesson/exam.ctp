@@ -23,6 +23,10 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
 <!--CSS/Style Sheet Part Ending-->
 <!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
 <?php 
+	if(isset($testID) && isset($testfile)) {
+?>
+
+<?php 
     $file_hidden = $testfile;
 ?>
 <SCRIPT type="text/javascript" src="<?php echo $this->Html->url(array(
@@ -425,4 +429,10 @@ doTest(0);
 </table>
 
 </body>
+
+<?php
+	} else {
+		echo "<p> テストがただしくない</p>";
+	}
+?>
 </html>

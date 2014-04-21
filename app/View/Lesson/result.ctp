@@ -2,19 +2,10 @@
 		echo $this->Html->css('quiz');
 		echo $this->Html->css('site_styles');
 ?>
-
-
-<style type="text/css">
-	h1{
-		color:orange;
-		text-align:center;
-	}
-</style>
-<h1>結果</h1>
-<div class="jumbotron">
-	<p>終わった時間:<?php echo $time;?>分</p>
-	<p>テストのテーマ:IT日本語</p>
-</div>
+<?php 
+				if( isset($testfilegettest) && isset($hit) &&isset($total) && isset($mark) && isset($markGET) && isset($markTotal) && isset($choosedEnd) && isset($finalTest))
+				{
+?>
 
 <?php 
 $correct_per = round((intval($hit)/intval($total))*100,2);
@@ -72,7 +63,7 @@ $strToMergeUrl = http_build_query(array('aParam' => $choosedEnd));
 									<?php $qid = 0; ?>
 									<span style="font-weight: bold"><a href="javascript:showQuesSec(0);" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">実施したテストを見る</a> 
 										| <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;"授業を見る</a>
-										| <a href="#" style="font-family:Trebuchet MS; font-size:13px; color:#484848; text-decoration:none;">次のテストをする</a></span>
+									</span>
 								</td>
 							</tr>
 						</tbody>
@@ -85,3 +76,10 @@ $strToMergeUrl = http_build_query(array('aParam' => $choosedEnd));
 		<td colspan="2" align="left" valign="top" style="padding-left:5px; padding-right:5px;" id="question_view">&nbsp;</td>
 	</tr>
 </table>
+
+
+<?php 
+	} else {
+		echo "<p>このURLは入力が正しくない　</p>";
+	}
+?>
