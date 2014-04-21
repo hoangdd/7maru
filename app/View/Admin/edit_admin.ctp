@@ -79,7 +79,7 @@ echo $this->Html->css('common');
         </table>                
         <div style='float:left'>
             <?php 
-            echo $this->Html->link(__('Change password'),array('controller' => 'admin', 'action' => 'changePasswordAdmin',$data['Admin']['admin_id']),array('class' => 'btn btn-primary'));
+            echo $this->Html->link(__('Change Password'),array('controller' => 'admin', 'action' => 'changePasswordAdmin',$data['Admin']['admin_id']),array('class' => 'btn btn-primary'));
             ?>        
         </div>
             <div class='text-center'> 

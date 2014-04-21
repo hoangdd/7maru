@@ -1341,7 +1341,6 @@ function deleteFile($file_id = null){
         $this->set(compact('username'));
         if ($this->request->is('post')){
             $data = $this->request->data;
-            debug($data);die;
             $this->Admin->id = $id;
             if ($this->Admin->save($data))
                 $this->Session->setFlash(__('Successfully'));

@@ -359,8 +359,14 @@ msgstr "6文字以上でください"
 msgid "Please, at least {18} characters are necessary"
 msgstr "18文字以上でください"
 
+msgid "Please, at least {8} characters are necessary"
+msgstr "8文字以上でください"
+
 msgid "Please enter no more than {30} characters"
 msgstr "30文字以下でください"
+
+msgid "Password do not match"
+msgstr "パスワードと違いました"
 
 msgid "Start by a alphabet and please do not enter special characters"
 msgstr "アルファベットと初めて、特別な文字で使わないでください"
