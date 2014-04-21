@@ -23,6 +23,8 @@ class TeacherController extends AppController {
         //データがある場合
         if ($this->request->is('post')) {
             $data = $this->request->data;
+            // debug($data);
+            // die(var_dump($_FILES));
             /*
               ユーザ名前をチェック:
               0:  null
@@ -35,7 +37,6 @@ class TeacherController extends AppController {
             $check_user = true;
             if (!isset($data['username'])) {
                 $error['username'][0] = 'Username is equal null.';
-
                 $check_user = false;
             }
 
@@ -66,7 +67,6 @@ class TeacherController extends AppController {
                     //存在しない
                 } else {
                     $error['username'][5] = 'Username is exist.';
-
                     $check_user = false;
                 }
             }
@@ -82,7 +82,6 @@ class TeacherController extends AppController {
              */
             if (!isset($data['password'])) {
                 $error['password'][0] = 'Password is equal null.';
-
                 $check_user = false;
             }
 
@@ -242,7 +241,9 @@ class TeacherController extends AppController {
 
             //====================================
             //自己のイメージをチェック：  
-            if ($_FILES['profile_picture']['error'] == 0) {
+            // if( !empty($_FILES['profile_picture'])){
+            //(debug($_FILES)); die;
+            if ( !empty($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
                 $configs = Configure::read('srcFile');
                 $img_exts = $configs['image']['extension'];
                 $profile_pic = $_FILES['profile_picture'];
@@ -251,6 +252,8 @@ class TeacherController extends AppController {
                 {
                     $error['profile_picture'][0] = 'Unsupported image file';
                 }
+            }else{
+                 $profile_pic ='';
             }
 
             if (!empty($data['date_of_birth'])){
@@ -269,18 +272,22 @@ class TeacherController extends AppController {
                     'office' => $data['office'],
                     'description' => $data['description'],                    
                 );
-                $this->Teacher->create($data_teacher);
-
+               // $this->log($data_teacher,'hlog');
+                $this->loadModel('Teacher');
+                $data_teacher = $this->Teacher->create($data_teacher);
+                $this->log($data_teacher,'hlog');
                 //セーブしたり、結果を出した
-                $result = $this->Teacher->save();
-
+                if (!$result = $this->Teacher->save($data_teacher)){
+                   $this->Session->setFlash(__('Save Fail'));                   
+                }
+                //$this->log($result,'hlog');
                 //ユーザのデータをセーブする
                 /*
                  *   username,firstname,lastname,date_of_birth,address,password,
                  *   user_type,mail,phone_number,profile_picture
                  */
                 //自動にteacher_idを作られる
-                if (isset($result['Teacher']['teacher_id'])) {                    
+                if (!empty($result['Teacher']['teacher_id'])) {                    
                     $data['foreign_id'] = $result['Teacher']['teacher_id'];
                     $data['profile_picture'] = $profile_pic;
                     $data['user_type'] = 1;                  

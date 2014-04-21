@@ -65,6 +65,7 @@ class AppController extends Controller {
         if(!$this->__permission()){            
             echo '403 Forbidden error.';
            $this->redirect($this->Auth->loginAction);
+            // die;
         }
     }
     private function __permission($user_role = null, $current_controller = null){

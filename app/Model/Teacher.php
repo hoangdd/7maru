@@ -2,17 +2,18 @@
 
 class Teacher extends AppModel {
     public $primaryKey = 'teacher_id';
-    public $validate = array(
-        'bank_account' => array(
-            'required' => true,
-            'rule' => 'alphaNumeric',
-            'message' => 'Teacher\'s bank account is required'
-        )
-    );
+    // public $validate = array(
+    //     'bank_account' => array(
+    //         'required' => true,
+    //         'rule' => '',
+    //         'message' => 'Teacher\'s bank account is required'
+    //     )
+    // );
 
-    public function beforeSave($options = array()){
-    	
+    public function beforeSave($options = array()){    	 
+       
     	$data = $this->data['Teacher'];
+        
 
    		//username required
 		$idString = $data['username'].'teacher';

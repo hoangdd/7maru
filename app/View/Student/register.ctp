@@ -296,7 +296,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="file" class="form-control" name='profile_picture'>
+                        <input type="file" id='profile_picture' class="form-control" name='profile_picture'>
                         <p class="help-block"><?php echo __('Upload your photo to display') ?></p>
                         <span>
                             <?php

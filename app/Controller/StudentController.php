@@ -35,7 +35,6 @@ class StudentController extends AppController {
 		//データがある場合
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
-			debug($data);die;
 			 /*
 			   ユーザ名前をチェック:
 				0:  null
@@ -259,6 +258,9 @@ class StudentController extends AppController {
 				if( !in_array($ext, $img_exts) ){
 				  $error['profile_picture'][0] ='Unsupported image file';  
 				}				
+			}
+			else{
+				$profile_pic = '';
 			}
 			if (!empty($data['date_of_birth'])){
                 $data['date_of_birth'] =  date_create($data['date_of_birth']);        
