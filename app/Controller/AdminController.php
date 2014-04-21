@@ -733,8 +733,8 @@ class AdminController extends AppController {
         	}
         }
         	$this->set('data_admin_query',$data_forADMIN);
-        
-        $this->set('data', $data);
+        if(isset($data))
+        	$this->set('data', $data);
 
         $temp = $this->request->query;
     }
