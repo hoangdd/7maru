@@ -187,6 +187,7 @@ $(document).ready(function(){
 <?php 
 	}
 	if( in_array($ext, $config['audio']['extension']) || in_array($ext, $config['video']['extension']) ){
+		if ($ext !== 'wav'){
 ?>
 <div class="load-file">
 <script type="text/javascript">
@@ -199,10 +200,19 @@ $(document).ready(function(){
 </div>
 <?php 
 	}
+	else {
+?>
+	<audio controls style='width: 100%; height: 100px; background: black;'>  
+  <source src="<?php echo '/7maru/Data/file/'.$file['Data']['file_id'].'?token='.$token;?>" type="audio/wav">
+</audio>
+	<!-- <iframe src="<?php echo '/7maru/Data/file/'.$file['Data']['file_id'].'?token='.$token;?>" > </iframe> -->
+<?php 
+	}
+	}
 ?>
 
 <?php
-if( in_array($ext, $config['img']['extension']) ){
+if( in_array($ext, $config['img']['extension']) ){	
 ?>
 <div class="load-file">
 <script type="text/javascript">

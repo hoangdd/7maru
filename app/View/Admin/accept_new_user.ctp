@@ -30,19 +30,19 @@ $this->Paginator->options(array(
 					<th class='text-center' style="width:10	%">
 						<?php echo __('Type') ?>
 					</th>
-					<th class='text-center' style="width:15%">
+					<th class='text-center' style="width:10%">
 						<?php echo __('Date of birth') ?>
 					</th>
-					<th class='text-center' style="width:25%">
+					<th class='text-center' style="width:20%">
 						<?php echo __('Created Account Time'); ?>
 					</th>
-					<th class='text-center' style="width:25%">
+					<th class='text-center' style="width:15%">
 						<?php echo __('Profile'); ?>
 					</th>
 					<th class='text-center' style="width:5%">
 						<?php echo __('Accept'); ?>
 					</th>
-					<th class='text-center' style="width:5%">
+					<th class='text-center' style="width:15%">
 						<?php echo __('アクセプトをしない'); ?>
 					</th>
 				</tr>

@@ -26,8 +26,8 @@ class DataController extends AppController {
 		}
 		if( !$this->__checkToken($q['token'], $file_id, $user_id) ){
 			// invalid token
-			echo 'コピーするとバカになります！';
-			die;
+			echo 'コピーするとバカになり	ます！';
+			 die;
 		}
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
@@ -115,7 +115,7 @@ class DataController extends AppController {
 		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('1 second ago'), 'y/m/d h:m:s').$fid);
 		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('2 second ago'), 'y/m/d h:m:s').$fid);
 
-		//expired
+		//expired		
 		if( !in_array($token, $set)){
 			return false;
 		}

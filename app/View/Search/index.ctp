@@ -13,7 +13,7 @@
 		$('.search-button').click(function(){
 
 			//keyword
-			var keyword = $('input[name="keyword"').val();
+			var keyword = $('input[name="keyword"]').val();
 			// if( keyword.length == 0 ) return;
 
 			//loading

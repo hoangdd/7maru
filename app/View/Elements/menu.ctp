@@ -75,6 +75,12 @@ $(document).ready(function(){
 			<ul class='root'>
 				<li>
 					<a href="<?php echo $this->Html->url(array(
+						'controller' => 'admin',
+						'action' => 'acceptNewUser'
+					));?>"> <?php echo __('管理者');?> </a>
+				</li>
+				<li>
+					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'home',
 						'action' => 'index'
 					));?>"> <?php echo __('Home');?> </a>

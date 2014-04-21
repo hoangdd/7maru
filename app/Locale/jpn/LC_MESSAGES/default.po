@@ -290,6 +290,9 @@ msgstr "キャンセル"
 msgid "ADMIN HOMEPAGE"
 msgstr "管理者のホームページ"
 
+msgid "ADMIN"
+msgstr "管理者"
+
 msgid "Search"
 msgstr "検索"
 
@@ -463,9 +466,6 @@ msgstr "ディスプレイのようにアップロードイメージ"
 
 msgid "Save"
 msgstr "セーブ"
-
-msgid "ADMIN HOMEPAGE"
-msgstr "アドミンホームページ"
 
 msgid "ADMIN MANAGE"
 msgstr "アドミン管理"

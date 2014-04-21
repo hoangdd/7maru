@@ -132,7 +132,7 @@ class LoginController extends AppController {
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
-                $this->Session->setFlash(__("Login success"));                    
+                //$this->Session->setFlash(__("Login success"));                    
                 return $this->redirect($this->Auth->loginRedirect);
             } 
             else {
