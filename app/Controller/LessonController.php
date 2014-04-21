@@ -436,7 +436,156 @@ function Edit($id)
 		
 	}	
 	
-	private function check_Document_File(){
+	private function check_Document_File($nFile){
+		$check_format_file = 1;
+		
+		
+		if ($nFile !== FALSE) {
+			$flag = 0;
+			$start_question = 0;//To flag start each a question
+			$start_answer = 0;//check head of question
+			$hasEnd = 0;//to set 0 when detect a new question
+			$line_count = 0;//to loop all line
+			while (!feof($nFile)) {
+				$nLineData = fgets($nFile);
+				$line_count++;
+				//if empty content file
+				//IF 1
+				//if($nLineData == "") {echo "Linh";echo $line_count;}
+				$CheckAfterEnd = 0;
+				if($line_count > 4) { //ELSE 1
+					$nParsed = "";
+					$nParsed = explode("\t", $nLineData);
+					echo "count: ".count($nParsed);
+					$checkempty=0;
+					for($ii = 0;$ii < count($nParsed);$ii++){
+						echo " ".$ii." : ".$nParsed[$ii];
+						if($nParsed[$ii]=="") $checkempty = 1;
+					}
+					echo "{check empty : ".$checkempty."}";
+					if(strpos($nLineData,'End') !== false) { echo "end";
+					$hasEnd = 1;
+		
+					for($ii = 1;$ii < count($nParsed);$ii++) {
+						echo "{II:".$nParsed[$ii]."}";
+						if(strcmp($nParsed[$ii],"") != 0)
+						{
+							//echo "no pass";
+							//$check_format_file = 0;
+		
+							//$CheckAfterEnd = 1;
+							 
+							// break;
+							 
+						}
+					}
+					 
+		
+					}//end check line end
+					else {
+						echo "current HasEnd:".$hasEnd;
+						if($hasEnd == 1) {
+							echo "after end"; echo "count: ".count($nParsed)."line_count:".$line_count;
+							if($nLineData != "" || count($nParsed) > 0)
+							{
+								//echo "false";
+								//  $check_format_file = 0;
+								//echo "<br> result:".$check_format_file;
+								//$CheckAfterEnd = 1;
+							}
+		
+						}//end check after END
+						//start check content
+						if($hasEnd == 0 && (strpos($nLineData,'End') == false)) {
+		
+							if(count($nParsed) != 4) {
+								$check_format_file = 0;
+								$CheckAfterEnd = 1;
+							}else{
+								if($checkempty == 1){
+		
+									$flag_empty = 0;
+									if(!empty($nParsed[0])) $flag_empty = 1;
+									if(!empty($nParsed[1])) $flag_empty = 1;
+									if(!empty($nParsed[2])) $flag_empty = 1;
+		
+									if($flag_empty == 1) {
+										echo "{question or answer error".$line_count."}";
+										$check_format_file = 0;
+										$CheckAfterEnd = 1;
+									} else{
+										$start_question = 0;
+										echo "no question";
+									}
+								}//End check line empty
+								//start check question format:
+								else {
+									echo "question";
+									//Question:
+									$flag_question = 0;
+									if($start_question == 0) {
+										echo "{has QS?:".strcmp ($nParsed[1], "QS" )."}";
+										if(strcmp ($nParsed[1],"QS")
+												!=0)
+													$flag_question = 1;
+												else {$start_question = 1;//return begin of question state
+		
+												}
+									}
+									else {
+										//check choice
+										if($start_answer == 0) {//if not answer
+											$strToCompare = "S(".$start_question.")";
+											echo "{str to compare:".$strToCompare."}";
+											if(strcmp($nParsed[1],$strToCompare) !=0)
+												$flag_question = 1;
+											else { $start_question++;
+											$start_answer = 1;}
+										}
+										else {
+											//may be answer
+											echo "{has KS?:".strcmp ($nParsed[1], "KS" )."}";
+											if(strcmp($nParsed[1],"KS") !=0) {
+												if(strcmp($nParsed[1],"S(".$start_question.")") !=0)
+													$flag_question = 1;
+												else  {$start_question++;
+												}
+											}
+											else {
+												$start_answer = 0;
+											}
+										}
+									}
+									//process
+									if($flag_question == 1) {
+										echo "{question or answer error".$line_count."}";
+										$check_format_file = 0;
+										$CheckAfterEnd = 1;
+									}
+								}
+							}
+		
+						}
+					}
+					echo "<br>";
+					//ChECK after end
+				}
+		
+				if($CheckAfterEnd == 1) {
+					echo "stop by cause end no pass";
+					break;}
+			}
+			//END WHILE
+		
+			if($line_count < 5 || $hasEnd == 0){
+		
+				$check_format_file = 0;
+			}
+		}
+		fclose ( $nFile );
+		if($check_format_file == 1) return true;
+		else return false;
+		
 	}
 	
 	public function viewContent($fid = null){					
