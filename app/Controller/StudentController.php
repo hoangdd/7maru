@@ -590,4 +590,122 @@ class StudentController extends AppController {
 		}
 		die;
 	}
+	//comment nay la commet tren trang profile giao vien, khac voi comment len file bai giang -- @hoangdd
+	//chi co hoc sinh da mua bai giang hoac chinh giao vien do comment
+	function createComment(){
+		if($this->request->is('ajax')){
+			$this->loadModel('CommentTeacher');
+			$user_id = $this->Auth->user('user_id');
+			$teacher_id = $this->request->data['teacher_id'];
+			$content = $this->request->data['content'];
+
+			if( empty($user_id) || empty($teacher_id) || empty($content)){
+				//invalid
+				echo '0';
+				die;
+			}
+
+			if( $user_id == $teacher_id && $this->Auth->user('role') == 'R2'){
+				//chinh thang giao vien no comment
+			}elseif($this->Auth->user('role') == 'R3'){
+				//hoc sinh comment
+				//recheck is student da mua bai giang
+				if( !$this->__checkStudentCanCommentAndLike($user_id,$teacher_id)){
+					//invalid
+					echo '0';
+					die;
+				}
+			}else{
+				//invalid
+				echo '0';
+				die;
+			}
+
+
+
+			$ret = $this->CommentTeacher->save(array(
+				'CommentTeacher' => array(
+						'student_id' => $user_id,
+						'teacher_id' => $teacher_id,
+						'content' => $content
+						)
+				));
+			if(isset($ret['CommentTeacher']['comment_id'])){
+				// success
+				$this->layout = false;
+
+				$this->set('comment', $ret['CommentTeacher']);
+				$this->set('user', $this->Auth->user());
+			}else{
+				//fail
+				echo 0;
+				die;
+			}
+		} else die;
+	}
+	function editComment(){
+		if($this->request->is('ajax')){
+			$this->loadModel('CommentTeacher');
+			$user_id = $this->Auth->user('user_id');
+			$comment = $this->CommentTeacher->read(null, $this->request->data['comment_id']);
+			$content = $this->request->data['content'];
+
+			if( empty($user_id) || empty($comment['CommentTeacher']) || empty($content) || $comment['CommentTeacher']['student_id'] != $user_id){
+				//invalid
+				echo '0';
+				die;
+			}
+
+			$comment['CommentTeacher']['content'] = $content;
+			$ret = $this->CommentTeacher->save($comment);
+			if(isset($ret['CommentTeacher']['comment_id'])){
+				// success
+				echo 1;
+			}else{
+				//fail
+				echo 0;
+			}
+		}
+		die;
+	}
+	function deleteComment(){
+		if($this->request->is('ajax')){
+			$user_id = $this->Auth->user('user_id');
+			$this->loadModel('CommentTeacher');
+			$comment = $this->CommentTeacher->read(null, $this->request->data['comment_id']);
+			if( empty($user_id) || empty($comment['CommentTeacher']) || $comment['CommentTeacher']['student_id'] != $user_id){
+				// invalid
+				echo '0';
+				die;
+			}
+			if($this->CommentTeacher->delete($comment['CommentTeacher']['comment_id']))
+				echo 1;
+			else
+				echo 0;
+		}
+		die;
+	}
+
+	//giong TeacherController checkStudentCancomment and Like
+    private function __checkStudentCanCommentAndLike($student_id, $teacher_id){
+		$this->loadModel('Lesson');
+		$lesson_ids = $this->Lesson->find('list', array(
+			'conditions' => array(
+				'author' => $teacher_id,
+				),
+			'fields' => array('coma_id')
+			));
+		$transactions = $this->LessonTransaction->find('all', array(
+			'conditions' => array(
+				'coma_id' => $lesson_ids, 
+				'student_id' => $student_id,
+				)
+			));
+		if( empty($transactions)){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 }

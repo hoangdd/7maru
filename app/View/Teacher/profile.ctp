@@ -24,7 +24,6 @@
 							'type' : 'post', 
 							'data' : {'teacher_id':teacher_id, 'student_id':student_id},
 							complete : function(res){
-								console.log(res);
 								if( res.responseText == 1){
 									$('.like-btn').html('<?php echo __("Liked");?>');
 								}else{
@@ -143,3 +142,14 @@
 </div>
 
 </div>
+<?php //comment ?>
+<br><br><br>
+<?php
+	$option = array(
+		'width' => '100%', 
+		'teacher_id' => $data['User']['user_id'],
+		'comments' => !empty($comments) ? $comments : array(),
+		'canComment' => $canComment
+	);
+	echo $this->element('comment_teacher', $option);
+?>

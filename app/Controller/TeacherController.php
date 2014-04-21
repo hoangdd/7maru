@@ -333,9 +333,21 @@ class TeacherController extends AppController {
                 die;
             }
             $isOther = true;
-            $canLike = ($this->Auth->user('role') == 'R3') ? true : false;
-            $canComment =$canLike;
-            
+
+            $user_id = $this->Auth->User('user_id');
+            if( $id == null || $id == $user_id){
+                //neu la chinh no
+                $canLike = false;
+                $canComment =  true;
+
+            }elseif($this->Auth->user('role') == 'R3'){
+                $canLike = $this->__checkStudentCanCommentAndLike($user_id, $id);
+                $canComment = $canLike;
+
+            }else{
+                $canLike = false;
+                $canComment = false;
+            }
             $this->set(compact('canLike', 'canComment'));
             $user = $this->Auth->User();
             if (isset($user['user_id']) && $pid == $user['user_id']){
@@ -368,6 +380,21 @@ class TeacherController extends AppController {
                     ));
                 $this->set(compact('likes', 'teacher_id', 'student_id'));
             }
+            $this->loadModel('CommentTeacher');
+            $this->CommentTeacher->bindModel(array(
+                'belongsTo' => array(
+                    'User' => array(
+                        'foreignKey' => 'student_id',
+                        )
+                    )
+                ));
+            $comments = $this->CommentTeacher->find('all', array(
+                'conditions' => array(
+                    'teacher_id' => $pid,
+                    )
+                ));
+            $this->set('comments', $comments);
+
             $this->set("data", $data);
             $this->set('isOther',$isOther);
             if ($data['User']['user_type'] == 1) {
@@ -847,6 +874,27 @@ class TeacherController extends AppController {
             if ($this->request->is('post')){
 
             }
+        }
+    }
+    //giong studentController checkStudentCancomment and Like
+    private function __checkStudentCanCommentAndLike($student_id, $teacher_id){
+        $this->loadModel('Lesson');
+        $lesson_ids = $this->Lesson->find('list', array(
+            'conditions' => array(
+                'author' => $teacher_id,
+                ),
+            'fields' => array('coma_id')
+            ));
+        $transactions = $this->LessonTransaction->find('all', array(
+            'conditions' => array(
+                'coma_id' => $lesson_ids, 
+                'student_id' => $student_id,
+                )
+            ));
+        if( empty($transactions)){
+            return false;
+        }else{
+            return true;
         }
     }
 }
