@@ -14,7 +14,7 @@
 		</div>	
 		<div class="checkbox">
 			<label>
-				<input type="checkbox" name='remember'> <?php echo __('Remember me').'?' ?>
+				<input type="checkbox" name='remember'> <?php echo __('僕をおぼえませんか？').'?' ?>
 			</label>
 		</div>
 		<button type="submit" class="btn btn-default"><?php echo __('Login') ?></button>
