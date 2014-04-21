@@ -12,11 +12,11 @@
 			<label for="inputPassword"><?php echo __('Password') ?></label>
 			<input type="password" name='Admin[password]' class="form-control" id="inputPassword" placeholder="Password">
 		</div>	
-		<div class="checkbox">
+		<!-- <div class="checkbox">
 			<label>
 				<input type="checkbox" name='remember'> <?php echo __('僕をおぼえませんか？').'?' ?>
 			</label>
-		</div>
+		</div> -->
 		<button type="submit" class="btn btn-default"><?php echo __('Login') ?></button>
 	</form>
 </div>
