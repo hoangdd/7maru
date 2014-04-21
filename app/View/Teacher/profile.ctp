@@ -54,7 +54,7 @@
 			</script>
 			<div class="btn-group " data-toggle="buttons">
 					<?php
-						if( !empty($like))
+						if( !empty($likes))
 							echo '<label class="btn btn-primary like-btn active">'.__('Liked');
 						else
 							echo '<label class="btn btn-primary like-btn">'.__('Like');
