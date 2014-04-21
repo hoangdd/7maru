@@ -310,7 +310,8 @@ class StudentController extends AppController {
 
 	function Profile($id = null){
 		//$sql="SELECT *FROM 7maru_users WHERE user_id=".$pid;
-			// $data=$this->User->query($sql);				
+			// $data=$this->User->query($sql);
+						
 		if($this->Auth->loggedIn()){			
 			if ($id!= null){
                 $pid = $id;        
@@ -370,7 +371,11 @@ class StudentController extends AppController {
 		
 	}
 
-	function EditProfile( $id = null) {	
+	function EditProfile($id = null) {	
+		if($id != null){
+			$this->redirect(array('controller' => 'Student', 'action' => 'EditProfile'));
+			die();
+		}
 		if ($this->Auth->loggedIn()) {						
 			if ($this->Auth->user('role') === "R1"){
 				if ($id != null){					
