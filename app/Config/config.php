@@ -60,7 +60,7 @@ Configure::write('userRoles', array(
 		'user' => '*',
 		'teacher' => '*',
 		'data' => '*',
-		'student' => array('profile'),
+		'student' => array('profile', 'createcomment', 'deletecomment', 'editcomment'),
 		'cakeerror' => '*'
 		),
 

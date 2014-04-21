@@ -113,7 +113,7 @@ div#bright-star-div-<?php echo $coma_id ?>{
 <div class="row text-center">
 	<div id="star-container-<?php echo $coma_id ?>">
 		<div>
-			<?php echo __('Good!');?>
+			<?php echo __('');?>
 		</div>
 		<div class="star-div" id = "blur-star-div-<?php echo $coma_id ?>">
 			<div class="star-div" id = "bright-star-div-<?php echo $coma_id ?>">
