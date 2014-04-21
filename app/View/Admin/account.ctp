@@ -40,8 +40,10 @@
 <script>
 $(document).ready(function(){
 	today = new Date();	
-    var month = today.getMonth()+1; //January is 0!
-    var year = today.getFullYear();    
+    var month = today.getMonth() + 1; //January is 0!
+    var year = today.getFullYear();  
+    var dataMonth =  <?php echo $month ?>;
+    var dataYear = <?php echo $year ?>;
     var data;		    
 	data =	 <?php echo $data ?>;				
     function update(data){    	
@@ -106,7 +108,9 @@ $(document).ready(function(){
     	viewMode: 'months',
     	minViewMode: 'months',    	    	
     }); 
-    $("#dp1").datepicker('set','today');
+   // var d = new Date(month + "/" + year)
+  // console.log(month + "/" +year);
+    $("#dp1").datepicker('setValue',dataMonth + "/" + dataYear);
 
     $("#displayButton").click(function(){
     	var param  = $("#dp1").val();

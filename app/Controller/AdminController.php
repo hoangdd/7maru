@@ -383,13 +383,14 @@ class AdminController extends AppController {
             $month = $this->request->data['month'];
             $year = $this->request->data['year'];
         } else {
-            $today = getdate();
+            $today = getdate(strtotime("-1 month"));
             //get month now()            
             $month = $today['mon'];
             $year = $today['year'];
         }
-        //get data        
+        //get data              
         $data = json_encode($this->getDataForAccount($month, $year));
+        if ($year)
         $this->set('data', $data);
         $this->set('month', $month);
         $this->set('year', $year);

@@ -1069,7 +1069,7 @@ function Edit($id)
 	function Exam(){
 		// 		$this->set('testfile',$id);
 		// 		$this->set('testfile',$this->request->params['pass']['0']);
-		print_r($this->params['url']);
+		//print_r($this->params['url']);
 		$id = $this->params['url']['id'];
 		if ($id == null){
 			return;
@@ -1087,7 +1087,13 @@ function Edit($id)
 
 			$token = md5(FILL_CHARACTER.date('y/m/d h:m:s').$id);
 			$this->set('token', $token);
-			$user_id = $this->Auth->User('user_id');
+			$user = $this->Auth->user();
+			if ($user['role'] == 'R1'){
+				$user_id = $user['admin_id'];
+			}
+			else{
+				$user_id = $user['user_id'];
+			}
 			$this->Session->write('Token.'.$id.'.'.$user_id, $token);
 			//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			$this->set('testID',$id);
