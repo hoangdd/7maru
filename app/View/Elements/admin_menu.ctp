@@ -1,3 +1,5 @@
+<?php 
+?>
 <div class='col-md-2' style='min-height:400px;margin-left:10px;border:1px solid #ddd;padding:0px'>
 	<ol class="breadcrumb" style='margin-bottom:0px'>
 		<ul id='admin_menu' class="nav nav-pills nav-stacked" style='min-height:380px;'>		  
