@@ -498,6 +498,7 @@ function Edit($id)
 				$this->redirect(array('controller' => 'Home','action' => 'index'));
 			}
 		}
+		$this->set('user',$user);
 		$this->set('file', $file);
 		//play list
 		$list = $this->Data->find('all', array(
@@ -554,7 +555,9 @@ function Edit($id)
 				foreach ($stdList as $key => $valueL) {
 					$j = 0;
 					if ($valueB['BlockStudent']['student_id'] === $valueL['User']['user_id']) {
-						unset($stdList[$j]);
+						$stdList[$j]['isBlocked'] = true;
+					} else {
+						$stdList[$j]['isBlocked'] = true;
 					}
 					$j++;
 				}
@@ -565,6 +568,7 @@ function Edit($id)
 		}
 		$this->set('lessonName',$lessonName);
 		$this->set('stdList',$stdList);
+		// die(var_dump($stdList));
 
 		//Set Rate List
 		$this->RateLesson->bindModel(array(

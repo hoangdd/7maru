@@ -5,8 +5,10 @@
 ?>
 <ul class="nav nav-tabs" id="lessonMenuTab">
   <li class="active"><a href="#lessonName" data-toggle="tab"><b><?php echo __('Lesson');?></b></a></li>
+  <?php if($user['role'] != 'R3') {?>
   <li><a href="#studentList" data-toggle="tab"><b><?php echo __('Buying Lists');?></b></a></li>
   <li><a href="#rate" data-toggle="tab"><b><?php echo __('Liking Lists');?></b></a></li>
+  <?php } ?>
 </ul>
 
 <div class="tab-content">
@@ -17,7 +19,7 @@
   				<?php 
   					echo $this->Html->link(__('Block Student List'), array(
 						'controller' => 'Teacher',
-						'action' => 'addBlockStudent'
+						'action' => 'blockStudent'
 					));
   				?>
   			</div>
@@ -59,8 +61,15 @@
 							</td>
 							<td><?php echo($value['User']['firstname'])?></td>
 							<td><?php echo($value['User']['lastname'])?></td>
-							<td><?php echo $this->Html->link(__('Block'),array('controller' => 'Teacher','action' => 'addBlockStudent',$value['User']['user_id']),array('class' => 'block_link'));
-							?>
+							<td>
+								<?php
+									if(isset($value['isBlocked']) && $value['isBlocked']){
+										echo $this->Html->link(__('Unblock'),array('controller' => 'Teacher','action' => 'unblockStudent',$value['User']['user_id']),array('class' => 'block_link'));
+									} else {
+										echo $this->Html->link(__('Block'),array('controller' => 'Teacher','action' => 'addBlockStudent',$value['User']['user_id']),array('class' => 'block_link'));
+									}
+									
+								?>
 							</td>
 			</tbody>
 			<?php
