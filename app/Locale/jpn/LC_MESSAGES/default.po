@@ -684,3 +684,30 @@ msgstr "設定"
 
 msgid "Bank Account"
 msgstr "銀行講座"
+
+msgid "NOTIFY"
+msgstr "通知"
+
+msgid "Buying Lists"
+msgstr "買い者リスト"
+
+msgid "Liking Lists"
+msgstr "「いいね」リスト"
+
+msgid "Liked Point"
+msgstr "点数"
+
+msgid "Block Student List"
+msgstr "学生のブロックしたリスト"
+
+msgid "Block"
+msgstr "ブロック"
+
+msgid "Unblock"
+msgstr "アンブロック"
+
+msgid "Successful"
+msgstr "成功だった"
+
+msgid "Error"
+msgstr "エラーが発生した"

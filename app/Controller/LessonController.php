@@ -555,9 +555,7 @@ function Edit($id)
 				foreach ($stdList as $key => $valueL) {
 					$j = 0;
 					if ($valueB['BlockStudent']['student_id'] === $valueL['User']['user_id']) {
-						$stdList[$j]['isBlocked'] = true;
-					} else {
-						$stdList[$j]['isBlocked'] = true;
+						unset($stdList[$j]);
 					}
 					$j++;
 				}
