@@ -34,8 +34,10 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
         'action' => 'file',
         $testID
 )).'?token='.$token;?>"></SCRIPT>
-<?php 
+<?php
+echo $this->Html->css('site_styles'); 
 echo $this->Html->script('Test_Control');
+
 ?>
 <SCRIPT language="javascript">
 	var xmlHttp;
@@ -295,23 +297,7 @@ function DivCloseOpen(divid)
         <TR>
           <TD class="test_list_border" height="18" colSpan="2" align="left"><img src="/7maru/app/webroot/anything/test_head_icon.png" alt="icon" width="20" height="20" align="absmiddle" /><span class="profile_info_text">テスト詳細</span></TD>
         </TR>
-        <TR bgcolor="#f3efe4">
-          <TD width="34%" height="30" align="right" class="test_list_border"><strong>テスト名前 :</strong></TD>
-          <TD width="66%" align="left" class="web_font_19 test_list_border"><strong>Test</strong></TD>
-        </TR>
-        <TR>
-          <TD height="30" align="right" class="test_list_border"><strong>問題数</strong></TD>
-          <TD align="left" class="test_list_border web_font_19">
-            <DIV id="totques1"><strong>
-            <SCRIPT language="javascript">
-				document.write(questions.length);
-            </SCRIPT>
-            </strong></DIV></TD>
-        </TR>
-        <TR bgcolor="#f3efe4">
-          <TD height="30" align="right" class="test_list_border"><strong>時間 : </strong></TD>
-          <TD align="left" class="test_list_border web_font_19">
-            <strong><DIV id="tottime1"></DIV></strong></TD></TR>
+        
         <TR class="blue_bg_admin">
           <TD height="30" colSpan="2" align="center" class="test_list_border">
             <TABLE 
