@@ -267,7 +267,7 @@ class Data extends AppModel {
 				this.flag=flag;
 			}
 			//document.write(a);
-			var zin=1,top=0, mycount=0, waitTime=60 , qright=0, mycomment,nowtime;
+			var zin=1,top=0, mycount=0, waitTime=600 , qright=0, mycomment,nowtime;
 			var global=new Array(3);
 			var abc,xyz,tm;
 			var tname = "Reading Comprehension";
