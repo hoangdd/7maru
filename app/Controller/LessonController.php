@@ -160,6 +160,9 @@ class LessonController extends AppController {
 							$error['test'] = __('Unsupported Test File Format');
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
+							
+						} else if($this->check_Document_File($_FILES['test']['name'][$i])){
+								$error['test'] = __('Format not true');
 						}
 					//テストファイルの構造は正しいかどうかをチェックする。
 						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
