@@ -1342,9 +1342,14 @@ function deleteFile($file_id = null){
         if ($this->request->is('post')){
             $data = $this->request->data;
             $this->Admin->id = $id;
-            if ($this->Admin->save($data))
-                $this->Session->setFlash(__('Successfully'));
-            else{ 
+            if ($this->Admin->save($data)){
+                $this->Session->setFlash(__('Update Successfully'));
+                $this->redirect(array(
+                    'controller' => 'Admin',
+                    'action' => 'adminManage'
+                    )
+                );
+            }else{ 
                 $this->Session->setFlash(__('Error'));
             }
         }

@@ -712,8 +712,11 @@ msgstr "ブロック"
 msgid "Unblock"
 msgstr "アンブロック"
 
-msgid "Successful"
+msgid "Successfully"
 msgstr "成功だった"
 
 msgid "Error"
 msgstr "エラーが発生した"
+
+msgid "Update Successfully"
+msgstr "更新が成功だった"
