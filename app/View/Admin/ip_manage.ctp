@@ -9,7 +9,7 @@
 	<?php echo __('IP Address').' '.__('Manage') ?>
 </h3>
 <!-- table -->
-<?php if(isset($data) {?>
+<?php if(isset($data)) {?>
 <div class="">
 	<table class="table table-striped table-bordered">
 

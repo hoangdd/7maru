@@ -1154,6 +1154,8 @@ function Edit($id)
 			//end for
 			if(isset($dataList))
 				$this->set('dataList',$dataList);
+			else 
+				$this->Session->setFlash(__('誰がテストを受けるのはいない'));
 		}
 	}
 }
