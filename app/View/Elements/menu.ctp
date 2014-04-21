@@ -187,9 +187,9 @@ $(document).ready(function(){
 				<li id = 2 >
 					<a href="#"> <?php echo __('Profile');?> </a>
 				</li>
-				<li id = 3 >
+				<!-- <li id = 3 >
 					<a href="#"> <? echo __('Lesson');?> </a>
-				</li>
+				</li> -->
 				<li >
 					<a href="<?php echo $this->Html->url(array(
 						'controller' => 'Student',
@@ -240,7 +240,7 @@ $(document).ready(function(){
 				</li>
 			</ul>
 
-			<ul root = 3>
+			<!-- <ul root = 3>
 				<li class='title'>
 					<a href="#"> <?php echo __('Lesson');?> </a>
 				</li>
@@ -253,7 +253,7 @@ $(document).ready(function(){
 				<li>
 					<a href="#"> <?php echo __('Bought');?> </a>
 				</li>
-			</ul>
+			</ul> -->
 		<?php endif;?>
 
 		<?php if($role=='R4') :?>
