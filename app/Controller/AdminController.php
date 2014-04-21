@@ -678,44 +678,42 @@ class AdminController extends AppController {
         $pagination = array(
             'limit' => 3,
             'fields' => array(
-            	'AdminIp.ip_id',
-                'AdminIp.ip'
+            	'IpOfAdmin.ip_id',
+                'IpOfAdmin.admin_id'
             )
         );
         $this->Paginator->settings = $pagination;
-        $dataIP = $this->Paginator->paginate('AdminIp');
+        $dataIP = $this->Paginator->paginate('IpOfAdmin');
         $iTemp = 0;
         foreach($dataIP as $key => $value){
-        	$specificallyThisOne = $this->IpOfAdmin->find('first', array(
+        	$specificallyThisOne = $this->AdminIp->find('first', array(
         			'conditions' => array(
-        					'IpOfAdmin.ip_id' => $value['AdminIp']['ip_id']
+        					'AdminIp.ip_id' => $value['IpOfAdmin']['ip_id']
         			)
         	));
-        	if($specificallyThisOne) {
         	$specificallyThisTwo = $this->Admin->find('first', array(
         			'conditions' => array(
-        					'Admin.admin_id' => $specificallyThisOne['IpOfAdmin']['admin_id']
+        					'Admin.admin_id' => $value['IpOfAdmin']['admin_id']
         			)
         	));
-        	if($specificallyThisTwo) {
+        	if(isset($specificallyThisTwo) && isset($specificallyThisTwo)) {
         	if($iTemp == 0)
         		$data = array(
         		$iTemp => array(
-        			'ip_id' => $value['AdminIp']['ip_id'],
+        			'ip_id' => $value['IpOfAdmin']['ip_id'],
         			'admin' => $specificallyThisTwo['Admin']['username'],
-        			'ip'	=> $value['AdminIp']['ip']
+        			'ip'	=> $specificallyThisOne['AdminIp']['ip']
         		)
         	);
         		else 
         			$data += array(
         					$iTemp => array(
-        							'ip_id' => $value['AdminIp']['ip_id'],
+        							'ip_id' => $value['IpOfAdmin']['ip_id'],
         							'admin' => $specificallyThisTwo['Admin']['username'],
-        							'ip'	=> $value['AdminIp']['ip']
+        							'ip'	=> $specificallyThisOne['AdminIp']['ip']
         					)
         			);
         			$iTemp++;
-        	}
         	}
         }
         
