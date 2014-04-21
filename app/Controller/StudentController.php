@@ -554,12 +554,23 @@ class StudentController extends AppController {
 						'user_type' => 2,
 						)
 					));
+
 				if( !empty($tea) && !empty($std)){
+					$this->loadModel('Like');
+					$likes = $this->Like->find('all', array(
+						'conditions' => array(
+							'student_id' => $data['student_id'],
+							'teacher_id' => $data['teacher_id'],
+							)
+						));
+					if( !empty($likes) ){ //da co like
+						echo '0';
+						die;
+					}
 					$data = array(
 						'student_id' => $data['student_id'],
 						'teacher_id' => $data['teacher_id'],
 						);
-					$this->loadModel('Like');
 					$like = $this->Like->save($data);
 					if( isset($like['Like'])){
 						echo '1';
@@ -578,14 +589,17 @@ class StudentController extends AppController {
 
 				//check again
 				$this->loadModel('Like');
-				$like = $this->Like->find('all', array(
+				$like_ids = $this->Like->find('list', array(
 					'conditions' => array(
 						'student_id' => $data['student_id'],
 						'teacher_id' => $data['teacher_id'],
-						)
+						),
+					'fields' => array('like_id'),
 					));
-				if( isset($like[0]['Like']['like_id'])){
-					if($this->Like->delete($like[0]['Like']['like_id'])){
+				if( !empty($like_ids)){
+					if($this->Like->deleteAll(array(
+							'like_id' => $like_ids,
+							))){
 						echo '1';
 						die;
 					}
