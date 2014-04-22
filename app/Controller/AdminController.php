@@ -1252,14 +1252,27 @@ function deleteFile($file_id = null){
             echo "0";
             die;
         }
-        $result = $this->Admin->delete($id);
-        if ($result){
-            echo "1";
-        }
-        else{
+
+        $admin = $this->Admin->findByAdminId($id);
+        if($admin){
+            if($admin['Admin']['username'] == 'admin'){
+                echo "-1";
+                die;
+            } else {
+                $result = $this->Admin->delete($id);
+                if ($result){
+                    echo "1";
+                }
+                else{
+                    echo "0";
+                }
+                die;
+            }
+        } else {
             echo "0";
+            die;
         }
-        die;
+        
     }
 
     function editAdmin($id = null){

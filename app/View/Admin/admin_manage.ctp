@@ -19,8 +19,10 @@
 	        			if (data.trim() == '1'){
 	        				alert("<?php echo __('Successfully') ?>");
 	        				tr.replaceWith("");
-	        			}
-	        			else{
+	        			} if(data.trim() == '-1'){
+	        				alert("<?php echo 'デフォルトアカウントは削除できません'; ?>");
+	        				tr.replaceWith("");
+	        			} else {
 	        				alert("<?php echo __('Error') ?>");	
 	        			}
 	        		}
