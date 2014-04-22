@@ -812,7 +812,7 @@ class AdminController extends AppController {
         $space = " "   ;    
         // get row to write
         $row = array();
-        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$today['hours'],$today['minutes'],$today['seconds'],$this->Auth->user('username'),$this->Auth->user('last_name') . $space .$this->Auth->user('first_name'));
+        $row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$today['mday'],$today['hours'],$today['minutes'],$today['seconds'],$this->Auth->user('username'),$this->Auth->user('last_name') . $space .$this->Auth->user('first_name'));
         $i = 1;             
         foreach ($student as $dt):
             $row[$i] = array($dt['info']['username'], $dt['info']['lastname'] . $space. $dt['info']['firstname'], $dt['money'], $dt['info']['address'], $dt['info']['phone_number'], TYPE_CREDIT_CARD ,$dt['info']['Student']['credit_account']);
@@ -822,7 +822,7 @@ class AdminController extends AppController {
             $row[$i] = array($dt['info']['username'], $dt['info']['lastname'] . $space . $dt['info']['firstname'], $dt['money'], $dt['info']['address'], $dt['info']['phone_number'], TYPE_BANK_ACCOUNT ,$dt['info']['Teacher']['bank_account']);
             $i++;
         endforeach;
-        $tab = "\t";
+        $tab = "\t"; 
         $end = array("END__END__END" . $tab . $data['year'] . $tab . $data['month']);
         $row[$i++] = $end;
         $str = "";        
@@ -834,7 +834,7 @@ class AdminController extends AppController {
             $str = $str . $newLine;
         endforeach;
         $month  = $data['month'];
-        if ($month < 10) $month = '0'.$month;
+        //if ($month < 10) $month = '0'.$month;
         $filename = "ELS-UBT-".$data['year']."-".$month.".tsv";
 
         file_put_contents($filename, $str);

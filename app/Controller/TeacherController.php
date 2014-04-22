@@ -611,7 +611,7 @@ class TeacherController extends AppController {
                 'conditions' => array(
                     'coma_id' => $lesson['Lesson']['coma_id']                    
                 ),
-                'fields' => array('COUNT(transaction_id) as buy_num')
+                'fields' => array('SUM(money*rate/100) as buy_num')
             ));                                    
             $lessons[$index]['buy_num'] = 0;
             if (isset($result[0][0]['buy_num'])){
@@ -713,13 +713,13 @@ class TeacherController extends AppController {
                 'DATE(LessonTransaction.created) <=' => $end,
                 'DATE(LessonTransaction.created) >=' => $begin
             ),  
-            'fields' => array('COUNT(transaction_id) as buy_num','DATE(LessonTransaction.created) as date'),             
+            'fields' => array('SUM(money*rate/100) as buy_num','DATE(LessonTransaction.created) as date'),             
             'recursive' => 1,
             'group' => 'date',
             'order' => 'date'
         ));        
         foreach($moneyArray as $m){
-            $dataToChart['Money'][] = array($m[0]['date'],(int)$m[0]['buy_num']);            
+            $dataToChart['Money'][] = array($m[0]['date'],(int)$m[0]['buy_num']);
         }       
         
         /**
@@ -778,7 +778,7 @@ class TeacherController extends AppController {
                         'LessonTransaction' => array(
                             'fields' => array(
                                     //'DATE(created) as date',
-                                    'COUNT(LessonTransaction.transaction_id) as buy_number'
+                                    'SUM(money*rate/100) as buy_number'
                                 )
                             )
                         )

@@ -13,7 +13,13 @@ class Admin extends AppModel {
           'message' => 'A password is required'
       )
   );
- public function beforeSave($options = array()) {    
+  public $hasMany = array(
+      'IpOfAdmin' => array(
+          'foreignKey' => 'admin_id',
+          'dependent' => true
+        )
+    );
+ public function beforeSave($options = array()) {
     $data = $this->data['Admin'];
 
     //generate admin id
