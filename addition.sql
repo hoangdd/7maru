@@ -1,6 +1,6 @@
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `7maru_test_results` (
+CREATE TABLE IF NOT EXISTS `7maru_test_results` (
   `result_id` int(11) NOT NULL AUTO_INCREMENT,
   `file_id` char(8) NOT NULL,
   `score` int(11) NOT NULL,

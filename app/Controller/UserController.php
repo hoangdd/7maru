@@ -102,7 +102,7 @@ class UserController extends AppController {
 			$userId = $this->Auth->user('user_id');
 			$notifies = $this->Notification->find('all',array(
 				'conditions' => array(
-						'user_id' => $userId						
+						'user_id' => array('all', $userId),						
 					),
 				'order' => 'created DESC'
 			));

@@ -116,7 +116,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='Admin[last_name]' class="form-control changecolor">                        
+                        <input type="text" name='Admin[last_name]' class="form-control changecolor">                    
                     </div>
                 </td>
             </tr>

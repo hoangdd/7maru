@@ -205,25 +205,30 @@ class AdminController extends AppController {
 	
 
 	function Notification() {
-		//load list user
-		$list_user = $this->User->find('all', array('order' => array(
-				'User.username' => 'asc')
-				));
-		$this->set("data", $list_user);
+        //load list user
+        $list_user = $this->User->find('all', array('order' => array(
+                'User.username' => 'asc')
+                ));
+        $this->set("data", $list_user);
 
-		//luu csdl post public
-		if ($this->request->is('post')) {
-			$data = $this->request->data;
-			$data_public = array(
-				'user_id' => 'all',
-				'content' => $data['publicpost'],
-			);
-			if (isset($data_public)) {
-				$this->Notification->create($data_public);
-				$this->Notification->save();
-			}
-		}
-	}
+        //luu csdl post public
+        $user_ids = $this->User->find('list', array(
+                'fields' => array('user_id'),
+            ));
+        if ($this->request->is('post')) {
+            $data = $this->request->data;
+            foreach ($user_ids as $user_id) {
+                $data_public = array(
+                    'user_id' => $user_id,
+                    'content' => $data['publicTextarea'],
+                );
+                if (isset($data_public)) {
+                    $this->Notification->create($data_public);
+                    $this->Notification->save();
+                }
+            }
+        }
+    }
 
 	function login() {
 		//check loggedIn();
@@ -485,8 +490,9 @@ class AdminController extends AppController {
 	}	
 
 	function userManage() {
+  
 		$paginate = array (
-			'limit' => 5,
+			'limit' => 100,
 			'fields' => array (
 				'User.user_id',	
 				'User.firstname',
