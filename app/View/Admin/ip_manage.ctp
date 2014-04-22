@@ -46,7 +46,7 @@
 		  			);
 		  		 
 			
-			$i = ($this->Paginator->current($model = null)-1)*3+1;
+			$i = 1;
 			foreach($data as $numb => $value) {
 			$iTemp=1;
 			echo"<tr>
@@ -160,23 +160,6 @@
 	</table>
 </div>
 
-<!-- paginate -->
-<div class='text-center'>
-	<ul class="pagination">
-
-	  <li>
-	  	<?php echo $this->Paginator->prev('<< ' . __('previous'), array(), null, array('class'=>'disabled'));?>
-	  </li>
-	  <li>
-	  	<?php echo $this->Paginator->numbers(array('separator' => ''));?>
-	  </li>
-	  <li>
-	  	<?php echo $this->Paginator->next(__('next') . ' >>', array(), null, array('class' => 'disabled'));?>
-	  </li>
-	  
-	</ul>
-
-</div>
 <?php 
 	} 
 ?>
