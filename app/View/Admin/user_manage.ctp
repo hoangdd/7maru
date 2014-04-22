@@ -1,9 +1,4 @@
-<?php 
-	$this->Paginator->options(array(
-         'update' => '#user_list',
-         'evalScripts' => true
-         ));
-?>
+
 <!-- header -->
 <div id="user_list">
 <h3 style="text-align:center">
@@ -77,20 +72,8 @@
 	</table>
 </div>
 
-<!-- paginate -->
-<div class='text-center'>	
-	<ul class="pagination">
-		<?php 
-		echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
-		echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
-		echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
-		?>	 
-	</ul>
-<?php
-?>
+
 </div>
-</div>
-<?php echo $this->Js->writeBuffer(); ?>
 
 <script>
     $(document).ready(function(){
@@ -106,7 +89,8 @@
                 function (data){                
                     if (data.trim() === '1'){
                         alert("<?php echo __('Successfully') ?>");                       
-                        link.parent().parent().replaceWith("");
+                        // link.parent().parent().replaceWith("");
+                        window.location.reload(true);
                         return;                        
                     }
                     else

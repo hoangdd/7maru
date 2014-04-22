@@ -1,8 +1,8 @@
 <?php 
-$this->Paginator->options(array(
-	'update' => '#user_list',
-	'evalScripts' => true
-	));
+// $this->Paginator->options(array(
+// 	'update' => '#user_list',
+// 	'evalScripts' => true,
+// 	));
 	?>
 <!-- header -->
 <div id="user_list">
@@ -75,22 +75,7 @@ $this->Paginator->options(array(
 				</tbody>
 			</table>
 		</div>
-
-		<!-- paginate -->
-		<div class='text-center'>   
-			<ul class="pagination">
-				<?php 
-				echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
-				echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
-				echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
-				?>   
-			</ul>
-		</div>
-	</div>
-	<?php echo $this->Js->writeBuffer(); ?>
-
-
-
+</div>
 <script>
 $(document).ready(function(){
 	$('a.approve_link').click(function(){
@@ -103,6 +88,8 @@ $(document).ready(function(){
 					alert("<?php echo __('Successful') ?>");
 					var tr = a.parent().parent();
 					tr.replaceWith("");
+					// location.reload(true);
+					// window.location.reload(true);
 				}else{
 					alert("<?php echo __('Error') ?>");
 				}

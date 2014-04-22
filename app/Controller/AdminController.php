@@ -354,15 +354,7 @@ class AdminController extends AppController {
 		}
 	}
 	function acceptNewUser() {
-		$paginate = array(
-			'limit' => 100,
-			'conditions' => array(
-				'approved' => '0'
-			),
-			'recursive' => 2
-		);
-		$this->Paginator->settings = $paginate;
-		$data = $this->Paginator->paginate('User');
+		$data = $this->User->findAllByApproved(0);
 		$this->set('data', $data);
 	}
 	
@@ -490,26 +482,7 @@ class AdminController extends AppController {
 	}	
 
 	function userManage() {
-  
-		$paginate = array (
-			'limit' => 100,
-			'fields' => array (
-				'User.user_id',	
-				'User.firstname',
-				'User.lastname',
-				'User.username',
-				'User.date_of_birth',
-				'User.user_type',
-				'User.created' 
-				),
-			'conditions' => array('User.activated' => 1) 
-			);
-		$this->Paginator->settings = $paginate;
-		// $this->Paginator->options(array(
-		// 'update' => '#content',
-		// 'evalScripts' => true
-		// ));
-		$data = $this->Paginator->paginate ( 'User' );
+		$data = $this->User->findAllByActivated(1);
 		$this->set ( 'data', $data );
 	}
 	function blockUser() {
@@ -1219,21 +1192,7 @@ function deleteFile($file_id = null){
 	}
 	
 	function adminManage(){
-		$paginate = array (
-			'limit' => 5,
-			'fields' => array (  
-				'admin_id',
-				'first_name',
-				'last_name',
-				'username'                
-				)            
-			);
-		$this->Paginator->settings = $paginate;
-		// $this->Paginator->options(array(
-		// 'update' => '#content',
-		// 'evalScripts' => true
-		// ));
-		$data = $this->Paginator->paginate ( 'Admin' );
+		$data = $this->Admin->find('all');
 		$this->set ( 'data', $data );
 	}
 

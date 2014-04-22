@@ -31,7 +31,7 @@ echo $this->Html->css('datepicker');
                     <div class="col-md-12 <?php if(isset($error['username'])) echo "has-error has-feedback"?>">
                         <input id="username" type="text"  name='username' 
                                class="form-control changecolor" 
-                               placeholder="Enter Username">
+                               >
                         <?php
                              if(isset($error['username'])&& is_array($error['username'])){
                                 foreach($error['username'] as $usernames):
@@ -53,7 +53,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['password'])) echo "has-error has-feedback"?>">
-                        <input id="password" type="password" name='password' class="form-control changecolor" placeholder="Enter Password">
+                        <input id="password" type="password" name='password' class="form-control changecolor">
                         <?php
                              if(isset($error['password'])&& is_array($error['password'])){
                                 foreach($error['password'] as $password):
@@ -75,7 +75,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['retypepassword'])) echo "has-error has-feedback"?>">
-                        <input id="retypepass" type="password" name='retypepassword' class="form-control" placeholder="Retype Password">
+                        <input id="retypepass" type="password" name='retypepassword' class="form-control" >
                         <?php
                              if(isset($error['retypepassword'])&& is_array($error['retypepassword'])){
                                 foreach($error['retypepassword'] as $retypepassword):
@@ -97,7 +97,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['mail'])) echo "has-error has-feedback"?>">
-                        <input id="email" type="email" name='mail' class="form-control" placeholder="Enter your mail">
+                        <input id="email" type="email" name='mail' class="form-control">
                         <?php
                              if(isset($error['mail'])&& is_array($error['mail'])){
                                 foreach($error['mail'] as $mail):
@@ -119,7 +119,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['firstname'])) echo "has-error has-feedback"?>">
-                        <input id="firstname" type="text" name='firstname' class="form-control" placeholder="Enter first name">
+                        <input id="firstname" type="text" name='firstname' class="form-control">
                         <?php
                              if(isset($error['firstname'])&& is_array($error['firstname'])){
                                 foreach($error['firstname'] as $firstname):
@@ -141,7 +141,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['lastname'])) echo "has-error has-feedback"?>">
-                        <input id="lastname" type="text" name='lastname' class="form-control" placeholder="Enter last name">
+                        <input id="lastname" type="text" name='lastname' class="form-control">
                         <?php
                              if(isset($error['lastname'])&& is_array($error['lastname'])){
                                 foreach($error['lastname'] as $lastname):
@@ -177,7 +177,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='address' class="form-control" placeholder="Enter your address">
+                        <input type="text" name='address' class="form-control">
                     </div>
                 </td>
             </tr>
@@ -214,7 +214,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['phone_number'])) echo "has-error has-feedback"?>">
-                        <input type="number" name='phone_number' class="form-control" placeholder="Enter telephone number">
+                        <input type="number" name='phone_number' class="form-control">
                         <?php
                              if(isset($error['phone_number'])&& is_array($error['phone_number'])){
                                 foreach($error['phone_number'] as $phone_number):
@@ -234,7 +234,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['bank_account'])) echo "has-error has-feedback"?>">
-                        <input id="bank_account" type="text" name='bank_account' class="form-control" placeholder="Enter bank account">
+                        <input id="bank_account" type="text" name='bank_account' class="form-control">
                         <?php
                              if(isset($error['bank_account'])&& is_array($error['bank_account'])){
                                 foreach($error['bank_account'] as $bank_account):
@@ -255,7 +255,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">                    
-                        <input id="verifycode_question" name="verifycode_question" type="text"  class="form-control" placeholder="Enter question">
+                        <input id="verifycode_question" name="verifycode_question" type="text"  class="form-control">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -269,7 +269,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input id="verifycode_answer" name="verifycode_answer" type="text"  class="form-control" placeholder="Answer this question">
+                        <input id="verifycode_answer" name="verifycode_answer" type="text"  class="form-control">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -302,7 +302,7 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='office' class="form-control" placeholder="Enter your school">
+                        <input type="text" name='office' class="form-control">
                     </div>
                 </td>
             </tr>

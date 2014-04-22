@@ -225,7 +225,7 @@ class LoginController extends AppController {
                 $this->User->id = $this->Auth->user('user_id');
                 $updatePassword = $this->User->saveField('password',$hashNewPassword,array('callbacks' => false));
                 if ($updatePassword) {
-                    $this->Session->setFlash(__('Change password').__('Successfully') );
+                    $this->Session->setFlash(__('Change Password').__('Successfully') );
                     if ($this->Auth->user('user_type')==1) {
                         # code...
                         $this->redirect(array(

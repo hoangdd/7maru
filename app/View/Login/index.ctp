@@ -17,11 +17,11 @@
 		?>			
 		<div class="form-group">
 			<label for="inputUsername"><?php echo __('Username') ?></label>
-			<input type="Username" name='User[username]' class="form-control" id="inputUsername1" placeholder="Username" value="<?php echo $username ?>">
+			<input type="Username" name='User[username]' class="form-control" id="inputUsername1" value="<?php echo $username ?>">
 		</div>		
 		<div class="form-group">
 			<label for="inputPassword"><?php echo __('Password') ?></label>
-			<input type="password" name='User[password]' class="form-control" id="inputPassword" placeholder="Password">
+			<input type="password" name='User[password]' class="form-control" id="inputPassword">
 		</div>				
 		<button type="submit" class="btn btn-default"><?php echo __('Login') ?></button>
 		<?php } ?>
@@ -43,7 +43,7 @@ $(document).ready(function(){
 		count--;
 		if (count < 0){
 			//redirect to confirmverifyCode			
-			window.location.replace("<?php echo $this->Html->url(array('controller' => 'Login','action' =>'confirmVerifycode')) ?>"+"/"+username+"/1");
+			window.location.href.replace("<?php echo $this->Html->url(array('controller' => 'Login','action' =>'confirmVerifycode')) ?>"+"/"+username+"/1");
 		}
 		return;
 	}

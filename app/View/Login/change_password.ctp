@@ -39,7 +39,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         });
         
         jQuery.validator.addMethod("checkpwd", function(value,element) {
-            return /^[A-Za-z0-9]\w+$/.test(value);
+            return /^\w+$/.test(value);
         });
         
         jQuery.validator.addMethod("checkMatch", function(value,element){
@@ -52,35 +52,35 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         $( "#currentpw" ).rules( "add", {
             required: true,
             messages: {
-                required: "Please specify your current password",
+                required: "<?php echo __('Required input');?>",
             }
         }); 
 
         $( "#newpw" ).rules( "add", {
             required: true,
-            minlength: 2,
+            minlength: 6,
             maxlength: 30,
             checkpwd: true,
             messages: {
-                required: "Please specify your new password", 
-                minlength: "Please, at least {8} characters are necessary",
-                maxlength: jQuery.format("Please enter no more than {30} characters"),
-                checkpwd: jQuery.format("format is wrong"),
+                required: "<?php echo __('Required input');?>", 
+                minlength: "<?php echo __('Please, at least {8} characters are necessary');?>",
+                maxlength: jQuery.format("<?php echo __('Please enter no more than {30} characters');?>"),
+                checkpwd: jQuery.format("<?php echo __('Please do not enter special characters');?>"),
             }
         });
 
         $( "#confirmpw" ).rules( "add", {
             required: true,
-            minlength: 2,
+            minlength: 6,
             maxlength: 30,
             checkMatch:true,
             checkpwd: true,
             messages: {
-                required: jQuery.format("Required input"),
-                minlength: jQuery.format("Please, at least {8} characters are necessary"),
-                maxlength: jQuery.format("Please enter no more than {30} characters"),
-                checkpwd: jQuery.format("format is wrong"),
-                checkMatch: jQuery.format("Password do not match")
+                required: "<?php echo __('Required input');?>", 
+                minlength: "<?php echo __('Please, at least {8} characters are necessary');?>",
+                maxlength: jQuery.format("<?php echo __('Please enter no more than {30} characters');?>"),
+                checkpwd: jQuery.format("<?php echo __('Please do not enter special characters');?>"),
+                checkMatch: jQuery.format("<?php echo __('Password do not match');?>")
             }
         });
     });

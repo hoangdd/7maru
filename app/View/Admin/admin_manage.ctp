@@ -1,9 +1,3 @@
-<?php 
-	$this->Paginator->options(array(
-         'update' => '#user_list',
-         'evalScripts' => true
-         ));
-?>
 <!-- header -->
 
 <script>
@@ -19,6 +13,7 @@
 	        			if (data.trim() == '1'){
 	        				alert("<?php echo __('Successfully') ?>");
 	        				tr.replaceWith("");
+	        				// window.location.reload(true);
 	        			} else if(data.trim() == '-1'){
 	        				alert("<?php echo 'デフォルトアカウントは削除できません'; ?>");
 	        			} else {
@@ -80,18 +75,4 @@
 	</table>
 </div>
 
-<!-- paginate -->
-
-<div class='text-center'>	
-	<ul class="pagination">
-		<?php 
-		echo $this->Paginator->prev('< ', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a'));
-		echo $this->Paginator->numbers(array('tag' => 'li','separator' => '','currentClass' =>'active','currentTag' => 'a'));
-		echo $this->Paginator->next(' >', array('tag' => 'li'), null, array('class' => 'disabled','tag' => 'li','disabledTag'=>'a',));
-		?>	 
-	</ul>
-<?php
-?>
 </div>
-</div>
-<?php echo $this->Js->writeBuffer(); 

@@ -253,19 +253,25 @@ msgstr "ブロック"
 
 <!-- Change Password -->
 msgid "Admin Change Password"
-msgstr "管理者のパースワード変更"
+msgstr "管理者のパスワード変更"
 
 msgid "Change Password"
-msgstr "パースワード変更"
+msgstr "パスワード変更"
+
+msgid "ChangePassword"
+msgstr "パスワード変更"
+
+msgid "ChangeVerifycode"
+msgstr "Verifycode変更"
 
 msgid "Current Password"
-msgstr "現在パースワード"
+msgstr "現在パスワード"
 
 msgid "New Password"
-msgstr "新しいパースワード"
+msgstr "新しいパスワード"
 
 msgid "Confirm Password"
-msgstr "確認パースワード"
+msgstr "確認パスワード"
 
 msgid "Change"
 msgstr "変更"
@@ -275,10 +281,10 @@ msgid "Create another admin"
 msgstr "他の管理者の増加"
 
 msgid "Password"
-msgstr "パースワード"
+msgstr "パスワード"
 
 msgid "Retype Password"
-msgstr "確認パースワード"
+msgstr "確認パスワード"
 
 msgid "Register"
 msgstr "登録"
@@ -369,6 +375,9 @@ msgid "Password do not match"
 msgstr "パスワードと違いました"
 
 msgid "Start by a alphabet and please do not enter special characters"
+msgstr "アルファベットと初めて、特別な文字で使わないでください"
+
+msgid "format is wrong"
 msgstr "アルファベットと初めて、特別な文字で使わないでください"
 
 msgid "Username is existed"
