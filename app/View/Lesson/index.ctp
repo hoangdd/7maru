@@ -28,7 +28,7 @@
      <!-- Left col: Image and ranking-->
      <?php                           
       $cover = LESSON_COVER_LINK.$lesson['cover'];
-     echo $this->Html->image($cover,array(
+     echo $this->Html->image($cover,array(  
       'class' => 'img-rounded img-responsive',        
       'style' => 'margin:auto'
       )); 
