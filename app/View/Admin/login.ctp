@@ -6,11 +6,11 @@
 		?>
 		<div class="form-group">
 			<label for="inputUsername"><?php echo __('Username') ?></label>
-			<input type="Username" name='Admin[username]' class="form-control" id="inputUsername" placeholder="Username">
+			<input type="Username" name='Admin[username]' class="form-control" id="inputUsername">
 		</div>
 		<div class="form-group">
 			<label for="inputPassword"><?php echo __('Password') ?></label>
-			<input type="password" name='Admin[password]' class="form-control" id="inputPassword" placeholder="Password">
+			<input type="password" name='Admin[password]' class="form-control" id="inputPassword">
 		</div>	
 		<!-- <div class="checkbox">
 			<label>

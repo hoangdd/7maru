@@ -438,7 +438,13 @@ msgid "Successfully Created"
 msgstr "カテゴリが作成しました"
 
 msgid "Edit successful"
-msgstr "修正が成です"
+msgstr "修正が成功だった"
+
+msgid "Create Admin Successfully"
+msgstr "新しいアドミン作成が成功だった"
+
+msgid "Edit Admin Successfully"
+msgstr "アドミン修正が成功だった"
 
 msgid "Create lesson successfully"
 msgstr "授業を作成できます"
@@ -687,6 +693,12 @@ msgstr "報酬％"
 
 msgid "Configuration"
 msgstr "設定"
+
+msgid "Manage"
+msgstr "管理"
+
+msgid "Configuration Manage"
+msgstr "設計管理"
 
 msgid "Bank Account"
 msgstr "銀行講座"
