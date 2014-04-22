@@ -37,11 +37,8 @@ header('Expires: 0'); // Proxies.
 		// echo $this->Html->css('cake.generic');
 		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'docs', 'common'));
 		echo $this->Html->script(array('jquery.js','bootstrap.js'));
-		
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
 	?>
+
 	<script>
 		idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
 	</script>
@@ -51,6 +48,11 @@ header('Expires: 0'); // Proxies.
 		if( !empty($user)){
 			echo $this->Html->script(array('common.js'));
 		}
+	?>
+	<?php
+		echo $this->fetch('meta');
+		echo $this->fetch('css');
+		echo $this->fetch('script');
 	?>
 </head>
 <body>

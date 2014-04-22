@@ -21,11 +21,8 @@ header('Expires: 0'); // Proxies.
 
 		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'intro', 'component', 'normalize'));
 		echo $this->Html->script(array('jquery', 'bootstrap'));
-
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
 	?>
+
 	<script>
 	idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
 	</script>
@@ -35,6 +32,11 @@ header('Expires: 0'); // Proxies.
 		if( !empty($user)){
 			echo $this->Html->script(array('common.js'));
 		}
+	?>
+	<?php
+		echo $this->fetch('meta');
+		echo $this->fetch('css');
+		echo $this->fetch('script');
 	?>
 </head>
 <body>

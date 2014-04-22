@@ -45,12 +45,23 @@ header('Expires: 0'); // Proxies.
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('jquery.gdocsviewer');
-		
-		
+	?>
+	<script>
+		idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
+	</script>
+	<?php 
+		App::uses('Component', 'AuthComponent');
+		$user = AuthComponent::user();
+		if( !empty($user)){
+			echo $this->Html->script(array('common.js'));
+		}
+	?>
+	<?php	
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	
 </head>
 <body>
 	<div id="container">
