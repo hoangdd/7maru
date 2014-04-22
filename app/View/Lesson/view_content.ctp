@@ -5,7 +5,7 @@
 ?>
 <ul class="nav nav-tabs" id="lessonMenuTab">
   <li class="active"><a href="#lessonName" data-toggle="tab"><b><?php echo __('Lesson');?></b></a></li>
-  <?php if($user['role'] != 'R3') {?>
+  <?php if($user['role'] == 'R2') {?>
   <li><a href="#studentList" data-toggle="tab"><b><?php echo __('Buying Lists');?></b></a></li>
   <li><a href="#rate" data-toggle="tab"><b><?php echo __('Liking Lists');?></b></a></li>
   <?php } ?>

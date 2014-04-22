@@ -96,7 +96,7 @@
             <div class="align-right" style="text-align:center;">
 
                 <button class="btn btn-primary" type="submit"><?php echo __('Save') ?></button>
-                <a href = <?php echo  "'".$this->Html->url(array('controller' => 'Teacher','action' => 'EditProfile'))."'" ?> class="btn btn-primary" style='color:white'><?php echo __('Refresh') ?></a>                
+                <a href = <?php echo  "'".$this->here."'" ;?> class="btn btn-primary" style='color:white'><?php echo __('Refresh') ?></a>                
             </div> 
         </form>     
 	</div>

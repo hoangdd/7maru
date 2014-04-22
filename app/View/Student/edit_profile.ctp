@@ -1,6 +1,8 @@
 <?php
 echo $this->Html->css('common');
 echo $this->Html->script(array('jquery.validate','additional-methods','jquery.validate.min','additional-methods.min'));
+// echo $this->here;
+// echo die(var_dump($userData));
 ?>
 
 <div class="row">
@@ -106,7 +108,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             <div class="align-right" style="text-align:center;">
 
                 <button class="btn btn-primary" type="submit"><?php echo __('Save') ?></button>
-                <a href = <?php echo  "'".$this->Html->url(array('controller' => 'Student','action' => 'EditProfile'))."'" ?> class="btn btn-primary" style='color:white'><?php echo __('Refresh') ?></a>                
+                <a href = <?php echo  "'".$this->here."'" ;?> class="btn btn-primary" style='color:white'><?php echo __('Refresh') ?></a>                
             </div> 
         </form>     
     </div>
