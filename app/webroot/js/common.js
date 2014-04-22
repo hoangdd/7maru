@@ -11,6 +11,12 @@ function idle(){
 			window.location = "/7maru/Login";
 		}
 		});
+	$.ajax({
+		'url' : "/7maru/Admin/logout",
+		complete : function(){
+			window.location = "/7maru/Admin/Login";
+		}
+		});
 	// console.log("die");
 }
 $(window).focus(function(){
