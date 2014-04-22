@@ -453,7 +453,7 @@ msgid "Verifycode is incorrect"
 msgstr "確認コードが間違います"
 
 msgid "First Name"
-msgstr "名刺"
+msgstr "名字"
 
 msgid "Last Name"
 msgstr "名前"

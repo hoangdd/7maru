@@ -76,7 +76,6 @@ echo $this->Html->css('common');
                 <td>
                      <div class="col-md-12 <?php if(isset($error['retypepassword'])) echo "has-error has-feedback"?>">
                         <input type="password" name='retypepassword' class="form-control" >
-                        <input type="password" name='retypepassword' class="form-control">
                         <?php
                              if(isset($error['retypepassword'])&& is_array($error['retypepassword'])){
                                 foreach($error['retypepassword'] as $retypepassword):
@@ -118,7 +117,6 @@ echo $this->Html->css('common');
                 <td>
                     <div class="col-md-12">
                         <input type="text" name='Admin[last_name]' class="form-control changecolor">                        
-                        <input type="text" name='Admin[last_name]' class="form-control changecolor" >                        
                     </div>
                 </td>
             </tr>

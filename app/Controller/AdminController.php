@@ -1260,6 +1260,10 @@ function deleteFile($file_id = null){
                 die;
             } else {
                 $result = $this->Admin->delete($id);
+                $ips = $this->IpOfAdmin->findAllByAdminId($id);
+                if(count($ips)){
+                    $this->IpOfAdmin->deleteAll(array('admin_id'=>$id));
+                }
                 if ($result){
                     echo "1";
                 }
