@@ -26,6 +26,9 @@ header('Expires: 0'); // Proxies.
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<script>
+	idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
+	</script>
 	<?php 
 		App::uses('Component', 'AuthComponent');
 		$user = AuthComponent::user();
