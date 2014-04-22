@@ -374,10 +374,10 @@ class StudentController extends AppController {
 	}
 
 	function EditProfile($id = null) {	
-		if($id != null){
-			$this->redirect(array('controller' => 'Student', 'action' => 'EditProfile'));
-			die();
-		}
+		// if($id != null){
+		// 	$this->redirect(array('controller' => 'Student', 'action' => 'EditProfile'));
+		// 	die();
+		// }
 		if ($this->Auth->loggedIn()) {						
 			if ($this->Auth->user('role') === "R1"){
 				if ($id != null){					
