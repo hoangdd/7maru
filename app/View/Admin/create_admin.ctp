@@ -25,8 +25,7 @@ echo $this->Html->css('common');
                 <td>
                     <div class="col-md-12 <?php if(isset($error['username'])) echo "has-error has-feedback"?>">
                         <input type="text"  name='Admin[username]' 
-                               class="form-control changecolor" 
-                               placeholder="Enter Username">
+                               class="form-control changecolor">
                         <?php
                              if(isset($error['username'])&& is_array($error['username'])){
                                 foreach($error['username'] as $usernames):
@@ -51,7 +50,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['password'])) echo "has-error has-feedback"?>">
-                        <input type="password" name='Admin[password]' class="form-control changecolor" placeholder="Enter Password">
+                        <input type="password" name='Admin[password]' class="form-control changecolor">
                         <?php
                              if(isset($error['password'])&& is_array($error['password'])){
                                 foreach($error['password'] as $password):
@@ -76,7 +75,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                      <div class="col-md-12 <?php if(isset($error['retypepassword'])) echo "has-error has-feedback"?>">
-                        <input type="password" name='retypepassword' class="form-control" placeholder="Retype Password">
+                        <input type="password" name='retypepassword' class="form-control" >
                         <?php
                              if(isset($error['retypepassword'])&& is_array($error['retypepassword'])){
                                 foreach($error['retypepassword'] as $retypepassword):
@@ -100,7 +99,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='Admin[first_name]' class="form-control changecolor" placeholder="Enter First Name">                        
+                        <input type="text" name='Admin[first_name]' class="form-control changecolor">                        
                     </div>
                 </td>
             </tr>
@@ -117,7 +116,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='Admin[last_name]' class="form-control changecolor" placeholder="Enter Last Name">                        
+                        <input type="text" name='Admin[last_name]' class="form-control changecolor">                        
                     </div>
                 </td>
             </tr>
@@ -134,7 +133,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='Admin[ip]' class="form-control changecolor" placeholder="Enter IP">                        
+                        <input type="text" name='Admin[ip]' class="form-control changecolor">                        
                         <?php
                              if(isset($error['ip'])&& is_array($error['ip'])){
                                 foreach($error['ip'] as $ip):

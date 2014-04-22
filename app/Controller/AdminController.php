@@ -350,7 +350,7 @@ class AdminController extends AppController {
     }
     function acceptNewUser() {
         $paginate = array(
-            'limit' => 2,
+            'limit' => 100,
             'conditions' => array(
                 'approved' => '0'
             ),
