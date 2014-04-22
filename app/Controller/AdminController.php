@@ -596,6 +596,8 @@ class AdminController extends AppController {
 				$this->AdminIp->delete(intval($del ['AdminIp'] ['ip_id']));
 				$this->IpOfAdmin->delete(intval($ipOfAdmin['IpOfAdmin']['ip_of_admin_id']));
 				$this->Session->setFlash(__('削除成功しました'));
+				//hoangdd
+				$this->redirect(array('controller'=> 'Admin', 'action' => 'ipManage'));
 			}
 			if (strcmp($getParam ['mod'], "edit") == 0) {
 				$enterID = $getParam ['ip_admin'];
@@ -603,11 +605,8 @@ class AdminController extends AppController {
 				$admin = $getParam['admin'];
 				$modFlag = 1;
 				$this->Session->setFlash(__('IPアドレスを変更機能'));
-
 			}
-
-			//hoangdd
-			$this->redirect(array('controller'=> 'Admin', 'action' => 'ipManage'));
+			
 		}
 
 		// request is post
