@@ -182,8 +182,36 @@ class LessonController extends AppController {
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){							
-							$error['document'] = 'Unsupported Document Format';
+
+						//check data, tam thoi lam don gian da
+						$ext = pathinfo($_FILES['document']['name'][$i], PATHINFO_EXTENSION);
+						$this->log($ext, 'hlog');
+						$this->log( mime_content_type($_FILES['document']['tmp_name'][$i]), 'hlog');
+
+						if( $ext == 'pdf'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='application/pdf'){
+								$error['document'] = __('Invalid file!');
+							}
+						}
+						if( $ext == 'wav'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/x-wav'){
+								$error['document'] = __('Invalid file!');
+							}
+						}
+						if( $ext == 'mp4'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/mpeg' ){
+								$error['document'] = __('Invalid file!');
+							}
+						} 
+						if( $ext == 'mp3'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='video/mp4'){
+								$error['document'] = __('Invalid file!');
+							}
+						}
+
+
+						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
+							$error['document'] = __('Unsupported Document Format');
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
 						}						
@@ -350,7 +378,7 @@ function Edit($id)
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
 						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){							
-							$error['document'] = 'Unsupported Document Format';
+							$error['document'] = __('Unsupported Document Format');
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
 						}						
