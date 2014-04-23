@@ -63,7 +63,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             checkpwd: true,
             messages: {
                 required: "<?php echo __('Required input');?>", 
-                minlength: "<?php echo __('Please, at least {8} characters are necessary');?>",
+                minlength: "<?php echo __('Please, at least {6} characters are necessary');?>",
                 maxlength: jQuery.format("<?php echo __('Please enter no more than {30} characters');?>"),
                 checkpwd: jQuery.format("<?php echo __('Please do not enter special characters');?>"),
             }
@@ -77,7 +77,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             checkpwd: true,
             messages: {
                 required: "<?php echo __('Required input');?>", 
-                minlength: "<?php echo __('Please, at least {8} characters are necessary');?>",
+                minlength: "<?php echo __('Please, at least {6} characters are necessary');?>",
                 maxlength: jQuery.format("<?php echo __('Please enter no more than {30} characters');?>"),
                 checkpwd: jQuery.format("<?php echo __('Please do not enter special characters');?>"),
                 checkMatch: jQuery.format("<?php echo __('Password do not match');?>")

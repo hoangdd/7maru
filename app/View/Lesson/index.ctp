@@ -13,7 +13,9 @@
   $lesson['created_date'] = $lesson['created_date'][0]; 
   $reportLink = null;
   if ($_SESSION['Auth']['User']['role'] == 'R2'){
+    if ($_SESSION['Auth']['User']['user_id'] == $author['user_id']){
      $reportLink = $this->Html->url(array('controller' => 'Teacher','action' => 'reportTitle',$lesson['coma_id']));     
+   }
   }
   else if ($_SESSION['Auth']['User']['role'] == 'R3'){
      $reportLink = $this->Html->url(array('controller' => 'Student','action' => 'reportCopyright',$lesson['coma_id']));     
@@ -41,7 +43,7 @@
     			//ranking by stars                   
      $options = array();
      $options['rateAllow'] = 0;
-     if ($user['role'] == 'R3')
+     if ($user['role'] == 'R3' && $lesson['buy_status'])
         $options['rateAllow'] = 1;
      $options['stars'] =   $lesson['stars'];      
      $options['width'] = 30;

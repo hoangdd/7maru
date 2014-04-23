@@ -6,7 +6,6 @@ var isTyping = false;
 var isMouseMoving = false;
 function idle(){
 	$('body').html('');
-	
 	if(user_is_admin){
 		$.ajax({
 			'url' : "/7maru/Admin/logout",

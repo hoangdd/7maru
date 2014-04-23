@@ -31,14 +31,7 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 'role'=>'button',
                 'style'=>'font-size:14px;margin:auto;width:80%'
                 ));            
-            echo "<p></p></div><div class='text-center'>";        
-            echo $this->Html->link(__('ChangeVerifycode'),
-               array('controller' => 'Login','action' => 'changeVerifycode'),array(
-                'class'=>'btn btn-primary',
-                'role'=>'button',
-                'style'=>'font-size:14px;margin:auto;width:80%'
-                ));
-            echo "</div>";
+            echo "<p></p></div>";
         }   
         ?>
     </div>

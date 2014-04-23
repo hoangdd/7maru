@@ -22,7 +22,6 @@ header('Expires: 0'); // Proxies.
 		echo $this->Html->css(array('bootstrap', 'bootstrap-theme', 'intro', 'component', 'normalize'));
 		echo $this->Html->script(array('jquery', 'bootstrap'));
 	?>
-
 	<script type="text/javascript">
 	idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
 	</script>

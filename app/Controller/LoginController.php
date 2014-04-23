@@ -63,6 +63,8 @@ class LoginController extends AppController {
             }                
 			if (isset($this->request->data['User'])){                
                     $data = $this->request->data['User'];
+                    $type = $this->User->getType($data['username']);
+                    $this->log($type,'hlog');
                     $isCheckIp = true;
                     if (!isset($_SESSION['isValidIp'][$data['username']])){
                          $_SESSION['isValidIp'][$data['username']] = true;
@@ -70,8 +72,7 @@ class LoginController extends AppController {
                     if (!$_SESSION['isValidIp'][$data['username']]){
                         $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],2));
                     }
-                    $errorLoginTimes = Configure::read('customizeConfig.error_login_times');                
-                     
+                    $errorLoginTimes = Configure::read('customizeConfig.error_login_times');
                      if(empty($data['username'])){
                         return;
                      }
@@ -84,7 +85,13 @@ class LoginController extends AppController {
                         $remain_block = $blockTime-(time() - $_SESSION['start_block_time'][$data['username']]);                        
                         //check remain block time
                         if ($remain_block < 0 ){
-                            $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],1));
+                            if ($type == 'Teacher'){
+                                $this->redirect(array('controller' => 'login','action' => 'confirmVerifycode',$data['username'],1));
+                            }
+                            else{
+                                $isBlock = 0;
+                                $this->_resetBlockStage($data['username']);
+                            }
                         }
                         else{
                             $isBlock = $remain_block;                        
@@ -94,6 +101,7 @@ class LoginController extends AppController {
                 // set remain time block to show 
                 $this->set(compact('isBlock'));
                 $this->set('username',$data['username']);
+                $this->set('type',$type);
                 if ($isBlock > 0){
                     return;
                 }                
@@ -128,7 +136,7 @@ class LoginController extends AppController {
 
                         }               
                     } 
-                    $this->Session->write('Auth.User.role', 'R2');                                                                            
+                    $this->Session->write('Auth.User.role', 'R2');
                 }else if( $userType==2 || $userType=='2'){ 
                     $this->Session->write('Auth.User.role', 'R3');
                 }
@@ -251,12 +259,15 @@ class LoginController extends AppController {
     }
 
     function changeVerifycode() {
-        
+        if (!$this->Auth->loggedIn()){
+            echo _('Forbidden error');
+            return;
+        }        
+        $this->set('username',$this->Auth->user('username'));
         if ($this->request->is('post')) {
-
             // Get data from view via $data
-            $data = $this->request->data;
-
+            $data = $this->request->data;            
+            debug($this->Auth->user('username'));            
             $current = $data['current-pw'];
             $newAnswer = $data['new-answer'];
             $newQuestion = $data['new-question'];            
@@ -266,45 +277,13 @@ class LoginController extends AppController {
 
             if (empty($current)) {
                 $error['current'] = 'This field is required';
-            }
-            // if (empty($new)) {
-            //     $error['new'] = 'This field is required';
-            // }
-            // if (empty($confirm)) {
-            //     $error['confirm'] = 'This field is required';
-            // }
+            }           
 
             if (empty($current) || empty( $newAnswer) || empty($newQuestion) ) {
                 $this->set('error', $error);
                 return;
             }
-
-            // Check $new validate ?
-            // if ($this->User->validates(array('fieldList' => array('password' => $new)))) {
-            //     // Check matching between $new and $confirm
-            //     if ($new != $confirm) {
-            //         $error['confirm'] = 'Password do not match';
-            //         $this->set('error', $error);
-            //         return;
-            //     }else{
-            //         if (strlen($new) < 2) {
-            //             $error['new'] = 'Password is too short.';
-            //             $this->set('error', $error);
-            //             return;
-            //         }
-
-            //         if (strlen($new) > 30) {
-            //             $error['new'] = 'Password is too long.';
-            //             $this->set('error', $error);
-            //             return;
-            //         }
-            //     }
-            // } else {
-            //     $error['new'] = 'Password format is wrong';
-            //     $this->set('error', $error);
-            //     return;
-            // }
-
+            
             // Access to table User with user_id got from Session, Auth
             $user = $this->User->find('first', array(
                 'conditions' => array(
@@ -317,19 +296,12 @@ class LoginController extends AppController {
              */
 
             if ($this->Auth->password($this->Auth->user('username') . $current.FILL_CHARACTER) === $user['User']['password']) {
-                $hashNewQuestion = $this->Auth->password($this->Auth->user('new_question') . $newQuestion.FILL_CHARACTER);
-                $hashNewQuestion = $this->Auth->password($this->Auth->user('new_answer') . $newAnswer.FILL_CHARACTER);
+                $hashNewQuestion = $this->Auth->password($this->Auth->user('username') .$this->Auth->user('new_question') . $newQuestion.FILL_CHARACTER);
+                $hashNewQuestion = $this->Auth->password($this->Auth->user('username') .$this->Auth->user('new_answer') . $newAnswer.FILL_CHARACTER);
                 $this->User->id = $this->Auth->user('user_id');
                 $this->User->saveField('verifycode_question',$hashNewQuestion,array('callbacks' => false));
                 $result = $this->User->saveField('verifycode_answer',$hashNewQuestion,array('callbacks' => false));
-
-                // $updatePassword = $this->User->updateAll(
-                //     array(
-                //         'User.password' => "'" . $hashNewPassword . "'"
-                //         ), array(
-                //         'User.user_id' => $this->Auth->User('user_id')
-                //         )
-                //         );
+             
                 if ($result) {
                     $this->Session->setFlash(__('Successfully'));
                     $this->redirect(array(
