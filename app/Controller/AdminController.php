@@ -1367,6 +1367,7 @@ function deleteFile($file_id = null){
 		$command = 'rm -rf '.BACKUP_STORE.$directDel;
 		$output = shell_exec($command);
 		$dir = BACKUP_STORE.'$directDel';
+		$this->Session->setFlash(__('削除成功しました'));
 		}
 		else {
 			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
@@ -1387,6 +1388,7 @@ function deleteFile($file_id = null){
 		shell_exec($command);
 		$command = 'chmod -R 777 '.BACKUP_DATA.'data';
 		shell_exec($command);
+		$this->Session->setFlash(__('リカバリ成功しました'));
 		}
 		else {
 			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
@@ -1395,7 +1397,8 @@ function deleteFile($file_id = null){
 	}
 	
 	function manualBackup() {
-		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');    	
+		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');
+		$this->Session->setFlash(__('バックアップ成功しました'));
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
 	}
 	///==================

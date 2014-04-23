@@ -7,7 +7,7 @@
 
 <!-- header -->
 <h3 style="text-align:center">
-	<?php echo __('Backup System').' '.__('Manage'); 
+	<?php echo __('バックアップシステム').' '.__('管理'); 
 	echo $this->Html->link("すぐにバックアップする", array(
 											'controller' => 'Admin',
 											'action' => 'manualBackup'
@@ -34,15 +34,15 @@
 				</th>
 
 				<th class='ip-col' style="width:50%">
-					<?php echo __('Backup History') ?>
+					<?php echo __('バックアップ歴史') ?>
 				</th>
 
 				<th class='del-ip-col' style="width:20%">
-					<?php echo __('Delete').' '.__('Backup') ?>
+					<?php echo __('削除').' '.__('バックアップ') ?>
 				</th>
 
 				<th class='edit-ip-col' style="width:20%">
-					<?php echo __('Restore') ?>
+					<?php echo __('リカバリ') ?>
 				</th>
 			</tr>
 		</thead>
@@ -68,7 +68,7 @@
 				"</td>
 
 				<td class='del-ip-col'>";
-			echo $this->Html->link("Delete", array(
+			echo $this->Html->link("削除", array(
 											'controller' => 'Admin',
 											'action' => 'backupDelete?backup_folder='.$value
 											
@@ -81,7 +81,7 @@
 			echo "</td>
 
 				<td class='edit-ip-col'>";
-					echo $this->Html->link("Restore", array(
+					echo $this->Html->link("リカバリ", array(
 											'controller' => 'Admin',
 											'action' => 'backupRestore?backup_folder='.$value
 											
