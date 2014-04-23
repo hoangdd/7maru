@@ -1275,13 +1275,11 @@ function Edit($id)
 	
 	function Result(){
 		$values = $this->params['url']['view'];
-		echo "values:".$values;
 		$result = $this->TestResult->find('first',array(
 			'conditions' => array(
 				'TestResult.result_id' => $values
 				)
 			));
-		print_r($result);
 		$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
 
 		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
