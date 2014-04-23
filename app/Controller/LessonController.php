@@ -161,18 +161,18 @@ class LessonController extends AppController {
 							$error['test'] = __('Unsupported Test File Format');
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
-						} else if($this->check_Document_File($_FILES['test']['tmp_name'][$i])){
+						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
 								$error['test'] = __('Format not true');
 						}
 						//テストファイルの構造は正しいかどうかをチェックする。
-						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
+						/* $fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
 						if($fileReader){
 							while (($line = fgets($fileReader)) !== false) {
 
 							}
 						} else {
 							$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
-						}
+						} */
 					}
 					}
 				}
@@ -491,7 +491,7 @@ function Edit($id)
 			        
 		              $string = preg_replace('/\s+/', '', $nLineData);
 		          if(!empty($nLineData)) {
-		          echo "{len:".strlen($string)."}";
+		          //echo "{len:".strlen($string)."}";
 		          $check_line_mean = 0;
 		          if(strlen($string) == 0) $check_line_mean = 1;
 		          else if($string[0] !='#') $check_line_mean = 1;
@@ -502,21 +502,21 @@ function Edit($id)
 		          $nParsed = "";
 			        $nParsed = explode("\t", $nLineData);
 		
-			        echo "count: ".count($nParsed);
+			        //echo "count: ".count($nParsed);
 		
 			        $checkempty=1;//init empty line
 		            for($ii = 0;$ii < count($nParsed);$ii++){
-		                echo " ".$ii." : ".$nParsed[$ii];
+		                //echo " ".$ii." : ".$nParsed[$ii];
 		                
 		              }
 		              if(!ctype_space($nLineData)) $checkempty = 0;//not empty
-		              echo "{check empty : ".$checkempty."}";
+		              //echo "{check empty : ".$checkempty."}";
 		              
-		            if(strpos($nLineData,'End') !== false) { echo "end";
+		            if(strpos($nLineData,'End') !== false) { //echo "end";
 		                $hasEnd = 1;
 		                
 		                for($ii = 1;$ii < count($nParsed);$ii++) {
-		                echo "{II:".$nParsed[$ii]."}";
+		                //echo "{II:".$nParsed[$ii]."}";
 		                    if(strcmp($nParsed[$ii],"") != 0)
 		                    {
 		                    //echo "no pass";
@@ -532,14 +532,14 @@ function Edit($id)
 		                        
 		            }//end check line end
 		            else {
-		            echo "current HasEnd:".$hasEnd;
+		            //echo "current HasEnd:".$hasEnd;
 		            if($hasEnd == 1) {
-		            echo "after end"; echo "count: ".count($nParsed)."line_count:".$line_count;
+		            //echo "after end"; echo "count: ".count($nParsed)."line_count:".$line_count;
 		            $stringEND = preg_replace('/\s+/', '', $nLineData);
 		                if($checkempty != 1 && strlen($stringEND) >0)
 		                {
 		                if($stringEND[0]!='#') {
-		                echo "{error after end must nothing}";
+		                //echo "{error after end must nothing}";
 		                    $check_format_file = 0; 
 		                    //echo "<br> result:".$check_format_file;
 		                  $CheckAfterEnd = 1;
@@ -550,11 +550,11 @@ function Edit($id)
 		            //start check content
 		            //
 		                if($hasEnd == 0 && (strpos($nLineData,'End') == false)) {
-		                echo "{NO END}";
+		                //echo "{NO END}";
 		                if(count($nParsed) < 3 ) {
 		                
 		                if(!ctype_space($nLineData)) {
-		                    echo "{tab less than 3}";
+		                    //echo "{tab less than 3}";
 		                    
 		                        $check_format_file = 0; 
 		                        $CheckAfterEnd = 1;
@@ -563,31 +563,31 @@ function Edit($id)
 		                    
 		                    if($checkempty == 1){
 		                    
-		                        echo "{line space}";
+		                        //echo "{line space}";
 		                        $flag_empty = 0;
 		                        if (!ctype_space($nLineData)) {
-		                            echo "{--not line space--}";
+		                            //echo "{--not line space--}";
 		                            $flag_empty = 1;
 		                        }
 		                        
 		                        if($flag_empty == 1) {
-		                            echo "{line space error at line:".$line_count."}";
+		                            //echo "{line space error at line:".$line_count."}";
 		                            $check_format_file = 0; 
 		                            $CheckAfterEnd = 1;
 		                        } else{
 		                            $question_number++;
 		                            $start_question = 0;
-		                              echo "{Prepare for start question}";
+		                              //echo "{Prepare for start question}";
 		                        }
 		                        }//End check line empty
 		                        //start check question format:
 		                    else {
-		                        echo "{QUES_CHOI_ANS}";
+		                        //echo "{QUES_CHOI_ANS}";
 		                        //check question head each line
 		                        $flag_question = 0;
 		                        
 		                        if(strcmp($nParsed[0],"Q(".$question_number.")") !=0) {
-		                           echo "{error at :Q(".$question_number.") not match}";
+		                           //echo "{error at :Q(".$question_number.") not match}";
 		                            $flag_question=1;
 		                            
 		                            }
@@ -616,8 +616,8 @@ function Edit($id)
 		                                    }
 		                                    else
 		                                        $flag_question = 1;
-		                        echo "{QUES}";
-		                           echo "{has QS?:".strcmp ($nParsed[1], "QS" )."}";
+		                        //echo "{QUES}";
+		                           //echo "{has QS?:".strcmp ($nParsed[1], "QS" )."}";
 		                           if(strcmp ($nParsed[1],"QS")
 		!=0)
 		                            $flag_question = 1;  
@@ -651,7 +651,7 @@ function Edit($id)
 		                                        $flag_question = 1;
 		
 		                                    $strToCompare = "S(".$start_question.")";
-		                                    echo "{str to compare:".$strToCompare."}";
+		                                    //echo "{str to compare:".$strToCompare."}";
 		                                    if(strcmp($nParsed[1],$strToCompare) !=0) 
 		                                    $flag_question = 1;
 		                                    else { $start_question++;
@@ -660,7 +660,7 @@ function Edit($id)
 		                                else {
 		                                    //may be answer
 		                                    
-		                                    echo "{has KS?:".strcmp ($nParsed[1], "KS" )."}";
+		                                    //echo "{has KS?:".strcmp ($nParsed[1], "KS" )."}";
 		                                    if(strcmp($nParsed[1],"KS") !=0) {
 		                                        if(strcmp($nParsed[1],"S(".$start_question.")") !=0)
 		                                            $flag_question = 1;
@@ -690,7 +690,7 @@ function Edit($id)
 		                                         }
 		                                    }
 		                                    else {
-		                                    echo "{ANS}";
+		                                    //echo "{ANS}";
 		                                    if(count($nParsed) > 4) {
 		                                    for($uu = 4;$uu<count($nParsed);$uu++){
 		                                        $stringTemp = "";
@@ -734,7 +734,7 @@ function Edit($id)
 		                            }
 		                            //process
 		                        if($flag_question == 1) {
-		                            echo "{answer error".$line_count."}";
+		                            //echo "{answer error".$line_count."}";
 		                            $check_format_file = 0; 
 		                            $CheckAfterEnd = 1;
 		                        }
@@ -746,12 +746,12 @@ function Edit($id)
 		            }
 		            }//end check not comment
 		            }
-		                            echo "<br>";
+		                            //echo "<br>";
 		             //ChECK after end
 		             	            }
 		             	            
 		             	            if($CheckAfterEnd == 1) {
-			                             echo "stop by cause end no pass";
+			                             //echo "stop by cause end no pass";
 			                         break;}
 		}
 		//END WHILE
@@ -762,7 +762,7 @@ function Edit($id)
 			            }
 		}
 		fclose ( $nFile );
-		echo "{result: ".$check_format_file."}";
+		//echo "{result: ".$check_format_file."}";
 		if($check_format_file == 0) return false;
 		return true;
 		
