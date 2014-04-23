@@ -23,7 +23,7 @@ style="Z-INDEX: 110; BORDER-BOTTOM: #666666 2px solid; POSITION: absolute; TEXT-
 <!--CSS/Style Sheet Part Ending-->
 <!-- <SCRIPT language="javascript" src="/7maru/app/webroot/test_store/test_test.js"></SCRIPT> -->
 <?php 
-	if(isset($testID) && isset($testfile)) {
+	if(isset($testID) && isset($testfile) &&isset($ques_no)) {
 ?>
 
 <?php 
@@ -96,7 +96,7 @@ echo $this->Html->script('Test_Control');
 </SCRIPT>
 <SCRIPT language="javascript">
 var qno=<?php 
-$this->qno=4;
+$this->qno=$ques_no;
 echo $this->qno; ?>;
 var proc="";
 var s=new Array();

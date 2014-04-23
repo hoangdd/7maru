@@ -161,9 +161,7 @@ class LessonController extends AppController {
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
 							
-						} else if($this->check_Document_File($_FILES['test']['name'][$i])){
-								$error['test'] = __('Format not true');
-						}
+						} 
 					//テストファイルの構造は正しいかどうかをチェックする。
 						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
 						if($fileReader){
@@ -1252,10 +1250,10 @@ function Edit($id)
 				);
 			$this->TestResult->create($dataResult);
 			$this->TestResult->save();
-			$this->redirect(array(
-				'controller' => 'Lesson',
-				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
-				));
+// 			$this->redirect(array(
+// 				'controller' => 'Lesson',
+// 				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
+// 				));
 			}
 			else{//if admin test,view result only
 				$this->set('testfilegettest',$values);
@@ -1348,7 +1346,11 @@ function Edit($id)
 			//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			$this->set('testID',$id);
 			$this->set('testfile',$dulieu['Data']['path']);
-
+			$tsvPath = str_replace(".js",".tsv",$dulieu['Data']['path']);
+			$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$tsvPath);
+			if(isset($finalTest)) {
+				$this->set("ques_no",count($finalTest));
+			}
 		} else {
 			$str = "Error test data!!!";
 		}
