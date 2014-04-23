@@ -443,6 +443,7 @@ function Edit($id)
 	private function check_Document_File($src){
 		$nFile = fopen($src, 'r');
 		$check_format_file = 1;
+		
 		if ($nFile !== FALSE) {
 		        $flag = 0;
 		        $start_question = 0;//To flag start each a question
@@ -461,24 +462,33 @@ function Edit($id)
 			         //ELSE 1
 			        
 		              $string = preg_replace('/\s+/', '', $nLineData);
-		          if(!empty($nLineData) && $string[0] !='#') {
+		          if(!empty($nLineData)) {
+		          echo "{len:".strlen($string)."}";
+		          $check_line_mean = 0;
+		          if(strlen($string) == 0) $check_line_mean = 1;
+		          else if($string[0] !='#') $check_line_mean = 1;
+		            if($check_line_mean == 1){
 		          $line_mean++;
 		          if($line_mean > 2) {
 		          
 		          $nParsed = "";
 			        $nParsed = explode("\t", $nLineData);
 		
+			        echo "count: ".count($nParsed);
 		
 			        $checkempty=1;//init empty line
 		            for($ii = 0;$ii < count($nParsed);$ii++){
+		                echo " ".$ii." : ".$nParsed[$ii];
 		                
 		              }
 		              if(!ctype_space($nLineData)) $checkempty = 0;//not empty
+		              echo "{check empty : ".$checkempty."}";
 		              
 		            if(strpos($nLineData,'End') !== false) { echo "end";
 		                $hasEnd = 1;
 		                
 		                for($ii = 1;$ii < count($nParsed);$ii++) {
+		                echo "{II:".$nParsed[$ii]."}";
 		                    if(strcmp($nParsed[$ii],"") != 0)
 		                    {
 		                    //echo "no pass";
@@ -494,22 +504,29 @@ function Edit($id)
 		                        
 		            }//end check line end
 		            else {
+		            echo "current HasEnd:".$hasEnd;
 		            if($hasEnd == 1) {
+		            echo "after end"; echo "count: ".count($nParsed)."line_count:".$line_count;
 		            $stringEND = preg_replace('/\s+/', '', $nLineData);
-		                if($checkempty != 1 && $stringEND[0]!='#')
+		                if($checkempty != 1 && strlen($stringEND) >0)
 		                {
+		                if($stringEND[0]!='#') {
+		                echo "{error after end must nothing}";
 		                    $check_format_file = 0; 
 		                    //echo "<br> result:".$check_format_file;
 		                  $CheckAfterEnd = 1;
+		                  }
 		                  }
 		
 		            }//end check after END
 		            //start check content
 		            //
 		                if($hasEnd == 0 && (strpos($nLineData,'End') == false)) {
+		                echo "{NO END}";
 		                if(count($nParsed) < 3 ) {
 		                
 		                if(!ctype_space($nLineData)) {
+		                    echo "{tab less than 3}";
 		                    
 		                        $check_format_file = 0; 
 		                        $CheckAfterEnd = 1;
@@ -518,50 +535,63 @@ function Edit($id)
 		                    
 		                    if($checkempty == 1){
 		                    
+		                        echo "{line space}";
 		                        $flag_empty = 0;
 		                        if (!ctype_space($nLineData)) {
+		                            echo "{--not line space--}";
 		                            $flag_empty = 1;
 		                        }
 		                        
 		                        if($flag_empty == 1) {
+		                            echo "{line space error at line:".$line_count."}";
 		                            $check_format_file = 0; 
 		                            $CheckAfterEnd = 1;
 		                        } else{
 		                            $question_number++;
 		                            $start_question = 0;
+		                              echo "{Prepare for start question}";
 		                        }
 		                        }//End check line empty
 		                        //start check question format:
 		                    else {
+		                        echo "{QUES_CHOI_ANS}";
 		                        //check question head each line
 		                        $flag_question = 0;
 		                        
 		                        if(strcmp($nParsed[0],"Q(".$question_number.")") !=0) {
+		                           echo "{error at :Q(".$question_number.") not match}";
 		                            $flag_question=1;
 		                            
 		                            }
 		                        //Choice:
 		                        
 		                        if($start_question == 0) {
-                        
+		                        
 		                        //check for comment exist in question:
 		                        for($uu = 3;$uu<count($nParsed);$uu++){
 		                            $stringTemp = "";
 		                            $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
+		                            if(strlen($stringTemp) >0){
 		                            if($stringTemp[0]=='#'){
 		                                break;
 		                               }
-		                            if($stringTemp != ''){
-		                                if($stringTemp[0] != '#') {
+		                               else {
 		                                $flag_question = 1;
 		                                break;
-		                                }
+		                               }
 		                            }
 		                        }//end for
 		                        $stringTemp = preg_replace('/\s+/', '', $nParsed[2]);
-		                        if($stringTemp[0]=='#' || ctype_space($nParsed[2]))
-		                            $flag_question = 1;
-		                           if(strcmp ($nParsed[1],"QS")!=0)
+		                           if(strlen($stringTemp)>0) {
+		                                        if($stringTemp[0]=='#')
+		                                            $flag_question = 1;
+		                                    }
+		                                    else
+		                                        $flag_question = 1;
+		                        echo "{QUES}";
+		                           echo "{has QS?:".strcmp ($nParsed[1], "QS" )."}";
+		                           if(strcmp ($nParsed[1],"QS")
+		!=0)
 		                            $flag_question = 1;  
 		                            else {$start_question = 1;//return begin of question state  
 		                            
@@ -574,21 +604,26 @@ function Edit($id)
 		                                for($uu = 3;$uu<count($nParsed);$uu++){
 		                                    $stringTemp = "";
 		                                    $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
+		                                    if(strlen($stringTemp) >0){
 		                                    if($stringTemp[0]=='#'){
 		                                        break;
 		                                       }
-		                                    if($stringTemp != ''){
-		                                        if($stringTemp[0] != '#') {
+		                                       else {
 		                                        $flag_question = 1;
 		                                        break;
-		                                        }
+		                                       }
 		                                    }
 		                                }//end for
 		                                $stringTemp = preg_replace('/\s+/', '', $nParsed[2]);
-		                                if($stringTemp[0]=='#' || ctype_space($nParsed[2]))
-		                                    $flag_question = 1;
+		                                if(strlen($stringTemp)>0) {
+		                                        if($stringTemp[0]=='#')
+		                                            $flag_question = 1;
+		                                    }
+		                                    else
+		                                        $flag_question = 1;
 		
 		                                    $strToCompare = "S(".$start_question.")";
+		                                    echo "{str to compare:".$strToCompare."}";
 		                                    if(strcmp($nParsed[1],$strToCompare) !=0) 
 		                                    $flag_question = 1;
 		                                    else { $start_question++;
@@ -597,52 +632,66 @@ function Edit($id)
 		                                else {
 		                                    //may be answer
 		                                    
+		                                    echo "{has KS?:".strcmp ($nParsed[1], "KS" )."}";
 		                                    if(strcmp($nParsed[1],"KS") !=0) {
 		                                        if(strcmp($nParsed[1],"S(".$start_question.")") !=0)
 		                                            $flag_question = 1;
 		                                         else  {
 		                                         for($uu = 3;$uu<count($nParsed);$uu++){
-		                                                $stringTemp = "";
-		                                                $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
-		                                                if($stringTemp[0]=='#'){
-		                                                    break;
-		                                                   }
-		                                                if($stringTemp != ''){
-		                                                    if($stringTemp[0] != '#') {
+		                                            $stringTemp = "";
+		                                            $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
+		                                            if(strlen($stringTemp) >0){
+		                                            if($stringTemp[0]=='#'){
+		                                                break;
+		                                               }
+		                                               else {
+		                                                $flag_question = 1;
+		                                                break;
+		                                               }
+		                                            }
+		                                        }//end for
+		                                        $stringTemp = preg_replace('/\s+/', '', $nParsed[2]);
+		                                        if(strlen($stringTemp)>0) {
+		                                                if($stringTemp[0]=='#')
 		                                                    $flag_question = 1;
-		                                                    break;
-		                                                    }
-		                                                }
-		                                            }//end for
-		                                            $stringTemp = preg_replace('/\s+/', '', $nParsed[2]);
-		                                            if($stringTemp[0]=='#' || ctype_space($nParsed[2]))
+		                                            }
+		                                            else
 		                                                $flag_question = 1;
 		                                         
 		                                         $start_question++;
 		                                         }
 		                                    }
 		                                    else {
+		                                    echo "{ANS}";
 		                                    if(count($nParsed) > 4) {
 		                                    for($uu = 4;$uu<count($nParsed);$uu++){
-		                                            $stringTemp = "";
-		                                            $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
-		                                            if($stringTemp[0]=='#'){
-		                                                break;
-		                                               }
-		                                            if($stringTemp != ''){
-		                                                if($stringTemp[0] != '#') {
-		                                                $flag_question = 1;
-		                                                break;
-		                                                }
-		                                            }
-		                                        }//end for
+		                                        $stringTemp = "";
+		                                        $stringTemp = preg_replace('/\s+/', '', $nParsed[$uu]);
+		                                        if(strlen($stringTemp) >0){
+		                                        if($stringTemp[0]=='#'){
+		                                            break;
+		                                           }
+		                                           else {
+		                                            $flag_question = 1;
+		                                            break;
+		                                           }
+		                                        }
+		                                    }//end for
 		                                     }
 		                                        $stringTemp = preg_replace('/\s+/', '', $nParsed[2]);
-		                                        if($stringTemp[0]=='#' || ctype_space($nParsed[2]))
-		                                            $flag_question = 1;
+		                                        if(strlen($stringTemp)>0) {
+		                                                if($stringTemp[0]=='#')
+		                                                    $flag_question = 1;
+		                                            }
+		                                            else
+		                                                $flag_question = 1;
 		                                        $stringTemp = preg_replace('/\s+/', '', $nParsed[3]);
-		                                        if($stringTemp[0]=='#' || ctype_space($nParsed[3]))
-		                                            $flag_question = 1;
+		                                        if(strlen($stringTemp)>0) {
+		                                                if($stringTemp[0]=='#')
+		                                                    $flag_question = 1;
+		                                            }
+		                                            else
+		                                                $flag_question = 1;
 		                                            
 		                                            $flag_aws = 0;
 		                                            for($yy = 1;$yy<$start_question;$yy++) {
@@ -657,6 +706,7 @@ function Edit($id)
 		                            }
 		                            //process
 		                        if($flag_question == 1) {
+		                            echo "{answer error".$line_count."}";
 		                            $check_format_file = 0; 
 		                            $CheckAfterEnd = 1;
 		                        }
@@ -667,10 +717,13 @@ function Edit($id)
 		            //
 		            }
 		            }//end check not comment
+		            }
+		                            echo "<br>";
 		             //ChECK after end
 		             	            }
 		             	            
 		             	            if($CheckAfterEnd == 1) {
+			                             echo "stop by cause end no pass";
 			                         break;}
 		}
 		//END WHILE
@@ -681,6 +734,7 @@ function Edit($id)
 			            }
 		}
 		fclose ( $nFile );
+		echo "{result: ".$check_format_file."}";
 		if($check_format_file == 0) return false;
 		return true;
 		
