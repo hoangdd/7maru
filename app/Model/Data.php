@@ -137,12 +137,10 @@ class Data extends AppModel {
 	}
 	public function readTsv($nFileName) {
 
-		$nRow = 1;
-		$nFile = fopen ( $nFileName, "r" );
+	$nFile = fopen ( $nFileName, "r" );
 		$finalTest;
 		if ($nFile !== FALSE) {
 			$temp = 0;
-			$temp_temp = 0;
 			$arrayLen = 0;
 			$indexItem = "Question";
 			$questionNumber = 0;
@@ -155,10 +153,12 @@ class Data extends AppModel {
 			$finalTest;
 			$arrayOption;
 			$line_mean = 0;
-		while ( ! feof ( $nFile ) ) {
+			while ( ! feof ( $nFile ) ) {
 				$nLineData = fgets ( $nFile );
 				 $string = preg_replace('/\s+/', '', $nLineData);
-                  if(!empty($nLineData) && $string[0] !='#') {
+                  if(!empty($nLineData)&&isset($string)) {
+                  	if(strlen($string) > 0){
+                  	if($string[0] !='#') {
                   $line_mean++;
                   if($line_mean > 2) {
 
@@ -228,6 +228,8 @@ class Data extends AppModel {
 					// echo "Parsed Line - " & $nParsed[0] & "<br>"; //Debug, Outputs Junk (eg Line 4 = @P)
 					// echo "<br> Parsed Line - $nParsed[0] <br>"; //Debug, Outputs Proper (eg Line 4 = #START)
 				}
+                  }
+                  	}
 			}
 			}
 

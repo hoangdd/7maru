@@ -1,10 +1,12 @@
 if(typeof(idle_time) === 'undefined' ) idle_time =  60 * 1000 ;
+if(typeof(is_admin) === 'undefined' ) is_admin =  false;
 var flag = false;
 // var window_focus = ;
 var isTyping = false;
 var isMouseMoving = false;
 function idle(){
 	$('body').html('');
+	
 	if(user_is_admin){
 		$.ajax({
 			'url' : "/7maru/Admin/logout",
@@ -20,7 +22,6 @@ function idle(){
 			}
 		});	
 	}
-	
 	
 	// console.log("die");
 }

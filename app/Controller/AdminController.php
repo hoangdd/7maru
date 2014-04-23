@@ -1337,6 +1337,7 @@ function deleteFile($file_id = null){
 	
 	function backupManage(){
 		$path = BACKUP_STORE;
+		if(is_dir($path)) {
 		$results = scandir($path);
 		$itemp = 0;
 		foreach ($results as $result) {
@@ -1352,26 +1353,52 @@ function deleteFile($file_id = null){
 			}
 		}
 		if(isset($backup_history))
-		$this->set('backup_history',$backup_history);
+			$this->set('backup_history',$backup_history);
+		}
+		else {
+			$this->Session->setFlash(__('バックアップのフォルダは既存しません'));
+		}
+		
 	}
 	
 	function backupDelete(){
 		$directDel = $this->params['url']['backup_folder'];
+		if(is_dir(BACKUP_STORE.$directDel)) {
 		$command = 'rm -rf '.BACKUP_STORE.$directDel;
 		$output = shell_exec($command);
 		$dir = BACKUP_STORE.'$directDel';
+		$this->Session->setFlash(__('削除成功しました'));
+		}
+		else {
+			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
+		}
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
 	}
 	
 	function backupRestore(){
 		$directDel = $this->params['url']['backup_folder'];
 		$dir = BACKUP_STORE;
+		if(is_dir(BACKUP_STORE.$directDel)) {
 		$output = shell_exec('mysql -u root -p123456 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
+		$command = 'rm -rf '.BACKUP_DATA.'data';
+		$output = shell_exec($command);
+		
+		$command = 'tar -xzvf '.BACKUP_STORE.$directDel.'/backup_'.$directDel.'.tar.gz -C '.BACKUP_DATA;
+		
+		shell_exec($command);
+		$command = 'chmod -R 777 '.BACKUP_DATA.'data';
+		shell_exec($command);
+		$this->Session->setFlash(__('リカバリ成功しました'));
+		}
+		else {
+			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
+		}
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));    	 
 	}
 	
 	function manualBackup() {
-		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');    	
+		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');
+		$this->Session->setFlash(__('バックアップ成功しました'));
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
 	}
 	///==================

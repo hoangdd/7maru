@@ -25,6 +25,6 @@ Thumbs.db
 .settings/
 /nbproject/private/
 7maru.sql
-
+/backups/
 # data folder #
 ######################

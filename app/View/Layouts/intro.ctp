@@ -23,13 +23,17 @@ header('Expires: 0'); // Proxies.
 		echo $this->Html->script(array('jquery', 'bootstrap'));
 	?>
 
-	<script>
+	<script type="text/javascript">
 	idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
 	</script>
 	<?php 
 		App::uses('Component', 'AuthComponent');
 		$user = AuthComponent::user();
 		if( !empty($user)){
+			if($user['role'] == 'R4' )
+				echo '<script type="text/javascript"> var is_admin = true;</script>';
+			else
+				echo '<script type="text/javascript"> var is_admin = false;</script>';
 			echo $this->Html->script(array('common.js'));
 		}
 	?>
