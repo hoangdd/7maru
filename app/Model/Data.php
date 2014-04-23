@@ -154,17 +154,19 @@ class Data extends AppModel {
 
 			$finalTest;
 			$arrayOption;
-			while ( ! feof ( $nFile ) ) {
+			$line_mean = 0;
+		while ( ! feof ( $nFile ) ) {
 				$nLineData = fgets ( $nFile );
-				
-				$temp_temp ++;
-				if ($temp_temp > 4) {
+				 $string = preg_replace('/\s+/', '', $nLineData);
+                  if(!empty($nLineData) && $string[0] !='#') {
+                  $line_mean++;
+                  if($line_mean > 2) {
 
 					$flagQuestion = 0; // doc cau hoi
 					// $nLineData = mb_convert_encoding($nLineData, "UTF-8");
-					$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
+					//$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
 					$nParsed = explode ( "\t", $nLineData );
-					if (count ( $nParsed ) == 3 || count ( $nParsed ) == 4) {
+					if (!ctype_space($nLineData)) {
 						if (strcmp ( $nParsed [0], "" ) != 0) {
 							if (strcmp ( $nParsed [1], "QS" ) == 0) {
 								$indexItem = "Question" . $questionNumber;
@@ -226,6 +228,7 @@ class Data extends AppModel {
 					// echo "Parsed Line - " & $nParsed[0] & "<br>"; //Debug, Outputs Junk (eg Line 4 = @P)
 					// echo "<br> Parsed Line - $nParsed[0] <br>"; //Debug, Outputs Proper (eg Line 4 = #START)
 				}
+			}
 			}
 
 			$this->set ( "test_list", $finalTest );
