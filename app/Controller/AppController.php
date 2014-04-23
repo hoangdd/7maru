@@ -64,8 +64,8 @@ class AppController extends Controller {
         parent::beforeFilter();
         if(!$this->__permission()){            
             echo '403 Forbidden error.';
-           $this->redirect($this->Auth->loginAction);
-            // die;
+            die;
+            // $this->redirect($this->Auth->loginAction);
         }
     }
     private function __permission($user_role = null, $current_controller = null){

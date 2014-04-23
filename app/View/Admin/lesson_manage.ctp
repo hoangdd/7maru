@@ -113,7 +113,7 @@
 				}
 			});
 		}
-		function search(keyword){
+		/*function search(keyword){
 			if( keyword.length == 0){
 				$('.data-row').show();
 			}else{
@@ -135,6 +135,6 @@
 		}
 		$('#search-input').keyup(function(){
 			search($(this).val());
-		})
+		});*/
 	});
 </script>
