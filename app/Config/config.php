@@ -106,6 +106,7 @@ define('DATA_SRC_DIR', DATA_DIR.DS.'src');
 
 define('BACKUP_COMMAND','/var/www/7maru/backups/');
 define('BACKUP_STORE','/var/www/backup_store/');
+define('BACKUP_DATA','/var/www/7maru/app/');
 
 
 Configure::write('srcFile', array(
