@@ -91,7 +91,6 @@ class AppController extends Controller {
         if( empty($userRoles[$controller['controller']]) ) return false;
 
         if( $userRoles[$controller['controller']]=='*' ) return true;
-
         if( in_array($controller['action'], $userRoles[$controller['controller']]) )
             return true;
 

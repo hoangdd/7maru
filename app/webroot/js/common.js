@@ -1,22 +1,26 @@
 if(typeof(idle_time) === 'undefined' ) idle_time =  60 * 1000 ;
+if(typeof(is_admin) === 'undefined' ) is_admin =  false;
 var flag = false;
 // var window_focus = ;
 var isTyping = false;
 var isMouseMoving = false;
 function idle(){
 	$('body').html('');
-	$.ajax({
+	if( !is_admin ){
+		$.ajax({
 		'url' : "/7maru/Login/logout",
 		complete : function(){
 			window.location = "/7maru/Login";
 		}
 		});
-	$.ajax({
+	}else{
+		$.ajax({
 		'url' : "/7maru/Admin/logout",
 		complete : function(){
 			window.location = "/7maru/Admin/Login";
 		}
-		});
+		});	
+	}
 	// console.log("die");
 }
 $(window).focus(function(){
