@@ -206,7 +206,7 @@ Configure::write('dataFile', array(
 
 Configure::write('command', array(
 	'pdf2swf' => array(
-		'C:\SWFTools\pdf2swf.exe %s -o %s'
+		'pdf2swf %s -o %s -f -T 9 -t -s storeallcharacters'
 		),
 
 	'doc2pdf' => array(

@@ -154,15 +154,17 @@ class LessonController extends AppController {
 			if(!empty($_FILES['test']['name'][0])){
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
+				$this->log($_FILES['test'], 'hlog');
 				for($i = 0, $len; $i < $len; $i++){
 					if ($_FILES['test']['name'][$i]){
 						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
 							$error['test'] = __('Unsupported Test File Format');
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
-							
-						} 
-					//テストファイルの構造は正しいかどうかをチェックする。
+						} else if($this->check_Document_File($_FILES['test']['tmp_name'][$i])){
+								$error['test'] = __('Format not true');
+						}
+						//テストファイルの構造は正しいかどうかをチェックする。
 						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
 						if($fileReader){
 							while (($line = fgets($fileReader)) !== false) {
@@ -190,6 +192,7 @@ class LessonController extends AppController {
 				
 			}			
 			if(count($error)){
+				$this->log($error, 'hlog');
 				$this->set('error',$error);
 				// debug($error);
 				$this->set('data',$data);				
@@ -437,12 +440,9 @@ function Edit($id)
 		
 	}	
 	
-	private function check_Document_File($nFile){
-// 		$nFileName = "NTD08-1.tsv"; //Hidden due to security reasons.
+	private function check_Document_File($src){
+		$nFile = fopen($src, 'r');
 		$check_format_file = 1;
-// 		$nFile = fopen($nFileName, "r");
-		
-		
 		if ($nFile !== FALSE) {
 		        $flag = 0;
 		        $start_question = 0;//To flag start each a question
@@ -543,7 +543,7 @@ function Edit($id)
 		                        //Choice:
 		                        
 		                        if($start_question == 0) {
-		                        
+                        
 		                        //check for comment exist in question:
 		                        for($uu = 3;$uu<count($nParsed);$uu++){
 		                            $stringTemp = "";

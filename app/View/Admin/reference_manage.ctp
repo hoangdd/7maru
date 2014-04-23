@@ -88,7 +88,7 @@
 				}
 			);
 			return false;
-		})
+		});
 
 		function hide_lesson_with(key){
 			$('.linktr').each(function(wrapper){
@@ -100,8 +100,7 @@
 				}
 			});
 		}
-		});
-		function search(keyword){
+		/*function search(keyword){
 			if( keyword.length == 0){
 				$('.data-row').show();
 			}else{
@@ -122,7 +121,7 @@
 			}
 		}
 		$('#search-input').keyup(function(){
-			search($(this).val());
-		});
+			// search($(this).val());
+		});*/
 	})
 </script>

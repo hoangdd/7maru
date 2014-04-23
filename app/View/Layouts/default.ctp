@@ -46,11 +46,13 @@ header('Expires: 0'); // Proxies.
 		App::uses('Component', 'AuthComponent');
 		$user = AuthComponent::user();
 		if( !empty($user)){
-			if($user['role'] == 'R4' )
-				echo '<script type="text/javascript"> var is_admin = true;</script>';
-			else
-				echo '<script type="text/javascript"> var is_admin = false;</script>';
 			echo $this->Html->script(array('common.js'));
+			// echo die(var_dump($user));
+			if($user['role'] == 'R1'){
+				echo "<script>user_is_admin = true ;</script>";
+			} else {
+				echo "<script>user_is_admin = false ;</script>";
+			}
 		}
 	?>
 	<?php
