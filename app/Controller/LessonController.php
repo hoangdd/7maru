@@ -1250,10 +1250,10 @@ function Edit($id)
 				);
 			$this->TestResult->create($dataResult);
 			$this->TestResult->save();
-// 			$this->redirect(array(
-// 				'controller' => 'Lesson',
-// 				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
-// 				));
+			$this->redirect(array(
+				'controller' => 'Lesson',
+				'action' => 'result?view='.$this->TestResult->getLastInsertID(),
+				));
 			}
 			else{//if admin test,view result only
 				$this->set('testfilegettest',$values);
@@ -1275,11 +1275,13 @@ function Edit($id)
 	
 	function Result(){
 		$values = $this->params['url']['view'];
+		echo "values:".$values;
 		$result = $this->TestResult->find('first',array(
-			'condition' => array(
+			'conditions' => array(
 				'TestResult.result_id' => $values
 				)
 			));
+		print_r($result);
 		$this->set('testfilegettest',$result['TestResult']['file_id'].'.tsv');
 
 		$finalTest = $this->Data->readTsv(TSV_DATA_DIR.DS.$result['TestResult']['file_id'].'.tsv');
