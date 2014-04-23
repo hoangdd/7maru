@@ -124,7 +124,7 @@ class AdminController extends AppController {
 					$check_admin = false;
 				}
 
-				if (strlen($data ['Admin'] ['password']) < 2) {
+				if (strlen($data ['Admin'] ['password']) < 6) {
 					$error ['password'] [3] = 'Password is too short.';
 					$check_admin = false;
 				}

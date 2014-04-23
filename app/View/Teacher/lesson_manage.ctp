@@ -152,7 +152,7 @@ $(document).on('click','.editLesson',function(){
 function hide_lesson_with(key){
     $('.lesson').each(function(wrapper){
         var text = this.innerText.replace('Edit','').replace('Delete','');
-        if(text.indexOf(key) == -1){
+        if(text.toLowerCase().indexOf(key.toLowerCase()) == -1){
             $(this).hide();
         } else {
             $(this).show();

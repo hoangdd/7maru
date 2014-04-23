@@ -71,7 +71,7 @@ echo $this->Html->css('common');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input type="text" name='Admin[last_name]' class="form-control changecolor" value="<?php  echo $data['Admin']['first_name'] ?>">                        
+                        <input type="text" name='Admin[last_name]' class="form-control changecolor" value="<?php  echo $data['Admin']['last_name'] ?>">                        
                     </div>
                 </td>
             </tr>
