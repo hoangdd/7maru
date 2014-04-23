@@ -47,7 +47,7 @@ header('Expires: 0'); // Proxies.
 		echo $this->Html->script('jquery.gdocsviewer');
 	?>
 	<script>
-		idle_time = <?php echo Configure::read('customizeConfig.block_time'); ?> * 1000;
+		idle_time = <?php echo Configure::read('customizeConfig.limit_session_time'); ?> * 1000;
 	</script>
 	<?php 
 		App::uses('Component', 'AuthComponent');

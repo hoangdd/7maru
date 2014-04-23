@@ -89,6 +89,20 @@
                 }
             );
             return false;
-        })
-    })
+        });
+
+        $('#search-input').on('input',function(e){
+            hide_lesson_with($(this).val());
+        });
+    });
+   function hide_lesson_with(key){
+        $('.linktr').each(function(wrapper){
+            var text = this.innerText.replace('ブロック','').replace('削除','').replace('Edit','').replace('Delete','');
+            if(text.toLowerCase().indexOf(key.toLowerCase()) == -1){
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    }
 </script>

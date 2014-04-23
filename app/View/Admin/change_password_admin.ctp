@@ -35,11 +35,11 @@
                     echo __('Edit');
                 ?>
             </button>
-            <button type="button" class="btn btn-primary">
+            <a href = <?php echo  "'".$this->here."'" ;?>   type="button" class="btn btn-primary">
                 <?php
                     echo __('Cancel');
                 ?>
-            </button>        
+            </a>        
         </div>         
     </form>
 </div>
@@ -59,7 +59,7 @@
 
         $( "#newpw" ).rules( "add", {
             required: true,
-            minlength: 8,
+            minlength: 5,
             maxlength: 30,
             checkpwd: true,
             messages: {
@@ -72,7 +72,7 @@
 
         $( "#confirmpw" ).rules( "add", {
             required: true,
-            minlength: 8,
+            minlength: 5,
             maxlength: 30,
             checkMatch:true,
             checkpwd: true,
