@@ -5,18 +5,23 @@ var isTyping = false;
 var isMouseMoving = false;
 function idle(){
 	$('body').html('');
-	$.ajax({
-		'url' : "/7maru/Login/logout",
-		complete : function(){
-			window.location = "/7maru/Login";
-		}
+	if(user_is_admin){
+		$.ajax({
+			'url' : "/7maru/Admin/logout",
+			complete : function(){
+				window.location = "/7maru/Admin/Login";
+			}
 		});
-	$.ajax({
-		'url' : "/7maru/Admin/logout",
-		complete : function(){
-			window.location = "/7maru/Admin/Login";
-		}
-		});
+	} else {
+		$.ajax({
+			'url' : "/7maru/Login/logout",
+			complete : function(){
+				window.location = "/7maru/Login";
+			}
+		});	
+	}
+	
+	
 	// console.log("die");
 }
 $(window).focus(function(){

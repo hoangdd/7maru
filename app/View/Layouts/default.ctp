@@ -47,6 +47,12 @@ header('Expires: 0'); // Proxies.
 		$user = AuthComponent::user();
 		if( !empty($user)){
 			echo $this->Html->script(array('common.js'));
+			// echo die(var_dump($user));
+			if($user['role'] == 'R1'){
+				echo "<script>user_is_admin = true ;</script>";
+			} else {
+				echo "<script>user_is_admin = false ;</script>";
+			}
 		}
 	?>
 	<?php
