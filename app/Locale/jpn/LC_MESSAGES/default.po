@@ -14,6 +14,8 @@ msgstr "禁じられた エラー"
 msgid "Relative lesson"
 msgstr "相対授業"
 
+msgid "Invalid file!"
+msgstr "無効なファイル！"
 
 msgid "Type"
 msgstr "タイプ"
