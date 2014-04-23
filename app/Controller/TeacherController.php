@@ -331,6 +331,7 @@ class TeacherController extends AppController {
 
     function Profile($id = null) {
         if ($this->Auth->loggedIn()) {
+
             if ($id!= null){
                 $pid = $id;        
             }elseif ($this->Auth->user('role') !== 'R1' ){               
@@ -341,17 +342,23 @@ class TeacherController extends AppController {
             }
             $isOther = true;
 
+            $canViewEmail = false; // co dc xem email vs sdt ko?
+
             $user_id = $this->Auth->User('user_id');
             if( $id == null || $id == $user_id){
                 //neu la chinh no
                 $canLike = false;
                 $canComment =  true;
+                $canViewEmail = true;
 
             }elseif($this->Auth->user('role') == 'R3'){
                 $canLike = $this->__checkStudentCanCommentAndLike($user_id, $id);
                 $canComment = $canLike;
 
             }else{
+                if($this->Auth->user('role') == 'R1'){
+                    $canViewEmail = true;
+                }
                 $canLike = false;
                 $canComment = false;
             }
@@ -404,6 +411,7 @@ class TeacherController extends AppController {
 
             $this->set("data", $data);
             $this->set('isOther',$isOther);
+            $this->set('canViewEmail',$canViewEmail);
             if ($data['User']['user_type'] == 1) {
                 $a = $data['User']['foreign_id'];
                 $data1 = $this->Teacher->find('first', array(

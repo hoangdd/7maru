@@ -324,11 +324,16 @@ class StudentController extends AppController {
             else{
             	die;
             }
+            $canViewEmail = false;
            $user = $this->Auth->User();
            $isOther = true;
             if (isset($user['user_id']) && $pid == $user['user_id']){
                 $isOther = false;
-            }            
+                $canViewEmail = true;
+            }
+            if($this->Auth->user('role') == 'R1'){
+                $canViewEmail = true;
+            }          
             $data = $this->User->find('first', array(
                     'conditions' => array(
                     'User.user_id' => $pid,
@@ -343,6 +348,7 @@ class StudentController extends AppController {
 			}			
 		$this->set("data",$data);
 		$this->set('isOther',$isOther);
+		$this->set('canViewEmail',$canViewEmail);
 		if($data['User']['user_type']==2){
 			$a=$data['User']['foreign_id'];
 			$data1=$this->Student->find('first',array(

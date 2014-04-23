@@ -94,29 +94,32 @@
 			echo __('Birthday').':' ?></dt>
 		<dd><?php echo $data['User']['date_of_birth']; ?></dd>
 		<br>
-		<dt><?php echo __('メール').':' ?></dt>
-		<dd><?php echo $data['User']['mail'];?></dd>
-		<br>
-		<dt><?php echo __('アドレス').':' ?></dt>
-		<dd><?php echo $data['User']['address'];?></dd>
-		<br>
-		<dt><?php echo __('Telephone number').':' ?></dt>
-		<dd><?php
-			if(isset($data['User']['phone_number']))
-				echo $data['User']['phone_number'];
-			else echo __('電話番後はまだ登録しませんでした');
-			?></dd>
-		<br>
+		<?php if($canViewEmail){ ?>
+			<dt><?php echo __('メール').':' ?></dt>
+			<dd><?php echo $data['User']['mail'];?></dd>
+			<br>
+			<dt><?php echo __('アドレス').':' ?></dt>
+			<dd><?php echo $data['User']['address'];?></dd>
+			<br>
+			<dt><?php echo __('Telephone number').':' ?></dt>
+			<dd><?php
+				if(isset($data['User']['phone_number']))
+					echo $data['User']['phone_number'];
+				else echo __('電話番後はまだ登録しませんでした');
+				?></dd>
+			<br>
+			<br>
+			<?php 
+			  if(isset($data1['Teacher']['bank_account'])){
+				 echo "<dt>".__('Bank Account').':'."</dt>"."<dd>".$data1['Teacher']['bank_account']."</dd>";    
+				 }  
+				?>
+			<br>
+		<?php }?>
 		<dt><?php echo __('Regitration Date').':' ?><dt>
 		<dd><?php echo $data['User']['created'];?></dd>
-		<br>
-		<?php 
-		  if(isset($data1['Teacher']['bank_account'])){
-			 echo "<dt>".__('Bank Account').':'."</dt>"."<dd>".$data1['Teacher']['bank_account']."</dd>";    
-			 }  
-			?>
-		<br>
-		</dl>
+		
+	</dl>
 		<div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#CAFFAC;width:600px;border-radius:25px;">
 				<h4 style="font-family:”Times New Roman”;"><b><?php echo __('Introduce yourself').':' ?></b></h4>
 				<p style="font-family:”Times New Roman”;">

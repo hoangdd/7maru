@@ -372,7 +372,10 @@ class LoginController extends AppController {
         $_SESSION['count_to_block'][$username] = 0;
     }
 
-    public function confirmVerifycode($username,$type){
+    public function confirmVerifycode($username = null,$type = null){
+        if($username == null || $type == null){
+            $this->redirect(array('controller'=>'Login', 'action' => 'index' ));
+        }
         $this->set(compact('username'));
         if ($this->request->is('post')){
             $data = $this->request->data['User'];

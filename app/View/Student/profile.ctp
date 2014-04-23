@@ -70,21 +70,24 @@
       <dt><?php echo __('Birthday').':' ?></dt>
       <dd><?php echo $data['User']['date_of_birth'];?></dd>
       <br>
-      <dt><?php echo __('メール').':' ?></dt>
-      <dd><?php echo $data['User']['mail'];?></dd>
-      <br>
-      <dt><?php echo __('アドレス').':' ?></dt>
-      <dd><?php echo $data['User']['address'];?></dd>
-      <br>
-      <dt><?php echo __('Telephone number').':' ?></dt>
-      <dd><?php echo $data['User']['phone_number'];?></dd>
-      <br>
+      <?php if($canViewEmail) { ?>
+        <dt><?php echo __('メール').':' ?></dt>
+        <dd><?php echo $data['User']['mail'];?></dd>
+        <br>
+        <dt><?php echo __('アドレス').':' ?></dt>
+        <dd><?php echo $data['User']['address'];?></dd>
+        <br>
+        <dt><?php echo __('Telephone number').':' ?></dt>
+        <dd><?php echo $data['User']['phone_number'];?></dd>
+        <br>
+        <dt><?php echo __('Bank Account').':' ?></dt>
+        <dd><?php echo $data1['Student']['credit_account'];?></dd>
+        <br>
+      <?php } ?>
       <dt><?php echo __('Regitration Date').':' ?><dt>
       <dd><?php echo $data['User']['created'];?></dd>
       <br>
-      <dt><?php echo __('Bank Account').':' ?></dt>
-      <dd><?php echo $data1['Student']['credit_account'];?></dd>
-      <br>
+      
       </dl>
   <!--     
       <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
