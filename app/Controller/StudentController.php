@@ -513,6 +513,30 @@ class StudentController extends AppController {
 		} else {
 			$this->redirect(array('controller' => 'Login','action' => 'index'));
 		}
+
+		//get bill list
+        $this->LessonTransaction->bindModel(array(
+            'belongsTo' => array(
+            	'Lesson' => array(
+                    'foreignKey' => 'coma_id',
+                )
+            )
+        ));
+        $billList = $this->LessonTransaction->find('all',array(
+            'conditions' => array(
+                'student_id' => $this->Auth->user('user_id')
+            ),
+            'order' => array('LessonTransaction.created' => 'desc')
+        ));
+        $teacherList = array();
+        $i = 0;
+        foreach ($billList as $key => $value) {
+        	 $a = $this->User->findByUserId($value['Lesson']['author']);
+        	 $teacherList[$i] = $a['User']['username'];
+        }
+        
+        $this->set('billList',$billList);
+        $this->set('teacherList',$teacherList);
 	}
 
 	function BuyLesson() {

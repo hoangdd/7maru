@@ -60,7 +60,7 @@ for ($i = 1; $i< $count; $i++ ){
                   <thead>
                     <tr>
                       <th class="danger"><label><input type="checkbox"><?php echo __('Check'); ?></label></th>
-                      <th class="danger"><label><?php echo __('Created Date')?></label></th>
+                      <th class="danger "><label><?php echo __('Created Date')?></label></th>
                       <th class="danger"><label><?php echo __('Lesson')?></label></th>
                       <th class="danger"><label><?php echo __('Student')?></label></th>
                       <th class="danger"><label><?php echo __('Money')?></label></th>
@@ -93,6 +93,9 @@ for ($i = 1; $i< $count; $i++ ){
 <script type="text/javascript">
 
   $(document).ready(function(){
+
+      var billList =$.parseJSON('<?php echo json_encode($billList);?>');
+
       $('#search-bill').on('input',function(e){
                 hide_row_with($(this).val());
       });
@@ -110,7 +113,7 @@ for ($i = 1; $i< $count; $i++ ){
       })
 
       $('#total-money-btn').click(function(){
-        var billList =$.parseJSON('<?php echo json_encode($billList);?>');
+        
         var total=0;
         var id;
         $(".send-checkbox").each(function(){
@@ -125,7 +128,6 @@ for ($i = 1; $i< $count; $i++ ){
                 
             }
         });
-        // document.write(total);
         $('#total-money-btn-result').text(total + " VND");
       });
 
@@ -133,6 +135,7 @@ for ($i = 1; $i< $count; $i++ ){
             $('#bill-list-table tr').each(function(index){
                 if(index){
                     if(this.innerText.indexOf(key) == -1){
+                        $(".send-checkbox").prop('checked',false);
                         $(this).hide();
                     } else {
                         $(this).show();

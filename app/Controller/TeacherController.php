@@ -704,7 +704,7 @@ class TeacherController extends AppController {
             'conditions' => array(
                 'Lesson.author' => $this->Auth->user('user_id')
             ),
-            'order' => array('LessonTransaction.created' => 'asc')
+            'order' => array('LessonTransaction.created' => 'desc')
         ));
         // debug($billList);die;
         $this->set('billList',$billList);
