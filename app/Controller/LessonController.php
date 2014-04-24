@@ -19,6 +19,7 @@ class LessonController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//$this->Auth->allow('index');//allow all, manual check
+		$this->Auth->allow(array('HotLesson','RecentLesson','Bestseller','NewLesson'));
 	}
 	/**
 	* 授業の総体情報を表示する。ユーザーはこのページを見るから、授業を買うかどうかを決定できる。
@@ -42,11 +43,15 @@ class LessonController extends AppController {
 					)				
 				),
 			));			
-			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id,'Lesson.is_block' => 0), 'recursive' => 2));						
+			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));
+			$user = $this->Auth->user();
 			if ($lesson == null){
-				$this->Session->setFlash(__('The lesson is blocked'));			
-				//$this->redirect(array('controller' => 'Home','action' => 'index'));
-				header("location:javascript://history.go(-1)");
+				$this->Session->setFlash(__('Forbidden error'));			
+				$this->redirect(array('controller' => 'Home','action' => 'index'));				
+			}
+			else if ($user['role'] !== 'R1' && $lesson['Lesson']['is_block'] == 1){
+				$this->Session->setFlash(__('This lesson is blocked'));
+				$this->redirect(array('controller' => 'Home','action' => 'index'));
 			}
 			$file = $lesson['File'];
 			$lesson = $lesson['Lesson'];			
@@ -62,10 +67,9 @@ class LessonController extends AppController {
 			
 			//授業の見られる数を準備する。
 			
-			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。			
-			$user = $this->Auth->user();
+			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。						
 			// debug($user);
-			$lesson['buy_status'] = 1;						
+			$lesson['buy_status'] = 1;
 			if ($user['role'] == 'R3'){				
 				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
 					$lesson['buy_status'] = 0;
@@ -155,8 +159,8 @@ class LessonController extends AppController {
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
 				$this->log($_FILES['test'], 'hlog');
-				for($i = 0, $len; $i < $len; $i++){
-					if ($_FILES['test']['name'][$i]){
+				for($i = 0, $len; $i < $len-1; $i++){
+					if (!empty($_FILES['test']['name'][$i])){
 						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
 							$error['test'] = __('Unsupported Test File Format');
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){

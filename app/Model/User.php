@@ -100,4 +100,18 @@ class User extends AppModel {
 		$this->data = $data;
         return true;
     }
+
+    public function getType($username)
+    {
+        $user = $this->find('first',array('conditions' => array('username' => $username)));
+        if ($user){
+            if ($user['User']['user_type'] == 1){
+                $type = 'Teacher';
+            }
+            else{
+                $type = 'Student';
+            }        
+        }
+        return $type;
+    }
 }

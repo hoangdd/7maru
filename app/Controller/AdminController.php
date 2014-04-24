@@ -124,7 +124,7 @@ class AdminController extends AppController {
 					$check_admin = false;
 				}
 
-				if (strlen($data ['Admin'] ['password']) < 6) {
+				if (strlen($data ['Admin'] ['password']) < 2) {
 					$error ['password'] [3] = 'Password is too short.';
 					$check_admin = false;
 				}
@@ -175,16 +175,24 @@ class AdminController extends AppController {
 			if ($check_admin == true) {
 				//$this->Admin->create($data);               
 				if ($this->Admin->save($data)){
-					$data_admin_ip = array(
-						'ip' => $data['Admin']['ip']
-					);
-					$this->AdminIp->create($data_admin_ip);
-					$this->AdminIp->save();
+					$ip = $this->AdminIp->findByIp($data['Admin']['ip']);
+					if ($ip){
+						$ipId = $ip['AdminIp']['ip_id'];
+					}
+					else{
+						$data_admin_ip = array(
+							'ip' => $data['Admin']['ip']
+						);
+						$this->AdminIp->create($data_admin_ip);
+						$this->AdminIp->save();
+						$ipId = $this->AdminIp->id;
+					}										
 					$data_ipOfAdmin = array (
 						'admin_id'  => $this->Admin->getLastInsertId(),
-						'ip_id' => $this->AdminIp->getLastInsertId()
-					);                    
-					$this->IpOfAdmin->save($data_ipOfAdmin);                    
+						'ip_id' => $ipId
+					);   
+					$this->IpOfAdmin->create($data_ipOfAdmin);
+					$this->IpOfAdmin->save();                    
 					// $aa = $this->Auth->User();
 					// $data_admin_admin = array(
 					//     'admin_super' => 
@@ -246,6 +254,10 @@ class AdminController extends AppController {
 			if ($this->Auth->login()) {
 				// Login success                
 				$result = $this->AdminIp->find('all',array('conditions' => array('ip' => $clientIp)));
+				$ipId = $result[0]['AdminIp']['ip_id'];
+				$result = $this->IpOfAdmin->find('all',array('conditions' => array('ip_id' => $ipId)));
+				$this->log($ipId,'hlog');
+				$this->log($result,'hlog');
 				if (!$result){
 					$this->Session->setFlash(__("Login with invalid IP"));
 					$this->logout();
@@ -300,7 +312,7 @@ class AdminController extends AppController {
 					$this->set('error', $error);
 					return;
 				}else{
-					if (strlen($new) < 8) {
+					if (strlen($new) < 5) {
 						$error['new'] = 'Password is too short.';
 						$this->set('error', $error);
 						return;
@@ -359,8 +371,19 @@ class AdminController extends AppController {
 	}
 	
 	function approveUser($id,$value){
-		//$this->layout = null;
+		$this->layout = null;
+		//delete 		
 		if ($this->request->is('get')) {            
+			if ($value == 2){			
+			if ($this->User->delete($id,false)){
+
+				echo '1';
+			}
+			else {
+				echo '0';
+			}
+			die;
+			}
 			if ($this->User->updateAll(
 							array(
 						'User.approved' => $value
@@ -1337,7 +1360,6 @@ function deleteFile($file_id = null){
 	
 	function backupManage(){
 		$path = BACKUP_STORE;
-		if(is_dir($path)) {
 		$results = scandir($path);
 		$itemp = 0;
 		foreach ($results as $result) {
@@ -1353,52 +1375,26 @@ function deleteFile($file_id = null){
 			}
 		}
 		if(isset($backup_history))
-			$this->set('backup_history',$backup_history);
-		}
-		else {
-			$this->Session->setFlash(__('バックアップのフォルダは既存しません'));
-		}
-		
+		$this->set('backup_history',$backup_history);
 	}
 	
 	function backupDelete(){
 		$directDel = $this->params['url']['backup_folder'];
-		if(is_dir(BACKUP_STORE.$directDel)) {
 		$command = 'rm -rf '.BACKUP_STORE.$directDel;
 		$output = shell_exec($command);
 		$dir = BACKUP_STORE.'$directDel';
-		$this->Session->setFlash(__('削除成功しました'));
-		}
-		else {
-			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
-		}
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
 	}
 	
 	function backupRestore(){
 		$directDel = $this->params['url']['backup_folder'];
 		$dir = BACKUP_STORE;
-		if(is_dir(BACKUP_STORE.$directDel)) {
-		$output = shell_exec('mysql -u root -p123456 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
-		$command = 'rm -rf '.BACKUP_DATA.'data';
-		$output = shell_exec($command);
-		
-		$command = 'tar -xzvf '.BACKUP_STORE.$directDel.'/backup_'.$directDel.'.tar.gz -C '.BACKUP_DATA;
-		
-		shell_exec($command);
-		$command = 'chmod -R 777 '.BACKUP_DATA.'data';
-		shell_exec($command);
-		$this->Session->setFlash(__('リカバリ成功しました'));
-		}
-		else {
-			$this->Session->setFlash(__('このバックアップのフォルダは既存しません'));
-		}
+		$output = shell_exec('mysql -u root -photada 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));    	 
 	}
 	
 	function manualBackup() {
-		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');
-		$this->Session->setFlash(__('バックアップ成功しました'));
+		$exec = exec('sh '.BACKUP_COMMAND.'backup-shell.sh');    	
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));
 	}
 	///==================

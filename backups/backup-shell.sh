@@ -6,7 +6,7 @@ file_data="backup_`date +%Y_%m_%d_%H_%M_%S`.tar.gz"
 
 mkdir -p ${dir}
 chmod -R 755 ${dir}
-mysqldump -u root -p123456 7maru > ${dir}/${file}
+mysqldump -u root -photada 7maru > ${dir}/${file}
 chmod 755 ${dir}/${file}
 tar zcf ${dir}/${file_data} data
 chmod 755 ${dir}/${file_data}

@@ -35,7 +35,7 @@
 
 <div class="learning-course panel panel-danger">
 	<div class="panel-heading">
-    	<h3 class="panel-title">いま勉強まだ勉強できる授業(買った授業)</h3>
+    	<h3 class="panel-title">勉強時間が残る授業</h3>
   	</div>
 	<div class='row panel-body' style = 'overflow-x: auto'>
 			<!-- <div class="thumbnail"> -->
@@ -75,7 +75,7 @@
 
 <div class="learning-course panel panel-info">
 	<div class="panel-heading">
-    	<h3 class="panel-title">いま勉強まだ勉強できない授業(買った授業)</h3>
+    	<h3 class="panel-title">いま勉強できない授業(買った授業)</h3>
   	</div>
 	<div class='row panel-body' style = 'overflow-x: auto'>
 			<!-- <div class="thumbnail"> -->

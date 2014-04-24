@@ -296,11 +296,12 @@ class TeacherController extends AppController {
                     $data['comment'] = 0;
                     $this->User->create($data);  
                     if ( !$this->User->save()){
-                        $this->Teacher->delete($result['Teacher']['teacher_id']);
+                        $this->Teacher->delete($result['Teacher']['teacher_id']);                        
                         $this->Session->setFlash(__('Register failure'));                        
                     }
                     else{
                         $this->Session->setFlash(__('Register successful, waiting for approving by admin'));   
+                        $this->redirect(array('controller' => 'Login','action' => 'index'));
                     }
                 }
             }

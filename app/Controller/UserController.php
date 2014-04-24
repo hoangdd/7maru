@@ -151,11 +151,7 @@ class UserController extends AppController {
 	function delete($user_id = null){
 		if ($user_id == null){
 			if ($this->Auth->loggedIn()){
-				$user_id = $this->Auth->user('user_id');				
-				$type = $user['user_type'] == 1 ? 'Teacher' : 'Student';
-				$foreign_id = $user['foreign_id'];				
-				$this->loadModel($type);					
-				$this->$type->delete($foreign_id);											
+				$user_id = $this->Auth->user('user_id');												
 				$result = $this->deleteUser($user_id);				
 				if ($result){
 					$this->Session->setFlash(__('Delete').__('Successfull'));
@@ -174,11 +170,7 @@ class UserController extends AppController {
 				if ($user['role'] !== 'R1'){
 					die;
 				}
-				$user = $this->User->findByUserId($user_id);				
-				$type = ($user['User']['user_type'] == 1) ? 'Teacher' : 'Student';				
-				$foreign_id = $user['User']['foreign_id'];				
-				$this->loadModel($type);				
-				$this->$type->delete($foreign_id);								
+				$user = $this->User->findByUserId($user_id);								
 				$result = $this->deleteUser($user_id);							
 				if ($result){
 					echo 1;die;
@@ -192,6 +184,7 @@ class UserController extends AppController {
 	}
 
 	private function deleteUser($user_id){
-		return $this->User->delete($user_id,true);		
+		$this->User->id = $user_id;
+		return $this->User->saveField('activated',0);
 	}
 }

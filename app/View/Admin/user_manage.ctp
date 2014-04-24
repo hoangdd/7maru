@@ -56,6 +56,12 @@
 					echo $td.$i++."</td>";										
 					echo $td.$user['User']['lastname'].$user['User']['firstname'].$close;				
 					echo $td.$user['User']['username'].$close;								
+					if ($user['User']['user_type'] == 1){
+						$user_type = 'Teacher';
+					}
+					else{
+						
+					}
 					echo $td.$user['User']['user_type'].$close;								
 					echo $td.$user['User']['date_of_birth'].$close;				
 					echo $td.$user['User']['created'].$close;				

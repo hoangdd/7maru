@@ -45,6 +45,11 @@ header('Expires: 0'); // Proxies.
 		echo $this->Html->script('jquery');
 		echo $this->Html->script('bootstrap');
 		echo $this->Html->script('jquery.gdocsviewer');
+	?>	
+	<?php	
+		echo $this->fetch('meta');
+		echo $this->fetch('css');
+		echo $this->fetch('script');
 	?>
 	<script>
 		idle_time = <?php echo Configure::read('customizeConfig.limit_session_time'); ?> * 1000;
@@ -61,12 +66,6 @@ header('Expires: 0'); // Proxies.
 			}
 		}
 	?>
-	<?php	
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
-	
 </head>
 <body>
 	<div id="container">

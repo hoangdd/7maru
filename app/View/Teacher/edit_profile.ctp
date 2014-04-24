@@ -26,6 +26,12 @@
                 'role'=>'button',
                  'style'=>'font-size:14px;margin:auto;width:80%'
                 ));
+             echo $this->Html->link(__('ChangeVerifycode'),
+               array('controller' => 'Login','action' => 'changeVerifycode'),array(
+                'class'=>'btn btn-primary',
+                'role'=>'button',
+                'style'=>'font-size:14px;margin:auto;width:80%'
+                ));
             echo "</div>";
         }
 		?>

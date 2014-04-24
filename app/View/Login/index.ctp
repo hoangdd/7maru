@@ -42,8 +42,17 @@ $(document).ready(function(){
 		$("#warning").html(<?php echo "'".__("Your account is blocking, waiting for ")."'" ?>+count+"s");		
 		count--;
 		if (count < 0){
-			//redirect to confirmverifyCode			
-			window.location.href.replace("<?php echo $this->Html->url(array('controller' => 'Login','action' =>'confirmVerifycode')) ?>"+"/"+username+"/1");
+			//redirect to confirmverifyCode						
+			<?php 
+				if ( isset($type) && ($type == 'Teacher') )
+				{
+			?>
+			$(location).attr('href',"<?php echo $this->Html->url(array('controller' => 'Login','action' =>'confirmVerifycode')) ?>"+"/"+username+"/1");
+			<?php 
+				} else{
+			?>			
+				location.reload();
+			<?php } ?>
 		}
 		return;
 	}

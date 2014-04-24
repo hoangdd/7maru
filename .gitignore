@@ -24,6 +24,7 @@ Thumbs.db
 .project
 .settings/
 /nbproject/private/
+app/webroot/*.tsv
 7maru.sql
 /backups/
 # data folder #

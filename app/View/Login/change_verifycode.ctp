@@ -6,10 +6,11 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
     <form id="changePassword" type="form" method="post">
         <h1>
             <?php
-                echo __('Admin Change Password');
+                echo __('Change Password');
             ?>
         </h1>
 
+         <input type="text" name='username' class="form-control" value="<?php echo $username ?>" readonly>        
         <div class="form-group">
             <label for="currentPassword">
                 <?php
@@ -21,15 +22,14 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
                 <span class="text-danger"><?php echo $error["current"]; ?></span>
             <?php } else echo '</br>'; ?>
 
-        </div>
-        <span><?php echo $this->Session->read("password"); ?></span>
+        </div>      
         <div class="form-group">
-            <label for="newPassword">
+            <label for="New Question">
                 <?php
-                    echo __('New Password');
+                    echo __('New Question');
                 ?>
             </label>
-            <input type="password" id="newpw" name='new-pw' class="form-control">
+            <input type="tetx" id="new-question" name='new-question' class="form-control">
             <?php if (!empty($error["new"])) { ?>
                 <span class="text-danger "><?php echo $error["new"]; ?></span>
             <?php } else echo '</br>'; ?>
@@ -37,10 +37,10 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
         <div class="form-group">
             <label for="confirmPassword">
                 <?php
-                    echo __('Confirm Password');
+                    echo __('New Answer');
                 ?>
             </label>
-            <input type="password" id="confirmpw" name='confirm-pw' class="form-control">
+            <input type="new-answer" id="confirmpw" name='new-answer' class="form-control">
             <?php if (!empty($error["confirm"])) { ?>
                 <span class="text-danger "><?php echo $error["confirm"]; ?></span>
             <?php } else echo '</br>'; ?>
@@ -54,20 +54,10 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 </div>
 
 <script >
-    $(document).ready(function(){
-        $("#changePassword").validate({
-            onfocusout: false
-        });
-        
+    $(document).ready(function(){        
         jQuery.validator.addMethod("checkpwd", function(value,element) {
             return /^[A-Za-z]\w+$/.test(value);
-        });
-        
-        jQuery.validator.addMethod("checkMatch", function(value,element){
-            if(value!=$("#newpw").val())
-                return false;
-            else return true;
-        });
+        });    
 
         
         $( "#currentpw" ).rules( "add", {
@@ -77,32 +67,18 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
             }
         }); 
 
-        $( "#newpw" ).rules( "add", {
+        $( "#new-answer" ).rules( "add", {
             required: true,
-            minlength: 5,
-            maxlength: 30,
-            checkpwd: true,
             messages: {
-                required: "Please specify your new password", 
-                minlength: "Please, at least {8} characters are necessary",
-                maxlength: jQuery.format("Please enter no more than {30} characters"),
-                checkpwd: jQuery.format("format is wrong"),
+                required: "Please specify your new answer",
             }
-        });
+        }); 
 
-        $( "#confirmpw" ).rules( "add", {
+        $( "#new-question" ).rules( "add", {
             required: true,
-            minlength: 5,
-            maxlength: 30,
-            checkMatch:true,
-            checkpwd: true,
             messages: {
-                required: jQuery.format("Required input"),
-                minlength: jQuery.format("Please, at least {8} characters are necessary"),
-                maxlength: jQuery.format("Please enter no more than {30} characters"),
-                checkpwd: jQuery.format("format is wrong"),
-                checkMatch: jQuery.format("Password do not match")
+                required: "Please specify your new question",
             }
-        });
+        }); 
     });
 </script>
