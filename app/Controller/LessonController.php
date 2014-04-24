@@ -166,20 +166,11 @@ class LessonController extends AppController {
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
 						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
-								$error['test'] = __('Format not true');
+							$error['test'] = __('Format not true');
 						}
-						//テストファイルの構造は正しいかどうかをチェックする。
-						/* $fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
-						if($fileReader){
-							while (($line = fgets($fileReader)) !== false) {
-
-							}
-						} else {
-							$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
-						} */
-					}
 					}
 				}
+			}
 			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
 				//Check if image format is supported				
@@ -391,7 +382,7 @@ function Edit($id)
 			}			
 			if(count($error)){
 				$this->set('error',$error);
-				debug($error);
+				// debug($error);
 				$this->set('data',$data);				
 			}
 			else{
