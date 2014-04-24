@@ -688,6 +688,26 @@ class TeacherController extends AppController {
         $top3FavouriteLesson = array_slice($lessons,0,3);
         $dataToChart = $this->getDataStatistic($begin,$end);        
         $this->set(compact(array('begin','end','dataToChart','top3BoughtLesson','top3FavouriteLesson')));
+
+        //get bill list
+        $this->LessonTransaction->bindModel(array(
+            'belongsTo' => array(
+                'Lesson' => array(
+                    'foreignKey' => 'coma_id',
+                ),
+                'User' => array(
+                    'foreignKey' => 'student_id'
+                )
+            )    
+        ));
+        $billList = $this->LessonTransaction->find('all',array(
+            'conditions' => array(
+                'Lesson.author' => $this->Auth->user('user_id')
+            ),
+            'order' => array('LessonTransaction.created' => 'asc')
+        ));
+        // debug($billList);die;
+        $this->set('billList',$billList);
     }
     function CreateLesson() {
         //vao day test thu, do~ phai dien

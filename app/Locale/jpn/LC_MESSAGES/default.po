@@ -42,6 +42,9 @@ msgstr "月を選ぶ"
 msgid "Money"
 msgstr "課金"
 
+msgid "Bill List"
+msgstr "課金リスト"
+
 msgid "Reference Manage"
 msgstr "書類の管理"
 
@@ -192,6 +195,9 @@ msgstr "最初から"
 
 msgid "Total of Money"
 msgstr "課金総計"
+
+msgid "Total"
+msgstr "総計"
 
 msgid "Top 3 bought lesson"
 msgstr "もっとも買った授業"

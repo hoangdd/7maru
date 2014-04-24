@@ -169,6 +169,7 @@
         $('#search-input').on('input',function(e){
             hide_row_with($(this).val());
         });
+        
         $(".check_box input").click(function(){
             $("th input").prop('checked',false);
         })
