@@ -29,9 +29,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['username'])) echo "has-error has-feedback"?>">
-                        <input id="username" type="text"  name='username' 
-                               class="form-control changecolor" 
-                               >
+                        <input id="username" type="text"  name='username' class="form-control changecolor" 
+                            value="<?php if(isset($fill_box['username'])) echo $fill_box['username']; ?>">
                         <?php
                              if(isset($error['username'])&& is_array($error['username'])){
                                 foreach($error['username'] as $usernames):
@@ -97,7 +96,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['mail'])) echo "has-error has-feedback"?>">
-                        <input id="email" type="email" name='mail' class="form-control">
+                        <input id="email" type="email" name='mail' class="form-control"
+                            value="<?php if(isset($fill_box['email'])) echo $fill_box['email']; ?>">
                         <?php
                              if(isset($error['mail'])&& is_array($error['mail'])){
                                 foreach($error['mail'] as $mail):
@@ -119,7 +119,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['firstname'])) echo "has-error has-feedback"?>">
-                        <input id="firstname" type="text" name='firstname' class="form-control">
+                        <input id="firstname" type="text" name='firstname' class="form-control"
+                            value="<?php if(isset($fill_box['firstname'])) echo $fill_box['firstname']; ?>">
                         <?php
                              if(isset($error['firstname'])&& is_array($error['firstname'])){
                                 foreach($error['firstname'] as $firstname):
@@ -141,7 +142,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['lastname'])) echo "has-error has-feedback"?>">
-                        <input id="lastname" type="text" name='lastname' class="form-control">
+                        <input id="lastname" type="text" name='lastname' class="form-control"
+                            value="<?php if(isset($fill_box['lastname'])) echo $fill_box['lastname']; ?>">
                         <?php
                              if(isset($error['lastname'])&& is_array($error['lastname'])){
                                 foreach($error['lastname'] as $lastname):
@@ -214,7 +216,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['phone_number'])) echo "has-error has-feedback"?>">
-                        <input type="number" name='phone_number' class="form-control">
+                        <input type="number" name='phone_number' class="form-control"
+                            value="<?php if(isset($fill_box['phone_number'])) echo $fill_box['phone_number']; ?>">
                         <?php
                              if(isset($error['phone_number'])&& is_array($error['phone_number'])){
                                 foreach($error['phone_number'] as $phone_number):
@@ -234,7 +237,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12 <?php if(isset($error['bank_account'])) echo "has-error has-feedback"?>">
-                        <input id="bank_account" type="text" name='bank_account' class="form-control">
+                        <input id="bank_account" type="text" name='bank_account' class="form-control"
+                            value="<?php if(isset($fill_box['bank_account'])) echo $fill_box['bank_account']; ?>">
                         <?php
                              if(isset($error['bank_account'])&& is_array($error['bank_account'])){
                                 foreach($error['bank_account'] as $bank_account):
@@ -255,7 +259,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">                    
-                        <input id="verifycode_question" name="verifycode_question" type="text"  class="form-control">
+                        <input id="verifycode_question" name="verifycode_question" type="text"  class="form-control"
+                            value="<?php if(isset($fill_box['verifycode_question'])) echo $fill_box['verifycode_question']; ?>">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -269,7 +274,8 @@ echo $this->Html->css('datepicker');
                 </td>
                 <td>
                     <div class="col-md-12">
-                        <input id="verifycode_answer" name="verifycode_answer" type="text"  class="form-control">
+                        <input id="verifycode_answer" name="verifycode_answer" type="text"  class="form-control"
+                            value="<?php if(isset($fill_box['verifycode_answer'])) echo $fill_box['verifycode_answer']; ?>">
                         <span class="glyphicon glyphicon-star span_star"></span>
                     </div>
                 </td>
@@ -367,13 +373,11 @@ echo $this->Html->css('datepicker');
         minlength: 2,
         maxlength: 30,
         checkusername: true,
-        checkusername_database: true,
         messages: {
             required: '<?php echo __('Required input');?>',
             minlength: jQuery.format('<?php echo __('Please, at least {2} characters are necessary');?>'),
             maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
             checkusername: jQuery.format('<?php echo __('Start by a alphabet and please do not enter special characters');?>'),
-            checkusername_database: jQuery.format('<?php echo __('Username is existed');?>'),
         }
     });
     
@@ -447,7 +451,7 @@ echo $this->Html->css('datepicker');
     
      $("#verifycode_answer").rules("add", {
         required: true,
-        maxlength: 50,
+        maxlength: 30,
         messages: {
             required: '<?php echo __('Required input');?>',
             maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),

@@ -353,6 +353,24 @@ msgstr "秘密質問"
 msgid "Cancel"
 msgstr "カンセル"
 
+msgid "Credit account is too short"
+msgstr "クレジットのアカウントが短くすぎ"
+
+msgid	"Credit account is too long"
+msgstr	"クレジットのアカウントが長くすぎ"
+
+msgid "Phone number is too short"
+msgstr "電話番号が短くすぎ"
+
+msgid	"Phone number is too long"
+msgstr	"電話番号が長くすぎ"
+
+msgid "Bank account is too short"
+msgstr "バンクのアカウントが短くすぎ"
+
+msgid	"Bank account is too long"
+msgstr	"バンクのアカウントが長くすぎ"
+
 msgid "Required input"
 msgstr "このフィルドが必要"
 
@@ -385,6 +403,9 @@ msgstr "アルファベットと初めて、特別な文字で使わないでく
 
 msgid "Username is existed"
 msgstr "ユーザ名が存在した"
+
+msgid "Email was existed"
+msgstr "Eメールが存在した"
 
 msgid "Please do not enter special characters"
 msgstr "特別な文字で使わないでください"
