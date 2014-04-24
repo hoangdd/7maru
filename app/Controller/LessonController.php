@@ -756,7 +756,7 @@ function Edit($id)
 		}
 		//END WHILE
 				        
-				        if($line_mean < 3){
+				        if($line_mean < 3|| $hasEnd == 0){
 				        
 		    	           $check_format_file = 0;  
 			            }
@@ -1316,7 +1316,7 @@ function Edit($id)
 			
 			
 			$userType = $this->Auth->User('role');
-			if($userType != "R1"){
+			if($userType != "R1" && $userType !="R2"){
 				$aUser = $this->Auth->user();
 				$values = str_replace(".tsv","",$values);
 			$dataResult = array(
