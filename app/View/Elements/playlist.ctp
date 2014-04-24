@@ -34,9 +34,8 @@
 						), array());	
 					}else{
 						echo $this->Html->link($value['Data']['file_name'], array(
-							'controller' => 'Student',
-							'action' => 'DoTest',
-							$value['Data']['file_id']
+							'controller' => 'Lesson',
+							'action' => 'Exam?id='.$value['Data']['file_id']
 						), array());
 					}
 					
