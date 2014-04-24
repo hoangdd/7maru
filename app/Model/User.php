@@ -121,7 +121,7 @@ class User extends AppModel {
 
     public function isDeleted($user_id)
     {
-        $result = $this->find('first',array('conditions' => array('user_id' => $user_id,'activated' => 1)));
+        $result = $this->find('first',array('conditions' => array('user_id' => $user_id,'activated' => 0)));
         if ($result)
             return true;
         else

@@ -32,6 +32,7 @@ class DataController extends AppController {
 		$this->viewClass = 'Media';
 		$this->loadModel('Data');
 		$this->loadModel('Lesson');
+		$this->loadModel('User');
 		//check file exist
 		$file = $this->Data->findByFileId($file_id);		
 		if(empty($file)){
@@ -41,7 +42,8 @@ class DataController extends AppController {
 		$lesson = $this->Lesson->findByComaId($lessonId);		
 		$authorId = $lesson['Lesson']['author'];
 		if ($this->User->isDeleted($authorId)){
-			$this->redirect(array('controller' => 'home','action' => 'index'));
+			echo __("Forbidend error");
+			die;
 		}
 		if ( ($user['role'] !== 'R1') && ( $lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1) ){
 			echo '<div class="alert alert-success">'.__('The file is blocked').'</div>';			
