@@ -676,7 +676,7 @@ class AdminController extends AppController {
 					}
 				}
 			}
-			$this->redirect(array('controller' => 'Admin','action' => 'ipManage'));
+			$this->redirect(array('contrkuoller' => 'Admin','action' => 'ipManage'));
 		}
 		if(isset($enter))
 			$this->set('enter', $enter);
@@ -1413,7 +1413,11 @@ function deleteFile($file_id = null){
 	function backupRestore(){
 		$directDel = $this->params['url']['backup_folder'];
 		$dir = BACKUP_STORE;
-		$output = shell_exec('mysql -u root -photada 7maru < '.$dir.$directDel.'/databaseBackup_'.$directDel.'.sql');
+		$backupDir = $dir.$directDel;
+		$output = shell_exec('mysql -u root -photada 7maru < '.$backupDir.'/databaseBackup_'.$directDel.'.sql');
+		shell_exec('rm -rf '.DATA_DIR);
+		shell_exec('tar -xvf '.$backupDir.'/backup_'.$directDel.'.tar.gz -C '.APP);		
+		shell_exec('chmod 777 -R '.DATA_DIR);
 		$this->redirect(array('controller' => 'Admin','action' => 'backupManage'));    	 
 	}
 	

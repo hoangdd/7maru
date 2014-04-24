@@ -52,25 +52,26 @@
 		  		array( 'url' => array('controller' => 'Admin', 'action' => 'backupManage')
 		  			)
 		  			);
-			foreach($backup_history as $key => $value) {
+			$len = count($backup_history);
+			for ($i = $len-1; $i >= 0; $i--){
 			echo"<tr>
 				<td class='no-col'>";
 			echo $this->Form->input('AdminBackup.Id', array(
 					    	'type' => 'text',
 					    	'class' => 'form-control',
-					    	'value' => $key,
+					    	'value' => $i,
 					    	'label' => false,
 					    	'readonly' => 'readonly'
 							));
 			echo "</td>
 				<td class='ip-col'>"
-					.$value.
+					.$backup_history[$i].
 				"</td>
 
 				<td class='del-ip-col'>";
 			echo $this->Html->link("削除", array(
 											'controller' => 'Admin',
-											'action' => 'backupDelete?backup_folder='.$value
+											'action' => 'backupDelete?backup_folder='.$backup_history[$i]
 											
 										),
 										array(
@@ -83,7 +84,7 @@
 				<td class='edit-ip-col'>";
 					echo $this->Html->link("リカバリ", array(
 											'controller' => 'Admin',
-											'action' => 'backupRestore?backup_folder='.$value
+											'action' => 'backupRestore?backup_folder='.$backup_history[$i]
 											
 										),
 										array(
