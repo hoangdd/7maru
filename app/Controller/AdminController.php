@@ -56,6 +56,8 @@ class AdminController extends AppController {
 	}
 
 	function CreateAdmin() {
+		$fill_box = array('username','firstname','lastname','ip');
+
 		$error = array();
 		$user_re_ex = '/^[A-Za-z]\w+$/';
 		$pass_re_ex = '/^\w+$/';
@@ -100,9 +102,10 @@ class AdminController extends AppController {
 					// chua ton tai
 					// $error['username'] ='Username chua ton tai!';
 				} else {
-					$error ['username'] [5] = 'Username is exist.';
+					$error ['username'] [5] = __('Username is existed');
 					$check_admin = false;
 				}
+				$fill_box['username'] = $data ['Admin'] ['username'];
 			}
 			// =================================
 
@@ -165,6 +168,7 @@ class AdminController extends AppController {
 					$error ['ip'] [2] = 'IP is not correct';
 					$check_admin = false;
 				}
+				$fill_box['ip'] = $data ['Admin'] ['ip'];
 			}
 			
 
@@ -206,8 +210,11 @@ class AdminController extends AppController {
 				}
 
 			}
+			$fill_box['firstname'] = $data['Admin']['first_name'];
+			$fill_box['lastname'] = $data['Admin']['last_name'];
 		}
 		$this->set('error', $error);
+		$this->set('fill_box',$fill_box);
 	}
 
 	function Notification() {

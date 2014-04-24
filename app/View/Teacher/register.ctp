@@ -34,8 +34,8 @@ echo $this->Html->css('datepicker');
                         <?php
                              if(isset($error['username'])&& is_array($error['username'])){
                                 foreach($error['username'] as $usernames):
-                                        echo $usernames;
-                                        echo '<br/>';
+                                    echo $usernames;
+                                    echo '<br/>';
                                 endforeach;
                             }
                         ?>
@@ -380,7 +380,7 @@ echo $this->Html->css('datepicker');
             checkusername: jQuery.format('<?php echo __('Start by a alphabet and please do not enter special characters');?>'),
         }
     });
-    
+
     //rules of password
     $( "#password" ).rules( "add", {
         required: true,
