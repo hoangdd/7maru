@@ -364,7 +364,12 @@ class AdminController extends AppController {
 		}
 	}
 	function acceptNewUser() {
-		$data = $this->User->findAllByApproved(0);
+		$data = $this->User->find('all', array(
+			'conditions' => array(
+				'approved' => 0
+				),
+			'order' => array('created' => 'desc'),
+			));
 		$this->set('data', $data);
 	}
 	
@@ -503,7 +508,12 @@ class AdminController extends AppController {
 	}	
 
 	function userManage() {
-		$data = $this->User->findAllByActivated(1);
+		$data = $this->User->find('all', array(
+			'conditions' => array(
+				'activated' => 1
+				),
+			'order' => array('created' => 'desc'),
+			));
 		$this->set ( 'data', $data );
 	}
 	function blockUser() {
