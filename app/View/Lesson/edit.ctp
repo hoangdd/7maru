@@ -3,7 +3,7 @@
 	$cur_cat = $lesson_data['category_list'];
 	// debug($lesson_data);
 ?>
-<script>
+<script type="text/javascript">
 	checkedCategory = [
 		<?php 
 			if(isset($LessonCategory) && $LessonCategory && count($LessonCategory)){
@@ -127,7 +127,7 @@
 		});
 		container.append(newCheckbox);
 	}
-	var on_document_input = function(){				
+	var on_document_input = function(){
 		var document_input = $(this).parent().find('input');		
 		var needadd = true;
 		var isExisted = new Array();
@@ -176,6 +176,12 @@
 	function add_new_document_input(file_input){							
 		$(file_input).parent().append($(file_input)[0].outerHTML);
 	}
+	$(document).ready(function(){
+		$('.reset-button').click(function(){
+			window.location.reload();
+		})	
+	})
+	
 </script>
 <h1><?php echo __('Edit lesson') ?></h1>
 <div class="form-wrapper">
@@ -329,7 +335,7 @@
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Test File Format') ?></label>
 			<div class="col-sm-8">
-				<a class="btn btn-link"  href=<?php echo '"'.WEBROOT_DIR."/testfile.tsv".'"' ?> ><span class="glyphicon glyphicon-download-alt"></span>  <?php echo __('Download Here') ?></a>
+				<a class="btn btn-link"  href='/7maru/app/webroot/files/template.tsv' ><span class="glyphicon glyphicon-download-alt"></span>  <?php echo __('Download Here') ?></a>
 			</div>
 		</div>
 		<div class="form-group row" <?php if(isset($error) && isset($error['copyright']))echo "has-error"; ?> >
@@ -353,15 +359,8 @@
 						<!--                            <span class="glyphicon glyphicon-floppy-disk"></span> -->
 					</div>
 					<div class="col-lg-6">
-						<button type="button" class="btn btn-danger btn-lg btn-block">
-							<span class="glyphicon glyphicon-refresh"></span> 
-							<?php echo $this->Html->link('Reset', array(
-								'controller' => 'Lesson',
-								'action' => 'edit',
-								$lesson['coma_id']
-							), array(
-								'style' => 'color:white'
-							)); ?>
+						<button type="button" class="btn btn-danger btn-lg btn-block reset-button">
+							<span class="glyphicon glyphicon-refresh"><?php echo __('Reset');?></span> 
 						</button>
 					</div>
 				</div>

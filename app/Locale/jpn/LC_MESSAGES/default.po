@@ -235,7 +235,8 @@ msgstr "ユーザ管理"
 msgid "Mail"
 msgstr "メール"
 
-
+msgid "Successfully! Current admin is deleted, system will logout now!"
+msgstr "現在の管理が削除され、システムはログアウトされます！"
 
 <!-- Violation report -->
 msgid "VIOLATION REPORT"
@@ -352,6 +353,24 @@ msgstr "秘密質問"
 msgid "Cancel"
 msgstr "カンセル"
 
+msgid "Credit account is too short"
+msgstr "クレジットのアカウントが短くすぎ"
+
+msgid	"Credit account is too long"
+msgstr	"クレジットのアカウントが長くすぎ"
+
+msgid "Phone number is too short"
+msgstr "電話番号が短くすぎ"
+
+msgid	"Phone number is too long"
+msgstr	"電話番号が長くすぎ"
+
+msgid "Bank account is too short"
+msgstr "バンクのアカウントが短くすぎ"
+
+msgid	"Bank account is too long"
+msgstr	"バンクのアカウントが長くすぎ"
+
 msgid "Required input"
 msgstr "このフィルドが必要"
 
@@ -384,6 +403,9 @@ msgstr "アルファベットと初めて、特別な文字で使わないでく
 
 msgid "Username is existed"
 msgstr "ユーザ名が存在した"
+
+msgid "Email was existed"
+msgstr "Eメールが存在した"
 
 msgid "Please do not enter special characters"
 msgstr "特別な文字で使わないでください"
@@ -476,7 +498,7 @@ msgid "Email"
 msgstr "Eメール"
 
 msgid "Address"
-msgstr "地所"
+msgstr "住所"
 
 msgid "Phone Number"
 msgstr "電話番号"
@@ -733,6 +755,9 @@ msgid "Block"
 msgstr "ブロック"
 
 msgid "Unblock"
+msgstr "アンブロック"
+
+msgid "UnBlock"
 msgstr "アンブロック"
 
 msgid "Successfully"

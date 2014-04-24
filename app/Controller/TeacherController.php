@@ -15,6 +15,8 @@ class TeacherController extends AppController {
     function Register() {
 
         $error = array();
+        $fill_box = array('username','email','firstname','lastname',
+            'bank_account','phone_number','verifycode_question','verifycode_answer');
         //$user_re_ex='/^[A-Za-z]+\_[A-Za-z]+[0-9]$/'; 
         $user_re_ex = '/^[A-Za-z]\w+$/';
         //$pass_re_ex='/^.*(?=.{7,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).*$/';
@@ -66,9 +68,11 @@ class TeacherController extends AppController {
                 if (empty($res)) {
                     //存在しない
                 } else {
-                    $error['username'][5] = 'Username is exist.';
+                    $error['username'][5] = __('Username is existed');
                     $check_user = false;
                 }
+
+                $fill_box['username'] = $data['username'];
             }
             //=================================
 
@@ -148,6 +152,7 @@ class TeacherController extends AppController {
                     $error['firstname'][2] = 'First name is too long.';
                     $check_user = false;
                 }
+                $fill_box['firstname'] = $data['firstname'];
             }
             //==================================
             if (!isset($data['lastname'])) {
@@ -164,6 +169,26 @@ class TeacherController extends AppController {
                     $error['lastname'][2] = 'Last name is too long.';
                     $check_user = false;
                 }
+
+                $fill_box['lastname'] = $data['lastname'];
+            }
+
+            //verifycode question
+            if (!isset($data['verifycode_question'])) {
+                $error['verifycode_question'][0] = 'Question of verifycode is equal null.';
+                $check_user = false;
+            }
+
+            if (empty($data['verifycode_question'])) {
+                $error['verifycode_question'][1] = 'Question of verifycode is empty.';
+                $check_user = false;
+            } else {
+
+                if (strlen($data['verifycode_question']) > 50) {
+                    $error['verifycode_question'][2] = 'Question of verifycode is too long.';
+                    $check_user = false;
+                }
+                $fill_box['verifycode_question'] = $data['verifycode_question'];
             }
 
             //verifycode_answerをチェック：
@@ -173,7 +198,7 @@ class TeacherController extends AppController {
             }
 
             if (empty($data['verifycode_answer'])) {
-                $error['lastname'][1] = 'Answer of verifycode is empty.';
+                $error['verifycode_answer'][1] = 'Answer of verifycode is empty.';
                 $check_user = false;
             } else {
 
@@ -181,6 +206,7 @@ class TeacherController extends AppController {
                     $error['verifycode_answer'][2] = 'Answer of verifycode is too long.';
                     $check_user = false;
                 }
+                $fill_box['verifycode_answer'] = $data['verifycode_answer'];
             }
 
             //Eメールをチェック
@@ -200,9 +226,10 @@ class TeacherController extends AppController {
                 if (empty($res)) {
                     //存在しない
                 } else {
-                    $error['mail'][2] = 'Email was exist.';
+                    $error['mail'][2] = __('Email was existed');
                     $check_user = false;
                 }
+                $fill_box['email'] = $data['mail'];
             }
             //=================================
 
@@ -226,17 +253,19 @@ class TeacherController extends AppController {
                     $error['bank_account'][3] = __('Bank account is not match form.');
                     $check_teacher = false;
                 }
+                $fill_box['bank_account'] = $data['bank_account'];
             }
             //=================================
             //携帯電話の番号をチェック：
             if (!empty($data['phone_number'])) {
                 if (strlen($data['phone_number']) < 10) {
-                    $error['phone_number'][0] = 'Phone number is too short.';
+                    $error['phone_number'][0] = __('Phone number is too short');
                 }
 
                 if (strlen($data['phone_number']) > 15) {
-                    $error['phone_number'][1] = 'Phone number is too long.';
+                    $error['phone_number'][1] = __('Phone number is too long');
                 }
+                $fill_box['phone_number'] = $data['phone_number'];
             }
 
             //====================================
@@ -307,6 +336,7 @@ class TeacherController extends AppController {
             }
         }
         $this->set('error', $error);
+        $this->set('fill_box', $fill_box);
     }
 
     function CheckUsername(){

@@ -16,7 +16,10 @@
 	        				// window.location.reload(true);
 	        			} else if(data.trim() == '-1'){
 	        				alert("<?php echo 'デフォルトアカウントは削除できません'; ?>");
-	        			} else {
+	        			} else if(data.trim() == '2'){
+	        				alert('<?php echo __("Successfully! Current admin is deleted, system will logout now!")?>');
+	        				window.location = "<?php echo $this->Html->url(array('controller' => 'Admin', 'action' => 'logout'));?>";
+	        			} else{
 	        				alert("<?php echo __('Error') ?>");	
 	        			}
 	        		}
@@ -67,7 +70,7 @@
 					echo $td.$user['Admin']['last_name'].$user['Admin']['first_name'].$close;				
 					echo $td.$user['Admin']['username'].$close;													
 					echo $td.$this->Html->link('修正',array('controller' => 'Admin','action' => 'editAdmin',$user['Admin']['admin_id'])).$close;
-					echo $td.$this->Html->link('削除',array('controller' => 'admin','action' => 'deleteAdmin',$user['Admin']['admin_id']),array('class' => 'link_delete')).$close;					
+					echo $td.$this->Html->link('削除',array('controller' => 'admin','action' => 'deleteAdmin',$user['Admin']['admin_id']),array('class' => 'link_delete')).$close;
 					echo "</tr>";			
 				endforeach;
 			?>

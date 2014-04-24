@@ -3,6 +3,7 @@
 // 	'update' => '#user_list',
 // 	'evalScripts' => true,
 // 	));
+echo $this->Html->css('common');
 	?>
 <!-- header -->
 <div id="user_list">
@@ -11,13 +12,19 @@
 	</h3>
 	<!-- table -->
 	<div class="">
-		<table class="table table-striped table-bordered">
+		<div class = "input-group">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </span>
+                    <input type = "text" id = "search-input" class = "form-control" placeholder = "Search">
+                   <!--  <div>
+                        <button class = "btn btn-primary" id = "search-button">Search</button>
+                    </div> -->
+                </div>
+		<table class="table table-striped table-bordered" id="user-table">
 
 			<thead>
 				<tr>
-					<th class='text-center' style="width:5%">
-						<?php echo __('No') ?>
-					</th>
 
 					<th class='' style="width:10%">
 						<?php echo __('Name') ?>
@@ -60,7 +67,6 @@
 						$type = 'Student';	
 					}
 					echo "<tr class='item' itemid='".$user['User']['user_id']."'>";
-					echo $td.$i++."</td>";										
 					echo $td.$user['User']['lastname'].$user['User']['firstname'].$close;				
 					echo $td.$user['User']['username'].$close;						
 					echo $td.__($type).$close;
@@ -87,8 +93,8 @@ $(document).ready(function(){
 				if (data.trim() == '1') {
 					alert("<?php echo __('Successful') ?>");
 					var tr = a.parent().parent();
-					tr.replaceWith("");
-					// location.reload(true);
+					// tr.replaceWith("");
+					location.reload();
 					// window.location.reload(true);
 				}else{
 					alert("<?php echo __('Error') ?>");
@@ -96,6 +102,22 @@ $(document).ready(function(){
 			}
 			);
 		return false;
-	})
+	});
+
+	$('#search-input').on('input',function(e){
+            hide_row_with($(this).val());
+        });
+
+	function hide_row_with(key){
+        $('#user-table tr').each(function(index){
+            if(index){
+                if(this.innerText.indexOf(key) == -1){
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }    
+            }
+        });
+    }
 });
 </script>
