@@ -235,7 +235,8 @@ msgstr "ユーザ管理"
 msgid "Mail"
 msgstr "メール"
 
-
+msgid "Successfully! Current admin is deleted, system will logout now!"
+msgstr "現在の管理が削除され、システムはログアウトされます！"
 
 <!-- Violation report -->
 msgid "VIOLATION REPORT"
@@ -476,7 +477,7 @@ msgid "Email"
 msgstr "Eメール"
 
 msgid "Address"
-msgstr "地所"
+msgstr "住所"
 
 msgid "Phone Number"
 msgstr "電話番号"

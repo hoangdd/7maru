@@ -209,8 +209,6 @@ class AdminController extends AppController {
 		}
 		$this->set('error', $error);
 	}
-	
-	
 
 	function Notification() {
         //load list user
@@ -845,7 +843,7 @@ class AdminController extends AppController {
 		$this->loadModel('User');		
 		$this->User->id = $userId;					
 		 $this->User->saveField('activated',0);
-		// $this->User->update()	
+		// $this->User->update();
 		 $this->redirect('userManage');
 	}
 	function resetPassword($userId){
@@ -932,7 +930,7 @@ class AdminController extends AppController {
 						$this->loadModel('Teacher');            
 					if ($this->Teacher->save($teacherData)){                    
 						$this->Session->setFlash(__('Edit successful'));
- //                   $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
+		// $this->redirect(array('controller' => 'Teacher', 'action' => 'profile'));
 					}
 				}
 				else{
@@ -1224,11 +1222,12 @@ function deleteFile($file_id = null){
 			echo "0";
 			die;
 		}
-
+		$logged_in_id = $this->Auth->User('admin_id');
 		$admin = $this->Admin->findByAdminId($id);
 		if($admin){
+
 			if($admin['Admin']['username'] == 'admin'){
-				echo "-1";
+				echo "-1"; 
 				die;
 			} else {
 				$result = $this->Admin->delete($id);
@@ -1237,9 +1236,16 @@ function deleteFile($file_id = null){
 					$this->IpOfAdmin->deleteAll(array('admin_id'=>$id));
 				}
 				if ($result){
-					echo "1";
+					if( $id == $logged_in_id){
+						//del logged in admin 
+						echo '2';
+					}else{
+						//nomal
+						echo "1";	
+					}
 				}
 				else{
+					//fail
 					echo "0";
 				}
 				die;
