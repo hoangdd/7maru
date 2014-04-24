@@ -736,6 +736,9 @@ msgstr "ブロック"
 msgid "Unblock"
 msgstr "アンブロック"
 
+msgid "UnBlock"
+msgstr "アンブロック"
+
 msgid "Successfully"
 msgstr "成功だった"
 
