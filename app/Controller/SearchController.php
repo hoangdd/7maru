@@ -96,6 +96,8 @@ class SearchController extends AppController {
 								)
 							);
 						$this->Lesson->recursive = 4;
+						//them check user deleted
+						$lessonConditions['User.activated'] = 0;
 						$data['Lesson'] = $this->Lesson->find('all', array(
 							'conditions' => $lessonConditions,
 							'order' => $order['Lesson'],
@@ -103,6 +105,9 @@ class SearchController extends AppController {
 
 						foreach ($data['Lesson'] as $key => $value) {
 							//search
+							//them check user deleted
+							if (empty($data['User'])) continue;
+
 							$searchSet = strtolower($value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description']);
 							if( empty($value['LessonCategory']) ){
 								unset($data['Lesson'][$key]);
@@ -163,7 +168,8 @@ class SearchController extends AppController {
 						# code...
 						$data['User'] = $this->User->find('all', array(
 								'conditions' => array(
-									'user_type' => 1
+									'user_type' => 1,
+									'activated' => 1
 									)
 							));
 							foreach ($data['User'] as $key => $value) {

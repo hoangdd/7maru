@@ -184,7 +184,7 @@ class UserController extends AppController {
 	}
 
 	private function deleteUser($user_id){
-		$this->User->id = $user_id;
+		$this->User->id = $user_id;		
 		return $this->User->saveField('activated',0);
 	}
 }

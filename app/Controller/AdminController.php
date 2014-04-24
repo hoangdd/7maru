@@ -510,9 +510,10 @@ class AdminController extends AppController {
 	function userManage() {
 		$data = $this->User->find('all', array(
 			'conditions' => array(
-				'activated' => 1
+				'activated' => 1,
+				'approved' => 1
 				),
-			'order' => array('created' => 'desc'),
+			'order' => array('created' => 'desc','user_type' => 'desc')
 			));
 		$this->set ( 'data', $data );
 	}

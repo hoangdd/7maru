@@ -63,6 +63,12 @@ class LoginController extends AppController {
             }                
 			if (isset($this->request->data['User'])){                
                     $data = $this->request->data['User'];
+                    if (!$this->User->isApproved($data['username'])){
+                        $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');          
+                        $this->set('username',$data['username']);
+                        return;
+                    }
+                    $this->set('username',$data['username']);
                     $type = $this->User->getType($data['username']);
                     $this->log($type,'hlog');
                     $isCheckIp = true;
@@ -99,8 +105,7 @@ class LoginController extends AppController {
                     }
                 }
                 // set remain time block to show 
-                $this->set(compact('isBlock'));
-                $this->set('username',$data['username']);
+                $this->set(compact('isBlock'));                
                 $this->set('type',$type);
                 if ($isBlock > 0){
                     return;
@@ -146,6 +151,7 @@ class LoginController extends AppController {
             else {
             //Login fail                                
                 $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');          
+                $this->set('username',$data['username']);
                 //increase count block
                 ++$_SESSION['count_to_block'][$data['username']];
                 // fail many times enough to block
@@ -348,20 +354,25 @@ class LoginController extends AppController {
         if($username == null || $type == null){
             $this->redirect(array('controller'=>'Login', 'action' => 'index' ));
         }
+        $user = $this->User->find('first',array('username' => $username));
+        $this->log($user['User']['verifycode_question'],'hlog');
+        $question = $user['User']['verifycode_question'];
+        $this->log($question,'hlog');
+        //$question = Security::cipher($question,KEY_PRIVATE_QUESTION);
         $this->set(compact('username'));
+        $this->set(compact('question'));
         if ($this->request->is('post')){
-            $data = $this->request->data['User'];
-            $answer = "";$question ="";    
+            $data = $this->request->data['User'];            
+            $answer = "";$question ="";               
             if (isset($data['username']) && isset($data['answer']) && isset($data['question'])){
                 $username = $data['username'];
                 $answer = $this->Auth->password($username.$data['answer'].FILL_CHARACTER);
-                $question = $this->Auth->password($username.$data['question'].FILL_CHARACTER);                                                
+                //$question = $this->Auth->password($username.$data['question'].FILL_CHARACTER);                                                
                 $result = $this->User->find('first',
                   array(
                      'conditions' => array(
                         'username' => $username,
-                        'verifycode_answer' => $answer,
-                        'verifycode_question' => $question
+                        'verifycode_answer' => $answer                        
                         )));                                                  
                 if ( ($result == null) || empty($result)){                                                            
                     $this->Session->setFlash(__('Verifycode is incorrect'));                                        

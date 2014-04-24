@@ -17,32 +17,28 @@ class User extends AppModel {
             'message' => 'A password is required'
         )
     );
-    public $hasMany = array(
-        'Comment' => array(
-            'foreignKey' => 'user_id',
-            'dependent' => true
-        ),        
-        'Lesson' => array(
-         'foreignKey' => 'author',
-         'dependent' => true
-        ),
-        'LessonTransaction' => array(
-         'foreignKey' => 'student_id',
-         'dependent' => true
-        ),
-        'ReportLesson' => array(
-         'foreignKey' => 'user_id',
-         'dependent' => true
-        ),
-        'RateLesson' => array(
-         'foreignKey' => 'student_id',
-         'dependent' => true
-        ),
-        'BlockStudent' => array(
-            'foreignKey' => 'student_id',
-            'dependent' => true
-        )
-    );
+    // public $hasMany = array(
+    //     'Comment' => array(
+    //         'foreignKey' => 'user_id',
+    //         'dependent' => true
+    //     ),        
+    //     'Lesson' => array(
+    //      'foreignKey' => 'author',
+    //      'dependent' => true
+    //     ),        
+    //     'ReportLesson' => array(
+    //      'foreignKey' => 'user_id',
+    //      'dependent' => true
+    //     ),
+    //     'RateLesson' => array(
+    //      'foreignKey' => 'student_id',
+    //      'dependent' => true
+    //     ),
+    //     'BlockStudent' => array(
+    //         'foreignKey' => 'student_id',
+    //         'dependent' => true
+    //     )
+    // );
     function hashPassword($data, $enforce=false) {
         if($enforce && isset($this->data[$this->alias]['password']) && isset($this->data[$this->alias]['password']) ) {
           if(!empty($this->data[$this->alias]['password']) && !empty($this->data[$this->alias]['username']) ) {
@@ -68,12 +64,20 @@ class User extends AppModel {
             $data['User']['original_password'] = $this->_hashPassword($passString);
 
             //register
-            $verifycode_question = $data['User']['username'].$data['User']['verifycode_question'].FILL_CHARACTER;
-            $verifycode_answer = $data['User']['username'].$data['User']['verifycode_answer'].FILL_CHARACTER;
-            $data['User']['verifycode_question'] = $this->_hashPassword($verifycode_question);
-            $data['User']['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
-            $data['User']['original_verifycode_question'] = $data['User']['verifycode_question'];
-            $data['User']['original_verifycode_answer'] = $data['User']['verifycode_answer'];
+            //$verifycode_question = $data['User']['username'].$data['User']['verifycode_question'].FILL_CHARACTER;
+            if ($data['User']['user_type'] == 1){
+                //$verifycode_question = Security::cipher($data['User']['verifycode_question'],KEY_PRIVATE_QUESTION);
+                $this->log($data['User']['verifycode_question'],'hlog');
+                $verifycode_question = utf8_encode($data['User']['verifycode_question']);                
+                $this->log($verifycode_question,'hlog');
+                $verifycode_answer = $data['User']['username'].$data['User']['verifycode_answer'].FILL_CHARACTER;
+
+                $data['User']['verifycode_question'] = $verifycode_question;
+                $data['User']['verifycode_answer'] = $this->_hashPassword($verifycode_answer);
+
+                $data['User']['original_verifycode_question'] = $data['User']['verifycode_question'];            
+                $data['User']['original_verifycode_answer'] = $data['User']['verifycode_answer'];
+            }
 			 //hash password
 			$passString = $data['User']['username'].$data['User']['password'].FILL_CHARACTER;
 			$data['User']['password'] = $this->_hashPassword($passString);		
@@ -114,4 +118,25 @@ class User extends AppModel {
         }
         return $type;
     }
+
+    public function isDeleted($user_id)
+    {
+        $result = $this->find('first',array('conditions' => array('user_id' => $user_id,'activated' => 1)));
+        if ($result)
+            return true;
+        else
+            return false;
+    }
+
+    public function isApproved($username)
+    {        
+        $user = $this->find('first',array('conditions' => array('username' => $username, 'approved' => 1,'activated' => 1)));
+        if ($user){            
+            return true;
+        }
+        else{
+            return false;            
+        }        
+    }
+
 }

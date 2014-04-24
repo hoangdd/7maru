@@ -101,14 +101,7 @@
                  ?>
             </table>
       </div>
-      <br> -->
-      <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#CCFF66;width:600px;border-radius:25px;">
-           <h4 style="font-family:”Times New Roman”;"><b><?php echo __('Test Result').':' ?></b></h4>
-           <ul class="list-styled">
-           <li>Math test 5: 9</li>
-           <li>Math test 5: 8</li>
-           </ul>
-      <div>
+      <br> -->     
 
 </div>
 

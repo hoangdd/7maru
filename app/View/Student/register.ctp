@@ -250,7 +250,6 @@ echo $this->Html->css('datepicker');
                     </div>
                 </td>
             </tr>
-
             <tr>
                 <td>
                     <div class="form-group">
@@ -383,6 +382,7 @@ echo $this->Html->css('datepicker');
             required: '<?php echo __('Required input');?>',
             checkcreditcard: jQuery.format("例： 12345678-1111-2222-3333-4444"),
         }
+<<<<<<< Updated upstream
     });
     
    $("#verifycode_answer").rules("add", {
@@ -393,6 +393,9 @@ echo $this->Html->css('datepicker');
             maxlength: jQuery.format('<?php echo __('Please enter no more than {30} characters');?>'),
         }
     });
+=======
+    });    
+>>>>>>> Stashed changes
    });
         
 </script>

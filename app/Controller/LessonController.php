@@ -59,6 +59,9 @@ class LessonController extends AppController {
 			$this->loadModel('User');
 			$author = $this->User->findByUserId($lesson['author']);
 			$author = $author['User'];		
+			if ($author['activated'] == 0){
+				$this->redirect(array('controller' => 'home','action' => 'index'));
+			}
 			//授業の評価された数を準備する。
 			$lesson['ranker'] = $this->RateLesson->get_rate_num($lesson['coma_id']);
 			
@@ -952,9 +955,19 @@ function Edit($id)
 			'recursive' => 3
 			);    
 		//$this->Paginator->settings = $pagination;
-		$data = $this->RateLesson->find ('all',$options);
+		$data = $this->RateLesson->find ('all',$options);		
 		foreach($data as $key=>$value){			
 			// check show buy button or not
+			if (!empty($data[$key]['Lesson']['Author'])){
+				if ($data[$key]['Lesson']['Author']['activated'] == 0){
+					unset($data[$key]);
+					continue;
+				}
+			}
+			else{
+				unset($data[$key]);
+				continue;
+			}
 			$isShowBuyButton = false;
 			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$value['Lesson']['coma_id'])){
 				$isShowBuyButton = true;
@@ -964,7 +977,7 @@ function Edit($id)
 			$data[$key]['Author'] = $data[$key]['Lesson']['Author'];		
 			unset($data[$key]['Lesson']['Author']);
 			unset($data[$key]['0']);
-		}
+		}		
 		if(empty($data)){
 			echo '0';
 			die;
@@ -1003,12 +1016,16 @@ function Edit($id)
 			'offset' => ($pageIndex-1) * $page_limit,
 			'order' => array('Lesson.created' => 'ASC'),				
 			'recursive' => 2,
-			'conditions' => array('Lesson.is_block' => 0)				
+			'conditions' => array('Lesson.is_block' => 0,'Author.activated' => 1)				
 			);    	
 		$data = $this->Lesson->find ( 'all',$options); 
 			//debug($data);
 		foreach($data as $key=>$lesson){
-			$isShowBuyButton = false;
+			if ($lesson['Lesson']['Author']['activated'] == 0){
+				unset($data[$key]);
+				continue;				
+			}
+			$isShowBuyButton = false;					
 			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
 				$isShowBuyButton = true;
 			}				
@@ -1023,7 +1040,7 @@ function Edit($id)
 			}			    		
 			$data[$key]['RateLesson'] = $rank;      						
 				//unset($data[$key]['LessonTransaction']);
-		}
+		}		
 		if(empty($data)){
 			echo '0';
 			die;
@@ -1119,10 +1136,21 @@ function Edit($id)
 		}
 		
 		//student moi mua
-		else if( $role == 'R3' ){			
+		else if( $role == 'R3' ){
+			$this->LessonTransaction->bindModel(array(
+			'belongsTo' =>array(
+				'Lesson' => array(
+					'foreignKey' => 'coma_id',					
+					),
+				'User' => array(
+					'foreignKey' => 'student_id'
+					)				
+				)
+			));
 			$list_coma_id = $this->LessonTransaction->find('list', array(
 				'conditions' => array(
-					'student_id' => $user['user_id']						
+					'student_id' => $user['user_id'],
+					'User.activated' => 1						
 					),
 				'fields' => array(
 					'coma_id'
@@ -1140,7 +1168,7 @@ function Edit($id)
 					)
 				));
 
-			foreach($data as $key=>$lesson){
+			foreach($data as $key=>$lesson){				
 				$isShowBuyButton = false;
 				if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
 					$isShowBuyButton = true;
@@ -1157,7 +1185,7 @@ function Edit($id)
 				$data[$key]['RateLesson'] = $rank;      		
 				$data[$key]['Author'] = $user;				
 			}
-		}
+		}		
 		if(empty($data)){
 			echo '0';
 			die;
@@ -1210,6 +1238,11 @@ function Edit($id)
 			);
 		$data = $this->LessonTransaction->find('all',$options);		
 		foreach($data as $key=>$lesson){
+			$author = $data[$key]['Lesson']['Author'];
+			if (!isset($author['activated']) || $author['activated'] == 0){
+				unset($data[$key]);
+				continue;
+			}			
 			$isShowBuyButton = false;
 			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){
 				$isShowBuyButton = true;
@@ -1231,6 +1264,7 @@ function Edit($id)
 		if(empty($data)){
 			$data = 0;
 		}
+		$this->log($data,'hlog');
 		$this->set(compact('data'));
     	// print_r($data);
 		// debug($data);

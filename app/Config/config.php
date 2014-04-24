@@ -19,6 +19,7 @@ define('MAX_COVER_SIZE' ,2);
 define('UNIT_SIZE',1024*1024);
 define('MAX_TEST_FILE_SIZE',5);
 define('MAX_DOCUMENT_FILE_SIZE',60*1024);
+define('KEY_PRIVATE_QUESTION','7maru234234355');
 
 /*========================Config user roles ====================*/
 

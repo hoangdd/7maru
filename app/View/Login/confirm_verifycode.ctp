@@ -6,7 +6,7 @@
 			<input type="Username" name='User[username]' class="form-control" id="inputUsername1" value="<?php echo $username ?>" readonly>
 		</div>		
 		<p></p>
-		 <input name="User[question]" type="text" class="form-control" placeholder="<?php echo __('Enter your question') ?>" />
+		 <input name="User[question]" type="text" class="form-control" value="<?php if (isset($question)) echo $question ?>" readonly />
 		<p></p>
 		 <input name="User[answer]" type="text" class="form-control" placeholder="<?php echo __('Answer this question') ?>" />
 		 <p></p>		

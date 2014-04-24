@@ -345,9 +345,12 @@ class StudentController extends AppController {
 						
 		if($this->Auth->loggedIn()){			
 			if ($id!= null){
-                $pid = $id;        
+                $pid = $id;  
+                if ($this->Auth->user('role') == 'R1' ){
+                	$this->layout = ('admin');    
+                }                 
             }
-            else if ($this->Auth->user('role') !== 'R1' ){            	
+            else if ($this->Auth->user('role') !== 'R1' ){            	            	
                 $pid=$this->Auth->User('user_id');                            
             }
             else{
@@ -374,8 +377,7 @@ class StudentController extends AppController {
 				$this->Session->setFlash(__('Forbidden error'));
 				echo '403 Forbidden error.';
                 die;
-			}			
-		$this->set("data",$data);
+			}					
 		$this->set('isOther',$isOther);
 		$this->set('canViewEmail',$canViewEmail);
 		if($data['User']['user_type']==2){
@@ -385,6 +387,10 @@ class StudentController extends AppController {
 					'Student.student_id' => $a,
 					)
 				));
+			//
+			$data['User']['date_of_birth'] =  date_create($data['User']['date_of_birth']);        
+            $data['User']['date_of_birth'] = date_format($data['User']['date_of_birth'],'d/m/Y');
+			//
 			$this->set("data1",$data1);
 			$this->loadModel("ComaTransaction");
 			$data2=$this->ComaTransaction->find('all',array(
@@ -403,6 +409,7 @@ class StudentController extends AppController {
 					));
 			}
 			$this->set("arr",$arr);
+			$this->set("data",$data);
 		  }
 		}
 		
@@ -415,6 +422,7 @@ class StudentController extends AppController {
 		// }
 		if ($this->Auth->loggedIn()) {						
 			if ($this->Auth->user('role') === "R1"){
+				$this->layout = ('admin');    
 				if ($id != null){					
 					$pid = $id;
 				}

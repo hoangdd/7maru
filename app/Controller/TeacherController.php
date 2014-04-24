@@ -364,8 +364,11 @@ class TeacherController extends AppController {
         if ($this->Auth->loggedIn()) {
 
             if ($id!= null){
-                $pid = $id;        
-            }elseif ($this->Auth->user('role') !== 'R1' ){               
+                $pid = $id;                        
+                if ($this->Auth->user('role') == 'R1'){
+                    $this->layout = 'admin';
+                }
+            }elseif ($this->Auth->user('role') !== 'R1' ){                                
                 $pid=$this->Auth->User('user_id');                            
             }else{
                 echo '403 Forbidden error.';
@@ -439,11 +442,14 @@ class TeacherController extends AppController {
                     )
                 ));
             $this->set('comments', $comments);
-
-            $this->set("data", $data);
+            
             $this->set('isOther',$isOther);
             $this->set('canViewEmail',$canViewEmail);
             if ($data['User']['user_type'] == 1) {
+                //
+                $data['User']['date_of_birth'] =  date_create($data['User']['date_of_birth']);        
+                $data['User']['date_of_birth'] = date_format($data['User']['date_of_birth'],'d/m/Y');    
+                //
                 $a = $data['User']['foreign_id'];
                 $data1 = $this->Teacher->find('first', array(
                     'conditions' => array(
@@ -458,6 +464,7 @@ class TeacherController extends AppController {
                         'Coma.author' => $pid,
                     )
                 ));
+                $this->set("data", $data);
                 $this->set("data2", $data2);
             }
         }
@@ -518,6 +525,7 @@ class TeacherController extends AppController {
     function EditProfile($id = null) {
         if ($this->Auth->loggedIn()) {               
             if ($this->Auth->user('role') === "R1"){
+                $this->layout = ('admin');
                     if ($id != null){
                         $pid = $id;
                     }

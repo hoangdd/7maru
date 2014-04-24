@@ -40,6 +40,9 @@ class DataController extends AppController {
 		$lessonId = $file['Data']['coma_id'];
 		$lesson = $this->Lesson->findByComaId($lessonId);		
 		$authorId = $lesson['Lesson']['author'];
+		if ($this->User->isDeleted($authorId)){
+			$this->redirect(array('controller' => 'home','action' => 'index'));
+		}
 		if ( ($user['role'] !== 'R1') && ( $lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1) ){
 			echo '<div class="alert alert-success">'.__('The file is blocked').'</div>';			
 			//$this->redirect(array('controller' => 'Home','action' => 'index'));

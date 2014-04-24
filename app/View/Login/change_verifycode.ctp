@@ -24,9 +24,9 @@ echo $this->Html->script(array('jquery.validate','additional-methods','jquery.va
 
         </div>      
         <div class="form-group">
-            <label for="New Question">
+            <label for="Question">
                 <?php
-                    echo __('New Question');
+                    echo __('Question');
                 ?>
             </label>
             <input type="tetx" id="new-question" name='new-question' class="form-control">

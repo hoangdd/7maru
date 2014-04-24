@@ -1,6 +1,15 @@
 <?php 
 	// format $data = array('config_id' => 'value');
 	if (isset($data) && !empty($data) ):	
+		$unit = array(
+			'backup_period' => '分',
+			'block_time' => '秒',
+			'error_login_times' => '秒',
+			'limit_learn_day' => '日',
+			'limit_session_time' => '秒',
+			'money_per_lesson' => 'VND',
+			'teacher_profit_percentage' => '%'
+		);
 ?>
 	<!-- header -->
 
@@ -20,14 +29,16 @@
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>			
-
 				<th class='ip-col' style="width:50%">
 					<?php echo __('コンフィグ') ?>
 				</th>
 
-				<th class='del-ip-col' style="width:50%">
+				<th class='del-ip-col text-center' style="width:40%">
 					<?php echo __('バリュー') ?>
 				</th>			
+				<th class='del-ip-col text-center' style="width:10%">
+					<?php echo "単位" ?>
+				</th>
 			</tr>
 		</thead>			
 		<tbody>
@@ -44,6 +55,9 @@
 					'class' => 'form-control'
 				)) 
 				?>
+				</td>
+				<td>
+					<?php echo $unit[$key] ?>
 				</td>
 			</tr>
 			<?php 

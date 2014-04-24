@@ -33,7 +33,7 @@
 					<?php echo __('Created Account Time') ?>
 				</th>
 				<th class='text-center' style="width:5%">
-					<?php echo __('Edit') ?>
+					<?php echo __('Profile') ?>
 				</th>
 				<th class='text-center' style="width:5%">
 					<?php echo __('Destroy') ?>
@@ -60,17 +60,23 @@
 						$user_type = 'Teacher';
 					}
 					else{
-						
+						$user_type = 'Student';
 					}
-					echo $td.$user['User']['user_type'].$close;								
+					echo $td.$user_type.$close;								
 					echo $td.$user['User']['date_of_birth'].$close;				
 					echo $td.$user['User']['created'].$close;				
 					$type = $user['User']['user_type'] == 1 ? 'Teacher': 'Student';
 
-					echo $td.$this->Html->link(__('Edit'),array('controller' => $type,'action' => 'editProfile',$user['User']['user_id'])).$close;
+					echo $td.$this->Html->link(__('View'),array('controller' => $type,'action' => 'profile',$user['User']['user_id'])).$close;
 					echo $td.$this->Html->link(__('Delete'),array('controller' => 'User','action' => 'delete',$user['User']['user_id']),array('class' => 'delete_link')).$close;
-					echo $td.$this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id'])).$close;
-					echo $td.$this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id'])).$close;
+					echo $td;					
+					echo $this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetPassword',$user['User']['user_id']));				
+					echo $close;
+					echo $td;
+					if ($user['User']['user_type'] == 1){
+						echo $this->Html->link(__('Reset'),array('controller' => 'admin','action' => 'resetVerifycode',$user['User']['user_id']));
+					}
+					echo $close;
 					echo "</tr>";			
 				endforeach;
 			?>
