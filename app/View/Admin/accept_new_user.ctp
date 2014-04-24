@@ -25,7 +25,6 @@ echo $this->Html->css('common');
 
 			<thead>
 				<tr>
-
 					<th class='' style="width:10%">
 						<?php echo __('Name') ?>
 					</th>
