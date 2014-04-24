@@ -1492,6 +1492,39 @@ function Edit($id)
 				$this->Session->setFlash(__('誰がテストを受けるのはいない'));
 		}
 	}
+
+	function addCategory($category = null){
+		if($category != null && $this->Auth->loggedIn()){
+			$user = $this->Auth->user();
+			if($user['role'] == "R1" || $user['role'] == "R2"){
+				$categories = $this->Category->findAllByName($category);
+				if(count($categories)){
+					echo -3;
+					die;
+				} else {
+					$newCategory = $this->Category->save(array(
+															'Category' => array(
+																	'name' => $category
+																)
+															)
+													);
+					if($newCategory){
+						echo $newCategory['Category']['category_id'];
+						die();
+					} else {
+						echo -4;
+						die();
+					}
+				}
+			} else {
+				echo -2;
+				die;
+			}
+		} else {
+			echo -1;
+			die;
+		}
+	}
 }
 
 ?>

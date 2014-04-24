@@ -16,9 +16,39 @@
 	];
 
 	window.onload = function(){
+
+		$('#input_Category').on('keypress',function(e){
+			if(e.charCode == 13){
+				e.preventDefault();
+				var category = $(this).val();
+				if(this_category_is_existed(category)){
+					$('#input_Category_err').text('このカテゴリはも既存した');
+				} else {
+					$.ajax({
+						'url' : "/7maru/lesson/addcategory/"+category,
+						complete : function(res,err){
+							if(err == 'success'){
+								var newCategoryId = parseInt(res.responseText);
+								if(newCategoryId < 0){
+									$('#input_Category_err').text('すみませんが、何かエラーがでまして、追加できません。');
+								} else {
+									// add Category with new ID;
+									add_Category_Checkbox_with(newCategoryId, category, true);
+								}
+							} else {
+								$('#input_Category_err').text('ネットワークエラー。');
+							}
+						}
+					});
+				}
+				// $(this).val('');
+				return false;
+			}
+		});
+
 		// other tag process, add new files input
 		$('#input_Category').on('input',function(e){
-			hide_Checkbox_with($(this).val());a
+			hide_Checkbox_with($(this).val());
 		});
 
 
@@ -58,6 +88,44 @@
 			current = $('.list-file-del').val();
 			$('.list-file-del').val(current + file_id +',');
 		});
+		
+	}
+	function this_category_is_existed(key){
+		var categoryArr = $('.checkbox-name');
+		for ( var i = 0, len = categoryArr.length; i < len ; i++ ){
+			if(categoryArr[i].innerText.toLowerCase().trim() == key.toLowerCase().trim()){
+				return true;
+			}
+		}
+		return false;
+	}
+	function add_Category_Checkbox_with(id, name, checked){
+		var checkbox_result = '<div class="input-group checkbox-result-wrapper" style="display: none">'
+						+		'<span class="input-group-addon">'
+						+			'<input type="checkbox" value="'+ id +'" checked="" disabled="">'
+						+		'</span>'
+						+		'<label class="form-control bg-success checkbox-result-name">'+name+'</label>'
+						+	  '</div>';
+		$('#category-result-container').append(checkbox_result);
+		
+		var container = $('#category-container');
+		var appendHtml = '<div class="input-group checkbox-wrapper">'
+						+	'<span class="input-group-addon">'
+						+		'<input type="checkbox" value="' + id + '" name="category[]">'
+						+	'</span>'
+						+	'<label class="form-control bg-success checkbox-name">' + name + '</label>'
+						+'</div>';
+		
+
+		var newCheckbox = $(appendHtml);
+		newCheckbox.find('input').change(function(){
+			if(this.checked){
+				show_result_Checkbox_with($(this).parent().parent().find('label').text());
+			} else {
+				hide_result_Checkbox_with($(this).parent().parent().find('label').text());
+			}
+		});
+		container.append(newCheckbox);
 	}
 	var on_document_input = function(){				
 		var document_input = $(this).parent().find('input');		
@@ -135,7 +203,7 @@
 		<!--        Category check box-->
 		<div class="form-group row">
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Category') ?></label>
-			<div class="col-sm-3" style="height: 300px;overflow-y: scroll;">
+			<div class="col-sm-3" id = "category-container" style="height: 300px;overflow-y: scroll;">
 				<?php foreach ($category_list as $category){ ?>
 					<div class="input-group checkbox-wrapper">
 						<span class="input-group-addon">
@@ -145,7 +213,7 @@
 					</div>
 				<?php } ?>                
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3" id = "category-result-container">
 				<?php foreach ($category_list as $category){ ?>
 					<div class="input-group checkbox-result-wrapper" style = "display: none">
 						<span class="input-group-addon">
@@ -161,6 +229,7 @@
 			<label class="control-label col-sm-4" for="lesson_type"><?php echo __('Different Category') ?></label>
 			<div class="col-sm-8">
 				<input type="text" class="form-control" id="input_Category" placeholder="Category" name="other_category">
+				<div id = 'input_Category_err'></div>
 			</div>
 		</div>
 <!--        Lesson Description-->          
