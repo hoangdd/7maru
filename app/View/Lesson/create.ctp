@@ -1,5 +1,5 @@
 <script type="text/javascript">
-$(window).ready(function(){
+
 	window.onload = function(){
 		// other tag process, add new files input
 		$('#input_Category').on('input',function(e){
@@ -143,10 +143,11 @@ $(window).ready(function(){
 	function add_new_document_input(file_input){							
 		$(file_input).parent().append($(file_input)[0].outerHTML);
 	}
-	$('.reset-button').click(function(){
-		window.location.reload();
+	$(window).ready(function(){
+		$('.reset-button').click(function(){
+			window.location.reload();
+		});
 	});
-});
 </script>
 <h1><?php echo __('Create New Lesson') ?></h1>
 <div class="form-wrapper">

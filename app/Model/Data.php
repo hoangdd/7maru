@@ -380,4 +380,25 @@ class Data extends AppModel {
 		$this->log($ret, $logFile);
 		return $ret;
 	}
+	public function checkFileExist( $coma_id, $path){
+		$files = $this->Find('all', array(
+			'conditions' => array(
+				'coma_id' => $coma_id,
+				)
+			));
+		$this->log($path, 'hlog');
+		foreach ($files as $key => $file) {
+			$srcFile = DATA_SRC_DIR.DS.$file['Data']['file_id'].'.'.$file['Data']['type'];
+		$this->log($srcFile, 'hlog');
+			if(file_exists($srcFile)){
+				$origin = md5_file($srcFile);
+				$new = md5_file($path);
+				if( $origin == $new){
+					return true;
+				}	
+			}
+		}
+
+		return false;
+	}
 }

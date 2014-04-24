@@ -119,6 +119,14 @@ class DataController extends AppController {
 		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('now'), 'y/m/d h:m:s').$fid);
 		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('1 second ago'), 'y/m/d h:m:s').$fid);
 		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('2 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('3 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('4 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('5 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('6 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('7 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('8 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('9 second ago'), 'y/m/d h:m:s').$fid);
+		$set[] = md5(FILL_CHARACTER.date_format(new DateTime('10 second ago'), 'y/m/d h:m:s').$fid);
 
 		//expired		
 		if( !in_array($token, $set)){

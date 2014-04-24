@@ -170,7 +170,7 @@ class LessonController extends AppController {
 							$error['test'] = __('Test File Too Big');
 						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
 							$error['test'] = __('Format not true');
-						}
+						} 
 					}
 				}
 			}
@@ -196,12 +196,12 @@ class LessonController extends AppController {
 								$error['document'] = __('Invalid file!');
 							}
 						}
-						if( $ext == 'mp4'){
+						if( $ext == 'mp3'){
 							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/mpeg' ){
 								$error['document'] = __('Invalid file!');
 							}
 						} 
-						if( $ext == 'mp3'){
+						if( $ext == 'mp4'){
 							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='video/mp4'){
 								$error['document'] = __('Invalid file!');
 							}
@@ -292,8 +292,7 @@ class LessonController extends AppController {
 		}		
 	}
 }	
-function Edit($id)
-{
+function Edit($id){
 	$this->Lesson->recursive = 2 ;
 	$lesson = $this->Lesson->findByComaId($id);
 	if(!$lesson){
@@ -337,51 +336,68 @@ function Edit($id)
 			if(empty($data['desc']) || ctype_space($data['desc'])){				
 				$error['desc'] = __('Lesson Description do not suppose to be empty');
 			}				
-			if(!empty($_FILES['cover-image']['name'])){
-				//Check if image format is supported
-				if(!preg_match('/\.(jpg|png|gif|tif|jpeg)$/',$_FILES['cover-image']['name'])){
-					$error['image'] = __('Unsupported Image Format');
-				} else if($_FILES['cover-image']['size'] > MAX_COVER_SIZE*UNIT_SIZE){
-					$error['image'] = __('Image Size Too Big');
-				}
-			}
-
 			if(!empty($_FILES['test']['name'][0])){
 				//Check if image format is supported
 				$len = count($_FILES['document']['name']);
-				for($i = 0, $len; $i < $len; $i++){
-					if ($_FILES['test']['name'][$i]){
+				$this->log($_FILES['test'], 'hlog');
+				for($i = 0, $len; $i < $len-1; $i++){
+					if (!empty($_FILES['test']['name'][$i])){
 						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
 							$error['test'] = __('Unsupported Test File Format');
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
-						}
-					//テストファイルの構造は正しいかどうかをチェックする。
-						$fileReader = fopen($_FILES['test']['tmp_name'][$i],'r');				
-						if($fileReader){
-							while (($line = fgets($fileReader)) !== false) {
-
-							}
-						} else {
-							$error['test'] = 'テストファイルの構造正しくない、テストファイルのテンプレートを使ってください。';
+						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
+							$error['test'] = __('Format not true');
+						} else if( $this->Data->checkFileExist($id, $_FILES['test']['tmp_name'][$i])){
+							$error['test'] = __('File already upload');
 						}
 					}
 				}
-
 			}
-			// for($i = 0, $len = $);			
+			// for($i = 0, $len = $);						
 			if(!empty($_FILES['document']['name'][0])){
-				//Check if image format is supported
+				//Check if image format is supported				
 				$len = count($_FILES['document']['name']);
 				for($i = 0, $len; $i < $len; $i++){
 					if($_FILES['document']['name'][$i]){
-						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){							
+
+						//check data, tam thoi lam don gian da
+						$ext = pathinfo($_FILES['document']['name'][$i], PATHINFO_EXTENSION);
+						$this->log($ext, 'hlog');
+						$this->log( mime_content_type($_FILES['document']['tmp_name'][$i]), 'hlog');
+
+						if( $ext == 'pdf'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='application/pdf'){
+								$error['document'] = __('Invalid file1!');
+							}
+						}
+						if( $ext == 'wav'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/x-wav'){
+								$error['document'] = __('Invalid file2!');
+							}
+						}
+						if( $ext == 'mp3'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/mpeg' ){
+								$error['document'] = __('Invalid file3!');
+							}
+						} 
+						if( $ext == 'mp4'){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='video/mp4'){
+								$error['document'] = __('Invalid file4!');
+							}
+						}
+
+
+						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = __('Unsupported Document Format');
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
-						}						
+						} else if ($this->Data->checkFileExist($id , $_FILES['document']['tmp_name'][$i])){
+							$error['test'] = __('File already upload');
+						}
 					}
 				}
+				
 			}			
 			if(count($error)){
 				$this->set('error',$error);
