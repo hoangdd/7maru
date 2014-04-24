@@ -302,20 +302,27 @@ class LoginController extends AppController {
              */
 
             if ($this->Auth->password($this->Auth->user('username') . $current.FILL_CHARACTER) === $user['User']['password']) {
-                $hashNewQuestion = $this->Auth->password($this->Auth->user('username') .$this->Auth->user('new_question') . $newQuestion.FILL_CHARACTER);
-                $hashNewQuestion = $this->Auth->password($this->Auth->user('username') .$this->Auth->user('new_answer') . $newAnswer.FILL_CHARACTER);
+                $hashNewQuestion = $newQuestion;
+                $hashNewAnswer = $this->Auth->password($this->Auth->user('username') . $newAnswer.FILL_CHARACTER);
                 $this->User->id = $this->Auth->user('user_id');
                 $this->User->saveField('verifycode_question',$hashNewQuestion,array('callbacks' => false));
-                $result = $this->User->saveField('verifycode_answer',$hashNewQuestion,array('callbacks' => false));
+                $result = $this->User->saveField('verifycode_answer',$hashNewAnswer,array('callbacks' => false));
              
                 if ($result) {
                     $this->Session->setFlash(__('Successfully'));
+                    $type = $this->Auth->user('user_type');
+                    if ($type == 1){
+                        $type = 'Teacher';
+                    }
+                    else{
+                        $type = 'Student';
+                    }
                     $this->redirect(array(
-                        'controller' => 'Home',
-                        'action' => 'index',
+                        'controller' => $type,
+                        'action' => 'profile',
                         ));
                 } else {
-                    $this->Session->setFlash('The user could not be saved. Please, try again.');
+                    //$this->Session->setFlash('');
                 }
             } else {
                 $error['current'] = 'Current password invalid';
@@ -354,10 +361,12 @@ class LoginController extends AppController {
         if($username == null || $type == null){
             $this->redirect(array('controller'=>'Login', 'action' => 'index' ));
         }
-        $user = $this->User->find('first',array('username' => $username));
-        $this->log($user['User']['verifycode_question'],'hlog');
+        $user = $this->User->find('first',array('conditions' => array('username' => $username)));
+        // $this->log($user,'hlog');
+        // $this->log($username,'hlog');
+        // $this->log($user['User']['verifycode_question'],'hlog');
         $question = $user['User']['verifycode_question'];
-        $this->log($question,'hlog');
+        // $this->log($question,'hlog');
         //$question = Security::cipher($question,KEY_PRIVATE_QUESTION);
         $this->set(compact('username'));
         $this->set(compact('question'));

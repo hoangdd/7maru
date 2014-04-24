@@ -68,7 +68,7 @@ class User extends AppModel {
             if ($data['User']['user_type'] == 1){
                 //$verifycode_question = Security::cipher($data['User']['verifycode_question'],KEY_PRIVATE_QUESTION);
                 $this->log($data['User']['verifycode_question'],'hlog');
-                $verifycode_question = utf8_encode($data['User']['verifycode_question']);                
+                $verifycode_question = $data['User']['verifycode_question'];                
                 $this->log($verifycode_question,'hlog');
                 $verifycode_answer = $data['User']['username'].$data['User']['verifycode_answer'].FILL_CHARACTER;
 

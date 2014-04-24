@@ -1,5 +1,5 @@
 if(typeof(idle_time) === 'undefined' ) idle_time =  60 * 1000 ;
-if(typeof(is_admin) === 'undefined' ) is_admin =  false;
+if(typeof(user_is_admin) === 'undefined' ) user_is_admin =  false;
 var flag = false;
 // var window_focus = ;
 var isTyping = false;

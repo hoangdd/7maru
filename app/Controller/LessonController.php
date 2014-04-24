@@ -1021,9 +1021,15 @@ function Edit($id)
 		$data = $this->Lesson->find ( 'all',$options); 
 			//debug($data);
 		foreach($data as $key=>$lesson){
-			if ($lesson['Lesson']['Author']['activated'] == 0){
+			if (empty($lesson['Lesson']['Author'])){
 				unset($data[$key]);
 				continue;				
+			}
+			else{
+				if ($lesson['Lesson']['Author']['activated'] == 0){
+					unset($data[$key]);
+					continue;				
+				}
 			}
 			$isShowBuyButton = false;					
 			if ( ($role === 'R3') && !$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['Lesson']['coma_id'])){

@@ -180,44 +180,7 @@ class StudentController extends AppController {
 					$check_user = false;
 				}
 				$fill_box['lastname'] = $data['lastname'];
-			}
-			
-			 //verifycode question
-            if (!isset($data['verifycode_question'])) {
-                $error['verifycode_question'][0] = 'Question of verifycode is equal null.';
-                $check_user = false;
-            }
-
-            if (empty($data['verifycode_question'])) {
-                $error['verifycode_question'][1] = 'Question of verifycode is empty.';
-                $check_user = false;
-            } else {
-
-                if (strlen($data['verifycode_question']) > 50) {
-                    $error['verifycode_question'][2] = 'Question of verifycode is too long.';
-                    $check_user = false;
-                }
-                $fill_box['verifycode_question'] = $data['verifycode_question'];
-            }
-
-            //verifycode_answerをチェック：
-            if (!isset($data['verifycode_answer'])) {
-                $error['verifycode_answer'][0] = 'Answer of verifycode is equal null.';
-                $check_user = false;
-            }
-
-            if (empty($data['verifycode_answer'])) {
-                $error['verifycode_answer'][1] = 'Answer of verifycode is empty.';
-                $check_user = false;
-            } else {
-
-                if (strlen($data['verifycode_answer']) > 50) {
-                    $error['verifycode_answer'][2] = 'Answer of verifycode is too long.';
-                    $check_user = false;
-                }
-                $fill_box['verifycode_answer'] = $data['verifycode_answer'];
-            }
-			
+			}			
 			 //Eメールをチェック
 		   if(!isset($data['mail'])){
 				$error['mail'][0] ='Email is equal null.';

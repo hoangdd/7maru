@@ -15,7 +15,7 @@ class UserController extends AppController {
 		$this->loadModel('User');
 		$this->Comment->bindModel(array(
 			'belongsTo' => array(
-					'User' => array(
+					'User' => raray(
 						'foreignKey' => 'user_id',						
 					)
 				)
