@@ -224,8 +224,10 @@ class AdminController extends AppController {
         		'order' => array(
                 'User.username' => 'asc'
                 ),
-                'activated' => 1,
-                'approved' => 1
+                'conditions' => array(
+                	'activated' => 1,
+                	'approved' => 1
+                )
             )
            );
         $this->set("data", $list_user);
