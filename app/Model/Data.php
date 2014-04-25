@@ -169,7 +169,8 @@ class Data extends AppModel {
 					// $nLineData = mb_convert_encoding($nLineData, "UTF-8");
 					//$nLineData = mb_convert_encoding ( $nLineData, "UTF-8", "JIS,SJIS, eucjp-win, sjis-win" );
 					$nParsed = explode ( "\t", $nLineData );
-					if (!ctype_space($nLineData)) {
+					if (strlen($string) > 0 && !empty($nParsed [0]) && $nParsed [0] !='End') {
+						$this->log($nParsed, 'hlog');
 						if (strcmp ( $nParsed [0], "" ) != 0) {
 							if (strcmp ( $nParsed [1], "QS" ) == 0) {
 								$indexItem = "Question" . $questionNumber;
