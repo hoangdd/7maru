@@ -35,9 +35,9 @@
       'style' => 'margin:auto'
       )); 
      echo "<h3 style = 'font-weight:bold;color:red'>".$lesson['name'].'</h3>';
-     if ($reportLink !== null){
+     if ($reportLink !== null && !$isOwner){
       echo '<button id = "report_button" type="button" class="btn btn-danger data-toggle="tooltip" data-placement="top" title="' .__('Report Violation'). '"><span class="glyphicon glyphicon-warning-sign"></span></button>';
-    }
+      }
      echo '<p></p>';
     			//_____________________
     			//ranking by stars                   

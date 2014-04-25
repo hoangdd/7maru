@@ -42,13 +42,25 @@ class LessonController extends AppController {
 					'foreignKey' => 'coma_id' 
 					)				
 				),
+			'belongsTo' => array(
+				'User' => array(
+					'foreignKey' => 'author'
+					)
+				)
 			));			
 			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));
+			die(debug($lesson));
 			$user = $this->Auth->user();
+			$isOwner = false;
+			if($user['user_id'] == $lesson['User']['user_id']){
+				$isOwner = true;
+			}
+
 			if ($lesson == null){
 				$this->Session->setFlash(__('Forbidden error'));			
 				$this->redirect(array('controller' => 'Home','action' => 'index'));				
 			}
+
 			else if ($user['role'] !== 'R1' && $lesson['Lesson']['is_block'] == 1){
 				$this->Session->setFlash(__('This lesson is blocked'));
 				$this->redirect(array('controller' => 'Home','action' => 'index'));
@@ -117,7 +129,11 @@ class LessonController extends AppController {
 					'fields' => array('id'),
 					'recursive' => 2
 				));				
-			//endforeach;							
+			//endforeach;
+
+			
+			// die(var_dump($isOwner));
+			$this->set('isOwner',$isOwner);							
 			$this->set('lesson',$lesson);
 			$this->set('user',$this->Auth->user());
 			$this->set('author', $author);
