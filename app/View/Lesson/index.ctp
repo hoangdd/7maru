@@ -85,7 +85,6 @@
             break;
           }
         endforeach;
-        $this->log($firstComaId,'dlog');
         if (isset($firstComaId)){
           echo $this->Html->link(__('View'), array(
                 'controller' => 'Lesson',

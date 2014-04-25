@@ -36,7 +36,7 @@
 			$copyright = 0;
 			$title = 0;
 			foreach ($d['ReportLesson'] as $report):
-				if ($report['report_reason'] === 'title'){
+				if ($report['report_reason'] === 'tittle'){
 					++$title;
 				}
 				else{

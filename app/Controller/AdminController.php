@@ -219,9 +219,15 @@ class AdminController extends AppController {
 
 	function Notification() {
         //load list user
-        $list_user = $this->User->find('all', array('order' => array(
-                'User.username' => 'asc')
-                ));
+        $list_user = $this->User->find('all', 
+        	array(
+        		'order' => array(
+                'User.username' => 'asc'
+                ),
+                'activated' => 1,
+                'approved' => 1
+            )
+           );
         $this->set("data", $list_user);
 
         //luu csdl post public
@@ -384,15 +390,22 @@ class AdminController extends AppController {
 		$this->layout = null;
 		//delete 		
 		if ($this->request->is('get')) {            
-			if ($value == 2){			
-			if ($this->User->delete($id,false)){
-
-				echo '1';
-			}
-			else {
-				echo '0';
-			}
-			die;
+			if ($value == 2){
+				$deleteUser = $this->User->findByUserId($id);
+				$type = 'Student';
+				if ($deleteUser['User']['user_type'] == '1'){
+					$type = 'Teacher';
+				}
+				$foreignKey = $deleteUser['User']['foreign_id'];
+				$this->loadModel($type);
+				$this->$type->delete($foreignKey,false);
+				if ($this->User->delete($id,false)){
+					echo '1';
+				}
+				else {
+					echo '0';
+				}
+				die;
 			}
 			if ($this->User->updateAll(
 							array(
