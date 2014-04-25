@@ -190,7 +190,7 @@ class LessonController extends AppController {
 								$error['test'] = __('Invalid file!');
 							}
 						}
-						$FILE['test'] = $this->__removeDuplicateInArray($_FILES['test']);
+						$_FILES['test'] = $this->__removeDuplicateInArray($_FILES['test']);
 					}
 				}
 			}
@@ -230,7 +230,7 @@ class LessonController extends AppController {
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
 						}
-						$FILE['document'] = $this->__removeDuplicateInArray($_FILES['document']);
+						$_FILES['document'] = $this->__removeDuplicateInArray($_FILES['document']);
 					}
 				}
 				

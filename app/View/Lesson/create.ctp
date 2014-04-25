@@ -97,12 +97,6 @@
 			if (isExisted[document_input[i].value] == null) {
 				isExisted[document_input[i].value] = true;
 			}
-			else{
-				alert("<?php  echo __('Duplicate upload') ?>");
-				needadd = false;
-				document_input[i].value = "";
-				break;
-			}
 		}
 		if(needadd) add_new_document_input($(this));
 	}
