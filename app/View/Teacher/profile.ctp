@@ -131,7 +131,7 @@
 				</p>
 		</div>
 		<br>
-		<div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
+		<!-- <div style="font-size:16px;font-family:”Times New Roman”;border:1px solid #a1a1a1;padding:10px 40px;background:#FFFFFF;width:600px;border-radius:25px;">
 				<table class="table">
 					  <tr><td><?php echo __('No') ?></td><td><?php echo __('Lesson') ?></td><td><?php echo __('Subject') ?></td><td><?php echo __('Created Account Time') ?></td></tr>
 					  <?php
@@ -141,7 +141,7 @@
 					  }
 					  ?>
 				</table>
-		</div>
+		</div> -->
 </div>
 
 </div>

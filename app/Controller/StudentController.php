@@ -312,11 +312,25 @@ class StudentController extends AppController {
                 if ($this->Auth->user('role') == 'R1' ){
                 	$this->layout = ('admin');    
                 }                 
+                $result = $this->User->find('all',
+                	array(
+                		'conditions' => array(
+                			'user_id' => $pid,
+                			'activated' => 1
+                		)
+                	)
+                );
+                if (!$result){
+                	echo __("This user is deleted");
+                	die;
+                }
+
             }
             else if ($this->Auth->user('role') !== 'R1' ){            	            	
-                $pid=$this->Auth->User('user_id');                            
+                $pid=$this->Auth->User('user_id');                                
             }
             else{
+            	echo '403 Forbidden error.';
             	die;
             }
             $canViewEmail = false;
@@ -533,6 +547,7 @@ class StudentController extends AppController {
         foreach ($billList as $key => $value) {
         	 $a = $this->User->findByUserId($value['Lesson']['author']);
         	 $teacherList[$i] = $a['User']['username'];
+        	 $i++;
         }
         
         $this->set('billList',$billList);

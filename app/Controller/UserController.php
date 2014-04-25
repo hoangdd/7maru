@@ -15,8 +15,8 @@ class UserController extends AppController {
 		$this->loadModel('User');
 		$this->Comment->bindModel(array(
 			'belongsTo' => array(
-					'User' => raray(
-						'foreignKey' => 'user_id',						
+					'User' => array(
+						'foreignKey' => 'user_id'					
 					)
 				)
 			));
@@ -184,7 +184,17 @@ class UserController extends AppController {
 	}
 
 	private function deleteUser($user_id){
-		$this->User->id = $user_id;		
-		return $this->User->saveField('activated',0);
+		$this->loadModel('Lesson');
+		$this->Lesson->updateAll(
+			array(
+				'Lesson.is_block' => 2
+			),
+			array(
+				'Lesson.author' => $user_id
+			)
+		);
+		$this->loadModel('Data');		
+		$this->User->id = $user_id;						
+		return $this->User->saveField('activated',0);		
 	}
 }

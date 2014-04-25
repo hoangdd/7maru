@@ -391,9 +391,11 @@ class LoginController extends AppController {
                         $this->_resetBlockStage($username);                        
                     }
                     else{                        
-                        $_SESSION['isValidIp'][$username] = true;                        
-                        $clientIp = $this->request->clientIp();                        
-                        $this->User->id = $result['User']['user_id'];                        
+                        $_SESSION['isValidIp'][$username] = true;
+                        $clientIp = $this->request->clientIp();
+                        $this->User->id = $result['User']['user_id'];
+                        $this->log($result,'dlog');
+                        $this->log($clientIp,'dlog');
                         $this->User->saveField('login_ip', $clientIp,array('callbacks' => false));
                     }
                     $this->redirect(array('controller' => 'Login','action' => 'index'));

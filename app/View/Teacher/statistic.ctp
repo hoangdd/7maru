@@ -78,7 +78,7 @@ for ($i = 1; $i< $count; $i++ ){
                         <td><?php echo $bill['LessonTransaction']['created'];?></td>
                         <td><?php echo $this->Html->link($bill['Lesson']['name'],array('controller' => 'Lesson','action' => 'index',$bill['Lesson']['coma_id']));?></td>
                         <td><?php echo $this->Html->link($bill['User']['username'],array('controller' => 'Student','action' => 'Profile',$bill['User']['user_id']));?></td>
-                        <td><?php echo $bill['LessonTransaction']['money'];?></td>
+                        <td><?php echo $bill['LessonTransaction']['money']*$bill['LessonTransaction']['rate']/100;?></td>
                       </tr>
                     <?php }?>
                   </tbody>
@@ -105,6 +105,7 @@ for ($i = 1; $i< $count; $i++ ){
             
             $(".check_box input").each(function(){
                 if($(this).is(":visible")) $(this).prop('checked',status);
+                else $(this).prop('checked',false);
             });
       })
 
@@ -123,7 +124,7 @@ for ($i = 1; $i< $count; $i++ ){
                 id = $(this).prop('name');
                 for (var x=0; x<billList.length; x++){
                   if(billList[x]['LessonTransaction']['transaction_id'] == id)
-                    total = total + parseInt(billList[x]['LessonTransaction']['money']);
+                    total = total + parseInt(billList[x]['LessonTransaction']['money']*billList[x]['LessonTransaction']['rate']/100);
                 }
                 
             }
@@ -135,7 +136,6 @@ for ($i = 1; $i< $count; $i++ ){
             $('#bill-list-table tr').each(function(index){
                 if(index){
                     if(this.innerText.indexOf(key) == -1){
-                        $(".send-checkbox").prop('checked',false);
                         $(this).hide();
                     } else {
                         $(this).show();

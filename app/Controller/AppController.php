@@ -34,7 +34,7 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     public $components = array(
         'Session',
-        'DebugKit.Toolbar',
+        // 'DebugKit.Toolbar',
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
@@ -64,7 +64,7 @@ class AppController extends Controller {
         parent::beforeFilter();
         if(!$this->__permission()){            
             echo '403 Forbidden error.';
-            // die;
+            die;
             // $this->redirect($this->Auth->loginAction);
         }
     }

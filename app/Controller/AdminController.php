@@ -489,11 +489,23 @@ class AdminController extends AppController {
 			$teacher = array();                        
 			//get student and teacher account record monthly
 			foreach($data as $dt):
-				$rate = $dt['LessonTransaction']['rate'];
+				$rate = $dt['LessonTransaction']['rate'];				
 				if (!isset($student[$dt['User']['user_id']])){
 					$student[$dt['User']['user_id']] = array();
 					$student[$dt['User']['user_id']]['money'] = $dt['LessonTransaction']['money'];
-					$student[$dt['User']['user_id']]['info'] = $dt['User'];
+					//format phone number				
+					$phone_number = $dt['User']['phone_number'] ;					
+					$leng = strlen($phone_number);
+					$i = 3;
+					$insertChar = "-";
+					do{	
+						$phone_number = substr_replace($phone_number , $insertChar, $i,0);
+						$i = $i + 5;
+						$leng++;
+					}while ($i < $leng);
+					$dt['User']['phone_number'] = $phone_number;
+				// end format phone number
+					$student[$dt['User']['user_id']]['info'] = $dt['User'];					
 				}
 				else{
 					$student[$dt['User']['user_id']]['money'] = $student[$dt['User']['user_id']]['money']+ $dt['LessonTransaction']['money'];
@@ -501,6 +513,18 @@ class AdminController extends AppController {
 				if (!isset($teacher[$dt['Lesson']['Author']['user_id']])){
 					$teacher[$dt['Lesson']['Author']['user_id']] = array();
 					$teacher[$dt['Lesson']['Author']['user_id']]['money'] = $dt['LessonTransaction']['money'] *$rate /100;
+					//format phone number				
+					$phone_number = $dt['Lesson']['Author']['phone_number'] ;					
+					$leng = strlen($phone_number);
+					$i = 3;
+					$insertChar = "-";
+					do{	
+						$phone_number = substr_replace($phone_number , $insertChar, $i,0);
+						$i = $i + 5;
+						$leng++;
+					}while ($i < $leng);
+					$dt['Lesson']['Author']['phone_number'] = $phone_number;
+				// end format phone number
 					$teacher[$dt['Lesson']['Author']['user_id']]['info'] = $dt['Lesson']['Author'];
 				}
 				else{
@@ -520,7 +544,7 @@ class AdminController extends AppController {
 				'activated' => 1,
 				'approved' => 1
 				),
-			'order' => array('created' => 'desc','user_type' => 'desc')
+			'order' => array('user_type' => 'desc','created' => 'desc')
 			));
 		$this->set ( 'data', $data );
 	}
@@ -789,7 +813,15 @@ class AdminController extends AppController {
 				)
 			 )
 		 ), true);
-		$data = $this->Data->find('all',array('recursive' => 3,'order' => 'Data.created DESC'));
+		$data = $this->Data->find('all',
+			array(
+				'recursive' => 3,
+				'order' => 'Data.created DESC',
+				'conditions' => array(
+					'Data.is_block !=' => 2, 
+					'Lesson.is_block !=' => 2
+				)
+		));
 		$this->set('reference',$data);        
 	   /*$paginate = array (
 		   'limit' => 10,
@@ -817,6 +849,7 @@ class AdminController extends AppController {
 		$row[0] = array($_SERER_CODE,$data['year'],$data['month'],$today['year'],$today['mon'],$today['mday'],$today['hours'],$today['minutes'],$today['seconds'],$this->Auth->user('username'),$this->Auth->user('last_name') . $space .$this->Auth->user('first_name'));
 		$i = 1;             
 		foreach ($student as $dt):
+			//format phone number			
 			$row[$i] = array($dt['info']['username'], $dt['info']['lastname'] . $space. $dt['info']['firstname'], $dt['money'], $dt['info']['address'], $dt['info']['phone_number'], TYPE_CREDIT_CARD ,$dt['info']['Student']['credit_account']);
 			$i++;
 		endforeach;
@@ -827,8 +860,11 @@ class AdminController extends AppController {
 		$tab = "\t"; 
 		$end = array("END__END__END" . $tab . $data['year'] . $tab . $data['month']);
 		$row[$i++] = $end;
-		$str = "";        
-		$newLine = "\n";
+		$str = "";  
+		$cr = chr(13); // 0x0D [\r] 
+		$lf = chr(10); // 0x0A [\n] 
+		$crlf = $cr . $lf; // [\r\n]       
+		$newLine = $crlf;
 		foreach ($row as $r):
 			foreach ($r as $c):
 				$str = $str . $c . $tab;
@@ -837,7 +873,7 @@ class AdminController extends AppController {
 		endforeach;
 		$month  = $data['month'];
 		//if ($month < 10) $month = '0'.$month;
-		$filename = "ELS-UBT-".$data['year']."-".$month.".tsv";
+		$filename = ACCOUNT_DIR.DS."ELS-UBT-".$data['year']."-".$month.".tsv";
 
 		file_put_contents($filename, $str);
 		return $str;
@@ -847,7 +883,7 @@ class AdminController extends AppController {
 		if ($this->request->is('post')) {
 			$data = $this->request->data;
 			$str = $this->formatToWriteAccountFile($data);
-			debug($data);
+			//debug($data);
 			//Write to file 
 			die;
 		}
@@ -1155,7 +1191,8 @@ function deleteFile($file_id = null){
 			die;
 		}else{
 			$this->loadModel('Data');
-			$result = $this->Data->delete($file_id);
+			$this->Data->id = $file_id;
+			$result = $this->Data->saveField('is_block',2);
 			if ($result){
 				echo "1";
 			}
@@ -1172,7 +1209,17 @@ function deleteFile($file_id = null){
 			die;
 		}else{
 			$this->loadModel('Lesson');
-			$result = $this->Lesson->delete($coma_id);
+			$this->Lesson->id = $coma_id;
+			$result = $this->Lesson->saveField('is_block',2);
+			$this->loadModel('Data');
+			$this->Data->updateAll(
+				array(
+					'is_block' => 2
+				),
+				array(
+					'coma_id' => $coma_id
+				)
+			);
 			if ($result){
 				echo "1";
 			}
@@ -1186,26 +1233,32 @@ function deleteFile($file_id = null){
 	function changeConfig(){
 		$this->loadModel('Config');
 		if ($this->request->is('post')){
-			$configs = $this->request->data;                        
+			$configs = $this->request->data;                        	
 			//format data array
 			$data = array();
 			$index = 0;
+			$timeArray = $configs['changeConfig']['backup_period'];
+			$timeString = $timeArray['year'].'-'.$timeArray['month'].'-'.$timeArray['day'].' '.$timeArray['hour'].':'.$timeArray['min'];
+			unset($configs['changeConfig']);
+			$configs['backup_period'] = $timeString;
 			foreach ($configs as $key=>$value):
 				$data[$index]['Config']['config_id'] = $key;
 				$data[$index]['Config']['value'] = $value;
 				$index++;
 			endforeach;        
-			$fieldList = array('value');  
+			$fieldList = array('value');  					
 			if ($this->Config->saveMany($data,array('fields' => $fieldList) ) ){
 				$this->Session->setFlash(__('Successfully'));
 			}
 			
-			//update backup period automatically
-			$periodTime = intval($data['0']['Config']['value']);
+			//update backup period automatically				
 			$content_toPUSTH = "# Backup system";
 			$content_toPUSTH .= "\n";
 			$content_toPUSTH .= "# @Author by khaclinh,dev in E-learning T-06 \n";
-			$content_toPUSTH .= "*/".$periodTime." * * * * ";
+			// foreach($time as $t):
+			// 	$content_toPUSTH .=		
+			// endforeach;
+			$content_toPUSTH .= $timeArray['min']." ".$timeArray['hour']." ".$timeArray['day']." ".$timeArray['month']." "."*"." ";
 			$content_toPUSTH .= BACKUP_COMMAND."backup-shell.sh \n";
 			
 			if(file_put_contents(BACKUP_COMMAND.'backup-execute', $content_toPUSTH))
@@ -1224,14 +1277,19 @@ function deleteFile($file_id = null){
 			$dataToShow = array();
 			foreach ($data as $d):
 				$dataToShow[$d['Config']['config_id']] = $d['Config']['value'];
-			endforeach;   
-			$data = $dataToShow;         
+			endforeach;   						
+			$data = $dataToShow;				
 		}
+		$backupTime = $data['backup_period'];
+
+		unset($data['backup_period']);
+		$times = split('[-|:| ]',$backupTime);		
+		$data['backup_period'] = $times;         
 		$this->set(compact('data'));
 	}
 	
 	function adminManage(){
-		$data = $this->Admin->find('all');
+		$data = $this->Admin->find('all',array('order' => 'username'));
 		$this->set ( 'data', $data );
 	}
 
@@ -1378,7 +1436,10 @@ function deleteFile($file_id = null){
 				)
 			 )
 		 ), true);     
-		$lessons = $this->Lesson->find('all',array('recursive' => 1));        
+		$lessons = $this->Lesson->find('all',array(
+			'recursive' => 1,
+			'conditions' => array('is_block !=' => 2) //deleted
+		));        
 		$this->set(compact('lessons'));
 	}
 	

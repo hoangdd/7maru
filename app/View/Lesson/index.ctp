@@ -13,12 +13,14 @@
   $lesson['created_date'] = $lesson['created_date'][0]; 
   $reportLink = null;
   if ($_SESSION['Auth']['User']['role'] == 'R2'){
-    if ($_SESSION['Auth']['User']['user_id'] == $author['user_id']){
+    if ($_SESSION['Auth']['User']['user_id'] !== $author['user_id'] && !$lesson['isReported']){
      $reportLink = $this->Html->url(array('controller' => 'Teacher','action' => 'reportTitle',$lesson['coma_id']));     
    }
   }
   else if ($_SESSION['Auth']['User']['role'] == 'R3'){
-     $reportLink = $this->Html->url(array('controller' => 'Student','action' => 'reportCopyright',$lesson['coma_id']));     
+    if ($lesson['buy_status'] && !$lesson['isReported']){
+        $reportLink = $this->Html->url(array('controller' => 'Student','action' => 'reportCopyright',$lesson['coma_id']));     
+   }
   }
 
 	//================
@@ -35,7 +37,7 @@
       'style' => 'margin:auto'
       )); 
      echo "<h3 style = 'font-weight:bold;color:red'>".$lesson['name'].'</h3>';
-     if ($reportLink !== null && !$isOwner){
+     if ($reportLink !== null){
       echo '<button id = "report_button" type="button" class="btn btn-danger data-toggle="tooltip" data-placement="top" title="' .__('Report Violation'). '"><span class="glyphicon glyphicon-warning-sign"></span></button>';
       }
      echo '<p></p>';
@@ -76,13 +78,15 @@
       }
     }
     else{
-       foreach ($file as $key => $value):
-          if (!$value['isTest']){
+       foreach ($file as $key => $value):       
+          $this->log($value['isTest'],'dlog');
+          if (empty($value['isTest']) | !$value['isTest']){
             $firstComaId = $value['file_id'];
             break;
           }
         endforeach;
-        if (isset($fistComaId)){
+        $this->log($firstComaId,'dlog');
+        if (isset($firstComaId)){
           echo $this->Html->link(__('View'), array(
                 'controller' => 'Lesson',
                 'action' => 'viewContent',

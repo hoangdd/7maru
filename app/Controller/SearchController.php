@@ -13,7 +13,9 @@ class SearchController extends AppController {
 		$data = $this->request->query;
 		$teacher_list = $this->User->find('all', array(
 			'conditions' => array(
-				'user_type' => 1
+				'user_type' => 1,
+				'activated' => 1,
+				'approved' => 1
 				),
 			'fields' => array(
 				'username','user_id'
@@ -97,7 +99,7 @@ class SearchController extends AppController {
 							);
 						$this->Lesson->recursive = 4;
 						//them check user deleted
-						$lessonConditions['User.activated'] = 0;
+						$lessonConditions['Lesson.is_block'] = 0;
 						$data['Lesson'] = $this->Lesson->find('all', array(
 							'conditions' => $lessonConditions,
 							'order' => $order['Lesson'],

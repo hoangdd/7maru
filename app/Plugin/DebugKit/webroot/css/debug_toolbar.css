@@ -18,6 +18,7 @@
 
 /* panel tabs */
 #debug-kit-toolbar #panel-tabs {
+	display: none;
 	float: right;
 	list-style: none;
 	margin: 0;

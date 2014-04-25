@@ -53,6 +53,11 @@ header('Expires: 0'); // Proxies.
 	?>
 	<script>
 		idle_time = <?php echo Configure::read('customizeConfig.limit_session_time'); ?> * 1000;
+		 $(document).ready(function(){
+			$('input').each(function(){
+				$(this).prop('autocomplete','off');
+			})
+		})
 	</script>
 	<?php 
 		App::uses('Component', 'AuthComponent');

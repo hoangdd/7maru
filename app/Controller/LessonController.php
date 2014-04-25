@@ -39,8 +39,11 @@ class LessonController extends AppController {
 			'hasMany' => array(				
 				'File' => array(
 					'className' => 'Data',
-					'foreignKey' => 'coma_id' 
-					)				
+					'foreignKey' => 'coma_id',
+					'conditions' => array(
+						'File.is_block !=' => 2
+					)
+					)
 				),
 			'belongsTo' => array(
 				'User' => array(
@@ -48,27 +51,44 @@ class LessonController extends AppController {
 					)
 				)
 			));			
-			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));
-			$user = $this->Auth->user();
-			$isOwner = false;
-			if($user['user_id'] == $lesson['User']['user_id']){
-				$isOwner = true;
-			}
-
+			$lesson = $this->Lesson->find(
+				'first',
+				array(
+					'conditions' => array(
+						'coma_id' => $id,
+						'is_block !=' => 2
+					), 
+					'recursive' => 2
+			));
+			//check is deleted
 			if ($lesson == null){
 				$this->Session->setFlash(__('Forbidden error'));			
-				$this->redirect(array('controller' => 'Home','action' => 'index'));				
+				$this->redirect(
+					array(
+						'controller' => 'Home',
+						'action' => 'index'
+				));				
+			}
+			//check permisson
+			$user = $this->Auth->user();
+			$isReported = false;
+			$this->loadModel('ReportLesson');
+			if ($user['role'] == 'R1'){
+
 			}
 
 			else if ($user['role'] !== 'R1' && $lesson['Lesson']['is_block'] == 1){
 				$this->Session->setFlash(__('This lesson is blocked'));
 				$this->redirect(array('controller' => 'Home','action' => 'index'));
 			}
+			else if ($this->ReportLesson->isReported($user['user_id'],$id)){
+				$isReported = true;
+			}			
 			$file = $lesson['File'];
 			$lesson = $lesson['Lesson'];			
 			$lesson['created'] = $util->convertDate($lesson['created'],'d-m-Y');
-			$this->loadModel('User');
-			$author = $this->User->findByUserId($lesson['author']);
+			$this->loadModel('User');			
+			$author = $this->User->findByUserId($lesson['author']);			
 			$author = $author['User'];		
 			if ($author['activated'] == 0){
 				$this->redirect(array('controller' => 'home','action' => 'index'));
@@ -84,13 +104,13 @@ class LessonController extends AppController {
 			// ユーザーはこの授業を買ったかどうかをチェックして、クライアントへ送信する。						
 			// debug($user);
 			$lesson['buy_status'] = 1;
+			$lesson['isReported'] = $isReported;		
 			if ($user['role'] == 'R3'){				
 				if(!$this->LessonTransaction->had_active_transaction($user['user_id'],$lesson['coma_id'])){
 					$lesson['buy_status'] = 0;
-				}
+				}	
 				$student_id = $user['user_id'];
-				$teacher_id = $author['user_id'];
-				$this->log($student_id,'hlog');$this->log($teacher_id,'hlog');
+				$teacher_id = $author['user_id'];				
 				$this->loadModel('BlockStudent');
 				if ($this->BlockStudent->isBlock($student_id,$teacher_id)){
 					//$this->Session->setFlash(__('You are blocked by author'));
@@ -132,7 +152,7 @@ class LessonController extends AppController {
 
 			
 			// die(var_dump($isOwner));
-			$this->set('isOwner',$isOwner);							
+			//$this->set('isOwner',$isOwner);							
 			$this->set('lesson',$lesson);
 			$this->set('user',$this->Auth->user());
 			$this->set('author', $author);
@@ -312,7 +332,7 @@ class LessonController extends AppController {
 	}	
 	function Edit($id){
 		$this->Lesson->recursive = 2 ;
-		$lesson = $this->Lesson->findByComaId($id);
+		 $lesson = $this->Lesson->find('first',array('conditions' => array('is_block' => 0,'coma_id' => $id)));
 		if(!$lesson){
 				//throw 404
 			throw new NotFoundException();
@@ -814,8 +834,14 @@ class LessonController extends AppController {
 	public function viewContent($fid = null){					
 		if (!$fid) die;
 		$file = $this->Data->find('first', array(
-			'conditions' => array('file_id' =>$fid)
-			));
+			'conditions' => array('file_id' =>$fid),
+			'is_block !=' => 2
+			)
+		);
+		if (empty($file)){
+			echo __("Forbidden error");
+			die;
+		}
 
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//token process
@@ -835,16 +861,16 @@ class LessonController extends AppController {
 		$lesson = $this->Lesson->findByComaId($lessonId);		
 		$this->loadModel('User');
 		$authorId = $lesson['Lesson']['author'];
-		if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
-			$this->Session->setFlash(__('The file is blocked'));
-			//$this->redirect(array('controller' => 'Home','action' => 'index'));
-			header("location:javascript://history.go(-1)");
-		}
-		// check teacher permission			
 		$user = $this->Auth->user();
 		if ($user['role'] == 'R1'){
 
 		}
+		else if ($lesson['Lesson']['is_block'] == 1 || $file['Data']['is_block'] == 1){
+			$this->Session->setFlash(__('The file is blocked'));
+			//$this->redirect(array('controller' => 'Home','action' => 'index'));
+			$this->redirect($this->referer());
+		}
+		// check teacher permission					
 		else if ($user['role'] == 'R2'){
 			//Teacher
 			//check teacher is author			
@@ -961,7 +987,7 @@ class LessonController extends AppController {
 		}
 	}
 	
-	function HotLesson($pageIndex = 1, $page_limit = 4) {
+	function HotLesson($pageIndex = 1, $page_limit = 3) {
 		$user = $this->Auth->User();
 		$role = $user['role'];
 
@@ -1031,7 +1057,7 @@ class LessonController extends AppController {
 		// debug($data);
 	}
 	
-	function NewLesson($pageIndex = 1, $page_limit = 4) {
+	function NewLesson($pageIndex = 1, $page_limit = 3) {
 		$user = $this->Auth->User();
 		$role = $user['role'];
 
@@ -1059,19 +1085,20 @@ class LessonController extends AppController {
 		$options = array (
 			'limit' => $page_limit,    			
 			'offset' => ($pageIndex-1) * $page_limit,
-			'order' => array('Lesson.created' => 'ASC'),				
+			'order' => array('Lesson.created' => 'DESC'),				
 			'recursive' => 2,
 			'conditions' => array('Lesson.is_block' => 0,'Author.activated' => 1)				
 			);    	
 		$data = $this->Lesson->find ( 'all',$options); 
 			//debug($data);
-		foreach($data as $key=>$lesson){
-			if (empty($lesson['Lesson']['Author'])){
+		$this->log($data,'dlog');
+		foreach($data as $key=>$lesson){			
+			if (empty($lesson['Author'])){
 				unset($data[$key]);
 				continue;				
 			}
 			else{
-				if ($lesson['Lesson']['Author']['activated'] == 0){
+				if ($lesson['Author']['activated'] == 0){
 					unset($data[$key]);
 					continue;				
 				}
@@ -1099,7 +1126,7 @@ class LessonController extends AppController {
 		$this->set("data",$data);
 		// debug($data);
 	}
-	function RecentLesson($pageIndex = 1, $page_limit = 4){
+	function RecentLesson($pageIndex = 1, $page_limit = 3){
 		$this->layout = false;
 		$user = $this->Auth->User();
 		$role = $user['role'];
@@ -1200,8 +1227,7 @@ class LessonController extends AppController {
 			));
 			$list_coma_id = $this->LessonTransaction->find('list', array(
 				'conditions' => array(
-					'student_id' => $user['user_id'],
-					'User.activated' => 1						
+					'student_id' => $user['user_id']					
 					),
 				'fields' => array(
 					'coma_id'
@@ -1243,7 +1269,7 @@ class LessonController extends AppController {
 		}		
 		$this->set("data",$data);
 	}
-	function Bestseller($pageIndex = 1, $page_limit = 4) {
+	function Bestseller($pageIndex = 1, $page_limit = 3) {
 		$this->layout = false;
 		$user = $this->Auth->User();
 		$role = $user['role'];
@@ -1254,7 +1280,7 @@ class LessonController extends AppController {
 		}
 
   //   	// $data = $this->LessonTransaction->query("SELECT coma_id,COUNT(*) as count FROM 7maru_coma_transactions GROUP BY coma_id ORDER BY count ASC;");
-		// $page_limit = 4;
+		// $page_limit = 3;
 		// $pagination = array (				
 		// 	'fields' => array (
 		// 		'LessonTransaction.coma_id','Count(*) as count'),

@@ -358,7 +358,7 @@ $(document).ready(function(){
 		if( listObject.max > 0 && listObject.page >= listObject.max ){
 			//load xong tat ca, xu li slide
 			if(listObject.view >= listObject.page - 1) return; //in the end
-			n = 4*listObject.view;
+			n = 3*listObject.view;
 			child = list.find('li:nth('+n+')');
 			list.animate({'left': list.offset().left-child.offset().left+30}, 600);
 			listObject.view++;
@@ -371,7 +371,7 @@ $(document).ready(function(){
 				if( res.responseText!=0 ){
 					//append data
 					list.append(res.responseText);
-					n = 4*listObject.view;
+					n = 3*listObject.view;
 					child = list.find('li:nth('+n+')');
 					list.animate({'left': list.offset().left-child.offset().left+30}, 600);
 					listObject.page++;
@@ -394,7 +394,7 @@ $(document).ready(function(){
 		
 		if( listObject.view > 1){
 			//slide back
-			n = 4*listObject.view-8;
+			n = 3*listObject.view-6;
 			if( n < 0 ) return; //at first
 			child = list.find('li:nth('+n+')');
 			list.animate({'left': list.offset().left-child.offset().left+30}, 600);
@@ -438,9 +438,8 @@ endforeach;
 						"<?php echo $this->Html->url(array('controller' => 'Lesson','action' => 'buy')) ?>" + "/" +  coma_id,
 						function(data){							
 							if (data.trim() === "1"){
-								alert("<?php echo __('Transaction successfully') ?>");							
-								result = true;
-								button.replaceWith("");
+								alert("<?php echo __('Transaction successfully') ?>");			
+								location.reload();
 							}							
 						}
 					);

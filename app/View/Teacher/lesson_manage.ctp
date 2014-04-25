@@ -104,14 +104,15 @@ $(document).ready(function(){
 
             var id = $(this).attr('name');
             $.ajax({
-                url : "deleteLesson",
+                url : "<?php echo $this->Html->url(array('controller' => 'Teacher','action' => 'deleteLesson')); ?>",
                 data : {id : id},
                 type : 'POST',
                 dataType : 'text',
                 complete : function(data){
                     var res = $(this).attr('class');
-                    res = data.responseText.split("|");
-                    if (res[0] == 1) {
+                    var respon = data.responseText.trim();
+                    res = respon.split("|");                    
+                    if (res[0] == '1') {
                         $('.lesson[lessonid='+id+']').fadeOut();
                         alert('Deletion success');
                     }else{

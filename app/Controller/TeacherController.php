@@ -364,12 +364,24 @@ class TeacherController extends AppController {
         if ($this->Auth->loggedIn()) {
 
             if ($id!= null){
-                $pid = $id;                        
+                $pid = $id;
                 if ($this->Auth->user('role') == 'R1'){
                     $this->layout = 'admin';
                 }
-            }elseif ($this->Auth->user('role') !== 'R1' ){                                
-                $pid=$this->Auth->User('user_id');                            
+                $result = $this->User->find('all',
+                    array(
+                        'conditions' => array(
+                             'user_id' => $pid,
+                             'activated' => 1
+                            )
+                        )
+                    );
+                if (!$result){
+                    echo __("This user is deleted");
+                    die;
+                }
+            }elseif ($this->Auth->user('role') !== 'R1' ){                     
+                $pid=$this->Auth->User('user_id');                
             }else{
                 echo '403 Forbidden error.';
                 die;
@@ -603,7 +615,10 @@ class TeacherController extends AppController {
                         )
                     )
                 ),
-            'conditions' =>  array('Lesson.author' => $this->Auth->user('user_id')),
+            'conditions' =>  array(
+                'Lesson.author' => $this->Auth->user('user_id'),
+                'is_block !=' => 2
+            ),
             'order' => array('Lesson.name' => 'asc')
         );
         
@@ -622,8 +637,17 @@ class TeacherController extends AppController {
 
    function deleteLesson(){
         if ($this->request->is('ajax')) {            
-            $id = $this->request->data['id'];            
-            if($this->Lesson->delete($id)){
+            $id = $this->request->data['id'];              
+            $this->Data->updateAll(
+                array(
+                    'is_block' => 2
+                ),
+                array(
+                    'coma_id' => $id
+                )
+            );    
+            $this->Lesson->id = $id;
+            if($this->Lesson->saveField('is_block',2)){
                 echo "1|";
                 //die;
             }else{
@@ -631,6 +655,7 @@ class TeacherController extends AppController {
                 // echo json_encode(array("res"=> 1));
                 //die;
             }
+            die;
        }
        
    }
