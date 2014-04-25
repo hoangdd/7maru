@@ -49,7 +49,6 @@ class LessonController extends AppController {
 				)
 			));			
 			$lesson = $this->Lesson->find('first',array('conditions' => array('coma_id' => $id), 'recursive' => 2));
-			die(debug($lesson));
 			$user = $this->Auth->user();
 			$isOwner = false;
 			if($user['user_id'] == $lesson['User']['user_id']){
@@ -1611,7 +1610,7 @@ class LessonController extends AppController {
 			if( !empty($file1)){
 				foreach ($filearray['tmp_name'] as $k2 => $file2) {
 					if( $k1 != $k2){
-						if( md5_file($file1) == md5_file($file2)){
+						if( !empty($file1) && !empty($file2) && md5_file($file1) == md5_file($file2)){
 							unset($filearray['name'][$k1]);
 							unset($filearray['tmp_name'][$k1]);
 							unset($filearray['type'][$k1]);

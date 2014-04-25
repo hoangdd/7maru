@@ -235,7 +235,7 @@ if( in_array($ext, $config['img']['extension']) ){
 	$("document").ready(function(){
 		// $('.load-file').remove();
 		document.addEventListener("contextmenu", function(e){
-	    e.preventDefault();
+	    // e.preventDefault();
 			}, false);
 	})
 </script>

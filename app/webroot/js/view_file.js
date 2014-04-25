@@ -33,10 +33,21 @@ function view_media_file(id, file_type){
 		file: '/7maru/Data/file/'+id,
 		type: file_type,
 		flashplayer: "/7maru/js/jwplayer/jwplayer.flash.swf",
-		primary:"flash",
 		// startparam: "starttime",
 		autostart : true,
 		width: '100%',
+	});
+	var isComplete = false;
+
+	$('#player').click(function(){
+		if(isComplete){
+			$('#player').css({'opacity':0});
+			window.location.reload();
+			return false;
+		}
+	});
+	jwplayer("player").onComplete(function(){
+		isComplete = true;
 	});
 }
 function view_image_file(id){

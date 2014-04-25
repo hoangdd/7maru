@@ -392,6 +392,7 @@ class Data extends AppModel {
 		foreach ($files as $key => $file) {
 			$srcFile = DATA_SRC_DIR.DS.$file['Data']['file_id'].'.'.$file['Data']['type'];
 			if(file_exists($srcFile)){
+				if( empty($srcFile)|| empty($path) );
 				$origin = md5_file($srcFile);
 				$new = md5_file($path);
 				if( $origin == $new){
