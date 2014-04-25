@@ -318,6 +318,11 @@ class LessonController extends AppController {
 			throw new NotFoundException();
 		} 
 		else {
+			$user_id = $this->Auth->user('user_id');
+			if( $user_id != $lesson['Lesson']['author']){
+				echo '403 Forbidden error.';
+				die;
+			}
 			$categories =  $this->Category->find('all');
 			$this->set('categories',$categories);
 			$this->set('data',$lesson['Lesson']);
