@@ -224,13 +224,8 @@ class LessonController extends AppController {
 								$error['document'] = __('Invalid file!');
 							}
 						}
-						if ( $ext =='tsv' ){
-							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='text/plain'){
-								$error['document'] = __('Invalid file!');
-							}
-						}
 
-						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
+						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = __('Unsupported Document Format');
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
@@ -417,7 +412,7 @@ class LessonController extends AppController {
 							}
 
 
-							if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
+							if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav)$/',$_FILES['document']['name'][$i])){
 								$error['document'] = __('Unsupported Document Format');
 							} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 								$error['document'] = __('Document Size Too Big');
