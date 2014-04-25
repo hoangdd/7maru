@@ -176,8 +176,7 @@ class LessonController extends AppController {
 
 			if(!empty($_FILES['test']['name'][0])){
 				//Check if image format is supported
-				$len = count($_FILES['document']['name']);
-				$this->log($_FILES['test'], 'hlog');
+				$len = count($_FILES['test']['name']);
 				for($i = 0, $len; $i < $len-1; $i++){
 					if (!empty($_FILES['test']['name'][$i])){
 						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
@@ -185,8 +184,14 @@ class LessonController extends AppController {
 						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
 							$error['test'] = __('Test File Too Big');
 						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
-							$error['test'] = __('Format not true');
+							$error['test'] = __('Format not true!');
 						} 
+						if ( pathinfo($_FILES['test']['name'][$i], PATHINFO_EXTENSION) =='tsv' ){
+							if( mime_content_type($_FILES['test']['tmp_name'][$i]) !='text/plain'){
+								$error['test'] = __('Invalid file!');
+							}
+						}
+						$FILE['test'] = $this->__removeDuplicateInArray($_FILES['test']);
 					}
 				}
 			}
@@ -199,8 +204,6 @@ class LessonController extends AppController {
 
 						//check data, tam thoi lam don gian da
 						$ext = pathinfo($_FILES['document']['name'][$i], PATHINFO_EXTENSION);
-						$this->log($ext, 'hlog');
-						$this->log( mime_content_type($_FILES['document']['tmp_name'][$i]), 'hlog');
 
 						if( $ext == 'pdf'){
 							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='application/pdf'){
@@ -222,13 +225,18 @@ class LessonController extends AppController {
 								$error['document'] = __('Invalid file!');
 							}
 						}
-
+						if ( $ext =='tsv' ){
+							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='text/plain'){
+								$error['document'] = __('Invalid file!');
+							}
+						}
 
 						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
 							$error['document'] = __('Unsupported Document Format');
 						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
 							$error['document'] = __('Document Size Too Big');
-						}						
+						}
+						$FILE['document'] = $this->__removeDuplicateInArray($_FILES['document']);
 					}
 				}
 				
@@ -306,193 +314,199 @@ class LessonController extends AppController {
 				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
 			}			
 		}		
-	}
-}	
-function Edit($id){
-	$this->Lesson->recursive = 2 ;
-	$lesson = $this->Lesson->findByComaId($id);
-	if(!$lesson){
-			//throw 404
-		throw new NotFoundException();
-	} 
-	else {
-		$categories =  $this->Category->find('all');
-		$this->set('categories',$categories);
-		$this->set('data',$lesson['Lesson']);
-		$this->set('LessonCategory', $lesson['LessonCategory']);
-		$this->set('lesson',$lesson);	
-
-		$categories = $this->LessonCategory->get_Lesson_categories($id);
-		$category_list = $this->Category->find('all');	
-
-		$cur_cat = array();
-		foreach ($lesson['LessonCategory'] as $key => $value) {
-			array_push($cur_cat, $value['category_id']);
 		}
-		$lesson['category_list'] = $cur_cat;
+	}	
+	function Edit($id){
+		$this->Lesson->recursive = 2 ;
+		$lesson = $this->Lesson->findByComaId($id);
+		if(!$lesson){
+				//throw 404
+			throw new NotFoundException();
+		} 
+		else {
+			$categories =  $this->Category->find('all');
+			$this->set('categories',$categories);
+			$this->set('data',$lesson['Lesson']);
+			$this->set('LessonCategory', $lesson['LessonCategory']);
+			$this->set('lesson',$lesson);	
 
-		$this->set('lesson_data', $lesson);
-		$this->set('categories', $categories);
-		$this->set('category_list', $category_list);
-	}
-	if( $this->request->is('post')){
-		$data = $this->request->data;		
-			$error = array(); //error that return to client;
-			// check if copyright check box had checked yet?
-			if(empty($data['copyright'])){
-				$error['copyright'] = __('Please confirm your copyright');               
+			$categories = $this->LessonCategory->get_Lesson_categories($id);
+			$category_list = $this->Category->find('all');	
+
+			$cur_cat = array();
+			foreach ($lesson['LessonCategory'] as $key => $value) {
+				array_push($cur_cat, $value['category_id']);
 			}
-			
-			// check if Lesson name is empty
-			if(empty($data['name'])){
-				$error['name'] = __('Lesson name do not suppose to be empty');
-			}
-			
-			//check if Lesson Description is empty
-			if(empty($data['desc']) || ctype_space($data['desc'])){				
-				$error['desc'] = __('Lesson Description do not suppose to be empty');
-			}				
-			if(!empty($_FILES['test']['name'][0])){
-				//Check if image format is supported
-				$len = count($_FILES['document']['name']);
-				$this->log($_FILES['test'], 'hlog');
-				for($i = 0, $len; $i < $len-1; $i++){
-					if (!empty($_FILES['test']['name'][$i])){
-						if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
-							$error['test'] = __('Unsupported Test File Format');
-						} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
-							$error['test'] = __('Test File Too Big');
-						} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
-							$error['test'] = __('Format not true');
-						} else if( $this->Data->checkFileExist($id, $_FILES['test']['tmp_name'][$i])){
-							$error['test'] = __('File already upload');
-						}
-					}
-				}
-			}
-			// for($i = 0, $len = $);						
-			if(!empty($_FILES['document']['name'][0])){
-				//Check if image format is supported				
-				$len = count($_FILES['document']['name']);
-				for($i = 0, $len; $i < $len; $i++){
-					if($_FILES['document']['name'][$i]){
+			$lesson['category_list'] = $cur_cat;
 
-						//check data, tam thoi lam don gian da
-						$ext = pathinfo($_FILES['document']['name'][$i], PATHINFO_EXTENSION);
-						$this->log($ext, 'hlog');
-						$this->log( mime_content_type($_FILES['document']['tmp_name'][$i]), 'hlog');
+			$this->set('lesson_data', $lesson);
+			$this->set('categories', $categories);
+			$this->set('category_list', $category_list);
+		}
+		if( $this->request->is('post')){
 
-						if( $ext == 'pdf'){
-							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='application/pdf'){
-								$error['document'] = __('Invalid file1!');
-							}
-						}
-						if( $ext == 'wav'){
-							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/x-wav'){
-								$error['document'] = __('Invalid file2!');
-							}
-						}
-						if( $ext == 'mp3'){
-							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/mpeg' ){
-								$error['document'] = __('Invalid file3!');
-							}
-						} 
-						if( $ext == 'mp4'){
-							if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='video/mp4'){
-								$error['document'] = __('Invalid file4!');
-							}
-						}
-
-
-						if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
-							$error['document'] = __('Unsupported Document Format');
-						} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
-							$error['document'] = __('Document Size Too Big');
-						} else if ($this->Data->checkFileExist($id , $_FILES['document']['tmp_name'][$i])){
-							$error['test'] = __('File already upload');
-						}
-					}
+			$data = $this->request->data;		
+				$error = array(); //error that return to client;
+				// check if copyright check box had checked yet?
+				if(empty($data['copyright'])){
+					$error['copyright'] = __('Please confirm your copyright');               
 				}
 				
-			}			
-			if(count($error)){
-				$this->set('error',$error);
-				// debug($error);
-				$this->set('data',$data);				
-			}
-			else{
-				// Update Lesson Information
-				$this->Lesson->read(null, $data['coma_id']);
-				$saveData = array(
-					'Lesson'=> array(
-						'coma_id' => $data['coma_id'],
-						'name'=> $data['name'],
-						'description'=> $data['desc'],
-						'author' => $this->Auth->user('user_id'),
-						'cover' => $_FILES['cover-image'],
-						'title' => $data['title']
-						)
-					);				
-				$lesson = $this->Lesson->save($saveData);				
-				// save Lesson Category
-				if($lesson && !empty($data['category'])){					
-					$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);					
-					$this->Session->setFlash(__('Update lesson successfully'));
+				// check if Lesson name is empty
+				if(empty($data['name'])){
+					$error['name'] = __('Lesson name do not suppose to be empty');
 				}
-				// Save Lesson files
-
-				//reformat array
-				$document = array();
-				$this->log($_FILES['document'], 'hlog');
-				if($_FILES['document']){
-					foreach ($_FILES['document'] as $k1 => $v1) {
-						foreach ($v1 as $k2 => $v2) {
-							if( !empty($v2)){
-								$document[$k2][$k1] = $v2;
+				
+				//check if Lesson Description is empty
+				if(empty($data['desc']) || ctype_space($data['desc'])){				
+					$error['desc'] = __('Lesson Description do not suppose to be empty');
+				}				
+				if(!empty($_FILES['test']['name'][0])){
+					//Check if image format is supported
+					$len = count($_FILES['test']['name']);
+					for($i = 0, $len; $i < $len-1; $i++){
+						if (!empty($_FILES['test']['name'][$i])){
+							if(!preg_match('/\.(csv|tsv)$/',$_FILES['test']['name'][$i])){
+								$error['test'] = __('Unsupported Test File Format');
+							} else if($_FILES['test']['size'][$i] > MAX_TEST_FILE_SIZE * UNIT_SIZE){
+								$error['test'] = __('Test File Too Big');
+							} else if(!$this->check_Document_File($_FILES['test']['tmp_name'][$i])){
+								$error['test'] = __('Format not true!');
+							} else if( $this->Data->checkFileExist($id, $_FILES['test']['tmp_name'][$i])){
+								$error['test'] = __('File already upload');
 							}
+							if ( pathinfo($_FILES['test']['name'][$i], PATHINFO_EXTENSION) =='tsv' ){
+								if( mime_content_type($_FILES['test']['tmp_name'][$i]) !='text/plain'){
+									$error['test'] = __('Invalid file!');
+								}
+							}
+							$_FILES['test'] = $this->__removeDuplicateInArray($_FILES['test']);
 						}
 					}
-				}           				
-
-				// save data   
-				foreach ($document as $key => $value) {
-					if(!(isset($value['error']) && $value['error']!=0 ) ){
-						$value['coma_id'] = $lesson['Lesson']['coma_id'];						
-						$this->Data->create($value);
-						if (!$this->Data->save()){
-
-						}
-					} 
 				}
+				// for($i = 0, $len = $);						
+				if(!empty($_FILES['document']['name'][0])){
+					//Check if image format is supported				
+					$len = count($_FILES['document']['name']);
+					for($i = 0, $len; $i < $len; $i++){
+						if($_FILES['document']['name'][$i]){
 
-				//Test file upload
+							//check data, tam thoi lam don gian da
+							$ext = pathinfo($_FILES['document']['name'][$i], PATHINFO_EXTENSION);
+							$this->log($ext, 'hlog');
+							$this->log( mime_content_type($_FILES['document']['tmp_name'][$i]), 'hlog');
 
-				$test = array();
-				if($_FILES['test']){
-					foreach ($_FILES['test'] as $k1 => $v1) {
-						foreach ($v1 as $k2 => $v2) {
-							if( !empty($v2)){
-								$test[$k2][$k1] = $v2;
+							if( $ext == 'pdf'){
+								if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='application/pdf'){
+									$error['document'] = __('Invalid file1!');
+								}
 							}
+							if( $ext == 'wav'){
+								if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/x-wav'){
+									$error['document'] = __('Invalid file2!');
+								}
+							}
+							if( $ext == 'mp3'){
+								if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='audio/mpeg' ){
+									$error['document'] = __('Invalid file3!');
+								}
+							} 
+							if( $ext == 'mp4'){
+								if( mime_content_type($_FILES['document']['tmp_name'][$i]) !='video/mp4'){
+									$error['document'] = __('Invalid file4!');
+								}
+							}
+
+
+							if(!preg_match('/\.(pdf|mp3|mp4|jpg|png|gif|wav|tsv)$/',$_FILES['document']['name'][$i])){
+								$error['document'] = __('Unsupported Document Format');
+							} else if($_FILES['document']['size'][$i] > MAX_DOCUMENT_FILE_SIZE * UNIT_SIZE){
+								$error['document'] = __('Document Size Too Big');
+							} else if ($this->Data->checkFileExist($id , $_FILES['document']['tmp_name'][$i])){
+								$error['document'] = __('File already upload');
+							}
+							$_FILES['document'] = $this->__removeDuplicateInArray($_FILES['document']);
 						}
 					}
-				}           								
-				foreach($test as $key=>$value){
-					if(!(isset($value['error'])&&$value['error']!=0) ){											
-						$value['coma_id'] = $lesson['Lesson']['coma_id'];
-						$value['isTest'] = true;					
-						$this->Data->create($value);
-						$this->Data->save();    
-					}					
+					
+				}			
+				if(count($error)){
+					$this->set('error',$error);
+					$this->set('data',$data);				
 				}
+				else{
+					// Update Lesson Information
+					$this->Lesson->read(null, $data['coma_id']);
+					$saveData = array(
+						'Lesson'=> array(
+							'coma_id' => $data['coma_id'],
+							'name'=> $data['name'],
+							'description'=> $data['desc'],
+							'author' => $this->Auth->user('user_id'),
+							'cover' => $_FILES['cover-image'],
+							'title' => $data['title']
+							)
+						);				
+					$lesson = $this->Lesson->save($saveData);				
+					// save Lesson Category
+					if($lesson && !empty($data['category'])){					
+						$this->LessonCategory->saveLessonCategory($lesson['Lesson']['coma_id'],$data['category']);					
+						$this->Session->setFlash(__('Update lesson successfully'));
+					}
+					// Save Lesson files
 
-				//delete files
-				$file_ids = explode(',',$data['delete-file']);
-				$this->Data->deleteAll(array('file_id' => $file_ids));
-				$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+					//reformat array
+					$document = array();
+					$this->log($_FILES['document'], 'hlog');
+					if($_FILES['document']){
+						foreach ($_FILES['document'] as $k1 => $v1) {
+							foreach ($v1 as $k2 => $v2) {
+								if( !empty($v2)){
+									$document[$k2][$k1] = $v2;
+								}
+							}
+						}
+					}           				
+
+					// save data   
+					foreach ($document as $key => $value) {
+						if(!(isset($value['error']) && $value['error']!=0 ) ){
+							$value['coma_id'] = $lesson['Lesson']['coma_id'];						
+							$this->Data->create($value);
+							if (!$this->Data->save()){
+
+							}
+						} 
+					}
+
+					//Test file upload
+
+					$test = array();
+					if($_FILES['test']){
+						foreach ($_FILES['test'] as $k1 => $v1) {
+							foreach ($v1 as $k2 => $v2) {
+								if( !empty($v2)){
+									$test[$k2][$k1] = $v2;
+								}
+							}
+						}
+					}           								
+					foreach($test as $key=>$value){
+						if(!(isset($value['error'])&&$value['error']!=0) ){											
+							$value['coma_id'] = $lesson['Lesson']['coma_id'];
+							$value['isTest'] = true;					
+							$this->Data->create($value);
+							$this->Data->save();    
+						}					
+					}
+
+					//delete files
+					$file_ids = explode(',',$data['delete-file']);
+					$this->Data->deleteAll(array('file_id' => $file_ids));
+					$this->redirect(array('controller' => 'Teacher','action' => 'LessonManage'));
+				}
 			}
 		}
-	}
 
 	function Destroy(){
 		
@@ -1587,6 +1601,29 @@ function Edit($id){
 			echo -1;
 			die;
 		}
+	}
+
+
+	private function __removeDuplicateInArray($filearray){
+		if(empty($filearray))
+			return array();
+		foreach ($filearray['tmp_name'] as $k1 => $file1) {
+			if( !empty($file1)){
+				foreach ($filearray['tmp_name'] as $k2 => $file2) {
+					if( $k1 != $k2){
+						if( md5_file($file1) == md5_file($file2)){
+							unset($filearray['name'][$k1]);
+							unset($filearray['tmp_name'][$k1]);
+							unset($filearray['type'][$k1]);
+							unset($filearray['error'][$k1]);
+							unset($filearray['size'][$k1]);
+							return $filearray;
+						}
+					}
+				}				
+			}
+		}
+	return $filearray;
 	}
 }
 

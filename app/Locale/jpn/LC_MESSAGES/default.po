@@ -20,6 +20,9 @@ msgstr "無効なファイル！"
 msgid "Format not true!"
 msgstr "無効なファイル!"
 
+msgid "File already upload"
+msgstr "ファイルは既存しました！"
+
 msgid "Type"
 msgstr "タイプ"
 
@@ -574,6 +577,9 @@ msgstr "コピーライト"
 
 msgid "Answer this question"
 msgstr "回答を入力してください"
+
+msgid "Unsupported Test File Format"
+msgstr "ファイルをサポートしません！"
 
 msgid "Result"
 msgstr "結果"

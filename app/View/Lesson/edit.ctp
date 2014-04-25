@@ -259,12 +259,12 @@
 								if( !$value['isTest']){
 									echo '<div class="file-element">';
 									echo $value['file_name'];
-									echo $this->Html->link('Delete', '#', array(
+									echo $this->Html->link(__('Delete'), '#', array(
 										'class' => 'del-file' ,
 										'file_id' => $value['file_id'],
 										'style' => 'float:right;margin:10px;'
 										));
-									echo $this->Html->link('View', 
+									echo $this->Html->link(__('View'), 
 										array(
 											'controller' => 'Lesson',
 											'action' => 'viewContent',
@@ -283,7 +283,7 @@
 						?>
 					</div>
 				</div>
-				<input type="file" name="document[]" class = 'form-control  document-input' onchange = "on_document_input()">
+				<input type="file" name="document[]" class = 'form-control  document-input' onchange = "on_document_input.call(this)">
 				<?php if(isset($error) && isset($error['document']))echo "<div class='text-danger'>".$error['document']."</div>"; ?>
 				<!-- <input type="file" name="document[]" id='document'> -->
 			</div>
@@ -299,7 +299,7 @@
 								if($value['isTest']){
 									echo '<div class="file-element">';
 									echo $value['file_name'];
-									echo $this->Html->link('Delete', '#', array(
+									echo $this->Html->link(__('Delete'), '#', array(
 									 	'file_id'=> $value['file_id'],
 									 	'class' => 'del-file',
 									 	'style' => 'float:right;margin:10px;'

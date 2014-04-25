@@ -42,7 +42,8 @@ class Data extends AppModel {
 
 		// audio file
 		if(in_array($ext, $fileType['audio']['extension'])){
-			if(move_uploaded_file($tmp, AUDIO_DATA_DIR.DS.$fid.'.'.$ext)){
+			if(move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+				$this->__execute('cp '.DATA_SRC_DIR.DS.$fid.'.'.$ext.' '.AUDIO_DATA_DIR.DS.$fid.'.'.$ext);
 				// return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
 				return $fid.'.'.$ext;
 			}
@@ -50,7 +51,8 @@ class Data extends AppModel {
 
 		//video file
 		if(in_array($ext, $fileType['video']['extension'])){
-			if( move_uploaded_file($tmp, VIDEO_DATA_DIR.DS.$fid.'.'.$ext)){
+			if( move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+				$this->__execute('cp '.DATA_SRC_DIR.DS.$fid.'.'.$ext.' '.VIDEO_DATA_DIR.DS.$fid.'.'.$ext);
 				// return VIDEO_DATA_DIR.DS.$fid.'.'.$ext;
 				return $fid.'.'.$ext;
 			}
@@ -79,7 +81,8 @@ class Data extends AppModel {
 		//image file
 		if(in_array($ext, $fileType['image']['extension'])){
 			$this->log($tmp, 'hlog');
-			if( move_uploaded_file($tmp, IMG_DATA_DIR.DS.$fid.'.'.$ext)){
+			if( move_uploaded_file($tmp, DATA_SRC_DIR.DS.$fid.'.'.$ext)){
+				$this->__execute('cp '.DATA_SRC_DIR.DS.$fid.'.'.$ext.' '.IMG_DATA_DIR.DS.$fid.'.'.$ext);
 				// return IMG_DATA_DIR.DS.$fid.'.'.$ext;
 				return $fid.'.'.$ext;
 			}
@@ -386,10 +389,8 @@ class Data extends AppModel {
 				'coma_id' => $coma_id,
 				)
 			));
-		$this->log($path, 'hlog');
 		foreach ($files as $key => $file) {
 			$srcFile = DATA_SRC_DIR.DS.$file['Data']['file_id'].'.'.$file['Data']['type'];
-		$this->log($srcFile, 'hlog');
 			if(file_exists($srcFile)){
 				$origin = md5_file($srcFile);
 				$new = md5_file($path);
