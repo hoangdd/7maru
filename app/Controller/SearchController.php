@@ -61,7 +61,7 @@ class SearchController extends AppController {
 						}else{
 							$order['Lesson'] = '';
 						}
-						if( !empty($q['order']) && $q['order'] == 'Category.name' ){
+						if(!empty($q['order']) && $q['order'] == 'Category.name' ){
 							$order['Category'] = $q['order'];
 						}else{
 							$order['Category'] = '';
@@ -93,19 +93,20 @@ class SearchController extends AppController {
 									'belongsTo' => array(
 											'Category' => array(
 													'foreignKey' => 'category_id',
-												)
+													'order' => 'name'
+												),
 										)
 								)
 							);
 						$this->Lesson->recursive = 4;
 						//them check user deleted
 						$lessonConditions['Lesson.is_block'] = 0;
-						$data['Lesson'] = $this->Lesson->find('all', array(
+						$lessons = $this->Lesson->find('all', array(
 							'conditions' => $lessonConditions,
 							'order' => $order['Lesson'],
 							));
 
-						foreach ($data['Lesson'] as $key => $value) {
+						foreach ($lessons as $key => $value) {
 							//search
 							//them check user deleted
 							if (empty($data['User'])) continue;
@@ -118,21 +119,14 @@ class SearchController extends AppController {
 								$keyword = strtolower($q['keyword']);
 								if(strpos($keyword, '+') !==false){
 									$flag = true;
-									// $pos = -1;
 									$keywords = explode('+', $keyword);
 									foreach ($keywords as $v) {
 										$newpos = strpos($searchSet, $v) ;
 										if($newpos === false){
 											$flag = false;
-										}else{
-											// if( $newpos < $pos){
-											// 	$flag = false;
-											// }else{
-											// 	$pos = $newpos;
-											// }
 										}
 									}
-									if( !$flag ) unset($data['Lesson'][$key]);
+									if( !$flag ) unset($lessons[$key]);
 								}elseif(strpos($keyword, '-') !==false){
 									$keywords = explode('-', $keyword);
 									$flag = false;
@@ -143,9 +137,9 @@ class SearchController extends AppController {
 											break;
 										}
 									}
-									if( !$flag ) unset($data['Lesson'][$key]);
+									if( !$flag ) unset($lessons[$key]);
 								}elseif( strpos($searchSet, $keyword) === false){
-									unset($data['Lesson'][$key]);
+									unset($lessons[$key]);
 								}
 							}
 
@@ -164,6 +158,9 @@ class SearchController extends AppController {
 								}
 							}
 						}
+
+
+						$this->set('lessons', $lessons);
 						break;
 
 					case 'teacher':
@@ -265,7 +262,7 @@ class SearchController extends AppController {
 			}
 		}
 		$this->set('data', $data);
-		if( empty($data['User'])&&empty($data['Lesson'])&&empty($data['Category']) ){
+		if( empty($data['User'])&&empty($lessons)&&empty($data['Category']) ){
 			echo __('No result found');
 			die;
 		}

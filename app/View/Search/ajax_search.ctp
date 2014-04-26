@@ -1,9 +1,9 @@
 <?php
-if( !empty($data['Lesson'])) :
+if( !empty($lessons)) :
 ?>
 	<h3>Lesson</h3>
 	<?php 
-		foreach ($data['Lesson'] as $key => $value) {
+		foreach ($lessons as $key => $value) {
 			echo '<div>';
 			echo $this->Html->link($value['Lesson']['name'], array(
 					'controller' => 'Lesson',
@@ -17,7 +17,8 @@ if( !empty($data['Lesson'])) :
 			echo '<br>';
 			echo 'Category: ';
 			foreach ($value['LessonCategory'] as $key => $category) {
-				echo $category['Category']['name'].' - ';
+				echo $category['Category']['name'];
+				if( $key != sizeof($value['LessonCategory']) - 1  ) echo ' - ';
 			}
 			echo '<br>';
 			echo '</b>';
@@ -81,5 +82,4 @@ if( !empty($data['Category'])) :
 	?>
 <?php
 endif;
-
 ?>

@@ -214,7 +214,7 @@
 				<div>
 					<input name = 'order' type='radio' value='Lesson.name'><?php echo __('Name');?>
 				</div>
-				<div>
+				<div style='display:none'>
 					<input name = 'order' type='radio' value='Category.name'><?php echo __('Tag');?>
 				</div>
 			</td>
