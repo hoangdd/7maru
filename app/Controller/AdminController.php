@@ -520,7 +520,7 @@ class AdminController extends AppController {
 					}while ($i < $leng);
 					$dt['User']['phone_number'] = $phone_number;
 				// end format phone number
-					$student[$dt['User']['user_id']]['info'] = $dt['User'];					
+					$student[$dt['User']['user_id']]['info'] = $dt['User'];
 				}
 				else{
 					$student[$dt['User']['user_id']]['money'] = $student[$dt['User']['user_id']]['money']+ $dt['LessonTransaction']['money'];
@@ -1207,7 +1207,7 @@ function deleteFile($file_id = null){
 		}else{
 			$this->loadModel('Data');
 			$this->Data->id = $file_id;
-			$result = $this->Data->saveField('is_block',2);
+			$result = $this->Data->saveField('is_block',2,array('callbacks' => false));
 			if ($result){
 				echo "1";
 			}
@@ -1225,7 +1225,7 @@ function deleteFile($file_id = null){
 		}else{
 			$this->loadModel('Lesson');
 			$this->Lesson->id = $coma_id;
-			$result = $this->Lesson->saveField('is_block',2);
+			$result = $this->Lesson->saveField('is_block',2,array('callbacks' => false));
 			$this->loadModel('Data');
 			$this->Data->updateAll(
 				array(

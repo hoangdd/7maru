@@ -834,15 +834,27 @@ class LessonController extends AppController {
 	public function viewContent($fid = null){					
 		if (!$fid) die;
 		$file = $this->Data->find('first', array(
-			'conditions' => array('file_id' =>$fid),
-			'is_block !=' => 2
+			'conditions' => array(
+				'file_id' =>$fid,
+				'is_block !=' => 2
+				)
 			)
 		);
 		if (empty($file)){
-			echo __("Forbidden error");
+			echo ("Forbidden error! 403");
 			die;
 		}
-
+		$lessonId = $file['Data']['coma_id'];	
+		$comas = $this->Lesson->find('first',array(
+			'conditions' => array(
+				'coma_id' => $lessonId,
+				'is_block !=' => 2
+				)
+			));
+		if (empty($comas)){
+			echo ("Forbidden error! 403");
+			die;
+		}
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//token process
 		$token = md5(FILL_CHARACTER.date('y/m/d h:m:s').$fid);
@@ -874,7 +886,12 @@ class LessonController extends AppController {
 		else if ($user['role'] == 'R2'){
 			//Teacher
 			//check teacher is author			
-			$result = $this->Lesson->find('first',array('conditions' => array('coma_id' => $lessonId,'author' => $user['user_id'])));
+			$result = $this->Lesson->find('first',array(
+				'conditions' => array(
+					'coma_id' => $lessonId,
+					'author' => $user['user_id'],
+					)
+				));
 			if (!$result){
 				$this->Session->setFlash(__("Forbidden error"));				
 				$this->redirect($this->referer());

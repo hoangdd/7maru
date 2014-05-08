@@ -132,7 +132,7 @@
 						</div>
 					<?php else : ?>
 					  <div>
-							<input type="checkbox" name="category" checked
+							<input type="checkbox" name="category"
 							value="<?php echo $value['Category']['category_id']?>">
 							<?php echo $value['Category']['name'];?>
 						</div>

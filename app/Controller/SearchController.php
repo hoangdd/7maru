@@ -73,7 +73,9 @@ class SearchController extends AppController {
 
 						if( !empty($categories)){
 							$lessonCategoryConditons['LessonCategory.category_id'] = $categories;
-						}						
+						}else{
+							$lessonCategoryConditons = array();
+						}
 						$this->Lesson->bindModel(array(
 							'hasMany' => array(
 								'LessonCategory' => array(
@@ -108,8 +110,11 @@ class SearchController extends AppController {
 
 						foreach ($lessons as $key => $value) {
 							//search
-							//them check user deleted
-							if (empty($data['User'])) continue;
+
+							//category = false;
+							if( !empty($lessonCategoryConditons) && empty($value['LessonCategory'])){
+								unset($lessons[$key]);
+							}
 
 							$searchSet = strtolower($value['Lesson']['name'].'|'.$value['Lesson']['title'].'|'.$value['Lesson']['description']);
 							if( empty($value['LessonCategory']) ){
@@ -148,12 +153,12 @@ class SearchController extends AppController {
 
 							//remove last empty element
 								unset($rates[sizeof($rates)-1]);
-								if( !empty($data['Lesson'][$key]['Lesson'])){
-									$r = $this->RateLesson->get_mean_rate($data['Lesson'][$key]['Lesson']['coma_id']);
+								if( !empty($lessons[$key]['Lesson'])){
+									$r = $this->RateLesson->get_mean_rate($lessons[$key]['Lesson']['coma_id']);
 									if( in_array($r, $rates)){
-										$data['Lesson'][$key]['Lesson']['rate'] = $r;
+										$lessons[$key]['Lesson']['rate'] = $r;
 									}else{
-										unset($data['Lesson'][$key]);
+										unset($lessons[$key]);
 									}
 								}
 							}
